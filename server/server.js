@@ -7,7 +7,7 @@ const path = require("path");
 
 // >>> Route imports
 const users = require("./routes/user.routes");
-//
+const posts = require("./routes/post.routes");
 
 const app = express();
 
@@ -15,9 +15,9 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const db = require("./config/keys").mongoURI;
 
 // >>> Connect to MongoDB
+const db = require("./config/keys").mongoURI;
 mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => console.log("MongoDB connected"))
@@ -29,6 +29,7 @@ require("./config/passport")(passport);
 
 // >>> Use routes
 app.use("/api", users);
+app.use("/api", posts);
 
 
 // >>> Serve static in production
