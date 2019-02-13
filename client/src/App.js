@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import { store } from "./services/session/store";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import theme from "./services/theme/theme";
+import { Main } from "./pages";
 
 const GlobalStyle = createGlobalStyle`
 `;
@@ -25,7 +26,7 @@ class App extends Component {
 
               <Switch>
                 <Route path="/" exact>
-                  <div>Test</div>
+                  <Main />
                 </Route>
 
                 <Route render={() => <h1>Not found</h1>} />
