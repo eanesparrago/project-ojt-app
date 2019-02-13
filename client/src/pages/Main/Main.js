@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { add } from "./data/posts/postsActions";
+import * as postsActions from "./data/posts/postsActions";
 
 export class Main extends Component {
   static propTypes = {};
 
   handleClick = () => {
-    this.props.dispatch(add("Test"));
+    this.props.dispatch(postsActions.add("post test"));
   };
 
   render() {

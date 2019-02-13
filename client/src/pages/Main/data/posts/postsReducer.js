@@ -1,10 +1,10 @@
-import { ADD } from "./postsActions";
+import { MAIN_DATA_POSTS_ADD } from "./postsActions";
 
 const initialState = [];
 
 export const postsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD:
+    case MAIN_DATA_POSTS_ADD:
       return [...state, action.payload];
 
     default:
