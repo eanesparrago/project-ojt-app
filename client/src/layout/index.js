@@ -129,7 +129,6 @@ const spacingProperties = ({
       (padding === "inset-m" && insetM) ||
       (padding === "inset-l" && insetBase) ||
       (padding === "inset-xl" && insetXl) ||
-      (padding === "squish-base" && squishBase) ||
       (padding === "squish-s" && squishS) ||
       (padding === "squish-m" && squishM) ||
       (padding === "squish-l" && squishL) ||

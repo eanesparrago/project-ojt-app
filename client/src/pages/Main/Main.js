@@ -1,37 +1,20 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-
-import * as postsActionCreators from "./data/posts/postsActionCreators";
+import { Button } from "../../components/elements";
 
 export class Main extends Component {
   static propTypes = {};
 
-  handleClick = () => {
-    this.props.getPosts();
-  };
-
   render() {
     return (
       <div>
-        <button onClick={this.handleClick}>Click me</button>
-
-        <div>
-          {this.props.posts.map(post => (
-            <p>{post.title}</p>
-          ))}
-        </div>
+        <Button variant="primary">Primary Button</Button>
+        <Button variant="secondary">Secondary Button</Button>
+        <Button variant="text">Text Button</Button>
       </div>
     );
   }
 }
 
-export default connect(
-  state => ({
-    posts: state.main.data.posts
-  }),
-  {
-    addPost: postsActionCreators.addPost,
-    getPosts: postsActionCreators.getPosts
-  }
-)(Main);
+export default Main;

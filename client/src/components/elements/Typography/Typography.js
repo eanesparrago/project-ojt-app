@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Item } from "../../layout";
-import textCrop from "../../utils/textCrop";
+import cropLineHeight from "../../utils/cropLineHeight";
 
 const StyledTypography = styled.span`
-  ${p => textCrop(p.theme.font.lineHeight)};
+  ${p => cropLineHeight(p.theme.font.lineHeight)};
   font-size: ${p => p.theme.font.scale.base};
 `;
 
@@ -28,12 +27,12 @@ const StyledTypographyDisplay3 = styled(StyledTypography)`
 `;
 
 const StyledTypographyDisplay2 = styled(StyledTypography)`
-  ${textCrop()};
+  ${cropLineHeight()};
   font-size: ${p => p.theme.font.scale.display2};
 `;
 
 const StyledTypographyDisplay1 = styled(StyledTypography)`
-  ${textCrop()};
+  ${cropLineHeight()};
   font-size: ${p => p.theme.font.scale.display1};
 `;
 

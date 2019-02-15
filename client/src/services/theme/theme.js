@@ -9,8 +9,7 @@ export default {
     desktopXXL: "125*16rem" // >>> 2000px
   },
   font: {
-    sansSerif: "Montserrat, sans-serif",
-    serif: "PT Serif, serif",
+    sansSerif: "Roboto, sans-serif",
     scale: {
       small: "0.875em", // >>> 14px
       base: "1em", // >>> 16px
@@ -25,9 +24,9 @@ export default {
   },
   color: {
     primary: {
-      light: "#64B5F6",
-      main: "#1E88E5",
-      dark: "#0D47A1"
+      light: "#C8E6C9",
+      main: "#4CAF50",
+      dark: "#1B5E20"
     },
     seconday: {
       main: "",

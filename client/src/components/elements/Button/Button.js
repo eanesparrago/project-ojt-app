@@ -65,6 +65,9 @@ const StyledButton = styled.button`
 const StyledButtonPrimary = styled(StyledButton)`
   background-color: ${p => p.theme.color.primary.main};
   color: ${p => p.theme.color.lightFixed};
+  border-radius: 1000em;
+  text-transform: uppercase;
+  font-weight: 700;
 
   &:hover {
     box-shadow: ${p => p.theme.shadow[1]};
@@ -84,6 +87,8 @@ const StyledButtonPrimary = styled(StyledButton)`
 const StyledButtonSecondary = styled(StyledButton)`
   background-color: ${p => p.theme.color.white};
   color: ${p => p.theme.color.primary.main};
+  text-transform: uppercase;
+  font-weight: 700;
 
   &:hover {
     box-shadow: ${p => p.theme.shadow[1]};
