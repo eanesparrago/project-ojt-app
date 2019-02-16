@@ -15,28 +15,27 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
 // >>> Connect to MongoDB
-// const db = require("./config/keys").mongoURI;
-// mongoose
-//   .connect(db, { useNewUrlParser: true })
-//   .then(() => console.log("MongoDB connected"))
-//   .catch(err => console.log(err));
+const db = require("./config/keys").mongoURI;
+mongoose
+  .connect(db, { useNewUrlParser: true })
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log(err));
 
 // >>> Passport middlware, passport config
-// app.use(passport.initialize());
-// require("./config/passport")(passport);
+app.use(passport.initialize());
+require("./config/passport")(passport);
 
 // >>> Use routes
-// app.use("/api", users);
-// app.use("/api", posts);
+app.use("/api", users);
+app.use("/api", posts);
 
 // >>> Serve static in production
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("../client/build"));
+  app.use(express.static("client/build"));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname), "client", "build", "index.html");
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
 
