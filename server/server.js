@@ -24,13 +24,12 @@ mongoose
   .catch(err => console.log(err));
 
 // >>> Passport middlware, passport config
-app.use(passport.initialize());
-require("./config/passport")(passport);
+// app.use(passport.initialize());
+// require("./config/passport")(passport);
 
 // >>> Use routes
-app.use("/api", users);
-app.use("/api", posts);
-
+// app.use("/api", users);
+// app.use("/api", posts);
 
 // >>> Serve static in production
 if (process.env.NODE_ENV === "production") {
