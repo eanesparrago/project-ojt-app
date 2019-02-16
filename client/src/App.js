@@ -124,17 +124,11 @@ class App extends Component {
               <GlobalStyle />
 
               <Switch>
-                <Route path="/" exact>
-                  <h1>f</h1>
-                </Route>
+                <Route path="/" exact render={() => <h1>Test</h1>} />
 
-                <Route path="/admin">
-                  <Admin />
-                </Route>
+                <Route path="/admin" component={Admin} />
 
-                <Route path="/login">
-                  <Login />
-                </Route>
+                <Route path="/login" component={Login} />
 
                 <Route render={() => <h1>Not found</h1>} />
               </Switch>
