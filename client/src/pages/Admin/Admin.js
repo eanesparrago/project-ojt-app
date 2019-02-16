@@ -122,8 +122,6 @@ export class Admin extends Component {
     const { isDepartmentModalOpen, isDepartmentFormOpen } = this.state;
     const { match } = this.props;
 
-    console.log(match);
-
     return (
       <StyledAdmin>
         {/* >>> Header */}
