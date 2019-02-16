@@ -23,6 +23,8 @@ const configs = css`
     css`
       width: 100%;
     `}
+
+  
 `;
 
 const StyledButton = styled.button`
@@ -65,7 +67,7 @@ const StyledButton = styled.button`
 const StyledButtonPrimary = styled(StyledButton)`
   background-color: ${p => p.theme.color.primary.main};
   color: ${p => p.theme.color.lightFixed};
-  border-radius: 1000em;
+  /* border-radius: 1000em; */
   text-transform: uppercase;
   font-weight: 700;
 
@@ -86,12 +88,13 @@ const StyledButtonPrimary = styled(StyledButton)`
 // >>> Secondary
 const StyledButtonSecondary = styled(StyledButton)`
   background-color: ${p => p.theme.color.white};
+  box-shadow: unset;
   color: ${p => p.theme.color.primary.main};
   text-transform: uppercase;
   font-weight: 700;
 
   &:hover {
-    box-shadow: ${p => p.theme.shadow[1]};
+    outline: var(--size-xxs) solid ${p => p.theme.color.primary.light};
   }
 
   &:focus {
@@ -99,7 +102,8 @@ const StyledButtonSecondary = styled(StyledButton)`
   }
 
   &:active {
-    color: ${p => p.theme.color.primary.dark};
+    /* color: ${p => p.theme.color.primary.dark}; */
+    background-color: ${p => p.theme.color.primary.light};
     box-shadow: 0 0 0 var(--size-xxs) ${p => p.theme.color.primary.light};
   }
 `;
@@ -121,6 +125,36 @@ const StyledButtonText = styled(StyledButton)`
   &:active {
     color: ${p => p.theme.color.primary.dark};
     box-shadow: 0 0 0 var(--size-xxs) ${p => p.theme.color.primary.light};
+  }
+`;
+
+// >>> Photo
+const StyledButtonPhoto = styled(StyledButton)`
+  box-shadow: 0 0 0 0 transparent;
+  background-color: unset;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+
+  &:hover {
+    box-shadow: 0 0 0 var(--size-xxs) ${p => p.theme.color.primary.main};
+    color: ${p => p.theme.color.primary.main};
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 var(--size-xs) ${p => p.theme.color.primary.light};
+  }
+
+  &:active {
+    color: ${p => p.theme.color.primary.dark};
+    box-shadow: 0 0 0 var(--size-xxs) ${p => p.theme.color.primary.light};
+  }
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -152,6 +186,13 @@ export class Button extends Component {
           <StyledButtonText {...this.props}>
             {this.props.children}
           </StyledButtonText>
+        );
+
+      case "photo":
+        return (
+          <StyledButtonPhoto {...this.props}>
+            {this.props.children}
+          </StyledButtonPhoto>
         );
 
       default:

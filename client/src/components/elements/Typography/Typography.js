@@ -3,7 +3,7 @@ import styled from "styled-components";
 import cropLineHeight from "../../utils/cropLineHeight";
 
 const StyledTypography = styled.span`
-  ${p => cropLineHeight(p.theme.font.lineHeight)};
+  ${cropLineHeight()};
   font-size: ${p => p.theme.font.scale.base};
 `;
 
@@ -14,6 +14,7 @@ const StyledTypographyCaption = styled(StyledTypography)`
 `;
 
 const StyledTypographyBody = styled(StyledTypography)`
+  ${p => cropLineHeight(p.theme.font.lineHeight)};
   font-size: ${p => p.theme.font.scale.body};
 `;
 
@@ -34,6 +35,7 @@ const StyledTypographyDisplay2 = styled(StyledTypography)`
 const StyledTypographyDisplay1 = styled(StyledTypography)`
   ${cropLineHeight()};
   font-size: ${p => p.theme.font.scale.display1};
+  font-weight: 300;
 `;
 
 export class Typography extends Component {
