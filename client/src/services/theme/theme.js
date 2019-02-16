@@ -28,7 +28,7 @@ export default {
       main: "#4CAF50",
       dark: "#1B5E20"
     },
-    seconday: {
+    secondary: {
       main: "",
       light: "",
       dark: ""

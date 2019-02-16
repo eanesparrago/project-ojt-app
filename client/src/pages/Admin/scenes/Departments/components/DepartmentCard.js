@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Button, Typography, Photo } from "../../../components/elements";
-import { TextInput } from "../../../components/compounds";
-import { Item, Box, Container, Area } from "../../../layout";
+import { Button, Typography, Photo } from "../../../../../components/elements";
+import { Item, Box, Container, Area } from "../../../../../layout";
 
 const StyledDepartmentCard = styled.div`
   /* border: 1px solid magenta; */
@@ -27,10 +26,16 @@ const StyledDepartmentCard = styled.div`
     width: var(--size-button);
     height: var(--size-button);
   }
+
+  .item-icon {
+    width: ${p => p.theme.size.m};
+  }
 `;
 
 export class DepartmentCard extends Component {
   render() {
+    const { onDepartmentModalToggle } = this.props;
+
     return (
       <StyledDepartmentCard>
         <Item name="cover">
@@ -45,7 +50,21 @@ export class DepartmentCard extends Component {
           </Item>
 
           <Item margin="stack-m">
-            <Typography variant="caption">2nd Level South Wing</Typography>
+            <Typography variant="caption">
+              <Item name="icon" inline center margin="inline-s">
+                <i className="fas fa-map-marker-alt" />
+              </Item>
+              2nd Level South Wing
+            </Typography>
+          </Item>
+
+          <Item margin="stack-base">
+            <Typography variant="caption">
+              <Item name="icon" inline center margin="inline-s">
+                <i className="fas fa-phone" />
+              </Item>
+              21968
+            </Typography>
           </Item>
 
           <Item margin="stack-s">
@@ -148,7 +167,9 @@ export class DepartmentCard extends Component {
           </Box>
 
           <Item>
-            <Button variant="secondary" full>View Department</Button>
+            <Button variant="secondary" full onClick={onDepartmentModalToggle}>
+              View Department
+            </Button>
           </Item>
         </Container>
       </StyledDepartmentCard>

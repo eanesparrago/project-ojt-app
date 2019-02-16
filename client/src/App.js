@@ -49,7 +49,7 @@ const GlobalStyle = createGlobalStyle`
     scroll-behavior: smooth;
 
     @media (max-width: ${theme.breakpoint.tabletPortrait}) {
-      ${'' /* font-size: 13px; */}
+      ${"" /* font-size: 13px; */}
     }
 
     @media (min-width: ${theme.breakpoint.tabletLandscape}) {
@@ -81,7 +81,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${theme.color.light};
 
    @media (max-width: ${theme.breakpoint.tabletPortrait}) {
-      ${'' /* font-size: 15px; */}
+      ${"" /* font-size: 15px; */}
     }
 
     @media (min-width: ${theme.breakpoint.tabletLandscape}) {
@@ -124,8 +124,12 @@ class App extends Component {
               <GlobalStyle />
 
               <Switch>
-                <Route path="/" exact>
+                <Route path="/admin">
                   <Admin />
+                </Route>
+
+                <Route path="/login">
+                  <Login />
                 </Route>
 
                 <Route render={() => <h1>Not found</h1>} />

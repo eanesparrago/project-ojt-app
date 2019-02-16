@@ -5,9 +5,11 @@ const StyledTextInput = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+  width: 100%;
 
   .input {
     height: var(--size-button);
+    width: 100%;
     padding: ${p => p.theme.size.m} ${p => p.theme.size.s};
     border: 1px solid ${p => p.theme.color.grey.medium};
     transition-duration: 200ms;
@@ -24,42 +26,16 @@ const StyledTextInput = styled.div`
         border: 1px solid ${p => p.theme.color.primary.dark};
       `}
   }
-
-  .placeholder {
-    position: absolute;
-    left: var(--size-s);
-    user-select: none;
-    pointer-events: none;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    color: ${p => p.theme.color.grey.medium};
-    transition-duration: 200ms;
-    transition-property: transform;
-    transition-timing-function: ease-out;
-
-    ${p =>
-      p.value &&
-      css`
-        transform: translateX(-130%);
-        color: ${p => p.theme.color.primary.dark};
-      `}
-  }
-
-  .input:focus ~ .placeholder {
-    transform: translateX(-130%);
-    color: ${p => p.theme.color.primary.main};
-  }
+ 
 `;
 
 export class TextInput extends Component {
   render() {
-    const { placeholder, ...props } = this.props;
+    const { ...props } = this.props;
 
     return (
       <StyledTextInput value={props.value}>
         <input className="input" type="text" {...props} />
-        <span className="placeholder">{placeholder}</span>
       </StyledTextInput>
     );
   }

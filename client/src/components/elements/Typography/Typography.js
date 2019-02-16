@@ -33,7 +33,7 @@ const StyledTypographyDisplay2 = styled(StyledTypography)`
 `;
 
 const StyledTypographyDisplay1 = styled(StyledTypography)`
-  ${cropLineHeight()};
+  ${cropLineHeight(1)};
   font-size: ${p => p.theme.font.scale.display1};
   font-weight: 300;
 `;

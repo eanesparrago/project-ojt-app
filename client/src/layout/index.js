@@ -79,17 +79,6 @@ const spacingProperties = ({
     sizeMobile.xl
   }`;
 
-  // >>> Padding — Squish: s, m, l
-  const squishSMobile = `${sizeMobile.xs} ${sizeMobile.s} ${sizeMobile.xs} ${
-    sizeMobile.s
-  }`;
-  const squishMMobile = `${sizeMobile.s} ${sizeMobile.m} ${sizeMobile.s} ${
-    sizeMobile.m
-  }`;
-  const squishLMobile = `${sizeMobile.m} ${sizeMobile.l} ${sizeMobile.m} ${
-    sizeMobile.l
-  }`;
-
   // >>> Padding — Stretch: s, m
   const stretchSMobile = `${sizeMobile.m} ${sizeMobile.s} ${sizeMobile.m} ${
     sizeMobile.s
@@ -98,14 +87,6 @@ const spacingProperties = ({
     sizeMobile.base
   } ${sizeMobile.m}`;
 
-  // >>> Margin — Stack: base, xs, s, m, l, xl
-  const stackBaseMobile = `0 0 ${sizeMobile.base} 0`;
-  const stackXsMobile = `0 0 ${sizeMobile.xs} 0`;
-  const stackSMobile = `0 0 ${sizeMobile.s} 0`;
-  const stackMMobile = `0 0 ${sizeMobile.m} 0`;
-  const stackLMobile = `0 0 ${sizeMobile.l} 0`;
-  const stackXlMobile = `0 0 ${sizeMobile.xl} 0`;
-
   // >>> Margin — Inline: base, xs, s, m, l, xl
   const inlineBaseMobile = `0 ${sizeMobile.base} 0 0`;
   const inlineXsMobile = `0 ${sizeMobile.xs} 0 0`;
@@ -113,14 +94,6 @@ const spacingProperties = ({
   const inlineMMobile = `0 ${sizeMobile.m} 0 0`;
   const inlineLMobile = `0 ${sizeMobile.l} 0 0`;
   const inlineXlMobile = `0 ${sizeMobile.xl} 0 0`;
-
-  // >>> Margin — Wrap: base, xs, s, m, l, xl
-  const wrapBaseMobile = `0 ${sizeMobile.base} ${sizeMobile.base} 0`;
-  const wrapXsMobile = `0 ${sizeMobile.xs} ${sizeMobile.xs} 0`;
-  const wrapSMobile = `0 ${sizeMobile.s} ${sizeMobile.s} 0`;
-  const wrapMMobile = `0 ${sizeMobile.m} ${sizeMobile.m} 0`;
-  const wrapLMobile = `0 ${sizeMobile.l} ${sizeMobile.l} 0`;
-  const wrapXlMobile = `0 ${sizeMobile.xl} ${sizeMobile.xl} 0`;
 
   return css`
     padding: ${(padding === "inset-base" && insetL) ||
@@ -169,13 +142,7 @@ const spacingProperties = ({
         (margin === "inline-s" && inlineSMobile) ||
         (margin === "inline-m" && inlineMMobile) ||
         (margin === "inline-l" && inlineLMobile) ||
-        (margin === "inline-xl" && inlineXlMobile) ||
-        (margin === "wrap-base" && wrapBaseMobile) ||
-        (margin === "wrap-xs" && wrapXsMobile) ||
-        (margin === "wrap-s" && wrapSMobile) ||
-        (margin === "wrap-m" && wrapMMobile) ||
-        (margin === "wrap-l" && wrapLMobile) ||
-        (margin === "wrap-xl" && wrapXlMobile)};
+        (margin === "inline-xl" && inlineXlMobile)};
     }
   `;
 };

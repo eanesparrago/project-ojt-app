@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Button } from "../../../components/elements";
-import { TextInput } from "../../../components/compounds";
+import { TextInputSpecial } from "../../../components/compounds";
 import { Item, Container } from "../../../layout";
 
 const StyledLoginForm = styled.div`
@@ -28,7 +28,7 @@ export class LoginForm extends Component {
     return (
       <StyledLoginForm>
         <Item margin="stack-m">
-          <TextInput
+          <TextInputSpecial
             value={username}
             name="username"
             placeholder="Username"
@@ -37,7 +37,7 @@ export class LoginForm extends Component {
         </Item>
 
         <Item margin="stack-base">
-          <TextInput
+          <TextInputSpecial
             value={password}
             name="password"
             placeholder="Password"

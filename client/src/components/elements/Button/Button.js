@@ -15,6 +15,8 @@ const configs = css`
     css`
       font-size: ${p => p.theme.font.scale.body};
       padding: 0;
+      width: var(--size-button);
+      height: var(--size-button);
     `}
 
   /* >>> full */
@@ -22,6 +24,13 @@ const configs = css`
     p.full &&
     css`
       width: 100%;
+    `}
+
+  /* >>> left */
+  ${p =>
+    p.left &&
+    css`
+      justify-content: left;
     `}
 
   
@@ -40,6 +49,7 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  letter-spacing: 1.25;
 
   ${configs};
 
@@ -67,7 +77,7 @@ const StyledButton = styled.button`
 const StyledButtonPrimary = styled(StyledButton)`
   background-color: ${p => p.theme.color.primary.main};
   color: ${p => p.theme.color.lightFixed};
-  /* border-radius: 1000em; */
+  border-radius: 1000em;
   text-transform: uppercase;
   font-weight: 700;
 
@@ -88,13 +98,17 @@ const StyledButtonPrimary = styled(StyledButton)`
 // >>> Secondary
 const StyledButtonSecondary = styled(StyledButton)`
   background-color: ${p => p.theme.color.white};
-  box-shadow: unset;
+  /* box-shadow: 0 0 0 var(--size-xxs) ${p => p.theme.color.primary.main}; */
+  /* box-shadow: unset; */
+  border: 1px solid ${p => p.theme.color.primary.main};
+  border-radius: 1000em;
   color: ${p => p.theme.color.primary.main};
   text-transform: uppercase;
   font-weight: 700;
 
   &:hover {
-    outline: var(--size-xxs) solid ${p => p.theme.color.primary.light};
+    /* box-shadow: 0 0 0 var(--size-xxs) ${p => p.theme.color.primary.main}; */
+    box-shadow: ${p => p.theme.shadow[1]};
   }
 
   &:focus {
@@ -103,7 +117,7 @@ const StyledButtonSecondary = styled(StyledButton)`
 
   &:active {
     /* color: ${p => p.theme.color.primary.dark}; */
-    background-color: ${p => p.theme.color.primary.light};
+    background-color: ${p => p.theme.color.grey.light};
     box-shadow: 0 0 0 var(--size-xxs) ${p => p.theme.color.primary.light};
   }
 `;
@@ -123,7 +137,7 @@ const StyledButtonText = styled(StyledButton)`
   }
 
   &:active {
-    color: ${p => p.theme.color.primary.dark};
+    /* color: ${p => p.theme.color.primary.dark}; */
     box-shadow: 0 0 0 var(--size-xxs) ${p => p.theme.color.primary.light};
   }
 `;
@@ -147,7 +161,7 @@ const StyledButtonPhoto = styled(StyledButton)`
   }
 
   &:active {
-    color: ${p => p.theme.color.primary.dark};
+    /* color: ${p => p.theme.color.primary.dark}; */
     box-shadow: 0 0 0 var(--size-xxs) ${p => p.theme.color.primary.light};
   }
 
