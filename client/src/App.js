@@ -124,9 +124,9 @@ class App extends Component {
               <GlobalStyle />
 
               <Switch>
-                <Router path="/" exact>
+                <Route path="/" exact>
                   <h1>f</h1>
-                </Router>
+                </Route>
 
                 <Route path="/admin">
                   <Admin />
