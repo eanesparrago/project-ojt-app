@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { Link, withRouter } from "react-router-dom";
 import { Button, Typography, Photo } from "../../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../../layout";
 
@@ -34,7 +35,7 @@ const StyledDepartmentCard = styled.div`
 
 export class DepartmentCard extends Component {
   render() {
-    const { onDepartmentModalToggle } = this.props;
+    const { onDepartmentModalToggle, match } = this.props;
 
     return (
       <StyledDepartmentCard>
@@ -167,7 +168,13 @@ export class DepartmentCard extends Component {
           </Box>
 
           <Item>
-            <Button variant="secondary" full onClick={onDepartmentModalToggle}>
+            <Button
+              variant="secondary"
+              full
+              onClick={onDepartmentModalToggle}
+              as={Link}
+              to={`${match.url}/technical-support-group`}
+            >
               View Department
             </Button>
           </Item>
@@ -177,4 +184,4 @@ export class DepartmentCard extends Component {
   }
 }
 
-export default DepartmentCard;
+export default withRouter(DepartmentCard);

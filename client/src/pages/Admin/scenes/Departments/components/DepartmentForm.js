@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { Button, Typography, Photo } from "../../../../../components/elements";
 import { TextInput } from "../../../../../components/compounds";
 import { Item, Box, Container, Area } from "../../../../../layout";
@@ -62,7 +63,8 @@ export class DepartmentForm extends Component {
               variant="secondary"
               icon
               rounded
-              onClick={onDepartmentFormToggle}
+              as={Link}
+              to="/admin/departments"
             >
               <i className="fas fa-times" />
             </Button>
@@ -111,7 +113,9 @@ export class DepartmentForm extends Component {
           </Area>
         </Container>
 
-        <Area name="back" onClick={onDepartmentFormToggle} />
+        <Link to="/admin/departments">
+          <Area name="back" onClick={onDepartmentFormToggle} />
+        </Link>
       </StyledDepartmentForm>
     );
   }

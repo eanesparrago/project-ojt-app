@@ -159,60 +159,80 @@ export class Admin extends Component {
             </Container>
 
             <Box column padding="inset-m">
-              <Link to={`${match.url}/departments`}>
-                <Item left margin="stack-s">
-                  <Button variant="text" full left>
-                    <Item center style={{ width: "2rem" }} margin="inline-s">
-                      <i className="fas fa-briefcase" />
-                    </Item>
-                    Departments
-                  </Button>
-                </Item>
-              </Link>
+              <Item left margin="stack-s">
+                <Button
+                  variant="text"
+                  full
+                  left
+                  as={Link}
+                  to={`${match.url}/departments`}
+                >
+                  <Item center style={{ width: "2rem" }} margin="inline-s">
+                    <i className="fas fa-briefcase" />
+                  </Item>
+                  Departments
+                </Button>
+              </Item>
 
-              <Link to={`${match.url}/users`}>
-                <Item margin="stack-s">
-                  <Button variant="text" full left>
-                    <Item center style={{ width: "2rem" }} margin="inline-s">
-                      <i className="fas fa-users" />
-                    </Item>
-                    Users
-                  </Button>
-                </Item>
-              </Link>
+              <Item margin="stack-s">
+                <Button
+                  variant="text"
+                  full
+                  left
+                  as={Link}
+                  to={`${match.url}/people`}
+                >
+                  <Item center style={{ width: "2rem" }} margin="inline-s">
+                    <i className="fas fa-users" />
+                  </Item>
+                  People
+                </Button>
+              </Item>
 
-              <Link to={`${match.url}/notifications`}>
-                <Item margin="stack-s">
-                  <Button variant="text" full left>
-                    <Item center style={{ width: "2rem" }} margin="inline-s">
-                      <i className="fas fa-bell" />
-                    </Item>
-                    Notifications
-                  </Button>
-                </Item>
-              </Link>
+              <Item margin="stack-s">
+                <Button
+                  variant="text"
+                  full
+                  left
+                  as={Link}
+                  to={`${match.url}/notifications`}
+                >
+                  <Item center style={{ width: "2rem" }} margin="inline-s">
+                    <i className="fas fa-bell" />
+                  </Item>
+                  Notifications
+                </Button>
+              </Item>
 
-              <Link to={`${match.url}/announcements`}>
-                <Item margin="stack-s">
-                  <Button variant="text" full left>
-                    <Item center style={{ width: "2rem" }} margin="inline-s">
-                      <i className="fas fa-bullhorn" />
-                    </Item>
-                    Announcements
-                  </Button>
-                </Item>
-              </Link>
+              <Item margin="stack-s">
+                <Button
+                  variant="text"
+                  full
+                  left
+                  as={Link}
+                  to={`${match.url}/announcements`}
+                >
+                  <Item center style={{ width: "2rem" }} margin="inline-s">
+                    <i className="fas fa-bullhorn" />
+                  </Item>
+                  Announcements
+                </Button>
+              </Item>
 
-              <Link to={`${match.url}/activities`}>
-                <Item margin="stack-s">
-                  <Button variant="text" full left>
-                    <Item center style={{ width: "2rem" }} margin="inline-s">
-                      <i className="fas fa-list-ul" />
-                    </Item>
-                    Activities
-                  </Button>
-                </Item>
-              </Link>
+              <Item margin="stack-s">
+                <Button
+                  variant="text"
+                  full
+                  left
+                  as={Link}
+                  to={`${match.url}/activities`}
+                >
+                  <Item center style={{ width: "2rem" }} margin="inline-s">
+                    <i className="fas fa-list-ul" />
+                  </Item>
+                  Activities
+                </Button>
+              </Item>
             </Box>
           </Area>
 

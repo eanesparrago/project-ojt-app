@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { Route, withRouter, Link } from "react-router-dom";
 import { Button, Typography, Photo } from "../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../layout";
 import DepartmentCard from "./components/DepartmentCard";
@@ -11,7 +12,8 @@ export class Departments extends Component {
       isDepartmentFormOpen,
       isDepartmentModalOpen,
       onDepartmentFormToggle,
-      onDepartmentModalToggle
+      onDepartmentModalToggle,
+      match
     } = this.props;
 
     return (
@@ -23,7 +25,11 @@ export class Departments extends Component {
             </Item>
 
             <Item margin="wrap-base">
-              <Button onClick={onDepartmentFormToggle}>
+              <Button
+                onClick={onDepartmentFormToggle}
+                as={Link}
+                to={`${match.url}/create-department`}
+              >
                 <Item margin="inline-s">
                   <i className="fas fa-plus" />
                 </Item>
@@ -60,23 +66,33 @@ export class Departments extends Component {
         </Area>
 
         {/* >>> Department Form */}
-        {isDepartmentFormOpen ? (
+        {/* {isDepartmentFormOpen ? (
           <Container name="department-form">
             <DepartmentForm onDepartmentFormToggle={onDepartmentFormToggle} />
           </Container>
-        ) : null}
+        ) : null} */}
+
+        <Route
+          path={`${match.url}/create-department`}
+          render={() => (
+            <Container name="department-form">
+              <DepartmentForm onDepartmentFormToggle={onDepartmentFormToggle} />
+            </Container>
+          )}
+        />
 
         {/* >>> Department Modal */}
-        {isDepartmentModalOpen ? (
-          <Container name="department-modal">
-            <DepartmentModal
-              onDepartmentModalToggle={onDepartmentModalToggle}
-            />
-          </Container>
-        ) : null}
+        <Route
+          path={`${match.url}/technical-support-group`}
+          render={() => (
+            <Container name="department-form">
+              <DepartmentModal />
+            </Container>
+          )}
+        />
       </Fragment>
     );
   }
 }
 
-export default Departments;
+export default withRouter(Departments);

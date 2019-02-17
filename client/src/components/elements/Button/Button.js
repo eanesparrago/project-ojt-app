@@ -33,6 +33,13 @@ const configs = css`
       justify-content: left;
     `}
 
+  /* >>> link */
+  ${p =>
+    p.link &&
+    css`
+      nav-index: -1;
+    `}
+
   
 `;
 
@@ -178,41 +185,71 @@ export class Button extends Component {
   };
 
   render() {
-    const { variant } = this.props;
+    const { variant, link, full, left, icon, rounded, ...props } = this.props;
 
     switch (variant) {
       case "primary":
         return (
-          <StyledButtonPrimary {...this.props}>
-            {this.props.children}
+          <StyledButtonPrimary
+            full={full ? 1 : 0}
+            left={left ? 1 : 0}
+            icon={icon ? 1 : 0}
+            rounded={rounded ? 1 : 0}
+            {...props}
+          >
+            {props.children}
           </StyledButtonPrimary>
         );
 
       case "secondary":
         return (
-          <StyledButtonSecondary {...this.props}>
-            {this.props.children}
+          <StyledButtonSecondary
+            full={full ? 1 : 0}
+            left={left ? 1 : 0}
+            icon={icon ? 1 : 0}
+            rounded={rounded ? 1 : 0}
+            {...props}
+          >
+            {props.children}
           </StyledButtonSecondary>
         );
 
       case "text":
         return (
-          <StyledButtonText {...this.props}>
-            {this.props.children}
+          <StyledButtonText
+            full={full ? 1 : 0}
+            left={left ? 1 : 0}
+            icon={icon ? 1 : 0}
+            rounded={rounded ? 1 : 0}
+            {...props}
+          >
+            {props.children}
           </StyledButtonText>
         );
 
       case "photo":
         return (
-          <StyledButtonPhoto {...this.props}>
-            {this.props.children}
+          <StyledButtonPhoto
+            full={full ? 1 : 0}
+            left={left ? 1 : 0}
+            icon={icon ? 1 : 0}
+            rounded={rounded ? 1 : 0}
+            {...props}
+          >
+            {props.children}
           </StyledButtonPhoto>
         );
 
       default:
         return (
-          <StyledButtonPrimary {...this.props}>
-            {this.props.children}
+          <StyledButtonPrimary
+            full={full ? 1 : 0}
+            left={left ? 1 : 0}
+            icon={icon ? 1 : 0}
+            rounded={rounded ? 1 : 0}
+            {...props}
+          >
+            {props.children}
           </StyledButtonPrimary>
         );
     }
