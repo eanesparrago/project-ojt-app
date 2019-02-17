@@ -5,6 +5,7 @@ import { Button, Typography, Photo } from "../../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../../layout";
 
 const StyledDepartment = styled.div`
+  border: 1px solid magenta;
   width: 100%;
   height: 100%;
   position: relative;
@@ -15,13 +16,7 @@ const StyledDepartment = styled.div`
     "back back back";
   grid-template-rows: auto 3fr 1fr;
   grid-template-columns: 3fr 2fr 2fr;
-/* 
-  .container-department-main {
-    background-color: ${p => p.theme.color.white};
-    height: 90%;
-    overflow-y: auto;
-  } */
-
+ 
   .container-department-close {
     position: absolute;
     top: var(--size-base);
