@@ -1,67 +1,69 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { Link, withRouter } from "react-router-dom";
 import { Button, Typography, Photo } from "../../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../../layout";
 
-const StyledDepartmentModal = styled.div`
+const StyledDepartment = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
 
-  .container-main {
+  .container-department-main {
     height: 90%;
     background-color: ${p => p.theme.color.white};
     overflow-y: auto;
   }
 
-  .area-header {
+  .container-department-close {
+    position: absolute;
+    top: var(--size-base);
+    right: var(--size-base);
+  }
+
+  .area-department-header {
     /* background-color: ${p => p.theme.color.grey.light};
     border-bottom: 1px solid ${p => p.theme.color.dark}; */
     padding-bottom: ${p => p.theme.size.s};
   }
 
-  .item-icon {
+  .item-department-icon {
     width: ${p => p.theme.size.m};
   }
 
-  .area-content {
+  .area-department-content {
     display: flex;
   }
 
-  .area-back {
+  .area-department-back {
     background-color: ${p => p.theme.color.primary.dark};
     opacity: 0.8;
     height: 10%;
   }
-
-  .container-close {
-    position: absolute;
-    top: var(--size-base);
-    right: var(--size-base);
-  }
 `;
 
-export class DepartmentModal extends Component {
+export class Department extends Component {
   render() {
-    const { onDepartmentModalToggle } = this.props;
+    const { history } = this.props;
 
     return (
-      <StyledDepartmentModal>
-        <Container name="close">
+      <StyledDepartment>
+        <Container name="department-close">
           <Item>
             <Button
               variant="secondary"
               icon
               rounded
-              onClick={onDepartmentModalToggle}
+              as={Link}
+              to="/admin/departments"
             >
               <i className="fas fa-times" />
             </Button>
           </Item>
         </Container>
 
-        <Container name="main">
-          <Area name="header" padding="inset-base">
+        <Container name="department-main">
+          <Area name="department-header" padding="inset-base">
             <Box wrap align="flex-start">
               <Item margin="stack-base">
                 <Typography variant="display-1">
@@ -81,7 +83,7 @@ export class DepartmentModal extends Component {
 
             <Item margin="stack-base">
               <Typography variant="caption">
-                <Item name="icon" center inline margin="inline-s">
+                <Item name="department-icon" center inline margin="inline-s">
                   <i className="fas fa-map-marker-alt" />
                 </Item>
                 2nd Level South Wing
@@ -90,7 +92,7 @@ export class DepartmentModal extends Component {
 
             <Item>
               <Typography variant="caption">
-                <Item name="icon" center inline margin="inline-s">
+                <Item name="department-icon" center inline margin="inline-s">
                   <i className="fas fa-phone" />
                 </Item>
                 21968
@@ -98,7 +100,8 @@ export class DepartmentModal extends Component {
             </Item>
           </Area>
 
-          <Area name="content" padding="inset-base">
+          <Area name="department-content" padding="inset-base">
+            
             <Container margin="inline-xl">
               <Container margin="stack-l">
                 <Box margin="stack-m" align="center">
@@ -187,13 +190,18 @@ export class DepartmentModal extends Component {
           </Area>
         </Container>
 
-        <Area name="back" onClick={onDepartmentModalToggle} />
-      </StyledDepartmentModal>
+        <Area
+          name="department-back"
+          onClick={() => {
+            history.push("/admin/departments");
+          }}
+        />
+      </StyledDepartment>
     );
   }
 }
 
-export default DepartmentModal;
+export default withRouter(Department);
 
 const StyledUserListItem = styled.div`
   /* border: 1px solid magenta; */

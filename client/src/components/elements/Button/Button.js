@@ -26,22 +26,14 @@ const configs = css`
       width: 100%;
     `}
 
+
   /* >>> left */
   ${p =>
     p.left &&
     css`
       justify-content: left;
     `}
-
-  /* >>> link */
-  ${p =>
-    p.link &&
-    css`
-      nav-index: -1;
-    `}
-
-  
-`;
+ `;
 
 const StyledButton = styled.button`
   /* border: 1px solid magenta; */
@@ -191,10 +183,10 @@ export class Button extends Component {
       case "primary":
         return (
           <StyledButtonPrimary
-            full={full ? 1 : 0}
-            left={left ? 1 : 0}
-            icon={icon ? 1 : 0}
-            rounded={rounded ? 1 : 0}
+            full={full ? 1 : undefined}
+            left={left ? 1 : undefined}
+            icon={icon ? 1 : undefined}
+            rounded={rounded ? 1 : undefined}
             {...props}
           >
             {props.children}
@@ -204,10 +196,10 @@ export class Button extends Component {
       case "secondary":
         return (
           <StyledButtonSecondary
-            full={full ? 1 : 0}
-            left={left ? 1 : 0}
-            icon={icon ? 1 : 0}
-            rounded={rounded ? 1 : 0}
+            full={full ? 1 : undefined}
+            left={left ? 1 : undefined}
+            icon={icon ? 1 : undefined}
+            rounded={rounded ? 1 : undefined}
             {...props}
           >
             {props.children}
@@ -217,10 +209,10 @@ export class Button extends Component {
       case "text":
         return (
           <StyledButtonText
-            full={full ? 1 : 0}
-            left={left ? 1 : 0}
-            icon={icon ? 1 : 0}
-            rounded={rounded ? 1 : 0}
+            full={full ? 1 : undefined}
+            left={left ? 1 : undefined}
+            icon={icon ? 1 : undefined}
+            rounded={rounded ? 1 : undefined}
             {...props}
           >
             {props.children}
@@ -230,10 +222,10 @@ export class Button extends Component {
       case "photo":
         return (
           <StyledButtonPhoto
-            full={full ? 1 : 0}
-            left={left ? 1 : 0}
-            icon={icon ? 1 : 0}
-            rounded={rounded ? 1 : 0}
+            full={full ? 1 : undefined}
+            left={left ? 1 : undefined}
+            icon={icon ? 1 : undefined}
+            rounded={rounded ? 1 : undefined}
             {...props}
           >
             {props.children}
@@ -243,10 +235,10 @@ export class Button extends Component {
       default:
         return (
           <StyledButtonPrimary
-            full={full ? 1 : 0}
-            left={left ? 1 : 0}
-            icon={icon ? 1 : 0}
-            rounded={rounded ? 1 : 0}
+            full={full ? 1 : undefined}
+            left={left ? 1 : undefined}
+            icon={icon ? 1 : undefined}
+            rounded={rounded ? 1 : undefined}
             {...props}
           >
             {props.children}

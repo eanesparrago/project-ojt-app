@@ -35,7 +35,7 @@ const StyledDepartmentCard = styled.div`
 
 export class DepartmentCard extends Component {
   render() {
-    const { onDepartmentModalToggle, match } = this.props;
+    const { onDepartmentToggle, match } = this.props;
 
     return (
       <StyledDepartmentCard>
@@ -169,11 +169,10 @@ export class DepartmentCard extends Component {
 
           <Item>
             <Button
-              variant="secondary"
-              full
-              onClick={onDepartmentModalToggle}
               as={Link}
               to={`${match.url}/technical-support-group`}
+              variant="secondary"
+              full
             >
               View Department
             </Button>

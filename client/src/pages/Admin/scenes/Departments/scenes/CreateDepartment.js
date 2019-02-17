@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Button, Typography, Photo } from "../../../../../components/elements";
 import { TextInput } from "../../../../../components/compounds";
 import { Item, Box, Container, Area } from "../../../../../layout";
 
-const StyledDepartmentForm = styled.div`
+const StyledCreateDepartment = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
@@ -51,12 +51,12 @@ const StyledDepartmentForm = styled.div`
   }
 `;
 
-export class DepartmentForm extends Component {
+export class CreateDepartment extends Component {
   render() {
-    const { onDepartmentFormToggle } = this.props;
+    const { history } = this.props;
 
     return (
-      <StyledDepartmentForm>
+      <StyledCreateDepartment>
         <Container name="close">
           <Item>
             <Button
@@ -113,12 +113,15 @@ export class DepartmentForm extends Component {
           </Area>
         </Container>
 
-        <Link to="/admin/departments">
-          <Area name="back" onClick={onDepartmentFormToggle} />
-        </Link>
-      </StyledDepartmentForm>
+        <Area
+          name="back"
+          onClick={() => {
+            history.push("/admin/departments");
+          }}
+        />
+      </StyledCreateDepartment>
     );
   }
 }
 
-export default DepartmentForm;
+export default withRouter(CreateDepartment);
