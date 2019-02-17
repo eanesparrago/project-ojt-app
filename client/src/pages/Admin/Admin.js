@@ -55,14 +55,14 @@ const StyledAdmin = styled.div`
 
   .area-admin-sidebar {
     width: ${p => p.theme.incrementFixed(10)};
-    height: 100%;
-    height: 100%;
+    min-height: 100%;
     display: flex;
     flex-flow: column;
     background-color: ${p => p.theme.color.white};
     border-right: 1px solid ${p => p.theme.color.dark};
     position: fixed;
     top: ${p => p.theme.incrementFixed(3)};
+    overflow: auto;
   }
 
   .area-admin-content {

@@ -112,6 +112,27 @@ const GlobalStyle = createGlobalStyle`
   #hidden {
     display: none;
   }
+
+  /* width */
+::-webkit-scrollbar {
+  width: 10px;
+  cursor: pointer;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: ${theme.color.grey.light}; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: ${theme.color.primary.light}; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: ${theme.color.primary.main}; 
+}
 `;
 
 class App extends Component {
