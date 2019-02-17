@@ -39,11 +39,11 @@ export class DepartmentCard extends Component {
 
     return (
       <StyledDepartmentCard>
-        <Item name="cover">
+        {/* <Item NAME="cover">
           <Photo>
             <img src="https://via.placeholder.com/350x150" alt="" />
           </Photo>
-        </Item>
+        </Item> */}
 
         <Container padding="inset-m">
           <Item margin="stack-m">
@@ -52,7 +52,7 @@ export class DepartmentCard extends Component {
 
           <Item margin="stack-m">
             <Typography variant="caption">
-              <Item name="icon" inline center margin="inline-s">
+              <Item NAME="icon" inline center margin="inline-s">
                 <i className="fas fa-map-marker-alt" />
               </Item>
               2nd Level South Wing
@@ -61,7 +61,7 @@ export class DepartmentCard extends Component {
 
           <Item margin="stack-base">
             <Typography variant="caption">
-              <Item name="icon" inline center margin="inline-s">
+              <Item NAME="icon" inline center margin="inline-s">
                 <i className="fas fa-phone" />
               </Item>
               21968
@@ -73,7 +73,7 @@ export class DepartmentCard extends Component {
           </Item>
 
           <Box margin="stack-base" wrap>
-            <Item name="avatar" margin="inline-s">
+            <Item NAME="avatar" margin="inline-s">
               <Button variant="photo" rounded>
                 <img
                   src="https://images-na.ssl-images-amazon.com/images/M/MV5BNWRmYWVlNmQtNTRiOS00YjBjLWE0MDAtNWYwZGVkMjgwY2M0XkEyXkFqcGdeQXVyMTgwMTYzNQ@@._V1_UY256_CR106,0,172,256_AL_.jpg"
@@ -82,7 +82,7 @@ export class DepartmentCard extends Component {
               </Button>
             </Item>
 
-            <Item name="avatar" margin="inline-s">
+            <Item NAME="avatar" margin="inline-s">
               <Button variant="photo" rounded>
                 <img
                   src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTk4NzUxNTU3Nl5BMl5BanBnXkFtZTgwNjIzMzY5NzE@._V1_UY256_CR42,0,172,256_AL_.jpg"
@@ -91,7 +91,7 @@ export class DepartmentCard extends Component {
               </Button>
             </Item>
 
-            <Item name="avatar" margin="inline-s">
+            <Item NAME="avatar" margin="inline-s">
               <Button variant="photo" rounded>
                 <img
                   src="https://m.media-amazon.com/images/M/MV5BMTM2NzI3NTU5Nl5BMl5BanBnXkFtZTcwODkxODAwNA@@._V1_UY256_CR9,0,172,256_AL_.jpg"
@@ -106,7 +106,7 @@ export class DepartmentCard extends Component {
           </Item>
 
           <Box margin="stack-base" wrap>
-            <Item name="avatar" margin="inline-s">
+            <Item NAME="avatar" margin="inline-s">
               <Button variant="photo" rounded>
                 <img
                   src="https://images-na.ssl-images-amazon.com/images/M/MV5BNWRmYWVlNmQtNTRiOS00YjBjLWE0MDAtNWYwZGVkMjgwY2M0XkEyXkFqcGdeQXVyMTgwMTYzNQ@@._V1_UY256_CR106,0,172,256_AL_.jpg"
@@ -115,7 +115,7 @@ export class DepartmentCard extends Component {
               </Button>
             </Item>
 
-            <Item name="avatar" margin="inline-s">
+            <Item NAME="avatar" margin="inline-s">
               <Button variant="photo" rounded>
                 <img
                   src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTk4NzUxNTU3Nl5BMl5BanBnXkFtZTgwNjIzMzY5NzE@._V1_UY256_CR42,0,172,256_AL_.jpg"
@@ -124,7 +124,7 @@ export class DepartmentCard extends Component {
               </Button>
             </Item>
 
-            <Item name="avatar" margin="inline-s">
+            <Item NAME="avatar" margin="inline-s">
               <Button variant="photo" rounded>
                 <img
                   src="https://m.media-amazon.com/images/M/MV5BMTM2NzI3NTU5Nl5BMl5BanBnXkFtZTcwODkxODAwNA@@._V1_UY256_CR9,0,172,256_AL_.jpg"
@@ -139,7 +139,7 @@ export class DepartmentCard extends Component {
           </Item>
 
           <Box margin="stack-base" wrap>
-            <Item name="avatar" margin="inline-s">
+            <Item NAME="avatar" margin="inline-s">
               <Button variant="photo" rounded>
                 <img
                   src="https://images-na.ssl-images-amazon.com/images/M/MV5BNWRmYWVlNmQtNTRiOS00YjBjLWE0MDAtNWYwZGVkMjgwY2M0XkEyXkFqcGdeQXVyMTgwMTYzNQ@@._V1_UY256_CR106,0,172,256_AL_.jpg"
@@ -148,7 +148,7 @@ export class DepartmentCard extends Component {
               </Button>
             </Item>
 
-            <Item name="avatar" margin="inline-s">
+            <Item NAME="avatar" margin="inline-s">
               <Button variant="photo" rounded>
                 <img
                   src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTk4NzUxNTU3Nl5BMl5BanBnXkFtZTgwNjIzMzY5NzE@._V1_UY256_CR42,0,172,256_AL_.jpg"
@@ -157,7 +157,7 @@ export class DepartmentCard extends Component {
               </Button>
             </Item>
 
-            <Item name="avatar" margin="inline-s">
+            <Item NAME="avatar" margin="inline-s">
               <Button variant="photo" rounded>
                 <img
                   src="https://m.media-amazon.com/images/M/MV5BMTM2NzI3NTU5Nl5BMl5BanBnXkFtZTcwODkxODAwNA@@._V1_UY256_CR9,0,172,256_AL_.jpg"

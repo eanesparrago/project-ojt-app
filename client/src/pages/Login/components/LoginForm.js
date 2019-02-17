@@ -30,7 +30,7 @@ export class LoginForm extends Component {
         <Item margin="stack-m">
           <TextInputSpecial
             value={username}
-            name="username"
+            NAME="username"
             placeholder="Username"
             onChange={this.handleInputChange}
           />
@@ -39,14 +39,14 @@ export class LoginForm extends Component {
         <Item margin="stack-base">
           <TextInputSpecial
             value={password}
-            name="password"
+            NAME="password"
             placeholder="Password"
             type="password"
             onChange={this.handleInputChange}
           />
         </Item>
 
-        <Item name="button">
+        <Item NAME="button">
           <Button full variant="primary">Log In</Button>
         </Item>
       </StyledLoginForm>

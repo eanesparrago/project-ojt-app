@@ -22,9 +22,9 @@ const StyledDepartment = styled.div`
   }
 
   .area-department-header {
-    /* background-color: ${p => p.theme.color.grey.light};
-    border-bottom: 1px solid ${p => p.theme.color.dark}; */
-    padding-bottom: ${p => p.theme.size.s};
+    background-color: ${p => p.theme.color.grey.light};
+    border-bottom: 1px solid ${p => p.theme.color.dark};
+    /* padding-bottom: ${p => p.theme.size.s}; */
   }
 
   .item-department-icon {
@@ -48,7 +48,7 @@ export class Department extends Component {
 
     return (
       <StyledDepartment>
-        <Container name="department-close">
+        <Container NAME="department-close">
           <Item>
             <Button
               variant="secondary"
@@ -62,8 +62,8 @@ export class Department extends Component {
           </Item>
         </Container>
 
-        <Container name="department-main">
-          <Area name="department-header" padding="inset-base">
+        <Container NAME="department-main">
+          <Area NAME="department-header" padding="inset-base">
             <Box wrap align="flex-start">
               <Item margin="stack-base">
                 <Typography variant="display-1">
@@ -83,7 +83,7 @@ export class Department extends Component {
 
             <Item margin="stack-base">
               <Typography variant="caption">
-                <Item name="department-icon" center inline margin="inline-s">
+                <Item NAME="department-icon" center inline margin="inline-s">
                   <i className="fas fa-map-marker-alt" />
                 </Item>
                 2nd Level South Wing
@@ -92,7 +92,7 @@ export class Department extends Component {
 
             <Item>
               <Typography variant="caption">
-                <Item name="department-icon" center inline margin="inline-s">
+                <Item NAME="department-icon" center inline margin="inline-s">
                   <i className="fas fa-phone" />
                 </Item>
                 21968
@@ -100,8 +100,7 @@ export class Department extends Component {
             </Item>
           </Area>
 
-          <Area name="department-content" padding="inset-base">
-            
+          <Area NAME="department-content" padding="inset-base">
             <Container margin="inline-xl">
               <Container margin="stack-l">
                 <Box margin="stack-m" align="center">
@@ -191,7 +190,7 @@ export class Department extends Component {
         </Container>
 
         <Area
-          name="department-back"
+          NAME="department-back"
           onClick={() => {
             history.push("/admin/departments");
           }}
@@ -218,7 +217,7 @@ const StyledUserListItem = styled.div`
 const UserListItem = () => {
   return (
     <StyledUserListItem>
-      <Item name="photo" margin="inline-m">
+      <Item NAME="photo" margin="inline-m">
         <Photo rounded>
           <img
             src="https://images-na.ssl-images-amazon.com/images/M/MV5BNWRmYWVlNmQtNTRiOS00YjBjLWE0MDAtNWYwZGVkMjgwY2M0XkEyXkFqcGdeQXVyMTgwMTYzNQ@@._V1_UY256_CR106,0,172,256_AL_.jpg"

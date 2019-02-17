@@ -153,7 +153,7 @@ const spacingProperties = ({
   padding: [refer to spacingProperties]
   margin: [refer to spacingProperties]
   animate: Boolean
-  name: String
+  NAME: String
   inline: Boolean
 */
 const StyledItem = styled.div`
@@ -171,17 +171,17 @@ const StyledItem = styled.div`
 
 const AnimatedItem = animated(StyledItem);
 
-const Item = ({ name, ...props }) => {
+const Item = ({ NAME, ...props }) => {
   return props.animate ? (
     <AnimatedItem
       style={props.animate}
-      className={name ? `item item-${name}` : "item"}
+      className={NAME ? `item item-${NAME}` : "item"}
       {...props}
     >
       {props.children}
     </AnimatedItem>
   ) : (
-    <StyledItem className={name ? `item item-${name}` : "item"} {...props}>
+    <StyledItem className={NAME ? `item item-${NAME}` : "item"} {...props}>
       {props.children}
     </StyledItem>
   );
@@ -191,7 +191,7 @@ Item.propTypes = {
   padding: PropTypes.string,
   margin: PropTypes.string,
   animate: PropTypes.object,
-  name: PropTypes.string,
+  NAME: PropTypes.string,
   topleft: PropTypes.bool,
   top: PropTypes.bool,
   topright: PropTypes.bool,
@@ -213,7 +213,7 @@ Item.propTypes = {
   padding: [refer to spacingProperties]
   margin: [refer to spacingProperties]
   animate: Boolean
-  name: String
+  NAME: String
 */
 const StyledBox = styled.div`
   ${spacingProperties}
@@ -227,11 +227,11 @@ const StyledBox = styled.div`
 
 const AnimatedBox = animated(StyledBox);
 
-const Box = ({ name, wrap, ...props }) => {
+const Box = ({ NAME, wrap, ...props }) => {
   return props.animate ? (
     <AnimatedBox
       style={props.animate}
-      className={name ? `box box-${name}` : "box"}
+      className={NAME ? `box box-${NAME}` : "box"}
       wrap={wrap ? 1 : 0}
       {...props}
     >
@@ -239,7 +239,7 @@ const Box = ({ name, wrap, ...props }) => {
     </AnimatedBox>
   ) : (
     <StyledBox
-      className={name ? `box box-${name}` : "box"}
+      className={NAME ? `box box-${NAME}` : "box"}
       wrap={wrap ? 1 : 0}
       {...props}
     >
@@ -252,7 +252,7 @@ Box.propTypes = {
   padding: PropTypes.string,
   margin: PropTypes.string,
   animate: PropTypes.object,
-  name: PropTypes.string,
+  NAME: PropTypes.string,
   row: PropTypes.bool,
   column: PropTypes.bool,
   wrap: PropTypes.bool,
@@ -266,7 +266,7 @@ Box.propTypes = {
   padding: [refer to spacingProperties]
   margin: [refer to spacingProperties]
   animate: Boolean
-  name: String
+  NAME: String
 */
 const StyledContainer = styled.div`
   ${spacingProperties};
@@ -274,18 +274,18 @@ const StyledContainer = styled.div`
 
 const AnimatedContainer = animated(StyledContainer);
 
-const Container = ({ name, ...props }) => {
+const Container = ({ NAME, ...props }) => {
   return props.animate ? (
     <AnimatedContainer
       style={props.animate}
-      className={name ? `container container-${name}` : "container"}
+      className={NAME ? `container container-${NAME}` : "container"}
       {...props}
     >
       {props.children}
     </AnimatedContainer>
   ) : (
     <StyledContainer
-      className={name ? `container container-${name}` : "container"}
+      className={NAME ? `container container-${NAME}` : "container"}
       {...props}
     >
       {props.children}
@@ -297,7 +297,7 @@ Container.propTypes = {
   padding: PropTypes.string,
   margin: PropTypes.string,
   animate: PropTypes.object,
-  name: PropTypes.string
+  NAME: PropTypes.string
 };
 
 /* 
@@ -305,7 +305,7 @@ Container.propTypes = {
   padding: [refer to spacingProperties]
   margin: [refer to spacingProperties]
   animate: Boolean
-  name: String
+  NAME: String
 */
 const StyledArea = styled.div`
   ${spacingProperties};
@@ -313,17 +313,17 @@ const StyledArea = styled.div`
 
 const AnimatedArea = animated(StyledArea);
 
-const Area = ({ name, ...props }) => {
+const Area = ({ NAME, ...props }) => {
   return props.animate ? (
     <AnimatedArea
       style={props.animate}
-      className={name ? `area area-${name}` : "area"}
+      className={NAME ? `area area-${NAME}` : "area"}
       {...props}
     >
       {props.children}
     </AnimatedArea>
   ) : (
-    <StyledArea className={name ? `area area-${name}` : "area"} {...props}>
+    <StyledArea className={NAME ? `area area-${NAME}` : "area"} {...props}>
       {props.children}
     </StyledArea>
   );
@@ -333,7 +333,7 @@ Area.propTypes = {
   padding: PropTypes.string,
   margin: PropTypes.string,
   animate: PropTypes.object,
-  name: PropTypes.string
+  NAME: PropTypes.string
 };
 
 export { Item, Box, Container, Area };

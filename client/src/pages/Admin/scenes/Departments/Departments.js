@@ -49,7 +49,7 @@ export class Departments extends Component {
 
     return (
       <StyledDepartments>
-        <Area name="departments-content-header" padding="inset-base">
+        <Area NAME="departments-content-header" padding="inset-base">
           <Box wrap align="flex-start">
             <Item margin="wrap-base">
               <Typography variant="display-1">Departments</Typography>
@@ -70,7 +70,7 @@ export class Departments extends Component {
           </Box>
         </Area>
 
-        <Area name="departments-content-body" padding="inset-base">
+        <Area NAME="departments-content-body" padding="inset-base">
           <Box wrap>
             <Item margin="wrap-base">
               <DepartmentCard />
@@ -97,7 +97,7 @@ export class Departments extends Component {
         <Route
           path={`${match.url}/create-department`}
           render={() => (
-            <Container name="departments-create-department">
+            <Container NAME="departments-create-department">
               <CreateDepartment />
             </Container>
           )}
@@ -107,7 +107,7 @@ export class Departments extends Component {
         <Route
           path={`${match.url}/technical-support-group`}
           render={() => (
-            <Container name="departments-department">
+            <Container NAME="departments-department">
               <Department />
             </Container>
           )}

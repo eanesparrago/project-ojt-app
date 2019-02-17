@@ -57,7 +57,7 @@ export class CreateDepartment extends Component {
 
     return (
       <StyledCreateDepartment>
-        <Container name="close">
+        <Container NAME="close">
           <Item>
             <Button
               variant="secondary"
@@ -71,38 +71,38 @@ export class CreateDepartment extends Component {
           </Item>
         </Container>
 
-        <Container name="main">
-          <Area name="header" padding="inset-base">
+        <Container NAME="main">
+          <Area NAME="header" padding="inset-base">
             <Item margin="stack-l">
               <Typography variant="display-1">Create Department</Typography>
             </Item>
 
             <Box margin="stack-base">
-              <Item name="input-name" left margin="inline-base">
+              <Item NAME="input-name" left margin="inline-base">
                 <Typography>Department Name</Typography>
               </Item>
 
-              <Item name="input">
+              <Item NAME="input">
                 <TextInput variant="compact" />
               </Item>
             </Box>
 
             <Box margin="stack-base">
-              <Item name="input-name" left margin="inline-base">
+              <Item NAME="input-name" left margin="inline-base">
                 <Typography>Location</Typography>
               </Item>
 
-              <Item name="input">
+              <Item NAME="input">
                 <TextInput variant="compact" />
               </Item>
             </Box>
 
             <Box margin="stack-l">
-              <Item name="input-name" left margin="inline-base">
+              <Item NAME="input-name" left margin="inline-base">
                 <Typography>Phone Number</Typography>
               </Item>
 
-              <Item name="input">
+              <Item NAME="input">
                 <TextInput variant="compact" />
               </Item>
             </Box>
@@ -114,7 +114,7 @@ export class CreateDepartment extends Component {
         </Container>
 
         <Area
-          name="back"
+          NAME="back"
           onClick={() => {
             history.push("/admin/departments");
           }}

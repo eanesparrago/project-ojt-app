@@ -81,7 +81,7 @@ export class Admin extends Component {
     return (
       <StyledAdmin>
         {/* >>> Header */}
-        <Area name="admin-header" padding="inset-m">
+        <Area NAME="admin-header" padding="inset-m">
           <Item>
             <Typography variant="display-4">SPi OJT App</Typography>
           </Item>
@@ -93,11 +93,11 @@ export class Admin extends Component {
           </Item>
         </Area>
 
-        <Container name="admin-main">
+        <Container NAME="admin-main">
           {/* >>> Sidebar */}
-          <Area name="admin-sidebar">
-            <Container name="admin-profile" padding="inset-base">
-              <Item name="admin-profile-photo" margin="stack-m">
+          <Area NAME="admin-sidebar">
+            <Container NAME="admin-profile" padding="inset-base">
+              <Item NAME="admin-profile-photo" margin="stack-m">
                 <Photo rounded>
                   <img src={profileImage} alt="" />
                 </Photo>
@@ -111,7 +111,7 @@ export class Admin extends Component {
                 <Typography variant="display-4">Administrator</Typography>
               </Item>
 
-              <Item name="admin-divider" />
+              <Item NAME="admin-divider" />
             </Container>
 
             <Box column padding="inset-m">
@@ -193,7 +193,7 @@ export class Admin extends Component {
           </Area>
 
           {/* >>> Content */}
-          <Area name="admin-content">
+          <Area NAME="admin-content">
             <Route
               path={`${match.url}/departments`}
               render={() => <Departments />}
