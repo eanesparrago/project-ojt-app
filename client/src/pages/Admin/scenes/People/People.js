@@ -5,6 +5,7 @@ import { Button, Typography, Photo } from "../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../layout";
 
 import CreatePerson from "./scenes/CreatePerson";
+import PeopleTable from "./components/PeopleTable";
 
 const StyledPeople = styled.div`
   /* border: 1px solid magenta; */
@@ -79,7 +80,7 @@ export class People extends Component {
         </Area>
 
         <Area NAME="people-content-body" padding="inset-base">
-          <Box wrap>{/*  */}</Box>
+          <PeopleTable />
         </Area>
 
         <Route
