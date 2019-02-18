@@ -1,10 +1,24 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import cropLineHeight from "../../utils/cropLineHeight";
 
+const config = css`
+  ${p =>
+    p.bold &&
+    css`
+      font-weight: 700;
+    `}
+`;
+
 const StyledTypography = styled.span`
-  ${cropLineHeight()};
+  ${p =>
+    !p.inline &&
+    css`
+      ${cropLineHeight()};
+    `}
   font-size: ${p => p.theme.font.scale.base};
+
+  ${config};
 `;
 
 const StyledTypographyCaption = styled(StyledTypography)`
@@ -14,7 +28,12 @@ const StyledTypographyCaption = styled(StyledTypography)`
 `;
 
 const StyledTypographyBody = styled(StyledTypography)`
-  ${p => cropLineHeight(p.theme.font.lineHeight)};
+  ${p =>
+    !p.inline &&
+    css`
+      ${cropLineHeight(p.theme.font.lineHeight)};
+    `}
+    
   font-size: ${p => p.theme.font.scale.body};
 `;
 
@@ -28,12 +47,16 @@ const StyledTypographyDisplay3 = styled(StyledTypography)`
 `;
 
 const StyledTypographyDisplay2 = styled(StyledTypography)`
-  ${cropLineHeight()};
   font-size: ${p => p.theme.font.scale.display2};
 `;
 
 const StyledTypographyDisplay1 = styled(StyledTypography)`
-  ${cropLineHeight(1)};
+    ${p =>
+      !p.inline &&
+      css`
+        ${cropLineHeight(1)};
+      `}
+
   font-size: ${p => p.theme.font.scale.display1};
   font-weight: 300;
 `;

@@ -13,7 +13,7 @@ const StyledDepartments = styled.div`
   position: relative;
   display: flex;
   flex-flow: column;
-  max-height: 100%;
+  height: 100%;
 
   .area-departments-content-header {
     background-color: ${p => p.theme.color.white};

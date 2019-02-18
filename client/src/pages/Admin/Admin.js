@@ -18,7 +18,7 @@ const StyledAdmin = styled.div`
   grid-template-columns: auto 1fr;
 
   .area-admin-header {
-    border: 1px solid magenta;
+    /* border: 1px solid magenta; */
     grid-area: header;
     display: flex;
     align-items: center;

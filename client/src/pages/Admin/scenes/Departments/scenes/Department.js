@@ -5,7 +5,7 @@ import { Button, Typography, Photo } from "../../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../../layout";
 
 const StyledDepartment = styled.div`
-  border: 1px solid magenta;
+  /* border: 1px solid magenta; */
   width: 100%;
   height: 100%;
   position: relative;
@@ -23,6 +23,7 @@ const StyledDepartment = styled.div`
     right: var(--size-base);
   }
 
+  /* >>> Header */
   .area-department-header {
     grid-area: header;
     /* background-color: ${p => p.theme.color.grey.light};
@@ -39,6 +40,7 @@ const StyledDepartment = styled.div`
     border-right: 1px solid ${p => p.theme.color.dark};
   }
 
+    /* >>> Announcements */
   .area-department-announcements {
     grid-area: announcements;
     background-color: ${p => p.theme.color.white};
@@ -56,9 +58,21 @@ const StyledDepartment = styled.div`
     overflow: auto;
   }
 
+    /* >>> Activty */
   .area-department-activity {
     grid-area: activity;
     background-color: ${p => p.theme.color.white};
+    display: flex;
+    flex-flow: column;
+  }
+
+  .container-department-activity-header {
+    border-bottom: 1px solid ${p => p.theme.color.dark};
+  }
+
+  .container-department-activity-content {
+    /* padding-top: 0; */
+    overflow: auto;
   }
 
   .area-department-back {
@@ -255,6 +269,44 @@ export class Department extends Component {
               <Typography variant="display-2">Activity</Typography>
             </Item>
           </Container>
+
+          <Container NAME="department-activity-content" padding="inset-base">
+            <Item margin="stack-base">
+              <ActivityItem />
+            </Item>
+
+            <Item margin="stack-base">
+              <ActivityItem />
+            </Item>
+
+            <Item margin="stack-base">
+              <ActivityItem />
+            </Item>
+
+            <Item margin="stack-base">
+              <ActivityItem />
+            </Item>
+
+            <Item margin="stack-base">
+              <ActivityItem />
+            </Item>
+
+            <Item margin="stack-base">
+              <ActivityItem />
+            </Item>
+
+            <Item margin="stack-base">
+              <ActivityItem />
+            </Item>
+
+            <Item margin="stack-base">
+              <ActivityItem />
+            </Item>
+
+            <Item margin="stack-base">
+              <ActivityItem />
+            </Item>
+          </Container>
         </Area>
 
         {/* >>> Back */}
@@ -303,7 +355,7 @@ const UserListItem = () => {
 };
 
 const StyledAnnouncementItem = styled.article`
-  border-bottom: 1px solid ${p => p.theme.color.dark};
+  border-bottom: 1px solid ${p => p.theme.color.primary.light};
 
   .container-announcementItem-header {
     display: flex;
@@ -342,7 +394,7 @@ const AnnouncementItem = () => {
           </Item>
 
           <Item NAME="announcementItem-date">
-            <Typography variant="caption">February 18, 2019</Typography>
+            <Typography variant="caption">February 18, 2019, 12:00 pm</Typography>
           </Item>
         </Container>
       </Container>
@@ -359,5 +411,49 @@ const AnnouncementItem = () => {
         </Typography>
       </Item>
     </StyledAnnouncementItem>
+  );
+};
+
+const StyledActivityItem = styled.article`
+  display: flex;
+  /* border-bottom: 1px solid ${p => p.theme.color.dark}; */
+
+  .container-activityItem-content {
+    padding-top: var(--size-xs);
+  }
+
+  .item-activityItem-photo {
+    width: var(--size-button);
+    height: var(--size-button);
+  }
+`;
+
+const ActivityItem = () => {
+  return (
+    <StyledActivityItem>
+      <Item NAME="activityItem-photo" margin="inline-s">
+        <Button variant="photo" rounded>
+          <img
+            src="https://m.media-amazon.com/images/M/MV5BMTM2NzI3NTU5Nl5BMl5BanBnXkFtZTcwODkxODAwNA@@._V1_UY256_CR9,0,172,256_AL_.jpg"
+            alt=""
+          />
+        </Button>
+      </Item>
+
+      <Container NAME="activityItem-content">
+        <Item margin="stack-s">
+          <Typography  as="p">
+            <Typography bold inline>
+              Steven Universe
+            </Typography>{" "}
+            timed out.
+          </Typography>
+        </Item>
+
+        <Item>
+          <Typography variant="caption">February 18, 2019, 12:00 pm</Typography>
+        </Item>
+      </Container>
+    </StyledActivityItem>
   );
 };
