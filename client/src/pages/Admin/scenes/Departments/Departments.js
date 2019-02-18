@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Route, withRouter, Link } from "react-router-dom";
+import { Spring, Transition, animated } from "react-spring/renderprops";
+import { Route, Switch, withRouter, Link } from "react-router-dom";
 import { Button, Typography, Photo } from "../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../layout";
 
@@ -45,14 +46,24 @@ const StyledDepartments = styled.div`
 
 export class Departments extends Component {
   render() {
-    const { match } = this.props;
+    const { match, location } = this.props;
 
     return (
       <StyledDepartments>
         <Area NAME="departments-content-header" padding="inset-base">
           <Box wrap align="flex-start">
             <Item margin="wrap-base">
-              <Typography variant="display-1">Departments</Typography>
+              <Typography variant="display-1">
+                <Item
+                  inline
+                  center
+                  margin="inline-base"
+                  style={{ width: "3rem" }}
+                >
+                  <i className="fas fa-briefcase" />
+                </Item>
+                Departments
+              </Typography>
             </Item>
 
             <Item margin="wrap-base">
@@ -102,6 +113,29 @@ export class Departments extends Component {
             </Container>
           )}
         />
+
+        {/* <Transition
+          native
+          items={location}
+          keys={location => location.pathname}
+          from={{ opacity: 0 }}
+          enter={{ opacity: 1 }}
+          leave={{ opacity: 0 }}
+        >
+          {show =>
+            show &&
+            (style => (
+              <Route
+                path={`${match.url}/technical-support-group`}
+                render={() => (
+                  <animated.div NAME="departments-department" style={style}>
+                    <Department />
+                  </animated.div>
+                )}
+              />
+            ))
+          }
+        </Transition> */}
 
         {/* >>> Department Modal */}
         <Route

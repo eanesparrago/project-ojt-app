@@ -13,8 +13,8 @@ const StyledDepartment = styled.div`
   grid-template-areas:
     "header announcements activity"
     "people announcements activity"
-    "back back back";
-  grid-template-rows: auto 3fr 1fr;
+    /* "back back back"; */;
+  grid-template-rows: 1fr;
   grid-template-columns: 3fr 2fr 2fr;
  
   .container-department-close {
@@ -26,35 +26,53 @@ const StyledDepartment = styled.div`
   /* >>> Header */
   .area-department-header {
     grid-area: header;
+    background-color: ${p => p.theme.color.white};
+
     /* background-color: ${p => p.theme.color.grey.light};
     border-bottom: 1px solid ${p => p.theme.color.dark}; */
-    background-color: ${p => p.theme.color.white};
-    padding-bottom: ${p => p.theme.size.s};
-    border-right: 1px solid ${p => p.theme.color.dark};
+    /* border-right: 1px solid ${p => p.theme.color.dark}; */
   }
 
+  /* >>> People */
   .area-department-people {
+    /* border: 1px solid magenta; */
     grid-area: people;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     background-color: ${p => p.theme.color.white};
-    border-right: 1px solid ${p => p.theme.color.dark};
+    overflow-y: auto;
+    /* border-right: 1px solid ${p => p.theme.color.dark}; */
+  }
+
+  .container-department-supervisors {
+    /* border: 1px solid magenta; */
+    padding-top: var(--size-s);
+    overflow-y: auto;
+  }
+
+  .container-department-trainees {
+    /* border: 1px solid magenta; */
+    padding-top: var(--size-xs);
+    overflow-y: auto;
+
   }
 
     /* >>> Announcements */
   .area-department-announcements {
     grid-area: announcements;
     background-color: ${p => p.theme.color.white};
-    border-right: 1px solid ${p => p.theme.color.dark};
     display: flex;
     flex-flow: column;
+
+    /* border-right: 1px solid ${p => p.theme.color.dark}; */
   }
 
   .container-department-announcements-header {
-    border-bottom: 1px solid ${p => p.theme.color.dark};
+    /* border-bottom: 1px solid ${p => p.theme.color.dark}; */
   }
 
   .container-department-announcements-content {
-    /* padding-top: 0; */
+    padding-top: var(--size-xs);
     overflow: auto;
   }
 
@@ -67,11 +85,11 @@ const StyledDepartment = styled.div`
   }
 
   .container-department-activity-header {
-    border-bottom: 1px solid ${p => p.theme.color.dark};
+    /* border-bottom: 1px solid ${p => p.theme.color.dark}; */
   }
 
   .container-department-activity-content {
-    /* padding-top: 0; */
+    padding-top: var(--size-xs);
     overflow: auto;
   }
 
@@ -114,15 +132,6 @@ export class Department extends Component {
                 Technical Support Group
               </Typography>
             </Item>
-
-            {/* <Item margin="wrap-base">
-              <Button>
-                <Item margin="inline-s">
-                  <i className="fas fa-plus" />
-                </Item>
-                Add Trainee
-              </Button>
-            </Item> */}
           </Box>
 
           <Item margin="stack-base">
@@ -145,8 +154,8 @@ export class Department extends Component {
         </Area>
 
         {/* >>> People */}
-        <Area NAME="department-people" padding="inset-base">
-          <Container margin="inline-xl">
+        <Area NAME="department-people">
+          <Container NAME="department-supervisors" padding="inset-base">
             <Container margin="stack-l">
               <Box margin="stack-m" align="center">
                 <Item margin="inline-m">
@@ -185,50 +194,39 @@ export class Department extends Component {
               </Box>
 
               <Box column>
-                <Item margin="stack-m">
-                  <UserListItem />
-                </Item>
-
-                <Item margin="stack-m">
-                  <UserListItem />
-                </Item>
+                {Array(15)
+                  .fill(null)
+                  .map(item => (
+                    <Item margin="stack-m">
+                      <UserListItem />
+                    </Item>
+                  ))}
               </Box>
             </Container>
           </Container>
 
-          <Container>
+          {/* >>> Trainees */}
+          <Container NAME="department-trainees" padding="inset-base">
             <Box margin="stack-m" align="center">
               <Item margin="inline-m">
                 <Typography variant="display-2">Trainees</Typography>
               </Item>
 
               <Item>
-                <Button icon rounded>
+                <Button variant="primary" icon rounded>
                   <i className="fas fa-plus" />
                 </Button>
               </Item>
             </Box>
 
             <Box column>
-              <Item margin="stack-m">
-                <UserListItem />
-              </Item>
-
-              <Item margin="stack-m">
-                <UserListItem />
-              </Item>
-
-              <Item margin="stack-m">
-                <UserListItem />
-              </Item>
-
-              <Item margin="stack-m">
-                <UserListItem />
-              </Item>
-
-              <Item margin="stack-m">
-                <UserListItem />
-              </Item>
+              {Array(10)
+                .fill(null)
+                .map(item => (
+                  <Item margin="stack-m">
+                    <UserListItem />
+                  </Item>
+                ))}
             </Box>
           </Container>
         </Area>
@@ -239,73 +237,57 @@ export class Department extends Component {
             NAME="department-announcements-header"
             padding="inset-base"
           >
-            <Item>
-              <Typography variant="display-2">Announcements</Typography>
-            </Item>
+            <Box align="center">
+              <Item margin="inline-base">
+                <Typography variant="display-2">Announcements</Typography>
+              </Item>
+
+              <Item>
+                <Button variant="primary" variant="primary" icon rounded>
+                  <i className="fas fa-plus" />
+                </Button>
+              </Item>
+            </Box>
           </Container>
 
           <Container
             NAME="department-announcements-content"
             padding="inset-base"
           >
-            <Item margin="stack-base">
-              <AnnouncementItem />
-            </Item>
-
-            <Item margin="stack-base">
-              <AnnouncementItem />
-            </Item>
-
-            <Item margin="stack-base">
-              <AnnouncementItem />
-            </Item>
+            {Array(3)
+              .fill(null)
+              .map(item => (
+                <Item margin="stack-base">
+                  <AnnouncementItem />
+                </Item>
+              ))}
           </Container>
         </Area>
 
         {/* >>> Activity */}
         <Area NAME="department-activity">
           <Container NAME="department-activity-header" padding="inset-base">
-            <Item>
-              <Typography variant="display-2">Activity</Typography>
-            </Item>
+            <Box align="center">
+              <Item margin="inline-base">
+                <Typography variant="display-2">Activity</Typography>
+              </Item>
+
+              <Item style={{ visibility: "hidden" }}>
+                <Button variant="primary" variant="primary" icon rounded>
+                  <i className="fas fa-plus" />
+                </Button>
+              </Item>
+            </Box>
           </Container>
 
           <Container NAME="department-activity-content" padding="inset-base">
-            <Item margin="stack-base">
-              <ActivityItem />
-            </Item>
-
-            <Item margin="stack-base">
-              <ActivityItem />
-            </Item>
-
-            <Item margin="stack-base">
-              <ActivityItem />
-            </Item>
-
-            <Item margin="stack-base">
-              <ActivityItem />
-            </Item>
-
-            <Item margin="stack-base">
-              <ActivityItem />
-            </Item>
-
-            <Item margin="stack-base">
-              <ActivityItem />
-            </Item>
-
-            <Item margin="stack-base">
-              <ActivityItem />
-            </Item>
-
-            <Item margin="stack-base">
-              <ActivityItem />
-            </Item>
-
-            <Item margin="stack-base">
-              <ActivityItem />
-            </Item>
+            {Array(5)
+              .fill(null)
+              .map(item => (
+                <Item margin="stack-l">
+                  <ActivityItem />
+                </Item>
+              ))}
           </Container>
         </Area>
 
@@ -338,7 +320,7 @@ const StyledUserListItem = styled.div`
 const UserListItem = () => {
   return (
     <StyledUserListItem>
-      <Item NAME="photo" margin="inline-m">
+      <Item NAME="photo" margin="inline-s">
         <Photo rounded>
           <img
             src="https://images-na.ssl-images-amazon.com/images/M/MV5BNWRmYWVlNmQtNTRiOS00YjBjLWE0MDAtNWYwZGVkMjgwY2M0XkEyXkFqcGdeQXVyMTgwMTYzNQ@@._V1_UY256_CR106,0,172,256_AL_.jpg"
@@ -348,7 +330,7 @@ const UserListItem = () => {
       </Item>
 
       <Item>
-        <Typography variant="body">Steven Universe</Typography>
+        <Typography variant="normal">Steven Universe</Typography>
       </Item>
     </StyledUserListItem>
   );
@@ -394,7 +376,9 @@ const AnnouncementItem = () => {
           </Item>
 
           <Item NAME="announcementItem-date">
-            <Typography variant="caption">February 18, 2019, 12:00 pm</Typography>
+            <Typography variant="caption">
+              February 18, 2019, 12:00 pm
+            </Typography>
           </Item>
         </Container>
       </Container>
@@ -442,7 +426,7 @@ const ActivityItem = () => {
 
       <Container NAME="activityItem-content">
         <Item margin="stack-s">
-          <Typography  as="p">
+          <Typography as="p">
             <Typography bold inline>
               Steven Universe
             </Typography>{" "}

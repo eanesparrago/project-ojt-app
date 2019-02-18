@@ -37,6 +37,16 @@ const StyledTypographyBody = styled(StyledTypography)`
   font-size: ${p => p.theme.font.scale.body};
 `;
 
+const StyledTypographyNormal= styled(StyledTypography)`
+  ${p =>
+    !p.inline &&
+    css`
+      ${cropLineHeight()};
+    `}
+    
+  font-size: ${p => p.theme.font.scale.body};
+`;
+
 const StyledTypographyDisplay4 = styled(StyledTypography)`
   font-size: ${p => p.theme.font.scale.display4};
   font-weight: 700;
@@ -70,6 +80,20 @@ export class Typography extends Component {
     const { variant } = this.props;
 
     switch (variant) {
+      case "base":
+        return (
+          <StyledTypography {...this.props}>
+            {this.props.children}
+          </StyledTypography>
+        );
+
+      case "normal":
+        return (
+          <StyledTypographyNormal {...this.props}>
+            {this.props.children}
+          </StyledTypographyNormal>
+        );
+
       case "body":
         return (
           <StyledTypographyBody {...this.props}>
