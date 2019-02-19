@@ -6,7 +6,7 @@ export default {
     desktopM: "75rem", // >>> 1200px
     desktopL: "93.75rem", // >>> 1500px
     desktopXL: "112.5rem", // >>> 1800px
-    desktopXXL: "125*16rem" // >>> 2000px
+    desktopXXL: "125rem" // >>> 2000px
   },
   font: {
     sansSerif: "Roboto, sans-serif",

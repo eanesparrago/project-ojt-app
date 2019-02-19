@@ -24,7 +24,7 @@ const StyledPeople = styled.div`
     /* border: 1px solid blue; */
     overflow: auto;
     width: 100%;
-    max-height: 100%;
+    height: 100%;
   }
 
   .container-people-create-person {
@@ -78,7 +78,8 @@ export class People extends Component {
             </Item>
           </Box>
         </Area>
-
+        
+        {/* >>> Content body */}
         <Area NAME="people-content-body" padding="inset-base">
           <PeopleTable />
         </Area>
