@@ -45,6 +45,14 @@ const StyledDepartments = styled.div`
 `;
 
 export class Departments extends Component {
+  state = {
+    isModalOpen: false
+  };
+
+  handleModalToggle = () => {
+    this.setState({ isModalOpen: !this.state.isModalOpen });
+  };
+
   render() {
     const { match, location } = this.props;
 
@@ -105,47 +113,72 @@ export class Departments extends Component {
           </Box>
         </Area>
 
-        <Route
+        {/* >>> Create Department Modal */}
+        {/* <Route
           path={`${match.url}/create-department`}
           render={() => (
             <Container NAME="departments-create-department">
               <CreateDepartment />
             </Container>
           )}
-        />
+        /> */}
 
-        {/* <Transition
+        <Transition
           native
           items={location}
-          keys={location => location.pathname}
-          from={{ opacity: 0 }}
-          enter={{ opacity: 1 }}
-          leave={{ opacity: 0 }}
+          keys={location.pathname}
+          from={{ transform: "translateX(-100%)" }}
+          enter={{ transform: "translateX(0%)" }}
+          leave={{ transform: "translateX(-100%)" }}
         >
-          {show =>
-            show &&
-            (style => (
+          {loc => style => (
+            <Switch location={loc}>
               <Route
-                path={`${match.url}/technical-support-group`}
+                path={`${match.url}/create-department`}
                 render={() => (
-                  <animated.div NAME="departments-department" style={style}>
-                    <Department />
-                  </animated.div>
+                  <Container
+                    NAME="departments-create-department"
+                    animate={style}
+                  >
+                    <CreateDepartment />
+                  </Container>
                 )}
               />
-            ))
-          }
-        </Transition> */}
+            </Switch>
+          )}
+        </Transition>
 
         {/* >>> Department Modal */}
-        <Route
+        {/* <Route
           path={`${match.url}/technical-support-group`}
           render={() => (
             <Container NAME="departments-department">
               <Department />
             </Container>
           )}
-        />
+        /> */}
+
+        <Transition
+          native
+          items={location}
+          keys={location.pathname}
+          from={{ transform: "translateY(100%)" }}
+          enter={{ transform: "translateY(0%)" }}
+          leave={{ transform: "translateY(100%)" }}
+        >
+          {loc => style => (
+            <Switch location={loc}>
+              <Route
+                path={`${match.url}/technical-support-group`}
+                render={() => (
+                  <Container NAME="departments-department" animate={style}>
+                    <Department />
+                  </Container>
+                )}
+              />
+            </Switch>
+          )}
+        </Transition>
       </StyledDepartments>
     );
   }

@@ -42,7 +42,6 @@ const StyledCreatePerson = styled.div`
 
   .area-createPerson-back {
     grid-area: back;
-    background-color: ${p => p.theme.color.primary.dark};
     background-image: linear-gradient(
       to top right,
       ${p => p.theme.color.primary.dark},

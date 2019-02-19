@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { Spring } from "react-spring/renderprops";
 import { Link, withRouter } from "react-router-dom";
 import { Button, Typography, Photo } from "../../../../../components/elements";
 import { TextInput } from "../../../../../components/compounds";
@@ -16,6 +17,10 @@ const StyledCreateDepartment = styled.div`
     "body back";
   grid-template-rows: auto 3fr;
   grid-template-columns: 3fr 1fr;
+
+  > * {
+    z-index: 100;
+  }
 
   .area-createDepartment-header {
     background-color: ${p => p.theme.color.grey.light};
@@ -35,8 +40,14 @@ const StyledCreateDepartment = styled.div`
 
   .area-back {
     grid-area: back;
-    background-color: ${p => p.theme.color.primary.dark};
+    grid-column: 1 / -1;
+    background-image: linear-gradient(
+      to top right,
+      ${p => p.theme.color.primary.dark},
+      ${p => p.theme.color.primary.main}
+    );
     opacity: 0.8;
+    z-index: 99;
   }
 
   .item-icon {
@@ -62,61 +73,87 @@ export class CreateDepartment extends Component {
 
     return (
       <StyledCreateDepartment>
-        <Area NAME="createDepartment-header" padding="inset-base">
-          <Item>
-            <Typography variant="display-1">Create Department</Typography>
-          </Item>
+        <Spring
+          delay={100}
+          native
+          from={{ transform: "translateX(-100%)" }}
+          to={{ transform: "translateX(0%)" }}
+        >
+          {style => (
+            <Area
+              NAME="createDepartment-header"
+              padding="inset-base"
+              animate={style}
+            >
+              <Item>
+                <Typography variant="display-1">Create Department</Typography>
+              </Item>
 
-          <Container NAME="close">
-            <Item>
-              <Button
-                variant="secondary"
-                icon
-                rounded
-                as={Link}
-                to="/admin/departments"
-              >
-                <i className="fas fa-times" />
-              </Button>
-            </Item>
-          </Container>
-        </Area>
+              <Container NAME="close">
+                <Item>
+                  <Button
+                    variant="secondary"
+                    icon
+                    rounded
+                    as={Link}
+                    to="/admin/departments"
+                  >
+                    <i className="fas fa-times" />
+                  </Button>
+                </Item>
+              </Container>
+            </Area>
+          )}
+        </Spring>
 
-        <Area NAME="createDepartment-body" padding="inset-base">
-          <Box margin="stack-base">
-            <Item NAME="input-name" left margin="inline-base">
-              <Typography>Department Name</Typography>
-            </Item>
+        <Spring
+          delay={100}
+          native
+          from={{ transform: "translateX(-100%)" }}
+          to={{ transform: "translateX(0%)" }}
+        >
+          {style => (
+            <Area
+              NAME="createDepartment-body"
+              padding="inset-base"
+              animate={style}
+            >
+              <Box margin="stack-base">
+                <Item NAME="input-name" left margin="inline-base">
+                  <Typography>Department Name</Typography>
+                </Item>
 
-            <Item NAME="input">
-              <TextInput variant="compact" />
-            </Item>
-          </Box>
+                <Item NAME="input">
+                  <TextInput variant="compact" />
+                </Item>
+              </Box>
 
-          <Box margin="stack-base">
-            <Item NAME="input-name" left margin="inline-base">
-              <Typography>Location</Typography>
-            </Item>
+              <Box margin="stack-base">
+                <Item NAME="input-name" left margin="inline-base">
+                  <Typography>Location</Typography>
+                </Item>
 
-            <Item NAME="input">
-              <TextInput variant="compact" />
-            </Item>
-          </Box>
+                <Item NAME="input">
+                  <TextInput variant="compact" />
+                </Item>
+              </Box>
 
-          <Box margin="stack-l">
-            <Item NAME="input-name" left margin="inline-base">
-              <Typography>Phone Number</Typography>
-            </Item>
+              <Box margin="stack-l">
+                <Item NAME="input-name" left margin="inline-base">
+                  <Typography>Phone Number</Typography>
+                </Item>
 
-            <Item NAME="input">
-              <TextInput variant="compact" />
-            </Item>
-          </Box>
+                <Item NAME="input">
+                  <TextInput variant="compact" />
+                </Item>
+              </Box>
 
-          <Item>
-            <Button variant="primary">Create Department</Button>
-          </Item>
-        </Area>
+              <Item>
+                <Button variant="primary">Create Department</Button>
+              </Item>
+            </Area>
+          )}
+        </Spring>
 
         <Area
           NAME="back"
