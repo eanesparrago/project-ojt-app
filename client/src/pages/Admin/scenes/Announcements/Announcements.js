@@ -8,6 +8,8 @@ import { Item, Box, Container, Area } from "../../../../layout";
 import CreateAnnouncement from "./scenes/CreateAnnouncement";
 import AnnouncementTable from "./components/AnnouncementTable";
 
+import { PersonModal } from "src/pages/Admin/components";
+
 const StyledAnnouncements = styled.div`
   /* border: 1px solid magenta; */
   position: relative;
@@ -28,7 +30,7 @@ const StyledAnnouncements = styled.div`
     max-height: 100%;
   }
 
-  .container-announcements-create-department {
+  .container-announcements-create-announcement {
     position: absolute;
     top: 0;
     left: 0;
@@ -36,7 +38,7 @@ const StyledAnnouncements = styled.div`
     height: 100%;
   }
 
-  .container-announcements-department {
+  .container-announcements-person {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -97,7 +99,7 @@ export class Announcements extends Component {
                 path={`${match.url}/create-announcement`}
                 render={() => (
                   <Container
-                    NAME="announcements-create-department"
+                    NAME="announcements-create-announcement"
                     animate={style}
                   >
                     <CreateAnnouncement />
@@ -108,22 +110,27 @@ export class Announcements extends Component {
           )}
         </Transition>
 
-        {/* >>> Department Modal */}
+        {/* >>> announcements Modal */}
 
         <Transition
           native
           items={location}
-          keys={location.pathname}
-          from={{ transform: "translateY(100%)" }}
-          enter={{ transform: "translateY(0%)" }}
-          leave={{ transform: "translateY(100%)" }}
+          keys={location.pathname
+            .split("/")
+            .slice(2, 4)
+            .join("/")}
+          from={{ transform: "translateX(-100%)" }}
+          enter={{ transform: "translateX(0%)" }}
+          leave={{ transform: "translateX(-100%)" }}
         >
           {loc => style => (
             <Switch location={loc}>
               <Route
-                path={`${match.url}/technical-support-group`}
+                path={`${match.url}/person/:id`}
                 render={() => (
-                  <Container NAME="announcements-department" animate={style} />
+                  <Container NAME="announcements-person" animate={style}>
+                    <PersonModal />
+                  </Container>
                 )}
               />
             </Switch>

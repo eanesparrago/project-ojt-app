@@ -27,6 +27,11 @@ const StyledPerson = styled.div`
     z-index: 100;
   }
 
+  @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+
   .area-person-header {
     grid-area: header;
     background-color: ${p => p.theme.color.grey.light};
@@ -44,6 +49,10 @@ const StyledPerson = styled.div`
     grid-area: body;
     background-color: ${p => p.theme.color.white};
     overflow-y: auto;
+
+    @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
+      overflow-y: unset;
+    }
   }
 
   .area-person-back {
@@ -56,6 +65,10 @@ const StyledPerson = styled.div`
     );
     opacity: 0.8;
     z-index: 99;
+
+    @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
+      display: none;
+    }
   }
 
   .item-personInformation-divider {

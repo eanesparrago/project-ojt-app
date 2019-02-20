@@ -18,6 +18,7 @@ const StyledAnnouncementTable = styled.div`
     /* border: 1px solid magenta; */
     display: flex;
     align-items: center;
+    flex-shrink: 0;
   }
 
   .area-announcementTable-body {
@@ -28,7 +29,7 @@ const StyledAnnouncementTable = styled.div`
   }
 
   .container-announcementTable-table-head {
-  }
+   }
 
   .container-announcementTable-table-body {
     /* border: 1px solid magenta; */
@@ -81,9 +82,11 @@ const StyledAnnouncementTable = styled.div`
 
 export class AnnouncementTable extends Component {
   render() {
+    const { match } = this.props;
+
     return (
       <StyledAnnouncementTable>
-        <Area NAME="announcementTable-header" margin="stack-base">
+        <Area NAME="announcementTable-header" margin="stack-m">
           <Item margin="inline-base">
             <SelectInput />
           </Item>
@@ -130,7 +133,7 @@ export class AnnouncementTable extends Component {
                       <Item
                         NAME="announcementTable-username"
                         as={Link}
-                        to="/admin/people/person"
+                        to={`${match.url}/person/123`}
                       >
                         <Typography variant="base">usteven</Typography>
                       </Item>
@@ -159,4 +162,4 @@ export class AnnouncementTable extends Component {
   }
 }
 
-export default AnnouncementTable;
+export default withRouter(AnnouncementTable);

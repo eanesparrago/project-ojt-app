@@ -12,10 +12,22 @@ const StyledDepartment = styled.div`
   display: grid;
   grid-template-areas:
     "header announcements activity"
-    "people announcements activity"
-    /* "back back back"; */;
+    "people announcements activity";
   grid-template-rows: 1fr;
   grid-template-columns: 3fr 2fr 2fr;
+
+  @media (max-width: ${p => p.theme.breakpoint.desktopL}){
+    grid-template-areas:
+    "header announcements announcements"
+    "people announcements announcements"
+    "people announcements announcements"
+    "people activity activity"
+    "people activity activity"
+    "people activity activity";
+
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
  
   .container-department-close {
     position: absolute;

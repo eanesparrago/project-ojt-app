@@ -9,7 +9,7 @@ import DepartmentCard from "./components/DepartmentCard";
 import Department from "./scenes/Department";
 import CreateDepartment from "./scenes/CreateDepartment";
 
-import PersonModal from "src/pages/Admin/components/PersonModal/PersonModal";
+import { PersonModal } from "src/pages/Admin/components";
 
 const StyledDepartments = styled.div`
   /* border: 1px solid magenta; */
@@ -49,6 +49,10 @@ const StyledDepartments = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
+    
+    @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
+      overflow-y: auto;
+    }
   }
 `;
 

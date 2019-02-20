@@ -11,8 +11,6 @@ import Departments from "./scenes/Departments/Departments";
 import People from "./scenes/People/People";
 import Announcements from "./scenes/Announcements/Announcements";
 
-import PersonModal from "./components/PersonModal/PersonModal";
-
 import { togglePersonModal, closePersonModal } from "./adminActionCreators";
 
 const StyledAdmin = styled.div`
@@ -24,6 +22,10 @@ const StyledAdmin = styled.div`
     "sidebar main";
   grid-template-rows: auto 1fr;
   grid-template-columns: auto 1fr;
+
+  @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
+    grid-template-columns: 1fr;
+  }
 
   .area-admin-header {
     /* border: 1px solid magenta; */
@@ -42,6 +44,10 @@ const StyledAdmin = styled.div`
     background-color: ${p => p.theme.color.white};
     border-right: 1px solid ${p => p.theme.color.dark};
     overflow: auto;
+
+    @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
+      display: none;
+    }
   }
 
   .area-admin-main {
@@ -76,12 +82,6 @@ const StyledAdmin = styled.div`
 
   .container-admin-modal {
     border: 1px solid magenta;
-  }
-
-  .container-admin-person-modal {
-    position: absolute;
-    width: 100%;
-    height: 100%;
   }
 `;
 
