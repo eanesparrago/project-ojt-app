@@ -22,7 +22,7 @@ const StyledRadioInput = styled.div`
 
 export class RadioInput extends Component {
   render() {
-    const { options, onChange } = this.props;
+    const { options, name, onChange } = this.props;
 
     return (
       <StyledRadioInput>
@@ -31,7 +31,7 @@ export class RadioInput extends Component {
             <Item margin="inline-s">
               <input
                 type="radio"
-                name={option.name}
+                name={name}
                 value={option.value}
                 id={option.id}
                 onChange={onChange}
@@ -51,31 +51,28 @@ export class RadioInput extends Component {
 
   static propTypes = {
     options: PropTypes.arrayOf(PropTypes.object).isRequired,
-    handleChange: PropTypes.func
+    onChange: PropTypes.func
   };
 
   static defaultProps = {
     options: [
       {
-        name: "options",
         value: "alpha",
         label: "Alpha",
         id: "option-1"
       },
       {
-        name: "options",
         value: "beta",
         label: "Beta",
         id: "option-2"
       },
       {
-        name: "options",
         value: "charlie",
         label: "Charlie",
         id: "option-3"
       }
     ],
-    handleChange: e => {
+    onChange: e => {
       console.log("Clicked", e.target.value);
     }
   };

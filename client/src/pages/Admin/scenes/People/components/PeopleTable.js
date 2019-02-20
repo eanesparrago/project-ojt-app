@@ -24,23 +24,36 @@ const StyledPeopleTable = styled.div`
     /* border: 1px solid magenta; */
     flex-grow: 1;
     width: 100%;
+    overflow: auto;
   }
 
   .container-peopleTable-table-head {
-    /* width: 100%; */
+  }
+
+  .container-peopleTable-table-body {
+    /* border: 1px solid magenta; */
+ 
   }
 
   .container-peopleTable-table-head-row {
-    background-color: ${p => p.theme.color.primary.light};
-    /* width: 100%; */
-  }
+    /* background-color: ${p => p.theme.color.grey.light}; */
+    color: ${p => p.theme.color.primary.main};
+    border-bottom: 1px solid ${p => p.theme.color.primary.light};
+   }
 
   .container-peopleTable-table-body-row {
-    /* width: 100%; */
+    border-bottom: 1px solid ${p => p.theme.color.primary.light};
   }
 
   .item-peopleTable-filter {
-    /* margin-left: auto; */
+  }
+
+  .item-peopleTable-username {
+    color: ${p => p.theme.color.primary.main};
+
+    &:hover {
+      color: ${p => p.theme.color.primary.dark};
+    }
   }
 
   td,
@@ -50,6 +63,7 @@ const StyledPeopleTable = styled.div`
 
   table {
     display: table;
+    width: 100%;
   }
 
   thead {
@@ -88,32 +102,80 @@ export class PeopleTable extends Component {
           </Item>
         </Area>
 
-        <Area NAME="peopleTable-body" as="table">
-          <Container NAME="peopleTable-table-head" as="thead">
-            <Container NAME="peopleTable-table-head-row" as="tr">
-              <Item as="th">TH 1</Item>
-
-              <Item as="th">TH 2</Item>
-
-              <Item as="th">TH 3</Item>
+        <Area NAME="peopleTable-body">
+          <Container as="table">
+            <Container NAME="peopleTable-table-head" as="thead">
+              <Container NAME="peopleTable-table-head-row" as="tr">
+                <Item as="th" padding="squish-l">
+                  <Typography variant="base">Username</Typography>
+                </Item>
+                <Item as="th" padding="squish-l">
+                  <Typography variant="base">Role</Typography>
+                </Item>
+                <Item as="th" padding="squish-l">
+                  <Typography variant="base">First Name</Typography>
+                </Item>
+                <Item as="th" padding="squish-l">
+                  <Typography variant="base">Last Name</Typography>
+                </Item>
+                <Item as="th" padding="squish-l">
+                  <Typography variant="base">Department</Typography>
+                </Item>
+                <Item as="th" padding="squish-l">
+                  <Typography variant="base">Required Hours</Typography>
+                </Item>
+                <Item as="th" padding="squish-l">
+                  <Typography variant="base">Remaining Hours</Typography>
+                </Item>
+                <Item as="th" padding="squish-l">
+                  <Typography variant="base">Account Status</Typography>
+                </Item>
+                <Item as="th" padding="squish-l">
+                  <Typography variant="base">Training Status</Typography>
+                </Item>
+              </Container>
             </Container>
-          </Container>
 
-          <Container as="tbody">
-            <Container NAME="peopleTable-table-body-row" as="tr">
-              <Item as="td">TD 1</Item>
-              <Item as="td">TD 1</Item>
-              <Item as="td">TD 1</Item>
-            </Container>
-            <Container NAME="peopleTable-table-body-row" as="tr">
-              <Item as="td">TD 2</Item>
-              <Item as="td">TD 2</Item>
-              <Item as="td">TD 2</Item>
-            </Container>
-            <Container NAME="peopleTable-table-body-row" as="tr">
-              <Item as="td">TD 3</Item>
-              <Item as="td">TD 3</Item>
-              <Item as="td">TD 3</Item>
+            <Container NAME="peopleTable-table-body" as="tbody">
+              {Array(20)
+                .fill(null)
+                .map((item, i) => (
+                  <Container NAME="peopleTable-table-body-row" as="tr" key={i}>
+                    <Item padding="squish-l" as="td">
+                      <Item
+                        NAME="peopleTable-username"
+                        as={Link}
+                        to="/admin/people/person"
+                      >
+                        <Typography variant="base">usteven</Typography>
+                      </Item>
+                    </Item>
+                    <Item as="td" padding="squish-l">
+                      <Typography variant="base">Administrator</Typography>
+                    </Item>
+                    <Item as="td" padding="squish-l">
+                      <Typography variant="base">Steven</Typography>
+                    </Item>
+                    <Item as="td" padding="squish-l">
+                      <Typography variant="base">Universe</Typography>
+                    </Item>
+                    <Item as="td" padding="squish-l">
+                      <Typography variant="base">Administrator</Typography>
+                    </Item>
+                    <Item as="td" padding="squish-l">
+                      <Typography variant="base">486</Typography>
+                    </Item>
+                    <Item as="td" padding="squish-l">
+                      <Typography variant="base">30</Typography>
+                    </Item>
+                    <Item as="td" padding="squish-l">
+                      <Typography variant="base">Active</Typography>
+                    </Item>
+                    <Item as="td" padding="squish-l">
+                      <Typography variant="base">Away</Typography>
+                    </Item>
+                  </Container>
+                ))}
             </Container>
           </Container>
         </Area>

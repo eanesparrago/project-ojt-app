@@ -28,6 +28,9 @@ const spacingProperties = ({
   // >>> Padding — Squish: s, m, l
   const squishS = `${size.xs} ${size.s} ${size.xs} ${size.s}`;
   const squishM = `${size.s} ${size.m} ${size.s} ${size.m}`;
+  const squishBase = `${size.baseHalf} ${size.base} ${size.baseHalf} ${
+    size.base
+  }`;
   const squishL = `${size.m} ${size.l} ${size.m} ${size.l}`;
 
   // >>> Padding — Stretch: s, m
@@ -104,6 +107,7 @@ const spacingProperties = ({
       (padding === "inset-xl" && insetXl) ||
       (padding === "squish-s" && squishS) ||
       (padding === "squish-m" && squishM) ||
+      (padding === "squish-base" && squishBase) ||
       (padding === "squish-l" && squishL) ||
       (padding === "stretch-s" && stretchS) ||
       (padding === "stretch-m" && stretchM)};

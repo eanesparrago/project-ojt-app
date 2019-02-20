@@ -56,7 +56,8 @@ export default {
     m: "1rem", // >>> 16
     l: "2rem", // >>> 32
     xl: "4rem", // >>> 64
-    base: "1.5rem" // >>> 24px/3em for desktop, 16px/1em for mobile,
+    base: "1.5rem", // >>> 24px/3em for desktop, 16px/1em for mobile,
+    baseHalf: "0.75rem" // >>> 24px/3em for desktop, 16px/1em for mobile,
   },
   sizeMobile: {
     xs: "0.17rem", //

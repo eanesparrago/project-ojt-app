@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Route, withRouter, Link } from "react-router-dom";
-import { Button, Typography, Photo } from "../../../../components/elements";
+import { Transition } from "react-spring/renderprops";
+import { Route, Switch, withRouter, Link } from "react-router-dom";
+import { Button, Typography } from "../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../layout";
 
 import CreatePerson from "./scenes/CreatePerson";
+import Person from "./scenes/Person";
 import PeopleTable from "./components/PeopleTable";
 
 const StyledPeople = styled.div`
@@ -44,7 +46,10 @@ const StyledPeople = styled.div`
 
 export class People extends Component {
   render() {
-    const { match } = this.props;
+    const { match, location } = this.props;
+
+    console.log("location",location.pathname);
+    console.log("split",location.pathname.split('/').slice(2, 4).join('/'));
 
     return (
       <StyledPeople>
@@ -78,29 +83,55 @@ export class People extends Component {
             </Item>
           </Box>
         </Area>
-        
+
         {/* >>> Content body */}
         <Area NAME="people-content-body" padding="inset-base">
           <PeopleTable />
         </Area>
 
-        <Route
-          path={`${match.url}/create-person`}
-          render={() => (
-            <Container NAME="people-create-person">
-              <CreatePerson />
-            </Container>
+        <Transition
+          native
+          items={location}
+          keys={location.pathname.split('/').slice(2, 4).join('/')}
+          from={{ transform: "translateX(-100%)" }}
+          enter={{ transform: "translateX(0%)" }}
+          leave={{ transform: "translateX(-100%)" }}
+        >
+          {loc => style => (
+            <Switch location={loc}>
+              <Route
+                path={`${match.url}/create-person`}
+                render={() => (
+                  <Container NAME="people-create-person" animate={style}>
+                    <CreatePerson />
+                  </Container>
+                )}
+              />
+            </Switch>
           )}
-        />
+        </Transition>
 
-        {/* <Route
-          path={`${match.url}/technical-support-group`}
-          render={() => (
-            <Container NAME="people-person">
-              <Department />
-            </Container>
-        />
-          )} */}
+        <Transition
+          native
+          items={location}
+          keys={location.pathname.split('/').slice(2, 4).join('/')}
+          from={{ transform: "translateX(-100%)" }}
+          enter={{ transform: "translateX(0%)" }}
+          leave={{ transform: "translateX(-100%)" }}
+        >
+          {loc => style => (
+            <Switch location={loc}>
+              <Route
+                path={`${match.url}/person`}
+                render={() => (
+                  <Container NAME="people-person" animate={style}>
+                    <Person />
+                  </Container>
+                )}
+              />
+            </Switch>
+          )}
+        </Transition>
       </StyledPeople>
     );
   }

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Spring, Transition, animated } from "react-spring/renderprops";
+import { Transition } from "react-spring/renderprops";
 import { Route, Switch, withRouter, Link } from "react-router-dom";
-import { Button, Typography, Photo } from "../../../../components/elements";
+import { Button, Typography } from "../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../layout";
 
 import DepartmentCard from "./components/DepartmentCard";
@@ -114,15 +114,6 @@ export class Departments extends Component {
         </Area>
 
         {/* >>> Create Department Modal */}
-        {/* <Route
-          path={`${match.url}/create-department`}
-          render={() => (
-            <Container NAME="departments-create-department">
-              <CreateDepartment />
-            </Container>
-          )}
-        /> */}
-
         <Transition
           native
           items={location}
@@ -149,14 +140,6 @@ export class Departments extends Component {
         </Transition>
 
         {/* >>> Department Modal */}
-        {/* <Route
-          path={`${match.url}/technical-support-group`}
-          render={() => (
-            <Container NAME="departments-department">
-              <Department />
-            </Container>
-          )}
-        /> */}
 
         <Transition
           native
