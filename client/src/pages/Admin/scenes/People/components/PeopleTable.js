@@ -133,6 +133,9 @@ export class PeopleTable extends Component {
                 <Item as="th" padding="squish-l">
                   <Typography variant="base">Training Status</Typography>
                 </Item>
+                <Item as="th" padding="squish-l">
+                  <Typography variant="base">Date Started</Typography>
+                </Item>
               </Container>
             </Container>
 
@@ -173,6 +176,9 @@ export class PeopleTable extends Component {
                     </Item>
                     <Item as="td" padding="squish-l">
                       <Typography variant="base">Away</Typography>
+                    </Item>
+                    <Item as="td" padding="squish-l">
+                      <Typography variant="base">2019-02-20</Typography>
                     </Item>
                   </Container>
                 ))}

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Link, withRouter } from "react-router-dom";
+import { Route, Link, Switch, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { Button, Typography, Photo } from "../../components/elements";
 import { Item, Box, Container, Area } from "../../layout";
@@ -7,6 +7,7 @@ import profileImage from "./profile.png";
 
 import Departments from "./scenes/Departments/Departments";
 import People from "./scenes/People/People";
+import Announcements from "./scenes/Announcements/Announcements";
 
 const StyledAdmin = styled.div`
   width: 100%;
@@ -186,15 +187,19 @@ export class Admin extends Component {
 
         {/* >>> Main */}
         <Area NAME="admin-main">
-          <Route
-            path={`${match.url}/departments`}
-            render={() => <Departments />}
-          />
+          <Switch>
+            <Route
+              path={`${match.url}/departments`}
+              render={() => <Departments />}
+            />
 
-          <Route
-            path={`${match.url}/people`}
-            render={() => <People />}
-          />
+            <Route path={`${match.url}/people`} render={() => <People />} />
+
+            <Route
+              path={`${match.url}/announcements`}
+              render={() => <Announcements />}
+            />
+          </Switch>
         </Area>
       </StyledAdmin>
     );
