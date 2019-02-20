@@ -12,10 +12,6 @@ import roleInputOptions from "./roleInputOptions";
 const PersonInformation = () => {
   return (
     <Fragment>
-      <Item margin="stack-l">
-        <Typography variant="display-2">Person Information</Typography>
-      </Item>
-
       <Box margin="stack-l">
         <Item NAME="personInformation-property" margin="inline-s">
           <Typography variant="display-4">Role:</Typography>
@@ -95,16 +91,20 @@ const PersonInformation = () => {
           value: "Steven"
         },
         {
+          property: "Gender",
+          value: "Male"
+        },
+        {
+          property: "Date of Birth",
+          value: "February 20, 2019 "
+        },
+        {
           property: "Address",
           value: "8514 Hall Drive, Egg Harbor Township, NJ 08234"
         },
         {
           property: "Contact Number",
           value: "01234567890"
-        },
-        {
-          property: "Date of Birth",
-          value: "February 20, 2019 "
         },
         {
           property: "School",
@@ -153,9 +153,10 @@ class PersonEdit extends Component {
       middleName: "",
       lastName: "",
       nickname: "",
+      gender: "",
+      dateOfBirth: "",
       address: "",
       contactNumber: "",
-      dateOfBirth: "",
       school: "",
       adviserName: "",
       adviserContactNumber: "",
@@ -243,7 +244,7 @@ class PersonEdit extends Component {
 
             <Item NAME="personEdit-divider" margin="stack-base" />
 
-            {/* >>> Account Information */}
+            {/* >>> Account details */}
             <Item margin="stack-base">
               <Typography variant="display-3">Account Information</Typography>
             </Item>
@@ -287,7 +288,7 @@ class PersonEdit extends Component {
 
             <Item NAME="personEdit-divider" margin="stack-base" />
 
-            {/* >>> Personal Information */}
+            {/* >>> Personal details */}
             <Item margin="stack-base">
               <Typography variant="display-3">
                 Personal Information &mdash; Optional
@@ -322,6 +323,66 @@ class PersonEdit extends Component {
                 type: "text",
                 id: "nickname-input",
                 role: ["administrator", "supervisor", "trainee", "employee"]
+              }
+            ]
+              .filter(item => item.role.includes(this.state.person.role))
+              .map(item => (
+                <Box margin="stack-base" key={item.id}>
+                  <Item NAME="personEdit-input-name" left margin="inline-base">
+                    <Typography variant="base" as="label" htmlFor={item.id}>
+                      {item.label}
+                    </Typography>
+                  </Item>
+
+                  <Item NAME="personEdit-input">
+                    <TextInput
+                      name={item.name}
+                      id={item.id}
+                      type={item.type}
+                      value={this.state[item.name]}
+                      onChange={this.handleInputChange}
+                    />
+                  </Item>
+                </Box>
+              ))}
+
+            <Box margin="stack-base">
+              <Item NAME="personEdit-input-name" left margin="inline-base">
+                <Typography variant="base" as="label" htmlFor="gender-input">
+                  Gender
+                </Typography>
+              </Item>
+
+              <Item NAME="personEdit-input">
+                <SelectInput
+                  id="gender-input"
+                  onChange={this.handleInputChange}
+                  name="gender"
+                  options={[
+                    {
+                      label: "Choose an option",
+                      value: ""
+                    },
+                    {
+                      label: "Male",
+                      value: "male"
+                    },
+                    {
+                      label: "Female",
+                      value: "female"
+                    }
+                  ]}
+                />
+              </Item>
+            </Box>
+
+            {[
+              {
+                label: "Date of Birth",
+                name: "dateOfBirth",
+                type: "date",
+                id: "date-of-birth-input",
+                role: ["trainee"]
               },
               {
                 label: "Address",
@@ -343,13 +404,6 @@ class PersonEdit extends Component {
                 type: "email",
                 id: "email-input",
                 role: ["administrator", "supervisor", "trainee", "employee"]
-              },
-              {
-                label: "Date of Birth",
-                name: "dateOfBirth",
-                type: "date",
-                id: "date-of-birth-input",
-                role: ["trainee"]
               },
               {
                 label: "School",

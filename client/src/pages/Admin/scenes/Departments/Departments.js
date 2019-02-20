@@ -61,17 +61,7 @@ export class Departments extends Component {
         <Area NAME="departments-content-header" padding="inset-base">
           <Box wrap align="flex-start">
             <Item margin="wrap-base">
-              <Typography variant="display-1">
-                <Item
-                  inline
-                  center
-                  margin="inline-base"
-                  style={{ width: "3rem" }}
-                >
-                  <i className="fas fa-briefcase" />
-                </Item>
-                Departments
-              </Typography>
+              <Typography variant="display-1">Departments</Typography>
             </Item>
 
             <Item margin="wrap-base">

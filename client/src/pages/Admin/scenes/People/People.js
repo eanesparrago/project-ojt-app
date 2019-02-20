@@ -48,25 +48,12 @@ export class People extends Component {
   render() {
     const { match, location } = this.props;
 
-    console.log("location",location.pathname);
-    console.log("split",location.pathname.split('/').slice(2, 4).join('/'));
-
     return (
       <StyledPeople>
         <Area NAME="people-content-header" padding="inset-base">
           <Box wrap align="flex-start">
             <Item margin="wrap-base">
-              <Typography variant="display-1">
-                <Item
-                  inline
-                  center
-                  margin="inline-base"
-                  style={{ width: "3rem" }}
-                >
-                  <i className="fas fa-users" />
-                </Item>
-                People
-              </Typography>
+              <Typography variant="display-1">People</Typography>
             </Item>
 
             <Item margin="wrap-base">
@@ -92,7 +79,10 @@ export class People extends Component {
         <Transition
           native
           items={location}
-          keys={location.pathname.split('/').slice(2, 4).join('/')}
+          keys={location.pathname
+            .split("/")
+            .slice(2, 4)
+            .join("/")}
           from={{ transform: "translateX(-100%)" }}
           enter={{ transform: "translateX(0%)" }}
           leave={{ transform: "translateX(-100%)" }}
@@ -114,7 +104,10 @@ export class People extends Component {
         <Transition
           native
           items={location}
-          keys={location.pathname.split('/').slice(2, 4).join('/')}
+          keys={location.pathname
+            .split("/")
+            .slice(2, 4)
+            .join("/")}
           from={{ transform: "translateX(-100%)" }}
           enter={{ transform: "translateX(0%)" }}
           leave={{ transform: "translateX(-100%)" }}

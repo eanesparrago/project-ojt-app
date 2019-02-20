@@ -86,9 +86,10 @@ export class CreatePerson extends Component {
       middleName: "",
       lastName: "",
       nickname: "",
+      gender: "",
+      dateOfBirth: "",
       address: "",
       contactNumber: "",
-      dateOfBirth: "",
       school: "",
       adviserName: "",
       adviserContactNumber: "",
@@ -363,6 +364,82 @@ export class CreatePerson extends Component {
                         "trainee",
                         "employee"
                       ]
+                    }
+                  ]
+                    .filter(item => item.role.includes(this.state.person.role))
+                    .map(item => (
+                      <Box margin="stack-base" key={item.id}>
+                        <Item
+                          NAME="createPerson-input-name"
+                          left
+                          margin="inline-base"
+                        >
+                          <Typography
+                            variant="base"
+                            as="label"
+                            htmlFor={item.id}
+                          >
+                            {item.label}
+                          </Typography>
+                        </Item>
+
+                        <Item NAME="createPerson-input">
+                          <TextInput
+                            name={item.name}
+                            id={item.id}
+                            type={item.type}
+                            value={this.state[item.name]}
+                            onChange={this.handleInputChange}
+                          />
+                        </Item>
+                      </Box>
+                    ))}
+
+                  <Box margin="stack-base">
+                    <Item
+                      NAME="createPerson-input-name"
+                      left
+                      margin="inline-base"
+                    >
+                      <Typography
+                        variant="base"
+                        as="label"
+                        htmlFor="gender-input"
+                      >
+                        Gender
+                      </Typography>
+                    </Item>
+
+                    <Item NAME="createPerson-input">
+                      <SelectInput
+                        id="gender-input"
+                        onChange={this.handleInputChange}
+                        name="gender"
+                        options={[
+                          {
+                            label: "Choose an option",
+                            value: ""
+                          },
+                          {
+                            label: "Male",
+                            value: "male"
+                          },
+                          {
+                            label: "Female",
+                            value: "female"
+                          }
+                        ]}
+                      />
+                    </Item>
+                  </Box>
+
+                  {[
+                    {
+                      label: "Date of Birth",
+                      name: "dateOfBirth",
+                      type: "date",
+                      id: "date-of-birth-input",
+                      role: ["trainee"]
                     },
                     {
                       label: "Address",
@@ -395,13 +472,7 @@ export class CreatePerson extends Component {
                         "employee"
                       ]
                     },
-                    {
-                      label: "Date of Birth",
-                      name: "dateOfBirth",
-                      type: "date",
-                      id: "date-of-birth-input",
-                      role: ["trainee"]
-                    },
+
                     {
                       label: "School",
                       name: "school",
