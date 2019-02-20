@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { Button, Typography, Photo } from "../../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../../layout";
+
+// import adminActionCreators from "../../../adminActionCreators";
+
+import { togglePersonModal } from "src/pages/Admin/adminActionCreators";
 
 const StyledDepartmentCard = styled.div`
   /* border: 1px solid magenta; */
@@ -35,7 +40,7 @@ const StyledDepartmentCard = styled.div`
 
 export class DepartmentCard extends Component {
   render() {
-    const { onDepartmentToggle, match } = this.props;
+    const { togglePersonModal, match } = this.props;
 
     return (
       <StyledDepartmentCard>
@@ -74,7 +79,12 @@ export class DepartmentCard extends Component {
 
           <Box margin="stack-base" wrap>
             <Item NAME="avatar" margin="inline-s">
-              <Button variant="photo" rounded>
+              <Button
+                variant="photo"
+                rounded
+                as={Link}
+                to={`${match.url}/person/123`}
+              >
                 <img
                   src="https://images-na.ssl-images-amazon.com/images/M/MV5BNWRmYWVlNmQtNTRiOS00YjBjLWE0MDAtNWYwZGVkMjgwY2M0XkEyXkFqcGdeQXVyMTgwMTYzNQ@@._V1_UY256_CR106,0,172,256_AL_.jpg"
                   alt=""
@@ -183,4 +193,9 @@ export class DepartmentCard extends Component {
   }
 }
 
-export default withRouter(DepartmentCard);
+export default withRouter(
+  connect(
+    null,
+    { togglePersonModal: togglePersonModal }
+  )(DepartmentCard)
+);

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Route, Link, Switch, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import styled from "styled-components";
+import { Transition } from "react-spring/renderprops";
 import { Button, Typography, Photo } from "../../components/elements";
 import { Item, Box, Container, Area } from "../../layout";
 import profileImage from "./profile.png";
@@ -8,6 +10,10 @@ import profileImage from "./profile.png";
 import Departments from "./scenes/Departments/Departments";
 import People from "./scenes/People/People";
 import Announcements from "./scenes/Announcements/Announcements";
+
+import PersonModal from "./components/PersonModal/PersonModal";
+
+import { togglePersonModal, closePersonModal } from "./adminActionCreators";
 
 const StyledAdmin = styled.div`
   width: 100%;
@@ -43,6 +49,7 @@ const StyledAdmin = styled.div`
     grid-area: main;
     background-color: ${p => p.theme.color.light};
     overflow: auto;
+    position: relative;
   }
 
   .container-admin-profile {
@@ -66,11 +73,21 @@ const StyledAdmin = styled.div`
     position: absolute;
     bottom: 0;
   }
+
+  .container-admin-modal {
+    border: 1px solid magenta;
+  }
+
+  .container-admin-person-modal {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export class Admin extends Component {
   render() {
-    const { match } = this.props;
+    const { admin, match, location } = this.props;
 
     return (
       <StyledAdmin>
@@ -206,4 +223,11 @@ export class Admin extends Component {
   }
 }
 
-export default withRouter(Admin);
+export default withRouter(
+  connect(
+    state => ({
+      admin: state.admin
+    }),
+    { togglePersonModal: togglePersonModal, closePersonModal: closePersonModal }
+  )(Admin)
+);

@@ -6,8 +6,9 @@ import { Button, Typography } from "../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../layout";
 
 import CreatePerson from "./scenes/CreatePerson";
-import Person from "./scenes/Person";
 import PeopleTable from "./components/PeopleTable";
+
+import PersonModal from "src/pages/Admin/components/PersonModal/PersonModal";
 
 const StyledPeople = styled.div`
   /* border: 1px solid magenta; */
@@ -115,10 +116,10 @@ export class People extends Component {
           {loc => style => (
             <Switch location={loc}>
               <Route
-                path={`${match.url}/person`}
+                path={`${match.url}/person/:id`}
                 render={() => (
                   <Container NAME="people-person" animate={style}>
-                    <Person />
+                    <PersonModal />
                   </Container>
                 )}
               />

@@ -9,6 +9,8 @@ import DepartmentCard from "./components/DepartmentCard";
 import Department from "./scenes/Department";
 import CreateDepartment from "./scenes/CreateDepartment";
 
+import PersonModal from "src/pages/Admin/components/PersonModal/PersonModal";
+
 const StyledDepartments = styled.div`
   /* border: 1px solid magenta; */
   position: relative;
@@ -38,6 +40,12 @@ const StyledDepartments = styled.div`
   }
 
   .container-departments-department {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .container-departments-person {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -146,6 +154,31 @@ export class Departments extends Component {
                 render={() => (
                   <Container NAME="departments-department" animate={style}>
                     <Department />
+                  </Container>
+                )}
+              />
+            </Switch>
+          )}
+        </Transition>
+
+        <Transition
+          native
+          items={location}
+          keys={location.pathname
+            .split("/")
+            .slice(2, 4)
+            .join("/")}
+          from={{ transform: "translateX(-100%)" }}
+          enter={{ transform: "translateX(0%)" }}
+          leave={{ transform: "translateX(-100%)" }}
+        >
+          {loc => style => (
+            <Switch location={loc}>
+              <Route
+                path={`${match.url}/person/:id`}
+                render={() => (
+                  <Container NAME="departments-person" animate={style}>
+                    <PersonModal />
                   </Container>
                 )}
               />

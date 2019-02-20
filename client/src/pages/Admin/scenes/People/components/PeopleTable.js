@@ -81,6 +81,8 @@ const StyledPeopleTable = styled.div`
 
 export class PeopleTable extends Component {
   render() {
+    const { match } = this.props;
+
     return (
       <StyledPeopleTable>
         <Area NAME="peopleTable-header" margin="stack-base">
@@ -148,7 +150,7 @@ export class PeopleTable extends Component {
                       <Item
                         NAME="peopleTable-username"
                         as={Link}
-                        to="/admin/people/person"
+                        to={`${match.url}/person/123`}
                       >
                         <Typography variant="base">usteven</Typography>
                       </Item>
@@ -190,4 +192,4 @@ export class PeopleTable extends Component {
   }
 }
 
-export default PeopleTable;
+export default withRouter(PeopleTable);

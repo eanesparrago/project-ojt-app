@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from "react";
-import { Button, Typography } from "../../../components/elements";
+import { Button, Typography } from "src/components/elements";
 import {
   TextInput,
   RadioInput,
   SelectInput
-} from "../../../components/compounds";
-import { Item, Box } from "../../../layout";
+} from "src/components/compounds";
+import { Item, Box } from "src/layout";
 
 import roleInputOptions from "./roleInputOptions";
 

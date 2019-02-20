@@ -2,21 +2,20 @@ import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Spring } from "react-spring/renderprops";
 import { Link, withRouter, Route, Switch } from "react-router-dom";
-import { Button, Typography } from "../../../components/elements";
-import { Item, Box, Container, Area } from "../../../layout";
-// import { Item } from ""
+import { Button, Typography } from "src/components/elements";
+import { Item, Box, Container, Area } from "src/layout";
 
 import {
   PersonInformation,
   PersonEdit,
   PersonChangePassword
-} from "./PersonComponents";
+} from "./PersonModalComponents";
 
 const StyledPerson = styled.div`
   /* border: 1px solid magenta; */
   width: 100%;
   height: 100%;
-  position: relative;
+  position: absolute;
   display: grid;
   grid-template-areas:
     "header back"
@@ -142,7 +141,7 @@ export class Person extends Component {
             >
               <Box wrap>
                 <Item margin="wrap-base">
-                  <Item as={Link} to={`${match.url}`}>
+                  <Item as={Link} to={`${match.url}`} replace>
                     <Typography variant="display-1" as="h1">
                       Steven Universe
                     </Typography>
@@ -154,6 +153,7 @@ export class Person extends Component {
                     variant="secondary"
                     as={Link}
                     to={`${match.url}/edit-person`}
+                    replace
                   >
                     <Item center margin="inline-s">
                       <i className="fas fa-edit" />
@@ -167,6 +167,7 @@ export class Person extends Component {
                     variant="secondary"
                     as={Link}
                     to={`${match.url}/change-password`}
+                    replace
                   >
                     <Item center margin="inline-s">
                       <i className="fas fa-lock" />
@@ -182,8 +183,9 @@ export class Person extends Component {
                     variant="secondary"
                     icon
                     rounded
-                    as={Link}
-                    to="/admin/people"
+                    onClick={() => {
+                      history.goBack();
+                    }}
                   >
                     <i className="fas fa-times" />
                   </Button>
@@ -226,7 +228,7 @@ export class Person extends Component {
         <Area
           NAME="person-back"
           onClick={() => {
-            history.push("/admin/people");
+            history.goBack();
           }}
         />
       </StyledPerson>

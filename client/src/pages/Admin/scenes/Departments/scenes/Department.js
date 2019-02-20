@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import { Button, Typography, Photo } from "../../../../../components/elements";
-import { Item, Box, Container, Area } from "layout";
+import { Item, Box, Container, Area } from "src/layout";
 
 const StyledDepartment = styled.div`
   /* border: 1px solid magenta; */
