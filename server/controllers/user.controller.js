@@ -6,6 +6,7 @@ const UserTrainee = require("../models/user/userTrainee");
 const bcrypt = require("bcryptjs");
 const keys = require("../config/keys");
 const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator/check");
 
 /**
  * Test route
@@ -27,6 +28,11 @@ function testRoute(req, res) {
  * @private
  */
 function createUser(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
   User.findOne({ username: req.body.username }).then(user => {
     if (user) {
       return res.status(400).json({
@@ -38,22 +44,36 @@ function createUser(req, res) {
         password: req.body.password
       };
 
-      switch (req.body.role) {
+      let newUser;
+
+      switch (res.body.role) {
         case "administrator":
-          const newUser = new UserAdministrator(userData);
-
-          bcrypt.genSalt(12, (err, salt) => {
-            bcrypt.hash(newUser.password, salt, (err, hash) => {
-              if (err) throw err;
-
-              newUser.password = hash;
-              newUser
-                .save()
-                .then(user => res.json(user))
-                .catch(err => console.log(err));
-            });
-          });
+          newUser = new UserAdministrator(userData);
+          break;
+        case "supervisor":
+          newUser = new UserSupervisor(userData);
+          break;
+        case "trainee":
+          newUser = new UserTrainee(userData);
+          break;
+        case "employee":
+          newUser = new UserEmployee(userData);
+          break;
+        default:
+          res.status(400).json({ error: "Unknown" });
       }
+
+      bcrypt.genSalt(12, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) throw err;
+
+          newUser.password = hash;
+          newUser
+            .save()
+            .then(user => res.json(user))
+            .catch(err => console.log(err));
+        });
+      });
     }
   });
 }

@@ -1,3 +1,5 @@
+// https://gist.github.com/joshnuss/37ebaf958fe65a18d4ff#file-app-js-L9
+
 function permit(...allowed) {
   const isAllowed = role => allowed.indexOf(role) > -1;
 

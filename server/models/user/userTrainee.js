@@ -116,21 +116,6 @@ const UserTrainee = User.discriminator(
           }
         }
       },
-      firstName: {
-        type: String
-      },
-      middleName: {
-        type: String
-      },
-      lastName: {
-        type: String
-      },
-      nickname: {
-        type: String
-      },
-      gender: {
-        type: String
-      },
       dateOfBirth: {
         type: Date
       },
@@ -138,9 +123,6 @@ const UserTrainee = User.discriminator(
         type: String
       },
       contactNumber: {
-        type: String
-      },
-      email: {
         type: String
       },
       school: {
