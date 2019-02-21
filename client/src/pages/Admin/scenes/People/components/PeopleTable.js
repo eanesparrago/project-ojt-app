@@ -18,6 +18,7 @@ const StyledPeopleTable = styled.div`
     /* border: 1px solid magenta; */
     display: flex;
     align-items: center;
+    flex-shrink: 0;
   }
 
   .area-peopleTable-body {

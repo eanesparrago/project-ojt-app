@@ -11,6 +11,7 @@ const StyledTextInput = styled.div`
   .input {
     height: var(--size-button);
     width: 100%;
+    display: flex;
     border: 1px solid ${p => p.theme.color.grey.medium};
     transition-duration: 200ms;
     transition-property: box-shadow;

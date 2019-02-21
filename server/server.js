@@ -6,8 +6,11 @@ const passport = require("passport");
 const path = require("path");
 
 // >>> Route imports
-const users = require("./routes/user.routes");
-const posts = require("./routes/post.routes");
+// const administrator = require("./routes/administrator.routes");
+// const supervisor = require("./routes/supervisor.routes");
+// const trainee = require("./routes/trainee.routes");
+// const employee = require("./routes/employee.routes");
+const user = require("./routes/user.routes");
 
 const app = express();
 
@@ -27,8 +30,11 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 
 // >>> Use routes
-app.use("/api", users);
-app.use("/api", posts);
+// app.use("/api/administrators", administrator);
+// app.use("/api/supervisors", supervisor);
+// app.use("/api/trainees", trainee);
+// app.use("/api/employees", employee);
+app.use("/api/users", user);
 
 // >>> Serve static in production
 if (process.env.NODE_ENV === "production") {

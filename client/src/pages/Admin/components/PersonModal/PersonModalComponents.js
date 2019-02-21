@@ -1,10 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Button, Typography } from "src/components/elements";
-import {
-  TextInput,
-  RadioInput,
-  SelectInput
-} from "src/components/compounds";
+import { TextInput, RadioInput, SelectInput } from "src/components/compounds";
 import { Item, Box } from "src/layout";
 
 import roleInputOptions from "./roleInputOptions";
@@ -146,6 +142,7 @@ class PersonEdit extends Component {
     person: {
       role: "",
       department: "",
+      accountStatus: "",
       username: "",
       email: "",
       requiredHours: "",
@@ -241,6 +238,22 @@ class PersonEdit extends Component {
                 </Item>
               </Box>
             )}
+
+            <Box margin="stack-base">
+              <Item NAME="personEdit-input-name" left margin="inline-base">
+                <Typography
+                  variant="display-3"
+                  as="label"
+                  htmlFor="department-input"
+                >
+                  Account Status
+                </Typography>
+              </Item>
+
+              <Item left NAME="personEdit-input">
+                <TextInput type="checkbox" />
+              </Item>
+            </Box>
 
             <Item NAME="personEdit-divider" margin="stack-base" />
 
