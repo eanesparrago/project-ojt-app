@@ -59,6 +59,9 @@ const userSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    photoUrl: {
+      type: String
+    },
     activities: [
       {
         type: Schema.Types.ObjectId,

@@ -5,11 +5,8 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const path = require("path");
 
+
 // >>> Route imports
-// const administrator = require("./routes/administrator.routes");
-// const supervisor = require("./routes/supervisor.routes");
-// const trainee = require("./routes/trainee.routes");
-// const employee = require("./routes/employee.routes");
 const user = require("./routes/user.routes");
 
 const app = express();
@@ -30,10 +27,6 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 
 // >>> Use routes
-// app.use("/api/administrators", administrator);
-// app.use("/api/supervisors", supervisor);
-// app.use("/api/trainees", trainee);
-// app.use("/api/employees", employee);
 app.use("/api/users", user);
 
 // >>> Serve static in production
