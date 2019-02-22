@@ -207,14 +207,14 @@ export class Admin extends Component {
           <Switch>
             <Route
               path={`${match.url}/departments`}
-              render={() => <Departments />}
+              render={Departments}
             />
 
             <Route path={`${match.url}/people`} render={() => <People />} />
 
             <Route
               path={`${match.url}/announcements`}
-              render={() => <Announcements />}
+              render={Announcements}
             />
           </Switch>
         </Area>
@@ -226,7 +226,8 @@ export class Admin extends Component {
 export default withRouter(
   connect(
     state => ({
-      admin: state.admin
+      admin: state.admin,
+      auth: state.auth
     }),
     { togglePersonModal: togglePersonModal, closePersonModal: closePersonModal }
   )(Admin)

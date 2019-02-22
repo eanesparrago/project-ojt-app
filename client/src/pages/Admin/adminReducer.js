@@ -5,7 +5,7 @@ const initialState = {
   isPersonModalOpen: false
 };
 
-export const adminReducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case ADMIN_PERSON_MODAL_TOGGLE:
       return {

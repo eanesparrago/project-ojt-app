@@ -1,6 +1,7 @@
 const { body } = require("express-validator/check");
+const enums = require("../utils/enums");
 
-const validateRegisterUser = [
+const validateCreateUser = [
   // >>> username
   body("username").trim(),
   body("username")
@@ -33,7 +34,12 @@ const validateRegisterUser = [
   // >>> role
   body("role")
     .trim()
-    .isIn(["administrator", "supervisor", "trainee", "employee"])
+    .isIn([
+      enums.roles.ADMINISTRATOR,
+      enums.roles.SUPERVISOR,
+      enums.roles.TRAINEE,
+      enums.roles.EMPLOYEE
+    ])
     .withMessage("Invalid role value")
     .not()
     .isEmpty()
@@ -63,8 +69,8 @@ const validateRegisterUser = [
     .optional()
 ];
 
-const validateRegisterUserTrainee = [
-  ...validateRegisterUser,
+const validateCreateUserTrainee = [
+  ...validateCreateUser,
   body("requiredHours").trim(),
   body("requiredHours")
     .isInt({ max: 999 })
@@ -95,6 +101,6 @@ const validateRegisterUserTrainee = [
 ];
 
 module.exports = {
-  validateRegisterUser,
-  validateRegisterUserTrainee
+  validateCreateUser,
+  validateCreateUserTrainee
 };

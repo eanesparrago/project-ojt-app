@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import jwt_decode from "jwt-decode";
 import "./assets/css/destyle.css";
 import {
   BrowserRouter as Router,
@@ -8,132 +9,41 @@ import {
 } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./services/session/store";
-import { ThemeProvider, createGlobalStyle } from "styled-components";
+import { ThemeProvider } from "styled-components";
 import theme from "./services/theme/theme";
+import {
+  setCurrentUser,
+  logoutUser
+} from "src/services/session/actions/authActionCreators";
+import setAuthToken from "src/services/session/utils/setAuthToken";
+import GlobalStyle from "./GlobalStyle";
 import { Main, Login, Admin } from "./pages";
+import PrivateRoute from "./PrivateRoute";
+import enums from "./services/enums";
 
-const GlobalStyle = createGlobalStyle`
-:root {
-    --size-xxs: ${theme.size.xxs};
-    --size-xs: ${theme.size.xs};
-    --size-s: ${theme.size.s};
-    --size-m: ${theme.size.m};
-    --size-l: ${theme.size.l};
-    --size-xl: ${theme.size.xl};
-    --size-base: ${theme.size.base};
-    --size-base-fixed: ${theme.size.base};
-    --size-button: 2.5rem;
+// Check for token
+if (localStorage.jwtToken) {
+  // Set auth token header
+  setAuthToken(localStorage.jwtToken);
+  // Decode token and get user info and expiration
+  const decoded = jwt_decode(localStorage.jwtToken);
+  // Set user and isAuthenticated
+  store.dispatch(setCurrentUser(decoded));
 
+  // Check for expired token
+  const currentTime = Date.now() / 1000;
+  if (decoded.exp < currentTime) {
+    // Logout user
+    store.dispatch(logoutUser());
 
-    @media (max-width: ${theme.breakpoint.tabletLandscape}) {
-      --size-button: 3rem;
-    } 
+    console.log(decoded.exp);
 
-    @media (max-width: ${theme.breakpoint.tabletPortrait}) {
-      --size-xs: ${theme.sizeMobile.xs};
-      --size-s: ${theme.sizeMobile.s};
-      --size-m: ${theme.sizeMobile.m};
-      --size-l: ${theme.sizeMobile.l};
-      --size-xl: ${theme.sizeMobile.xl};
-      --size-base: ${theme.sizeMobile.base};
-    } 
+    //  Redirect to login
+    window.location.href = "/";
+
+    console.log("Token expired");
   }
-
-  html, body, #root {
-    height: 100%;
-  }
-
-
-  html {
-    font-size: 16px;
-    scroll-behavior: smooth;
-
-    @media (max-width: ${theme.breakpoint.tabletPortrait}) {
-      ${"" /* font-size: 13px; */}
-    }
-
-    @media (min-width: ${theme.breakpoint.tabletLandscape}) {
-      font-size: 16px;
-    }
-
-    @media (min-width: ${theme.breakpoint.desktopM}) {
-      font-size: 13px;
-    }
-    
-    @media (min-width: ${theme.breakpoint.desktopL}) {
-      font-size: 15px;
-    }
-
-    @media (min-width: ${theme.breakpoint.desktopXL}) {
-      font-size: 16px;
-    }
-    
-    @media (min-width: ${theme.breakpoint.desktopXXL}) {
-    font-size: 21px;
-    } 
-    
-  }
-
-  body {
-    color: ${theme.color.dark};
-    font-family: ${theme.font.sansSerif};
-    font-size: 16px;
-    background-color: ${theme.color.light};
-
-   @media (max-width: ${theme.breakpoint.tabletPortrait}) {
-      ${"" /* font-size: 15px; */}
-    }
-
-    @media (min-width: ${theme.breakpoint.tabletLandscape}) {
-      font-size: 16px;
-    } 
-    
-    @media (min-width: ${theme.breakpoint.desktopM}) {
-      font-size: 15px;
-    }
-
-    @media (min-width: ${theme.breakpoint.desktopL}) {
-      font-size: 16px;
-    }
-
-    @media (min-width: ${theme.breakpoint.desktopXL}) {
-      font-size: 16px;
-    }
-    
-    @media (min-width: ${theme.breakpoint.desktopXXL}) {
-      font-size: 24px;
-    }
-  }
-
-  a img {outline : none;}
-  img {border : 0;}
-  a {outline : none; cursor: pointer;}
-
-  #hidden {
-    display: none;
-  }
-
-  /* width */
-::-webkit-scrollbar {
-  width: 10px;
-  cursor: pointer;
 }
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: ${theme.color.grey.light}; 
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: ${theme.color.primary.light}; 
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: ${theme.color.primary.main}; 
-}
-`;
 
 class App extends Component {
   render() {
@@ -145,11 +55,23 @@ class App extends Component {
               <GlobalStyle />
 
               <Switch>
-                <Route path="/" exact render={() => <h1>Test</h1>} />
+                <Route path="/" exact component={Login} />
 
-                <Route path="/admin" component={Admin} />
+                <PrivateRoute
+                  path="/admin"
+                  component={Admin}
+                  permittedRoles={[enums.roles.ADMINISTRATOR]}
+                />
 
-                <Route path="/login" component={Login} />
+                <PrivateRoute
+                  path="/app"
+                  component={() => <h1>App</h1>}
+                  permittedRoles={[
+                    enums.roles.SUPERVISOR,
+                    enums.roles.TRAINEE,
+                    enums.roles.EMPLOYEE
+                  ]}
+                />
 
                 <Route render={() => <h1>Not found</h1>} />
               </Switch>

@@ -28,7 +28,7 @@ const isLoadingReducer = (state, action) => {
   }
 };
 
-export const mainReducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case MAIN_TOGGLE:
       return { ...state, isVisible: !state.isVisible };

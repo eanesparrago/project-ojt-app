@@ -95,7 +95,8 @@ export class CreatePerson extends Component {
       adviserContactNumber: "",
       guardianName: "",
       guardianContactNumber: ""
-    }
+    },
+    errors: []
   };
 
   handleInputChange = e => {

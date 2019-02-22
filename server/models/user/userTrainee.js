@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const enums = require("../../utils/enums");
 
 const User = require("./user");
 
 const UserTrainee = User.discriminator(
-  "trainee",
+  enums.roles.TRAINEE,
   new Schema({
     roleData: {
       requiredHours: {

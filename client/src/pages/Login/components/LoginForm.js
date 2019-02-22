@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { Button } from "../../../components/elements";
 import { TextInputSpecial } from "../../../components/compounds";
 import { Item, Container } from "../../../layout";
+import { loginUser } from "src/services/session/actions/authActionCreators";
+import { connect } from "react-redux";
 
 const StyledLoginForm = styled.div`
   width: 100%;
@@ -22,6 +24,10 @@ export class LoginForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  handleSubmit = e => {
+    this.props.loginUser(this.state);
+  };
+
   render() {
     const { username, password } = this.state;
 
@@ -30,7 +36,7 @@ export class LoginForm extends Component {
         <Item margin="stack-m">
           <TextInputSpecial
             value={username}
-            NAME="username"
+            name="username"
             placeholder="Username"
             onChange={this.handleInputChange}
           />
@@ -39,7 +45,7 @@ export class LoginForm extends Component {
         <Item margin="stack-base">
           <TextInputSpecial
             value={password}
-            NAME="password"
+            name="password"
             placeholder="Password"
             type="password"
             onChange={this.handleInputChange}
@@ -47,11 +53,16 @@ export class LoginForm extends Component {
         </Item>
 
         <Item NAME="button">
-          <Button full variant="primary">Log In</Button>
+          <Button full variant="primary" onClick={this.handleSubmit}>
+            Log In
+          </Button>
         </Item>
       </StyledLoginForm>
     );
   }
 }
 
-export default LoginForm;
+export default connect(
+  null,
+  { loginUser: loginUser }
+)(LoginForm);

@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
 const User = require("./user");
+const enums = require("../../utils/enums");
 
 const UserAdministrator = User.discriminator(
-  "administrator",
+  enums.roles.ADMINISTRATOR,
   new Schema({
     roleData: {
       announcements: [

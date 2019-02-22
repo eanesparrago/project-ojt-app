@@ -7,6 +7,8 @@ const bcrypt = require("bcryptjs");
 const keys = require("../config/keys");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator/check");
+const _ = require("lodash");
+const enums = require("../utils/enums");
 
 /**
  * Test route
@@ -21,11 +23,50 @@ function testRoute(req, res) {
 }
 
 /**
+ * Get users
+ * GET api/users/
+ * @access  private
+ */
+function getUsers(req, res) {
+  const errors = {};
+
+  User.find()
+    .then(users => {
+      if (!users) {
+        errors.users = "There are no users";
+        return res.status(404).json(errors);
+      }
+      res.json(users);
+    })
+    .catch(err => {
+      errors.users = "There are no users";
+      return res.status(404).json({});
+    });
+}
+
+/**
  * Create user
- * POST api/users/test
- * @param  req
- * @param  res
- * @private
+ * @route   POST api/users/register
+ * @param   {Object}  req.body.person
+ * @param   {string}  req.body.person.username (required)
+ * @param   {string}  req.body.person.password (required)
+ * @param   {string}  req.body.person.confirmPassword (required)
+ * @param   {string}  req.body.person.username (required)
+ * @param   {string}  req.body.person.firstName
+ * @param   {string}  req.body.person.middleName
+ * @param   {string}  req.body.person.lastName
+ * @param   {string}  req.body.person.nickname
+ * @param   {string}  req.body.person.gender
+ * @param   {string}  req.body.person.department (role: supervisor, trainee, employee)
+ * @param   {Date}    req.body.person.dateOfBirth (role: trainee)
+ * @param   {string}  req.body.person.address (role: trainee)
+ * @param   {string}  req.body.person.contactNumber (role: trainee)
+ * @param   {string}  req.body.person.school (role: trainee)
+ * @param   {string}  req.body.person.adviserName (role: trainee)
+ * @param   {string}  req.body.person.adviserContactNumber (role: trainee)
+ * @param   {string}  req.body.person.guardianName (role: trainee)
+ * @param   {string}  req.body.person.guardianContactNumber (role: trainee)
+ * @access  private   (role: administrator)
  */
 function createUser(req, res) {
   const errors = validationResult(req);
@@ -46,17 +87,17 @@ function createUser(req, res) {
 
       let newUser;
 
-      switch (res.body.role) {
-        case "administrator":
+      switch (req.body.role) {
+        case enums.roles.ADMINISTRATOR:
           newUser = new UserAdministrator(userData);
           break;
-        case "supervisor":
+        case enums.roles.SUPERVISOR:
           newUser = new UserSupervisor(userData);
           break;
-        case "trainee":
+        case enums.roles.TRAINEE:
           newUser = new UserTrainee(userData);
           break;
-        case "employee":
+        case enums.roles.EMPLOYEE:
           newUser = new UserEmployee(userData);
           break;
         default:
@@ -83,7 +124,7 @@ function createUser(req, res) {
  * POST api/users/login
  * @param  req
  * @param  res
- * @public
+ * @access  public
  */
 function loginUser(req, res) {
   const username = req.body.username;
@@ -94,9 +135,11 @@ function loginUser(req, res) {
       return res.status(404).json({ error: "Invalid login information" });
     }
 
+    console.log(user);
+
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
-        const payload = { id: user.id, username: user.name };
+        const payload = { id: user.id, role: user.role };
 
         jwt.sign(
           payload,
@@ -117,6 +160,7 @@ function loginUser(req, res) {
 }
 
 module.exports = {
+  getUsers,
   testRoute,
   createUser,
   loginUser
