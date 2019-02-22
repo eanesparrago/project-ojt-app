@@ -11,7 +11,7 @@ import Departments from "./scenes/Departments/Departments";
 import People from "./scenes/People/People";
 import Announcements from "./scenes/Announcements/Announcements";
 
-import { togglePersonModal, closePersonModal } from "./adminActionCreators";
+import { logoutUser } from "src/services/session/actions/authActionCreators";
 
 const StyledAdmin = styled.div`
   width: 100%;
@@ -87,19 +87,22 @@ const StyledAdmin = styled.div`
 
 export class Admin extends Component {
   render() {
-    const { admin, match, location } = this.props;
+    const { match, logoutUser } = this.props;
 
     return (
       <StyledAdmin>
         {/* >>> Header */}
         <Area NAME="admin-header" padding="inset-m">
-          <Item>
+          <Item as={Link} to="/admin">
             <Typography variant="display-4">SPi OJT App</Typography>
           </Item>
 
           <Item>
-            <Button variant="text" icon>
+            {/* <Button variant="text" icon>
               <i className="fas fa-ellipsis-h" />
+            </Button> */}
+            <Button variant="text" onClick={logoutUser}>
+              Log out
             </Button>
           </Item>
         </Area>
@@ -205,17 +208,11 @@ export class Admin extends Component {
         {/* >>> Main */}
         <Area NAME="admin-main">
           <Switch>
-            <Route
-              path={`${match.url}/departments`}
-              render={Departments}
-            />
+            <Route path={`${match.url}/departments`} render={Departments} />
 
             <Route path={`${match.url}/people`} render={() => <People />} />
 
-            <Route
-              path={`${match.url}/announcements`}
-              render={Announcements}
-            />
+            <Route path={`${match.url}/announcements`} render={Announcements} />
           </Switch>
         </Area>
       </StyledAdmin>
@@ -229,6 +226,6 @@ export default withRouter(
       admin: state.admin,
       auth: state.auth
     }),
-    { togglePersonModal: togglePersonModal, closePersonModal: closePersonModal }
+    { logoutUser: logoutUser }
   )(Admin)
 );

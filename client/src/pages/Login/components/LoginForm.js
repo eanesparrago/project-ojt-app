@@ -39,6 +39,7 @@ export class LoginForm extends Component {
             name="username"
             placeholder="Username"
             onChange={this.handleInputChange}
+            autoComplete="off"
           />
         </Item>
 
@@ -49,6 +50,7 @@ export class LoginForm extends Component {
             placeholder="Password"
             type="password"
             onChange={this.handleInputChange}
+            autoComplete="off"
           />
         </Item>
 
