@@ -1,10 +1,10 @@
 const { body } = require("express-validator/check");
-const enums = require("../utils/enums");
+const enums = require("../enums");
 
 const validateCreateUser = [
   // >>> username
-  body("username").trim(),
   body("username")
+    .trim()
     .isLength({ min: 2, max: 30 })
     .withMessage("Username must be between 2 to 30 characters long")
     .not()

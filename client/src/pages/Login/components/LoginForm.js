@@ -6,7 +6,7 @@ import { Item, Container } from "../../../layout";
 import { loginUser } from "src/services/session/actions/authActionCreators";
 import { connect } from "react-redux";
 
-const StyledLoginForm = styled.div`
+const StyledLoginForm = styled.form`
   width: 100%;
   height: 100%;
 
@@ -25,6 +25,7 @@ export class LoginForm extends Component {
   };
 
   handleSubmit = e => {
+    e.preventDefault();
     this.props.loginUser(this.state);
   };
 
@@ -40,6 +41,7 @@ export class LoginForm extends Component {
             placeholder="Username"
             onChange={this.handleInputChange}
             autoComplete="off"
+            required
           />
         </Item>
 
@@ -51,11 +53,12 @@ export class LoginForm extends Component {
             type="password"
             onChange={this.handleInputChange}
             autoComplete="off"
+            required
           />
         </Item>
 
         <Item NAME="button">
-          <Button full variant="primary" onClick={this.handleSubmit}>
+          <Button type="submit" full variant="primary" onClick={this.handleSubmit}>
             Log In
           </Button>
         </Item>

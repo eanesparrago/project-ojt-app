@@ -2,9 +2,13 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Spring } from "react-spring/renderprops";
 import { Link, withRouter } from "react-router-dom";
-import { Button, Typography, Photo } from "../../../../../components/elements";
-import { TextInput } from "../../../../../components/compounds";
-import { Item, Box, Container, Area } from "../../../../../layout";
+import { connect } from "react-redux";
+
+import { Button, Typography, Photo } from "src/components/elements";
+import { TextInput } from "src/components/compounds";
+import { Item, Box, Container, Area } from "src/layout";
+
+import { createDepartment } from "../data/departments/departmentsActionCreators";
 
 const StyledCreateDepartment = styled.div`
   /* border: 1px solid magenta; */
@@ -58,16 +62,31 @@ const StyledCreateDepartment = styled.div`
     display: flex;
   }
 
-  .item-input-name {
+  .item-createDepartment-input-name {
     width: ${p => p.theme.incrementFixed(6)};
   }
 
-  .item-input {
+  .item-createDepartment-input {
     width: ${p => p.theme.incrementFixed(16)};
   }
 `;
 
 export class CreateDepartment extends Component {
+  state = {
+    name: "",
+    location: "",
+    phoneNumber: ""
+  };
+
+  handleInputChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.createDepartment(this.state);
+  };
+
   render() {
     const { history } = this.props;
 
@@ -117,39 +136,59 @@ export class CreateDepartment extends Component {
               NAME="createDepartment-body"
               padding="inset-base"
               animate={style}
+              as="form"
             >
-              <Box margin="stack-base">
-                <Item NAME="input-name" left margin="inline-base">
-                  <Typography>Department Name</Typography>
-                </Item>
+              {[
+                {
+                  label: "Department Name",
+                  name: "name",
+                  type: "text",
+                  id: "department-name-input"
+                },
+                {
+                  label: "Location",
+                  name: "location",
+                  type: "text",
+                  id: "location-input"
+                },
+                {
+                  label: "Phone Number",
+                  name: "phoneNumber",
+                  type: "text",
+                  id: "phone-number-input"
+                }
+              ].map(item => (
+                <Box margin="stack-base" key={item.id}>
+                  <Item
+                    NAME="createDepartment-input-name"
+                    left
+                    margin="inline-base"
+                  >
+                    <Typography variant="base" as="label" htmlFor={item.id}>
+                      {item.label}
+                    </Typography>
+                  </Item>
 
-                <Item NAME="input">
-                  <TextInput variant="compact" />
-                </Item>
-              </Box>
-
-              <Box margin="stack-base">
-                <Item NAME="input-name" left margin="inline-base">
-                  <Typography>Location</Typography>
-                </Item>
-
-                <Item NAME="input">
-                  <TextInput variant="compact" />
-                </Item>
-              </Box>
-
-              <Box margin="stack-l">
-                <Item NAME="input-name" left margin="inline-base">
-                  <Typography>Phone Number</Typography>
-                </Item>
-
-                <Item NAME="input">
-                  <TextInput variant="compact" />
-                </Item>
-              </Box>
+                  <Item NAME="createDepartment-input">
+                    <TextInput
+                      name={item.name}
+                      id={item.id}
+                      type={item.type}
+                      value={this.state[item.name]}
+                      onChange={this.handleInputChange}
+                    />
+                  </Item>
+                </Box>
+              ))}
 
               <Item>
-                <Button variant="primary">Create Department</Button>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={this.handleSubmit}
+                >
+                  Create Department
+                </Button>
               </Item>
             </Area>
           )}
@@ -166,4 +205,11 @@ export class CreateDepartment extends Component {
   }
 }
 
-export default withRouter(CreateDepartment);
+export default withRouter(
+  connect(
+    null,
+    {
+      createDepartment: createDepartment
+    }
+  )(CreateDepartment)
+);

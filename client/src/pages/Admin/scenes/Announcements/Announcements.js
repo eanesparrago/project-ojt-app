@@ -9,40 +9,10 @@ import CreateAnnouncement from "./scenes/CreateAnnouncement";
 import AnnouncementTable from "./components/AnnouncementTable";
 
 import { PersonModal } from "src/pages/Admin/components";
+import adminScenesStyles from "src/pages/Admin/adminScenesStyles";
 
 const StyledAnnouncements = styled.div`
-  /* border: 1px solid magenta; */
-  position: relative;
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-
-  .area-announcements-content-header {
-    background-color: ${p => p.theme.color.white};
-    border-bottom: 1px solid ${p => p.theme.color.dark};
-    padding-bottom: ${p => p.theme.size.s};
-  }
-
-  .area-announcements-content-body {
-    /* border: 1px solid blue; */
-    overflow: auto;
-    width: 100%;
-    max-height: 100%;
-  }
-
-  .container-announcements-create-announcement {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .container-announcements-person {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
+  ${adminScenesStyles};
 `;
 
 export class Announcements extends Component {
@@ -59,7 +29,7 @@ export class Announcements extends Component {
 
     return (
       <StyledAnnouncements>
-        <Area NAME="announcements-content-header" padding="inset-base">
+        <Area NAME="admin-content-header" padding="inset-base">
           <Box wrap align="flex-start">
             <Item margin="wrap-base">
               <Typography variant="display-1">Announcements</Typography>
@@ -80,7 +50,7 @@ export class Announcements extends Component {
           </Box>
         </Area>
 
-        <Area NAME="announcements-content-body" padding="inset-base">
+        <Area NAME="admin-content-body" padding="inset-base">
           <AnnouncementTable />
         </Area>
 
@@ -98,10 +68,7 @@ export class Announcements extends Component {
               <Route
                 path={`${match.url}/create-announcement`}
                 render={() => (
-                  <Container
-                    NAME="announcements-create-announcement"
-                    animate={style}
-                  >
+                  <Container NAME="admin-create" animate={style}>
                     <CreateAnnouncement />
                   </Container>
                 )}
@@ -128,7 +95,7 @@ export class Announcements extends Component {
               <Route
                 path={`${match.url}/person/:id`}
                 render={() => (
-                  <Container NAME="announcements-person" animate={style}>
+                  <Container NAME="admin-person" animate={style}>
                     <PersonModal />
                   </Container>
                 )}

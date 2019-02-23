@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const User = require("./user");
-const enums = require("../../utils/enums");
+const enums = require("../../enums");
 
 const UserEmployee = User.discriminator(
   enums.roles.EMPLOYEE,

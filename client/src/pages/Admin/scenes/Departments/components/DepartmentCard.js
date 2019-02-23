@@ -5,8 +5,6 @@ import { Link, withRouter } from "react-router-dom";
 import { Button, Typography, Photo } from "../../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../../layout";
 
-// import adminActionCreators from "../../../adminActionCreators";
-
 import { togglePersonModal } from "src/pages/Admin/adminActionCreators";
 
 const StyledDepartmentCard = styled.div`
@@ -39,8 +37,16 @@ const StyledDepartmentCard = styled.div`
 `;
 
 export class DepartmentCard extends Component {
+  // static defaultProps = {
+  //   data: {
+  //     name: "default name",
+  //     location: "default location",
+  //     phoneNumber: "default phoneNumber"
+  //   }
+  // };
+
   render() {
-    const { togglePersonModal, match } = this.props;
+    const { match, data } = this.props;
 
     return (
       <StyledDepartmentCard>
@@ -52,7 +58,7 @@ export class DepartmentCard extends Component {
 
         <Container padding="inset-m">
           <Item margin="stack-m">
-            <Typography variant="display-3">Technical Support Group</Typography>
+            <Typography variant="display-3">{data.name}</Typography>
           </Item>
 
           <Item margin="stack-m">
@@ -60,7 +66,7 @@ export class DepartmentCard extends Component {
               <Item NAME="icon" inline center margin="inline-s">
                 <i className="fas fa-map-marker-alt" />
               </Item>
-              2nd Level South Wing
+              {data.location}
             </Typography>
           </Item>
 
@@ -69,7 +75,7 @@ export class DepartmentCard extends Component {
               <Item NAME="icon" inline center margin="inline-s">
                 <i className="fas fa-phone" />
               </Item>
-              21968
+              {data.phoneNumber}
             </Typography>
           </Item>
 
@@ -193,9 +199,4 @@ export class DepartmentCard extends Component {
   }
 }
 
-export default withRouter(
-  connect(
-    null,
-    { togglePersonModal: togglePersonModal }
-  )(DepartmentCard)
-);
+export default withRouter(DepartmentCard);

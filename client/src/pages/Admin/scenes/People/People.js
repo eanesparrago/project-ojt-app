@@ -9,40 +9,10 @@ import CreatePerson from "./scenes/CreatePerson";
 import PeopleTable from "./components/PeopleTable";
 
 import PersonModal from "src/pages/Admin/components/PersonModal/PersonModal";
+import adminScenesStyles from "src/pages/Admin/adminScenesStyles";
 
 const StyledPeople = styled.div`
-  /* border: 1px solid magenta; */
-  position: relative;
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-
-  .area-people-content-header {
-    background-color: ${p => p.theme.color.white};
-    border-bottom: 1px solid ${p => p.theme.color.dark};
-    padding-bottom: ${p => p.theme.size.s};
-  }
-
-  .area-people-content-body {
-    /* border: 1px solid blue; */
-    overflow: auto;
-    width: 100%;
-    height: 100%;
-  }
-
-  .container-people-create-person {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .container-people-person {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
+  ${adminScenesStyles}
 `;
 
 export class People extends Component {
@@ -51,7 +21,7 @@ export class People extends Component {
 
     return (
       <StyledPeople>
-        <Area NAME="people-content-header" padding="inset-base">
+        <Area NAME="admin-content-header" padding="inset-base">
           <Box wrap align="flex-start">
             <Item margin="wrap-base">
               <Typography variant="display-1">People</Typography>
@@ -73,7 +43,7 @@ export class People extends Component {
         </Area>
 
         {/* >>> Content body */}
-        <Area NAME="people-content-body" padding="inset-base">
+        <Area NAME="admin-content-body" padding="inset-base">
           <PeopleTable />
         </Area>
 
@@ -93,7 +63,7 @@ export class People extends Component {
               <Route
                 path={`${match.url}/create-person`}
                 render={() => (
-                  <Container NAME="people-create-person" animate={style}>
+                  <Container NAME="admin-create" animate={style}>
                     <CreatePerson />
                   </Container>
                 )}
@@ -118,7 +88,7 @@ export class People extends Component {
               <Route
                 path={`${match.url}/person/:id`}
                 render={() => (
-                  <Container NAME="people-person" animate={style}>
+                  <Container NAME="admin-person" animate={style}>
                     <PersonModal />
                   </Container>
                 )}

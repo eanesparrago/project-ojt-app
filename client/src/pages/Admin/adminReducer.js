@@ -1,27 +1,21 @@
-import { ADMIN_PERSON_MODAL_TOGGLE } from "./adminActionCreators";
-import { ADMIN_PERSON_MODAL_CLOSE } from "./adminActionCreators";
+import { combineReducers } from "redux";
+import _ from "lodash";
 
-const initialState = {
-  isPersonModalOpen: false
-};
+import departmentsReducer from "./scenes/Departments/departmentsReducer";
 
-export default (state = initialState, action) => {
-  switch (action.type) {
-    case ADMIN_PERSON_MODAL_TOGGLE:
-      return {
-        ...state,
-        isPersonModalOpen: !state.isPersonModalOpen
-      };
+// const initialState = {};
+// export default (state = initialState, action) => {
+//   switch (action.type) {
+//     default:
+//       const rest = _.omit(state, Object.keys(initialState));
+//       return {
+//         ...state,
+//         departments: departmentsReducer
+//       };
+//   }
+// };
 
-    case ADMIN_PERSON_MODAL_CLOSE:
-      return {
-        ...state,
-        isPersonModalOpen: false
-      };
+export default combineReducers({
+  departments: departmentsReducer
+});
 
-    default:
-      return {
-        ...state
-      };
-  }
-};

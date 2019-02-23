@@ -5,9 +5,9 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const path = require("path");
 
-
 // >>> Route imports
 const user = require("./routes/user.routes");
+const department = require("./routes/department.routes");
 
 const app = express();
 
@@ -28,6 +28,7 @@ require("./config/passport")(passport);
 
 // >>> Use routes
 app.use("/api/users", user);
+app.use("/api/departments", department);
 
 // >>> Serve static in production
 if (process.env.NODE_ENV === "production") {

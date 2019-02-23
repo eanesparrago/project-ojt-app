@@ -8,7 +8,7 @@ const keys = require("../config/keys");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator/check");
 const _ = require("lodash");
-const enums = require("../utils/enums");
+const enums = require("../enums");
 
 /**
  * Test route
@@ -23,7 +23,7 @@ function testRoute(req, res) {
 }
 
 /**
- * Get users
+ * Get all users
  * GET api/users/
  * @access  private
  */
@@ -47,25 +47,24 @@ function getUsers(req, res) {
 /**
  * Create user
  * @route   POST api/users/register
- * @param   {Object}  req.body.person
- * @param   {string}  req.body.person.username (required)
- * @param   {string}  req.body.person.password (required)
- * @param   {string}  req.body.person.confirmPassword (required)
- * @param   {string}  req.body.person.username (required)
- * @param   {string}  req.body.person.firstName
- * @param   {string}  req.body.person.middleName
- * @param   {string}  req.body.person.lastName
- * @param   {string}  req.body.person.nickname
- * @param   {string}  req.body.person.gender
- * @param   {string}  req.body.person.department (role: supervisor, trainee, employee)
- * @param   {Date}    req.body.person.dateOfBirth (role: trainee)
- * @param   {string}  req.body.person.address (role: trainee)
- * @param   {string}  req.body.person.contactNumber (role: trainee)
- * @param   {string}  req.body.person.school (role: trainee)
- * @param   {string}  req.body.person.adviserName (role: trainee)
- * @param   {string}  req.body.person.adviserContactNumber (role: trainee)
- * @param   {string}  req.body.person.guardianName (role: trainee)
- * @param   {string}  req.body.person.guardianContactNumber (role: trainee)
+ * @param   {string}  req.body.username (required)
+ * @param   {string}  req.body.password (required)
+ * @param   {string}  req.body.confirmPassword (required)
+ * @param   {string}  req.body.username (required)
+ * @param   {string}  req.body.firstName
+ * @param   {string}  req.body.middleName
+ * @param   {string}  req.body.lastName
+ * @param   {string}  req.body.nickname
+ * @param   {string}  req.body.gender
+ * @param   {string}  req.body.department (role: supervisor, trainee, employee)
+ * @param   {Date}    req.body.dateOfBirth (role: trainee)
+ * @param   {string}  req.body.address (role: trainee)
+ * @param   {string}  req.body.contactNumber (role: trainee)
+ * @param   {string}  req.body.school (role: trainee)
+ * @param   {string}  req.body.adviserName (role: trainee)
+ * @param   {string}  req.body.adviserContactNumber (role: trainee)
+ * @param   {string}  req.body.guardianName (role: trainee)
+ * @param   {string}  req.body.guardianContactNumber (role: trainee)
  * @access  private   (role: administrator)
  */
 function createUser(req, res) {
@@ -76,9 +75,8 @@ function createUser(req, res) {
 
   User.findOne({ username: req.body.username }).then(user => {
     if (user) {
-      return res.status(400).json({
-        error: "Username already exists"
-      });
+      errors.user = "Username already exists";
+      return res.status(400).json(errors);
     } else {
       const userData = {
         username: req.body.username,
@@ -134,8 +132,6 @@ function loginUser(req, res) {
     if (!user) {
       return res.status(404).json({ error: "Invalid login information" });
     }
-
-    console.log(user);
 
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {

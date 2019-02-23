@@ -2,15 +2,16 @@ const express = require("express");
 const router = express.Router();
 const UserController = require("../controllers/user.controller");
 const passport = require("passport");
-const permit = require("../utils/permit");
+const permittedRoles = require("../utils/permittedRoles");
 const dynamicValidation = require("../validation/dynamicValidation");
 const {
   validateCreateUser,
   validateCreateUserTrainee
 } = require("../validation/validateCreateUser");
-const enums = require("../utils/enums");
+const enums = require("../enums");
 
 // >>> /api/users
+// --->>> /api/users/test - testRoute
 router
   .route("/test")
   .get(
@@ -18,28 +19,30 @@ router
     UserController.testRoute
   );
 
-router
-  .route(
-    "/register",
-    passport.authenticate("jwt", { session: false }),
-    permit(enums.roles.ADMINISTRATOR)
-  )
-  .post(function(req, res, next) {
+// --->>> /api/users/register - registerUser
+router.route("/register").post(
+  passport.authenticate("jwt", { session: false }),
+  permittedRoles(enums.roles.ADMINISTRATOR),
+  function(req, res, next) {
     if (req.body.role === enums.roles.TRAINEE) {
       dynamicValidation(validateCreateUserTrainee, req, res, next);
     } else {
       dynamicValidation(validateCreateUser, req, res, next);
     }
-  }, UserController.createUser);
+  },
+  UserController.createUser
+);
 
+// --->>> GET /api/users/ - getusers
 router
-  .route(
-    "/",
+  .route("/")
+  .get(
     passport.authenticate("jwt", { session: false }),
-    permit(enums.roles.ADMINISTRATOR)
-  )
-  .get(UserController.getUsers);
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    UserController.getUsers
+  );
 
+// --->>> POST /api/users/login - loginUser
 router.route("/login").post(UserController.loginUser);
 
 module.exports = router;

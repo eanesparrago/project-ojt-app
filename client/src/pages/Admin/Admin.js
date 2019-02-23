@@ -23,9 +23,9 @@ const StyledAdmin = styled.div`
   grid-template-rows: auto 1fr;
   grid-template-columns: auto 1fr;
 
-  @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
+  /* @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
     grid-template-columns: 1fr;
-  }
+  } */
 
   .area-admin-header {
     /* border: 1px solid magenta; */
@@ -45,9 +45,9 @@ const StyledAdmin = styled.div`
     border-right: 1px solid ${p => p.theme.color.dark};
     overflow: auto;
 
-    @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
+    /* @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
       display: none;
-    }
+    } */
   }
 
   .area-admin-main {
@@ -78,10 +78,6 @@ const StyledAdmin = styled.div`
     background-color: ${p => p.theme.color.dark};
     position: absolute;
     bottom: 0;
-  }
-
-  .container-admin-modal {
-    border: 1px solid magenta;
   }
 `;
 

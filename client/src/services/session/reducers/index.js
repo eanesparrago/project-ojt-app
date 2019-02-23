@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 
-import mainReducer from "../../../pages/Main/mainReducer";
+import mainReducer from "src/pages/Main/mainReducer";
 import adminReducer from "src/pages/Admin/adminReducer";
 import authReducer from "./authReducer";
 

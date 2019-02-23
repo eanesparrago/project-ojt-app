@@ -2,57 +2,26 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Transition } from "react-spring/renderprops";
 import { Route, Switch, withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
+
 import { Button, Typography } from "../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../layout";
 
 import DepartmentCard from "./components/DepartmentCard";
 import Department from "./scenes/Department";
 import CreateDepartment from "./scenes/CreateDepartment";
-
 import { PersonModal } from "src/pages/Admin/components";
+import sceneStyles from "src/pages/Admin/adminScenesStyles";
+
+import { getDepartments } from "./data/departments/departmentsActionCreators";
 
 const StyledDepartments = styled.div`
-  /* border: 1px solid magenta; */
-  position: relative;
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-
-  .area-departments-content-header {
-    background-color: ${p => p.theme.color.white};
-    border-bottom: 1px solid ${p => p.theme.color.dark};
-    padding-bottom: ${p => p.theme.size.s};
-  }
-
-  .area-departments-content-body {
-    /* border: 1px solid blue; */
-    overflow: auto;
-    width: 100%;
-    max-height: 100%;
-  }
-
-  .container-departments-create-department {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
+  ${sceneStyles};
 
   .container-departments-department {
     position: absolute;
     width: 100%;
     height: 100%;
-  }
-
-  .container-departments-person {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    
-    @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
-      overflow-y: auto;
-    }
   }
 `;
 
@@ -61,16 +30,20 @@ export class Departments extends Component {
     isModalOpen: false
   };
 
+  componentDidMount() {
+    this.props.getDepartments();
+  }
+
   handleModalToggle = () => {
     this.setState({ isModalOpen: !this.state.isModalOpen });
   };
 
   render() {
-    const { match, location } = this.props;
+    const { match, location, data } = this.props;
 
     return (
       <StyledDepartments>
-        <Area NAME="departments-content-header" padding="inset-base">
+        <Area NAME="admin-content-header" padding="inset-base">
           <Box wrap align="flex-start">
             <Item margin="wrap-base">
               <Typography variant="display-1">Departments</Typography>
@@ -91,27 +64,13 @@ export class Departments extends Component {
           </Box>
         </Area>
 
-        <Area NAME="departments-content-body" padding="inset-base">
+        <Area NAME="admin-content-body" padding="inset-base">
           <Box wrap>
-            <Item margin="wrap-base">
-              <DepartmentCard />
-            </Item>
-
-            <Item margin="wrap-base">
-              <DepartmentCard />
-            </Item>
-
-            <Item margin="wrap-base">
-              <DepartmentCard />
-            </Item>
-
-            <Item margin="wrap-base">
-              <DepartmentCard />
-            </Item>
-
-            <Item margin="wrap-base">
-              <DepartmentCard />
-            </Item>
+            {data.departments.map(department => (
+              <Item margin="wrap-base" key={department._id}>
+                <DepartmentCard data={department} />
+              </Item>
+            ))}
           </Box>
         </Area>
 
@@ -129,10 +88,7 @@ export class Departments extends Component {
               <Route
                 path={`${match.url}/create-department`}
                 render={() => (
-                  <Container
-                    NAME="departments-create-department"
-                    animate={style}
-                  >
+                  <Container NAME="admin-create" animate={style}>
                     <CreateDepartment />
                   </Container>
                 )}
@@ -181,7 +137,7 @@ export class Departments extends Component {
               <Route
                 path={`${match.url}/person/:id`}
                 render={() => (
-                  <Container NAME="departments-person" animate={style}>
+                  <Container NAME="admin-person" animate={style}>
                     <PersonModal />
                   </Container>
                 )}
@@ -194,4 +150,11 @@ export class Departments extends Component {
   }
 }
 
-export default withRouter(Departments);
+export default withRouter(
+  connect(
+    state => ({
+      data: state.admin.departments.data
+    }),
+    { getDepartments: getDepartments }
+  )(Departments)
+);
