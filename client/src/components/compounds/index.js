@@ -4,4 +4,13 @@ import RadioInput from "./Input/RadioInput";
 import SelectInput from "./Input/SelectInput";
 import TextAreaInput from "./Input/TextAreaInput";
 
-export { TextInput, TextInputSpecial, RadioInput, SelectInput, TextAreaInput };
+import LoadingScene from "./LoadingScene/LoadingScene";
+
+export {
+  TextInput,
+  TextInputSpecial,
+  RadioInput,
+  SelectInput,
+  TextAreaInput,
+  LoadingScene
+};

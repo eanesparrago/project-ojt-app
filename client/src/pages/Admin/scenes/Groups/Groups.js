@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Transition } from "react-spring/renderprops";
+import { Transition, Trail } from "react-spring/renderprops";
 import { Route, Switch, withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { Button, Typography } from "../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../layout";
+import { LoadingScene } from "src/components/compounds";
 
 import GroupCard from "./components/GroupCard";
 import Group from "./scenes/Group";
@@ -13,7 +14,7 @@ import CreateGroup from "./scenes/CreateGroup";
 import { PersonModal } from "src/pages/Admin/components";
 import sceneStyles from "src/pages/Admin/adminScenesStyles";
 
-import { getGroups } from "./data/groups/groupsActionCreators";
+import { getGroups } from "./groupsActionCreators";
 
 const StyledGroups = styled.div`
   ${sceneStyles};
@@ -39,7 +40,7 @@ export class Groups extends Component {
   };
 
   render() {
-    const { match, location, data } = this.props;
+    const { match, location, groups } = this.props;
 
     return (
       <StyledGroups>
@@ -65,13 +66,47 @@ export class Groups extends Component {
         </Area>
 
         <Area NAME="admin-content-body" padding="inset-base">
+          <Transition
+            native
+            items={groups.isLoading}
+            keys={groups.isLoading}
+            from={{ transform: "translateY(100%)", opacity: "0" }}
+            enter={{ transform: "translateY(0%)", opacity: "1" }}
+            leave={{ transform: "translateY(100%)", opacity: "0" }}
+          >
+            {show =>
+              show &&
+              (style => (
+                <Container NAME="admin-loading" animate={style}>
+                  <LoadingScene />
+                </Container>
+              ))
+            }
+          </Transition>
+
           <Box wrap>
-            {data.groups.map(group => (
+            <Trail
+              items={groups.data}
+              keys={data => data._id}
+              from={{ transform: "translateY(100%)", opacity: "0" }}
+              to={{ transform: "translateY(0%)", opacity: "1" }}
+              native
+            >
+              {group => style => (
+                <Item margin="wrap-base" key={group._id} animate={style}>
+                  <GroupCard data={group} />
+                </Item>
+              )}
+            </Trail>
+          </Box>
+          {/* 
+          <Box wrap>
+            {groups.data.map(group => (
               <Item margin="wrap-base" key={group._id}>
                 <GroupCard data={group} />
               </Item>
             ))}
-          </Box>
+          </Box> */}
         </Area>
 
         {/* >>> Create Group Modal */}
@@ -98,7 +133,6 @@ export class Groups extends Component {
         </Transition>
 
         {/* >>> Group Modal */}
-
         <Transition
           native
           items={location}
@@ -153,7 +187,7 @@ export class Groups extends Component {
 export default withRouter(
   connect(
     state => ({
-      data: state.admin.groups.data
+      groups: state.admin.groups
     }),
     { getGroups: getGroups }
   )(Groups)

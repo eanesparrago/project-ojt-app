@@ -64,25 +64,29 @@ export class GroupCard extends Component {
             <Typography variant="display-3">{data.name}</Typography>
           </Item>
 
-          <Box margin="stack-m">
-            <Item top NAME="icon" inline center margin="inline-s">
-              <i className="fas fa-map-marker-alt" />
-            </Item>
+          {data.location ? (
+            <Box margin="stack-m">
+              <Item top NAME="icon" inline center margin="inline-s">
+                <i className="fas fa-map-marker-alt" />
+              </Item>
 
-            <Item center>
-              <Typography variant="caption">{data.location}</Typography>
-            </Item>
-          </Box>
+              <Item center>
+                <Typography variant="caption">{data.location}</Typography>
+              </Item>
+            </Box>
+          ) : null}
 
-          <Box margin="stack-base">
-            <Item top NAME="icon" inline center margin="inline-s">
-              <i className="fas fa-phone" />
-            </Item>
+          {data.phoneNumber ? (
+            <Box margin="stack-base">
+              <Item top NAME="icon" inline center margin="inline-s">
+                <i className="fas fa-phone" />
+              </Item>
 
-            <Item center>
-              <Typography variant="caption">{data.phoneNumber}</Typography>
-            </Item>
-          </Box>
+              <Item center>
+                <Typography variant="caption">{data.phoneNumber}</Typography>
+              </Item>
+            </Box>
+          ) : null}
 
           <Item margin="stack-s">
             <Typography variant="display-4">Supervisors</Typography>

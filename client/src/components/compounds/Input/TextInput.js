@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 const StyledTextInput = styled.div`
   display: flex;
+  flex-flow: column;
   align-items: center;
   position: relative;
   width: 100%;
@@ -12,16 +13,23 @@ const StyledTextInput = styled.div`
     height: var(--size-button);
     width: 100%;
     display: flex;
-    border: 1px solid ${p => p.theme.color.grey.medium};
+    border: 1px solid ${p =>
+      p.error ? p.theme.color.error : p.theme.color.grey.medium};
     transition-duration: 200ms;
     transition-property: box-shadow;
     padding: ${p => (p.type === "text" ? p.theme.size.m : "0")} ${p =>
   p.theme.size.s};
+    
 
     &:focus {
       /* border: 2px solid ${p => p.theme.color.primary.main}; */
       box-shadow: 0 0 0 var(--size-xs) ${p => p.theme.color.primary.light};
     }
+  }
+
+  .error {
+    margin-top: ${p => p.theme.size.s};
+    color: ${p => p.theme.color.error};
   }
 `;
 
@@ -30,8 +38,14 @@ export class TextInput extends Component {
     const { ...props } = this.props;
 
     return (
-      <StyledTextInput value={props.value} type={props.type}>
+      <StyledTextInput
+        value={props.value}
+        type={props.type}
+        error={props.error}
+      >
         <input className="input" {...props} />
+
+        {props.error && <span className="error">{props.error.msg}</span>}
       </StyledTextInput>
     );
   }

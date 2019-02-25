@@ -3,12 +3,13 @@ import styled from "styled-components";
 import { Spring } from "react-spring/renderprops";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import axios from "axios";
 
 import { Button, Typography, Photo } from "src/components/elements";
 import { TextInput } from "src/components/compounds";
 import { Item, Box, Container, Area } from "src/layout";
 
-import { createGroup } from "../data/groups/groupsActionCreators";
+import { getGroups } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
 
 const StyledCreateGroup = styled.div`
   /* border: 1px solid magenta; */
@@ -73,22 +74,46 @@ const StyledCreateGroup = styled.div`
 
 export class CreateGroup extends Component {
   state = {
-    name: "",
-    location: "",
-    phoneNumber: ""
+    data: {
+      name: "",
+      location: "",
+      phoneNumber: ""
+    },
+    isLoading: false,
+    errors: {}
   };
 
   handleInputChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({
+      data: { ...this.state.data, [e.target.name]: e.target.value }
+    });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.createGroup(this.state);
+
+    this.setState({ ...this.state, isLoading: true, errors: {} }, () => {
+      axios
+        .post("/api/groups", this.state.data)
+        .then(res => {
+          this.setState({ ...this.state, data: res.data }, () => {
+            this.props.getGroups();
+            this.props.history.goBack();
+          });
+        })
+        .catch(err => {
+          this.setState({
+            ...this.state,
+            errors: err.response.data.errors,
+            isLoading: false
+          });
+        });
+    });
   };
 
   render() {
     const { history } = this.props;
+    const { isLoading, data, errors } = this.state;
 
     return (
       <StyledCreateGroup>
@@ -140,7 +165,7 @@ export class CreateGroup extends Component {
             >
               {[
                 {
-                  label: "Group Name",
+                  label: "Group Name*",
                   name: "name",
                   type: "text",
                   id: "group-name-input"
@@ -159,11 +184,7 @@ export class CreateGroup extends Component {
                 }
               ].map(item => (
                 <Box margin="stack-base" key={item.id}>
-                  <Item
-                    NAME="createGroup-input-name"
-                    left
-                    margin="inline-base"
-                  >
+                  <Item NAME="createGroup-input-name" left margin="inline-base">
                     <Typography variant="base" as="label" htmlFor={item.id}>
                       {item.label}
                     </Typography>
@@ -174,8 +195,10 @@ export class CreateGroup extends Component {
                       name={item.name}
                       id={item.id}
                       type={item.type}
-                      value={this.state[item.name]}
+                      value={data[item.name]}
                       onChange={this.handleInputChange}
+                      error={errors[item.name]}
+                      disabled={isLoading}
                     />
                   </Item>
                 </Box>
@@ -186,6 +209,7 @@ export class CreateGroup extends Component {
                   variant="primary"
                   type="submit"
                   onClick={this.handleSubmit}
+                  disabled={isLoading}
                 >
                   Create Group
                 </Button>
@@ -209,7 +233,7 @@ export default withRouter(
   connect(
     null,
     {
-      createGroup: createGroup
+      getGroups: getGroups
     }
   )(CreateGroup)
 );

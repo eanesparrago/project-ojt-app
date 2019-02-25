@@ -26,7 +26,8 @@ export default {
     primary: {
       light: "#C8E6C9",
       main: "#4CAF50",
-      dark: "#1B5E20"
+      dark: "#1B5E20",
+      accent: "#00E676"
     },
     secondary: {
       main: "",

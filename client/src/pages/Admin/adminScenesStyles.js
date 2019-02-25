@@ -16,6 +16,7 @@ export default css`
     overflow: auto;
     width: 100%;
     height: 100%;
+    position: relative;
   }
 
   .container-admin-person {
@@ -34,5 +35,14 @@ export default css`
     left: 0;
     width: 100%;
     height: 100%;
+  }
+
+  .container-admin-loading {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
   }
 `;
