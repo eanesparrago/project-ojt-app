@@ -20,7 +20,7 @@ const PersonInformation = () => {
 
       <Box margin="stack-l">
         <Item NAME="personInformation-property" margin="inline-s">
-          <Typography variant="display-4">Department:</Typography>
+          <Typography variant="display-4">Group:</Typography>
         </Item>
 
         <Item>
@@ -141,7 +141,7 @@ class PersonEdit extends Component {
   state = {
     person: {
       role: "",
-      department: "",
+      group: "",
       accountStatus: "",
       username: "",
       email: "",
@@ -197,25 +197,25 @@ class PersonEdit extends Component {
         {/* >>> Role must be filled */}
         {this.state.person.role && (
           <Fragment>
-            {/* >>> DEPARTMENT */}
-            {/* >>> Department is not for administrators */}
+            {/* >>> GROUP */}
+            {/* >>> Group is not for administrators */}
             {this.state.person.role !== "administrator" && (
               <Box margin="stack-base">
                 <Item NAME="personEdit-input-name" left margin="inline-base">
                   <Typography
                     variant="display-3"
                     as="label"
-                    htmlFor="department-input"
+                    htmlFor="group-input"
                   >
-                    Department
+                    Group
                   </Typography>
                 </Item>
 
                 <Item NAME="personEdit-input">
                   <SelectInput
-                    id="department-input"
+                    id="group-input"
                     onChange={this.handleInputChange}
-                    name="department"
+                    name="group"
                     options={[
                       {
                         label: "Choose an option",
@@ -244,7 +244,7 @@ class PersonEdit extends Component {
                 <Typography
                   variant="display-3"
                   as="label"
-                  htmlFor="department-input"
+                  htmlFor="group-input"
                 >
                   Account Status
                 </Typography>

@@ -1,26 +1,26 @@
-const Department = require("../models/department");
+const Group = require("../models/group");
 const { validationResult } = require("express-validator/check");
 
 function testRoute(req, res) {
-  res.status(200).json({ message: "Departments test" });
+  res.status(200).json({ message: "Groups test" });
 }
 
 /**
- * Get all departments
- * @route   GET api/departments
+ * Get all groups
+ * @route   GET api/groups
  * @access  private (role: administrator)
  */
-function getDepartments(req, res) {
+function getGroups(req, res) {
   const errors = {};
 
-  Department.find()
-    .then(departments => {
-      if (!departments) {
-        errors.departments = "There are no departments";
+  Group.find()
+    .then(groups => {
+      if (!groups) {
+        errors.groups = "There are no groups";
         return res.status(404).json(errors);
       }
 
-      res.json(departments);
+      res.json(groups);
     })
     .catch(err => {
       console.log(err);
@@ -28,40 +28,40 @@ function getDepartments(req, res) {
 }
 
 /**
- * Create a department
- * @route   POST api/departments
+ * Create a group
+ * @route   POST api/groups
  * @param   {Object}  req.body.name (required)
  * @param   {string}  req.body.location
  * @param   {string}  req.body.phoneNumber
  * @access  private   (role: administrator)
  */
-function createDepartment(req, res) {
+function createGroup(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
 
-  const newDepartment = new Department({
+  const newGroup = new Group({
     name: req.body.name,
     location: req.body.location,
     phoneNumber: req.body.phoneNumber
   });
 
-  Department.findOne({ name: req.body.name }).then(department => {
-    if (department) {
-      errors.department = "Department already exists";
+  Group.findOne({ name: req.body.name }).then(group => {
+    if (group) {
+      errors.group = "Group already exists";
       return res.status(400).json(errors);
     }
   });
 
-  newDepartment
+  newGroup
     .save()
-    .then(department => res.status(201).json(department))
+    .then(group => res.status(201).json(group))
     .catch(err => console.log(err));
 }
 
 module.exports = {
   testRoute,
-  createDepartment,
-  getDepartments
+  createGroup,
+  getGroups
 };

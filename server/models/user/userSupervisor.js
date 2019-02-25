@@ -14,7 +14,7 @@ const UserSupervisor = User.discriminator(
           ref: "Announcement"
         }
       ],
-      department: { type: Schema.Types.ObjectId, ref: "Department" }
+      group: { type: Schema.Types.ObjectId, ref: "Group" }
     }
   })
 );

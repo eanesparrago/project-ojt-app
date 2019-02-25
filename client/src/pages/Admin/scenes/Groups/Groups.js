@@ -7,31 +7,31 @@ import { connect } from "react-redux";
 import { Button, Typography } from "../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../layout";
 
-import DepartmentCard from "./components/DepartmentCard";
-import Department from "./scenes/Department";
-import CreateDepartment from "./scenes/CreateDepartment";
+import GroupCard from "./components/GroupCard";
+import Group from "./scenes/Group";
+import CreateGroup from "./scenes/CreateGroup";
 import { PersonModal } from "src/pages/Admin/components";
 import sceneStyles from "src/pages/Admin/adminScenesStyles";
 
-import { getDepartments } from "./data/departments/departmentsActionCreators";
+import { getGroups } from "./data/groups/groupsActionCreators";
 
-const StyledDepartments = styled.div`
+const StyledGroups = styled.div`
   ${sceneStyles};
 
-  .container-departments-department {
+  .container-groups-group {
     position: absolute;
     width: 100%;
     height: 100%;
   }
 `;
 
-export class Departments extends Component {
+export class Groups extends Component {
   state = {
     isModalOpen: false
   };
 
   componentDidMount() {
-    this.props.getDepartments();
+    this.props.getGroups();
   }
 
   handleModalToggle = () => {
@@ -42,23 +42,23 @@ export class Departments extends Component {
     const { match, location, data } = this.props;
 
     return (
-      <StyledDepartments>
+      <StyledGroups>
         <Area NAME="admin-content-header" padding="inset-base">
           <Box wrap align="flex-start">
             <Item margin="wrap-base">
-              <Typography variant="display-1">Departments</Typography>
+              <Typography variant="display-1">Groups</Typography>
             </Item>
 
             <Item margin="wrap-base">
               <Button
                 variant="primary"
                 as={Link}
-                to={`${match.url}/create-department`}
+                to={`${match.url}/create-group`}
               >
                 <Item margin="inline-s">
                   <i className="fas fa-plus" />
                 </Item>
-                Create Department
+                Create Group
               </Button>
             </Item>
           </Box>
@@ -66,15 +66,15 @@ export class Departments extends Component {
 
         <Area NAME="admin-content-body" padding="inset-base">
           <Box wrap>
-            {data.departments.map(department => (
-              <Item margin="wrap-base" key={department._id}>
-                <DepartmentCard data={department} />
+            {data.groups.map(group => (
+              <Item margin="wrap-base" key={group._id}>
+                <GroupCard data={group} />
               </Item>
             ))}
           </Box>
         </Area>
 
-        {/* >>> Create Department Modal */}
+        {/* >>> Create Group Modal */}
         <Transition
           native
           items={location}
@@ -86,10 +86,10 @@ export class Departments extends Component {
           {loc => style => (
             <Switch location={loc}>
               <Route
-                path={`${match.url}/create-department`}
+                path={`${match.url}/create-group`}
                 render={() => (
                   <Container NAME="admin-create" animate={style}>
-                    <CreateDepartment />
+                    <CreateGroup />
                   </Container>
                 )}
               />
@@ -97,7 +97,7 @@ export class Departments extends Component {
           )}
         </Transition>
 
-        {/* >>> Department Modal */}
+        {/* >>> Group Modal */}
 
         <Transition
           native
@@ -112,8 +112,8 @@ export class Departments extends Component {
               <Route
                 path={`${match.url}/technical-support-group`}
                 render={() => (
-                  <Container NAME="departments-department" animate={style}>
-                    <Department />
+                  <Container NAME="groups-group" animate={style}>
+                    <Group />
                   </Container>
                 )}
               />
@@ -145,7 +145,7 @@ export class Departments extends Component {
             </Switch>
           )}
         </Transition>
-      </StyledDepartments>
+      </StyledGroups>
     );
   }
 }
@@ -153,8 +153,8 @@ export class Departments extends Component {
 export default withRouter(
   connect(
     state => ({
-      data: state.admin.departments.data
+      data: state.admin.groups.data
     }),
-    { getDepartments: getDepartments }
-  )(Departments)
+    { getGroups: getGroups }
+  )(Groups)
 );

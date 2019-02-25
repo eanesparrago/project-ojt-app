@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
-import { Button } from "../../../components/elements";
+import { Button, Typography } from "../../../components/elements";
 import { TextInputSpecial } from "../../../components/compounds";
 import { Item, Container } from "../../../layout";
 import { loginUser } from "src/services/session/actions/authActionCreators";
@@ -11,6 +11,10 @@ const StyledLoginForm = styled.form`
   height: 100%;
 
   .item-button {
+  }
+
+  .item-error {
+    color: ${p => p.theme.color.error};
   }
 `;
 
@@ -31,6 +35,7 @@ export class LoginForm extends Component {
 
   render() {
     const { username, password } = this.state;
+    const { auth } = this.props;
 
     return (
       <StyledLoginForm>
@@ -42,6 +47,7 @@ export class LoginForm extends Component {
             onChange={this.handleInputChange}
             autoComplete="off"
             required
+            disabled={auth.isLoading}
           />
         </Item>
 
@@ -54,11 +60,24 @@ export class LoginForm extends Component {
             onChange={this.handleInputChange}
             autoComplete="off"
             required
+            disabled={auth.isLoading}
           />
         </Item>
 
+        {auth.error && (
+          <Item NAME="error" margin="stack-base">
+            <Typography variant="base">{auth.error}</Typography>
+          </Item>
+        )}
+
         <Item NAME="button">
-          <Button type="submit" full variant="primary" onClick={this.handleSubmit}>
+          <Button
+            type="submit"
+            full
+            variant="primary"
+            onClick={this.handleSubmit}
+            disabled={auth.isLoading}
+          >
             Log In
           </Button>
         </Item>
@@ -68,6 +87,8 @@ export class LoginForm extends Component {
 }
 
 export default connect(
-  null,
+  state => ({
+    auth: state.auth
+  }),
   { loginUser: loginUser }
 )(LoginForm);

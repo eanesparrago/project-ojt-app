@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import _ from "lodash";
 
-import departmentsReducer from "./scenes/Departments/departmentsReducer";
+import groupsReducer from "./scenes/Groups/groupsReducer";
 
 // const initialState = {};
 // export default (state = initialState, action) => {
@@ -10,12 +10,12 @@ import departmentsReducer from "./scenes/Departments/departmentsReducer";
 //       const rest = _.omit(state, Object.keys(initialState));
 //       return {
 //         ...state,
-//         departments: departmentsReducer
+//         groups: groupsReducer
 //       };
 //   }
 // };
 
 export default combineReducers({
-  departments: departmentsReducer
+  groups: groupsReducer
 });
 

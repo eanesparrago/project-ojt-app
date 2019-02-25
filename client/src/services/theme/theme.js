@@ -47,7 +47,8 @@ export default {
       light: "#F5F5F5",
       medium: "#9E9E9E",
       dark: "#424242"
-    }
+    },
+    error: "#F44336"
   },
   size: {
     xxs: "0.125rem", // >>> 2

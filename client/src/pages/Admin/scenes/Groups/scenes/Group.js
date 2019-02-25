@@ -4,7 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Button, Typography, Photo } from "../../../../../components/elements";
 import { Item, Box, Container, Area } from "src/layout";
 
-const StyledDepartment = styled.div`
+const StyledGroup = styled.div`
   /* border: 1px solid magenta; */
   width: 100%;
   height: 100%;
@@ -29,14 +29,14 @@ const StyledDepartment = styled.div`
     grid-template-columns: 1fr 1fr;
   }
  
-  .container-department-close {
+  .container-group-close {
     position: absolute;
     top: var(--size-base);
     right: var(--size-base);
   }
 
   /* >>> Header */
-  .area-department-header {
+  .area-group-header {
     grid-area: header;
     background-color: ${p => p.theme.color.white};
 
@@ -46,7 +46,7 @@ const StyledDepartment = styled.div`
   }
 
   /* >>> People */
-  .area-department-people {
+  .area-group-people {
     /* border: 1px solid magenta; */
     grid-area: people;
     display: grid;
@@ -56,13 +56,13 @@ const StyledDepartment = styled.div`
     /* border-right: 1px solid ${p => p.theme.color.dark}; */
   }
 
-  .container-department-supervisors {
+  .container-group-supervisors {
     /* border: 1px solid magenta; */
     padding-top: var(--size-s);
     overflow-y: auto;
   }
 
-  .container-department-trainees {
+  .container-group-trainees {
     /* border: 1px solid magenta; */
     padding-top: var(--size-xs);
     overflow-y: auto;
@@ -70,7 +70,7 @@ const StyledDepartment = styled.div`
   }
 
     /* >>> Announcements */
-  .area-department-announcements {
+  .area-group-announcements {
     grid-area: announcements;
     background-color: ${p => p.theme.color.white};
     display: flex;
@@ -79,57 +79,57 @@ const StyledDepartment = styled.div`
     /* border-right: 1px solid ${p => p.theme.color.dark}; */
   }
 
-  .container-department-announcements-header {
+  .container-group-announcements-header {
     /* border-bottom: 1px solid ${p => p.theme.color.dark}; */
   }
 
-  .container-department-announcements-content {
+  .container-group-announcements-content {
     padding-top: var(--size-xs);
     overflow: auto;
   }
 
     /* >>> Activty */
-  .area-department-activity {
+  .area-group-activity {
     grid-area: activity;
     background-color: ${p => p.theme.color.white};
     display: flex;
     flex-flow: column;
   }
 
-  .container-department-activity-header {
+  .container-group-activity-header {
     /* border-bottom: 1px solid ${p => p.theme.color.dark}; */
   }
 
-  .container-department-activity-content {
+  .container-group-activity-content {
     padding-top: var(--size-xs);
     overflow: auto;
   }
 
-  .area-department-back {
+  .area-group-back {
     grid-area: back;
     background-color: ${p => p.theme.color.primary.dark};
     opacity: 0.8;
   }
 
-  .item-department-icon {
+  .item-group-icon {
     width: ${p => p.theme.size.m};
   }
 `;
 
-export class Department extends Component {
+export class Group extends Component {
   render() {
     const { history } = this.props;
 
     return (
-      <StyledDepartment>
-        <Container NAME="department-close">
+      <StyledGroup>
+        <Container NAME="group-close">
           <Item>
             <Button
               variant="secondary"
               icon
               rounded
               as={Link}
-              to="/admin/departments"
+              to="/admin/groups"
             >
               <i className="fas fa-times" />
             </Button>
@@ -137,7 +137,7 @@ export class Department extends Component {
         </Container>
 
         {/* >>> Header */}
-        <Area NAME="department-header" padding="inset-base">
+        <Area NAME="group-header" padding="inset-base">
           <Box wrap align="flex-start">
             <Item margin="stack-base">
               <Typography variant="display-1">
@@ -148,7 +148,7 @@ export class Department extends Component {
 
           <Item margin="stack-base">
             <Typography variant="caption">
-              <Item NAME="department-icon" center inline margin="inline-s">
+              <Item NAME="group-icon" center inline margin="inline-s">
                 <i className="fas fa-map-marker-alt" />
               </Item>
               2nd Level South Wing
@@ -157,7 +157,7 @@ export class Department extends Component {
 
           <Item>
             <Typography variant="caption">
-              <Item NAME="department-icon" center inline margin="inline-s">
+              <Item NAME="group-icon" center inline margin="inline-s">
                 <i className="fas fa-phone" />
               </Item>
               21968
@@ -166,8 +166,8 @@ export class Department extends Component {
         </Area>
 
         {/* >>> People */}
-        <Area NAME="department-people">
-          <Container NAME="department-supervisors" padding="inset-base">
+        <Area NAME="group-people">
+          <Container NAME="group-supervisors" padding="inset-base">
             <Container margin="stack-l">
               <Box margin="stack-m" align="center">
                 <Item margin="inline-m">
@@ -218,7 +218,7 @@ export class Department extends Component {
           </Container>
 
           {/* >>> Trainees */}
-          <Container NAME="department-trainees" padding="inset-base">
+          <Container NAME="group-trainees" padding="inset-base">
             <Box margin="stack-m" align="center">
               <Item margin="inline-m">
                 <Typography variant="display-2">Trainees</Typography>
@@ -244,9 +244,9 @@ export class Department extends Component {
         </Area>
 
         {/* >>> Announcements */}
-        <Area NAME="department-announcements">
+        <Area NAME="group-announcements">
           <Container
-            NAME="department-announcements-header"
+            NAME="group-announcements-header"
             padding="inset-base"
           >
             <Box align="center">
@@ -263,7 +263,7 @@ export class Department extends Component {
           </Container>
 
           <Container
-            NAME="department-announcements-content"
+            NAME="group-announcements-content"
             padding="inset-base"
           >
             {Array(3)
@@ -277,8 +277,8 @@ export class Department extends Component {
         </Area>
 
         {/* >>> Activity */}
-        <Area NAME="department-activity">
-          <Container NAME="department-activity-header" padding="inset-base">
+        <Area NAME="group-activity">
+          <Container NAME="group-activity-header" padding="inset-base">
             <Box align="center">
               <Item margin="inline-base">
                 <Typography variant="display-2">Activity</Typography>
@@ -292,7 +292,7 @@ export class Department extends Component {
             </Box>
           </Container>
 
-          <Container NAME="department-activity-content" padding="inset-base">
+          <Container NAME="group-activity-content" padding="inset-base">
             {Array(5)
               .fill(null)
               .map(item => (
@@ -305,17 +305,17 @@ export class Department extends Component {
 
         {/* >>> Back */}
         <Area
-          NAME="department-back"
+          NAME="group-back"
           onClick={() => {
-            history.push("/admin/departments");
+            history.push("/admin/groups");
           }}
         />
-      </StyledDepartment>
+      </StyledGroup>
     );
   }
 }
 
-export default withRouter(Department);
+export default withRouter(Group);
 
 const StyledUserListItem = styled.div`
   /* border: 1px solid magenta; */

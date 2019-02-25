@@ -7,7 +7,7 @@ import { Button, Typography, Photo } from "../../components/elements";
 import { Item, Box, Container, Area } from "../../layout";
 import profileImage from "./profile.png";
 
-import Departments from "./scenes/Departments/Departments";
+import Groups from "./scenes/Groups/Groups";
 import People from "./scenes/People/People";
 import Announcements from "./scenes/Announcements/Announcements";
 
@@ -130,12 +130,12 @@ export class Admin extends Component {
                 full
                 left
                 as={Link}
-                to={`${match.url}/departments`}
+                to={`${match.url}/groups`}
               >
                 <Item center style={{ width: "2rem" }} margin="inline-s">
                   <i className="fas fa-briefcase" />
                 </Item>
-                Departments
+                Groups
               </Button>
             </Item>
 
@@ -204,7 +204,7 @@ export class Admin extends Component {
         {/* >>> Main */}
         <Area NAME="admin-main">
           <Switch>
-            <Route path={`${match.url}/departments`} render={Departments} />
+            <Route path={`${match.url}/groups`} render={Groups} />
 
             <Route path={`${match.url}/people`} render={() => <People />} />
 

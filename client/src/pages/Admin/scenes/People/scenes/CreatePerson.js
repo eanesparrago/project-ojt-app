@@ -76,7 +76,7 @@ export class CreatePerson extends Component {
   state = {
     person: {
       role: "",
-      department: "",
+      group: "",
       username: "",
       email: "",
       password: "",
@@ -179,8 +179,8 @@ export class CreatePerson extends Component {
               {/* >>> Role must be filled */}
               {this.state.person.role && (
                 <Fragment>
-                  {/* >>> DEPARTMENT */}
-                  {/* >>> Department is not for administrators */}
+                  {/* >>> GROUP */}
+                  {/* >>> Group is not for administrators */}
                   {this.state.person.role !== "administrator" && (
                     <Box margin="stack-base">
                       <Item
@@ -191,17 +191,17 @@ export class CreatePerson extends Component {
                         <Typography
                           variant="display-3"
                           as="label"
-                          htmlFor="department-input"
+                          htmlFor="group-input"
                         >
-                          Department
+                          Group
                         </Typography>
                       </Item>
 
                       <Item NAME="createPerson-input">
                         <SelectInput
-                          id="department-input"
+                          id="group-input"
                           onChange={this.handleInputChange}
-                          name="department"
+                          name="group"
                           options={[
                             {
                               label: "Choose an option",

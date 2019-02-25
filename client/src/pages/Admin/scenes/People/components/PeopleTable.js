@@ -122,7 +122,7 @@ export class PeopleTable extends Component {
                   <Typography variant="base">Last Name</Typography>
                 </Item>
                 <Item as="th" padding="squish-l">
-                  <Typography variant="base">Department</Typography>
+                  <Typography variant="base">Group</Typography>
                 </Item>
                 <Item as="th" padding="squish-l">
                   <Typography variant="base">Required Hours</Typography>

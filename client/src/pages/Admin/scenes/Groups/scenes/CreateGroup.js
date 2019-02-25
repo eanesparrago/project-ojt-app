@@ -8,9 +8,9 @@ import { Button, Typography, Photo } from "src/components/elements";
 import { TextInput } from "src/components/compounds";
 import { Item, Box, Container, Area } from "src/layout";
 
-import { createDepartment } from "../data/departments/departmentsActionCreators";
+import { createGroup } from "../data/groups/groupsActionCreators";
 
-const StyledCreateDepartment = styled.div`
+const StyledCreateGroup = styled.div`
   /* border: 1px solid magenta; */
   width: 100%;
   height: 100%;
@@ -26,7 +26,7 @@ const StyledCreateDepartment = styled.div`
     z-index: 100;
   }
 
-  .area-createDepartment-header {
+  .area-createGroup-header {
     background-color: ${p => p.theme.color.grey.light};
     grid-area: header;
     display: flex;
@@ -36,7 +36,7 @@ const StyledCreateDepartment = styled.div`
     margin-left: auto;
   }
 
-  .area-createDepartment-body {
+  .area-createGroup-body {
     grid-area: body;
     background-color: ${p => p.theme.color.white};
     overflow-y: auto;
@@ -62,16 +62,16 @@ const StyledCreateDepartment = styled.div`
     display: flex;
   }
 
-  .item-createDepartment-input-name {
+  .item-createGroup-input-name {
     width: ${p => p.theme.incrementFixed(6)};
   }
 
-  .item-createDepartment-input {
+  .item-createGroup-input {
     width: ${p => p.theme.incrementFixed(16)};
   }
 `;
 
-export class CreateDepartment extends Component {
+export class CreateGroup extends Component {
   state = {
     name: "",
     location: "",
@@ -84,14 +84,14 @@ export class CreateDepartment extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.createDepartment(this.state);
+    this.props.createGroup(this.state);
   };
 
   render() {
     const { history } = this.props;
 
     return (
-      <StyledCreateDepartment>
+      <StyledCreateGroup>
         <Spring
           delay={100}
           native
@@ -100,12 +100,12 @@ export class CreateDepartment extends Component {
         >
           {style => (
             <Area
-              NAME="createDepartment-header"
+              NAME="createGroup-header"
               padding="inset-base"
               animate={style}
             >
               <Item>
-                <Typography variant="display-1">Create Department</Typography>
+                <Typography variant="display-1">Create Group</Typography>
               </Item>
 
               <Container NAME="close">
@@ -115,7 +115,7 @@ export class CreateDepartment extends Component {
                     icon
                     rounded
                     as={Link}
-                    to="/admin/departments"
+                    to="/admin/groups"
                   >
                     <i className="fas fa-times" />
                   </Button>
@@ -133,17 +133,17 @@ export class CreateDepartment extends Component {
         >
           {style => (
             <Area
-              NAME="createDepartment-body"
+              NAME="createGroup-body"
               padding="inset-base"
               animate={style}
               as="form"
             >
               {[
                 {
-                  label: "Department Name",
+                  label: "Group Name",
                   name: "name",
                   type: "text",
-                  id: "department-name-input"
+                  id: "group-name-input"
                 },
                 {
                   label: "Location",
@@ -160,7 +160,7 @@ export class CreateDepartment extends Component {
               ].map(item => (
                 <Box margin="stack-base" key={item.id}>
                   <Item
-                    NAME="createDepartment-input-name"
+                    NAME="createGroup-input-name"
                     left
                     margin="inline-base"
                   >
@@ -169,7 +169,7 @@ export class CreateDepartment extends Component {
                     </Typography>
                   </Item>
 
-                  <Item NAME="createDepartment-input">
+                  <Item NAME="createGroup-input">
                     <TextInput
                       name={item.name}
                       id={item.id}
@@ -187,7 +187,7 @@ export class CreateDepartment extends Component {
                   type="submit"
                   onClick={this.handleSubmit}
                 >
-                  Create Department
+                  Create Group
                 </Button>
               </Item>
             </Area>
@@ -197,10 +197,10 @@ export class CreateDepartment extends Component {
         <Area
           NAME="back"
           onClick={() => {
-            history.push("/admin/departments");
+            history.push("/admin/groups");
           }}
         />
-      </StyledCreateDepartment>
+      </StyledCreateGroup>
     );
   }
 }
@@ -209,7 +209,7 @@ export default withRouter(
   connect(
     null,
     {
-      createDepartment: createDepartment
+      createGroup: createGroup
     }
-  )(CreateDepartment)
+  )(CreateGroup)
 );

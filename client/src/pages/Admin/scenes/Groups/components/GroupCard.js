@@ -7,7 +7,7 @@ import { Item, Box, Container, Area } from "../../../../../layout";
 
 import { togglePersonModal } from "src/pages/Admin/adminActionCreators";
 
-const StyledDepartmentCard = styled.div`
+const StyledGroupCard = styled.div`
   /* border: 1px solid magenta; */
   width: ${p => p.theme.incrementFixed(16)};
   background-color: ${p => p.theme.color.white};
@@ -36,7 +36,7 @@ const StyledDepartmentCard = styled.div`
   }
 `;
 
-export class DepartmentCard extends Component {
+export class GroupCard extends Component {
   // static defaultProps = {
   //   data: {
   //     name: "default name",
@@ -49,7 +49,7 @@ export class DepartmentCard extends Component {
     const { match, data } = this.props;
 
     return (
-      <StyledDepartmentCard>
+      <StyledGroupCard>
         {/* <Item NAME="cover">
           <Photo>
             <img src="https://via.placeholder.com/350x150" alt="" />
@@ -190,13 +190,13 @@ export class DepartmentCard extends Component {
               variant="secondary"
               full
             >
-              View Department
+              View Group
             </Button>
           </Item>
         </Container>
-      </StyledDepartmentCard>
+      </StyledGroupCard>
     );
   }
 }
 
-export default withRouter(DepartmentCard);
+export default withRouter(GroupCard);

@@ -146,7 +146,7 @@ const UserTrainee = User.discriminator(
         required: true,
         default: false
       },
-      department: { type: Schema.Types.ObjectId, ref: "Department" }
+      group: { type: Schema.Types.ObjectId, ref: "Group" }
     }
   })
 );

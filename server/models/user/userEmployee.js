@@ -7,7 +7,7 @@ const UserEmployee = User.discriminator(
   enums.roles.EMPLOYEE,
   new Schema({
     roleData: {
-      department: { type: Schema.Types.ObjectId, ref: "Department" }
+      group: { type: Schema.Types.ObjectId, ref: "Group" }
     }
   })
 );

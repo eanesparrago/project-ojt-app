@@ -1,33 +1,33 @@
 const express = require("express");
 const router = express.Router();
-const DepartmentController = require("../controllers/department.controller");
+const GroupController = require("../controllers/group.controller");
 const passport = require("passport");
 const permittedRoles = require("../utils/permittedRoles");
-const validateCreateDepartment = require("../validation/validateCreateDepartment");
+const validateCreateGroup = require("../validation/validateCreateGroup");
 
 const enums = require("../enums");
 
-// >>> /api/departments
+// >>> /api/groups
 // --->>> GET /test - testRoute
-router.route("/test").get(DepartmentController.testRoute);
+router.route("/test").get(GroupController.testRoute);
 
-// --->>> POST /api/departments - createDepartment
+// --->>> POST /api/groups - createGroup
 router
   .route("/")
   .post(
     passport.authenticate("jwt", { session: false }),
     permittedRoles(enums.roles.ADMINISTRATOR),
-    validateCreateDepartment,
-    DepartmentController.createDepartment
+    validateCreateGroup,
+    GroupController.createGroup
   );
 
-// --->>> GET /api/departments - getDepartments
+// --->>> GET /api/groups - getGroups
 router
   .route("/")
   .get(
     // passport.authenticate("jwt", { session: false }),
     // permittedRoles(enums.roles.ADMINISTRATOR),
-    DepartmentController.getDepartments
+    GroupController.getGroups
   );
 
 module.exports = router;

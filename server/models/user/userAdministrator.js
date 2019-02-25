@@ -13,7 +13,7 @@ const UserAdministrator = User.discriminator(
           ref: "Announcement"
         }
       ],
-      departments: [{ type: Schema.Types.ObjectId, ref: "Department" }],
+      groups: [{ type: Schema.Types.ObjectId, ref: "Group" }],
       supervisors: [{ type: Schema.Types.ObjectId, ref: "Supervisor" }],
       trainees: [{ type: Schema.Types.ObjectId, ref: "Trainee" }],
       employee: [{ type: Schema.Types.ObjectId, ref: "Employee" }]

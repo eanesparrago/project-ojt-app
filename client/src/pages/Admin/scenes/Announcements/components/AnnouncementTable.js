@@ -109,7 +109,7 @@ export class AnnouncementTable extends Component {
                   <Typography variant="base">Creator</Typography>
                 </Item>
                 <Item as="th" padding="squish-l">
-                  <Typography variant="base">Department</Typography>
+                  <Typography variant="base">Group</Typography>
                 </Item>
                 <Item as="th" padding="squish-l">
                   <Typography variant="base">Message</Typography>

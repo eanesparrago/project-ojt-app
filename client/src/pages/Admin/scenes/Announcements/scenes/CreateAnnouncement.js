@@ -75,7 +75,7 @@ export class CreateAnnouncement extends Component {
   state = {
     person: {
       role: "",
-      department: "",
+      group: "",
       username: "",
       email: "",
       password: "",
@@ -163,7 +163,7 @@ export class CreateAnnouncement extends Component {
               padding="inset-base"
               animate={style}
             >
-              {/* >>> DEPARTMENT */}
+              {/* >>> GROUP */}
               <Box margin="stack-base">
                 <Item
                   NAME="createAnnouncement-input-name"
@@ -173,17 +173,17 @@ export class CreateAnnouncement extends Component {
                   <Typography
                     variant="display-3"
                     as="label"
-                    htmlFor="department-input"
+                    htmlFor="group-input"
                   >
-                    Department
+                    Group
                   </Typography>
                 </Item>
 
                 <Item NAME="createAnnouncement-input">
                   <SelectInput
-                    id="department-input"
+                    id="group-input"
                     onChange={this.handleInputChange}
-                    name="department"
+                    name="group"
                     options={[
                       {
                         label: "Choose an option",

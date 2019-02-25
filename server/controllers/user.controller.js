@@ -56,7 +56,7 @@ function getUsers(req, res) {
  * @param   {string}  req.body.lastName
  * @param   {string}  req.body.nickname
  * @param   {string}  req.body.gender
- * @param   {string}  req.body.department (role: supervisor, trainee, employee)
+ * @param   {string}  req.body.group (role: supervisor, trainee, employee)
  * @param   {Date}    req.body.dateOfBirth (role: trainee)
  * @param   {string}  req.body.address (role: trainee)
  * @param   {string}  req.body.contactNumber (role: trainee)

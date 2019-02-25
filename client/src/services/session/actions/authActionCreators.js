@@ -3,10 +3,15 @@ import jwt_decode from "jwt-decode";
 import axios from "axios";
 import enums from "src/services/enums";
 
-export const AUTH_USER_SET = "AUTH_USER_SET";
-export const AUTH_USER_SET_ERROR = "AUTH_USER_SET_ERROR";
+export const AUTH_LOGIN_REQUEST = "AUTH_LOGIN_REQUEST";
+export const AUTH_LOGIN_SUCCESS = "AUTH_LOGIN_SUCCESS";
+export const AUTH_LOGIN_FAILURE = "AUTH_LOGIN_FAILURE";
 
 export const loginUser = userData => dispatch => {
+  dispatch({
+    type: AUTH_LOGIN_REQUEST
+  });
+
   axios
     .post("api/users/login", userData)
     .then(res => {
@@ -24,7 +29,7 @@ export const loginUser = userData => dispatch => {
     })
     .catch(err => {
       dispatch({
-        type: AUTH_USER_SET_ERROR,
+        type: AUTH_LOGIN_FAILURE,
         payload: err.response.data
       });
     });
@@ -32,7 +37,7 @@ export const loginUser = userData => dispatch => {
 
 export const setCurrentUser = decoded => {
   return {
-    type: AUTH_USER_SET,
+    type: AUTH_LOGIN_SUCCESS,
     payload: decoded
   };
 };

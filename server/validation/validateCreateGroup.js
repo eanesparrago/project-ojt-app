@@ -1,7 +1,7 @@
 const { body } = require("express-validator/check");
 const enums = require("../enums");
 
-const validateCreateDepartment = [
+const validateCreateGroup = [
   // >>> name
   body("name")
     .trim()
@@ -16,4 +16,4 @@ const validateCreateDepartment = [
   body("phoneNumber").trim()
 ];
 
-module.exports = validateCreateDepartment;
+module.exports = validateCreateGroup;

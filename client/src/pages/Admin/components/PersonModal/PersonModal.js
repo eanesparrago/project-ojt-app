@@ -102,7 +102,7 @@ export class Person extends Component {
   state = {
     person: {
       role: "",
-      department: "",
+      group: "",
       accountStatus: "",
       username: "",
       requiredHours: "",
