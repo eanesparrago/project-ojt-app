@@ -5,18 +5,27 @@ import { Link, withRouter } from "react-router-dom";
 import { Button, Typography, Photo } from "../../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../../layout";
 
-import { togglePersonModal } from "src/pages/Admin/adminActionCreators";
-
 const StyledGroupCard = styled.div`
   /* border: 1px solid magenta; */
   width: ${p => p.theme.incrementFixed(16)};
   background-color: ${p => p.theme.color.white};
   box-shadow: ${p => p.theme.shadow[1]};
-  outline: 1px solid ${p => p.theme.color.dark};
+  /* border: 1px solid ${p => p.theme.color.primary.main}; */
+  border-radius: ${p => p.theme.size.base};
   overflow: hidden;
   transition-duration: 100ms;
   transition-property: box-shadow;
   transition-timing-function: ease-out;
+  display: flex;
+  flex-flow: column;
+
+  .container-groupCard {
+    flex-grow: 1;
+  }
+
+  .item-groupCard-button {
+
+  }
 
   &:hover {
     box-shadow: ${p => p.theme.shadow[2]};
@@ -50,34 +59,30 @@ export class GroupCard extends Component {
 
     return (
       <StyledGroupCard>
-        {/* <Item NAME="cover">
-          <Photo>
-            <img src="https://via.placeholder.com/350x150" alt="" />
-          </Photo>
-        </Item> */}
-
-        <Container padding="inset-m">
-          <Item margin="stack-m">
+        <Container NAME="groupCard" padding="inset-base">
+          <Item margin="stack-base">
             <Typography variant="display-3">{data.name}</Typography>
           </Item>
 
-          <Item margin="stack-m">
-            <Typography variant="caption">
-              <Item NAME="icon" inline center margin="inline-s">
-                <i className="fas fa-map-marker-alt" />
-              </Item>
-              {data.location}
-            </Typography>
-          </Item>
+          <Box margin="stack-m">
+            <Item top NAME="icon" inline center margin="inline-s">
+              <i className="fas fa-map-marker-alt" />
+            </Item>
 
-          <Item margin="stack-base">
-            <Typography variant="caption">
-              <Item NAME="icon" inline center margin="inline-s">
-                <i className="fas fa-phone" />
-              </Item>
-              {data.phoneNumber}
-            </Typography>
-          </Item>
+            <Item center>
+              <Typography variant="caption">{data.location}</Typography>
+            </Item>
+          </Box>
+
+          <Box margin="stack-base">
+            <Item top NAME="icon" inline center margin="inline-s">
+              <i className="fas fa-phone" />
+            </Item>
+
+            <Item center>
+              <Typography variant="caption">{data.phoneNumber}</Typography>
+            </Item>
+          </Box>
 
           <Item margin="stack-s">
             <Typography variant="display-4">Supervisors</Typography>
@@ -154,7 +159,7 @@ export class GroupCard extends Component {
             <Typography variant="display-4">Employees</Typography>
           </Item>
 
-          <Box margin="stack-base" wrap>
+          <Box wrap>
             <Item NAME="avatar" margin="inline-s">
               <Button variant="photo" rounded>
                 <img
@@ -182,18 +187,18 @@ export class GroupCard extends Component {
               </Button>
             </Item>
           </Box>
-
-          <Item>
-            <Button
-              as={Link}
-              to={`${match.url}/technical-support-group`}
-              variant="secondary"
-              full
-            >
-              View Group
-            </Button>
-          </Item>
         </Container>
+
+        <Item NAME="groupCard-view-button" padding="inset-base">
+          <Button
+            as={Link}
+            to={`${match.url}/technical-support-group`}
+            variant="secondary"
+            full
+          >
+            View Group
+          </Button>
+        </Item>
       </StyledGroupCard>
     );
   }

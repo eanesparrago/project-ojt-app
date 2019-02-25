@@ -53,7 +53,7 @@ const StyledAdmin = styled.div`
   .area-admin-main {
     /* border: 10px solid green; */
     grid-area: main;
-    background-color: ${p => p.theme.color.light};
+    background-color: ${p => p.theme.color.grey.light};
     overflow: auto;
     position: relative;
   }
