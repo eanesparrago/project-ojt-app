@@ -153,7 +153,7 @@ export class Group extends Component {
         <Container NAME="group-close">
           <Item>
             <Button
-              variant="secondary"
+              variant="primary"
               icon
               rounded
               as={Link}

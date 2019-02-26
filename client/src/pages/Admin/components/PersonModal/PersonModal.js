@@ -22,6 +22,7 @@ const StyledPerson = styled.div`
     "body back";
   grid-template-rows: auto 3fr;
   grid-template-columns: 3fr 1fr;
+  overflow-y: auto;
 
   > * {
     z-index: 100;
@@ -50,9 +51,9 @@ const StyledPerson = styled.div`
     background-color: ${p => p.theme.color.white};
     overflow-y: auto;
 
-    @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
+    /* @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
       overflow-y: unset;
-    }
+    } */
   }
 
   .area-person-back {

@@ -148,6 +148,7 @@ export class Groups extends Component {
           )}
         </Transition>
 
+        {/* >>> Person modal */}
         <Transition
           native
           items={location}

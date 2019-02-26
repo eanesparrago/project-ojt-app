@@ -14,7 +14,7 @@ const initialState = {
   data: [],
   isLoading: false,
   group: {},
-  errors: []
+  errors: {}
 };
 
 export default (state = initialState, action) => {

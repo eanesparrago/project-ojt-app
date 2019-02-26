@@ -33,13 +33,22 @@ router.route("/register").post(
   UserController.createUser
 );
 
-// --->>> GET /api/users/ - getusers
+// --->>> GET /api/users/ - getUsers
 router
   .route("/")
   .get(
     passport.authenticate("jwt", { session: false }),
     permittedRoles(enums.roles.ADMINISTRATOR),
     UserController.getUsers
+  );
+
+// --->>> GET /api/users/:id - getUser
+router
+  .route("/:id")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    UserController.getUser
   );
 
 // --->>> POST /api/users/login - loginUser

@@ -22,7 +22,7 @@ export default css`
     position: absolute;
     width: 100%;
     height: 100%;
-
+ 
     @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
       overflow-y: auto;
     }

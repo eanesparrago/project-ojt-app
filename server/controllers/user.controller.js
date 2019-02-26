@@ -155,9 +155,25 @@ function loginUser(req, res) {
   });
 }
 
+/**
+ * Get user by id
+ * POST api/users/id
+ * @param  req.param.id
+ * @param  res
+ * @access  public
+ */
+function getUser(req, res) {
+  User.findById(req.params.id)
+    .then(user => res.json(user))
+    .catch(err => res.status(404).json({ user: "User not found" }));
+}
+
+
+
 module.exports = {
   getUsers,
   testRoute,
   createUser,
-  loginUser
+  loginUser,
+  getUser
 };

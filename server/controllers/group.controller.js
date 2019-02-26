@@ -73,7 +73,7 @@ function getGroup(req, res) {
 
 /**
  * Edit a group by id
- * @route   GET api/groups/:id
+ * @route   PUT api/groups/:id
  * @param   res.body.name
  * @param   res.body.location
  * @param   res.body.phoneNumber

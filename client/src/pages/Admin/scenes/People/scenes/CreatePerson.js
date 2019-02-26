@@ -2,13 +2,9 @@ import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Spring } from "react-spring/renderprops";
 import { Link, withRouter } from "react-router-dom";
-import { Button, Typography } from "../../../../../components/elements";
-import {
-  TextInput,
-  RadioInput,
-  SelectInput
-} from "../../../../../components/compounds";
-import { Item, Box, Container, Area } from "../../../../../layout";
+import { Button, Typography } from "src/components/elements";
+import { TextInput, RadioInput, SelectInput } from "src/components/compounds";
+import { Item, Box, Container, Area } from "src/layout";
 
 import roleInputOptions from "./roleInputOptions";
 
@@ -96,7 +92,8 @@ export class CreatePerson extends Component {
       guardianName: "",
       guardianContactNumber: ""
     },
-    errors: []
+    errors: {},
+    isLoading: false
   };
 
   handleInputChange = e => {

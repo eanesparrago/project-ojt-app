@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import _ from "lodash";
 
 import groupsReducer from "./scenes/Groups/groupsReducer";
+import peopleReducer from "./scenes/People/peopleReducer";
 
 // const initialState = {};
 // export default (state = initialState, action) => {
@@ -16,6 +17,7 @@ import groupsReducer from "./scenes/Groups/groupsReducer";
 // };
 
 export default combineReducers({
-  groups: groupsReducer
+  groups: groupsReducer,
+  people: peopleReducer
 });
 

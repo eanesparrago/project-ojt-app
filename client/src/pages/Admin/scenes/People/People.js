@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Transition } from "react-spring/renderprops";
 import { Route, Switch, withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
+
 import { Button, Typography } from "../../../../components/elements";
 import { Item, Box, Container, Area } from "../../../../layout";
 
@@ -11,13 +13,19 @@ import PeopleTable from "./components/PeopleTable";
 import PersonModal from "src/pages/Admin/components/PersonModal/PersonModal";
 import adminScenesStyles from "src/pages/Admin/adminScenesStyles";
 
+import { getPeople } from "./peopleActionCreators";
+
 const StyledPeople = styled.div`
   ${adminScenesStyles}
 `;
 
 export class People extends Component {
+  componentDidMount() {
+    this.props.getPeople();
+  }
+
   render() {
-    const { match, location } = this.props;
+    const { match, location, people } = this.props;
 
     return (
       <StyledPeople>
@@ -44,7 +52,7 @@ export class People extends Component {
 
         {/* >>> Content body */}
         <Area NAME="admin-content-body" padding="inset-base">
-          <PeopleTable />
+          <PeopleTable data={people.data} />
         </Area>
 
         <Transition
@@ -101,4 +109,11 @@ export class People extends Component {
   }
 }
 
-export default withRouter(People);
+export default withRouter(
+  connect(
+    state => ({
+      people: state.admin.people
+    }),
+    { getPeople: getPeople }
+  )(People)
+);

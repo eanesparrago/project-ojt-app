@@ -23,6 +23,10 @@ const StyledEditGroupForm = styled.form`
   .item-editGroupForm-input {
     width: 62%;
   }
+
+  .box-editGroupForm-buttons {
+    /* border: 1px solid magenta; */
+  }
 `;
 
 export class EditGroupForm extends Component {
@@ -132,7 +136,7 @@ export class EditGroupForm extends Component {
           </Box>
         ))}
 
-        <Box>
+        <Box NAME="editGroupForm-buttons" justify="flex-end">
           <Item margin="inline-s">
             <Button type="submit" variant="primary" onClick={this.handleSubmit}>
               Save
@@ -149,11 +153,11 @@ export class EditGroupForm extends Component {
             </Button>
           </Item>
 
-          <Item style={{ marginLeft: "auto" }}>
+          {/* <Item style={{ marginLeft: "auto" }}>
             <Button type="button" variant="text" onClick={this.handleDelete}>
               Delete Group
             </Button>
-          </Item>
+          </Item> */}
         </Box>
       </StyledEditGroupForm>
     );

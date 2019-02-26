@@ -86,15 +86,14 @@ const StyledButtonSecondary = styled(StyledButton)`
   background-color: ${p => p.theme.color.white};
   /* box-shadow: 0 0 0 var(--size-xxs) ${p => p.theme.color.primary.main}; */
   /* box-shadow: unset; */
-  border: 1px solid ${p => p.theme.color.primary.main};
+  border: 1px solid ${p => p.theme.color.primary.dark};
   border-radius: 1000em;
-  color: ${p => p.theme.color.primary.main};
+  color: ${p => p.theme.color.primary.dark};
   text-transform: uppercase;
   font-weight: 700;
   min-width:  ${p => !p.icon && p.theme.incrementFixed(4)};
 
   &:hover {
-    /* box-shadow: 0 0 0 var(--size-xxs) ${p => p.theme.color.primary.main}; */
     box-shadow: ${p => p.theme.shadow[1]};
   }
 

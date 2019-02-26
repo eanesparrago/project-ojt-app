@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
+import format from "date-fns/format";
+
 import { Button, Typography, Photo } from "../../../../../components/elements";
 import { TextInput, SelectInput } from "../../../../../components/compounds";
 import { Item, Box, Container, Area } from "../../../../../layout";
@@ -39,8 +41,7 @@ const StyledPeopleTable = styled.div`
   }
 
   .container-peopleTable-table-head-row {
-    /* background-color: ${p => p.theme.color.grey.light}; */
-    color: ${p => p.theme.color.primary.main};
+    color: ${p => p.theme.color.primary.dark};
     border-bottom: 1px solid ${p => p.theme.color.primary.light};
    }
 
@@ -52,10 +53,11 @@ const StyledPeopleTable = styled.div`
   }
 
   .item-peopleTable-username {
-    color: ${p => p.theme.color.primary.main};
+    color: ${p => p.theme.color.primary.dark};
+    font-weight: 700;
 
     &:hover {
-      color: ${p => p.theme.color.primary.dark};
+      color: ${p => p.theme.color.primary.main};
     }
   }
 
@@ -84,15 +86,11 @@ const StyledPeopleTable = styled.div`
 
 export class PeopleTable extends Component {
   render() {
-    const { match } = this.props;
+    const { match, data } = this.props;
 
     return (
       <StyledPeopleTable>
         <Area NAME="peopleTable-header" margin="stack-base">
-          {/* <Item margin="inline-base">
-            <Typography variant="display-2">Everyone</Typography>
-          </Item> */}
-
           <Item margin="inline-base">
             <SelectInput />
           </Item>
@@ -124,69 +122,47 @@ export class PeopleTable extends Component {
                   <Typography variant="base">Last Name</Typography>
                 </Item>
                 <Item as="th" padding="squish-l">
-                  <Typography variant="base">Group</Typography>
-                </Item>
-                <Item as="th" padding="squish-l">
-                  <Typography variant="base">Required Hours</Typography>
-                </Item>
-                <Item as="th" padding="squish-l">
-                  <Typography variant="base">Remaining Hours</Typography>
-                </Item>
-                <Item as="th" padding="squish-l">
                   <Typography variant="base">Account Status</Typography>
                 </Item>
                 <Item as="th" padding="squish-l">
-                  <Typography variant="base">Training Status</Typography>
-                </Item>
-                <Item as="th" padding="squish-l">
-                  <Typography variant="base">Date Started</Typography>
+                  <Typography variant="base">Date Created</Typography>
                 </Item>
               </Container>
             </Container>
 
             <Container NAME="peopleTable-table-body" as="tbody">
-              {Array(20)
-                .fill(null)
-                .map((item, i) => (
-                  <Container NAME="peopleTable-table-body-row" as="tr" key={i}>
-                    <Item padding="squish-l" as="td">
-                      <Item
-                        NAME="peopleTable-username"
-                        as={Link}
-                        to={`${match.url}/person/123`}
-                      >
-                        <Typography variant="base">usteven</Typography>
-                      </Item>
+              {data.map((person, i) => (
+                <Container NAME="peopleTable-table-body-row" as="tr" key={i}>
+                  <Item padding="squish-l" as="td">
+                    <Item
+                      NAME="peopleTable-username"
+                      as={Link}
+                      to={`${match.url}/person/123`}
+                    >
+                      <Typography variant="base">{person.username}</Typography>
                     </Item>
-                    <Item as="td" padding="squish-l">
-                      <Typography variant="base">Administrator</Typography>
-                    </Item>
-                    <Item as="td" padding="squish-l">
-                      <Typography variant="base">Steven</Typography>
-                    </Item>
-                    <Item as="td" padding="squish-l">
-                      <Typography variant="base">Universe</Typography>
-                    </Item>
-                    <Item as="td" padding="squish-l">
-                      <Typography variant="base">Administrator</Typography>
-                    </Item>
-                    <Item as="td" padding="squish-l">
-                      <Typography variant="base">486</Typography>
-                    </Item>
-                    <Item as="td" padding="squish-l">
-                      <Typography variant="base">30</Typography>
-                    </Item>
-                    <Item as="td" padding="squish-l">
-                      <Typography variant="base">Active</Typography>
-                    </Item>
-                    <Item as="td" padding="squish-l">
-                      <Typography variant="base">Away</Typography>
-                    </Item>
-                    <Item as="td" padding="squish-l">
-                      <Typography variant="base">2019-02-20</Typography>
-                    </Item>
-                  </Container>
-                ))}
+                  </Item>
+                  <Item as="td" padding="squish-l">
+                    <Typography variant="base">{person.role}</Typography>
+                  </Item>
+                  <Item as="td" padding="squish-l">
+                    <Typography variant="base">{person.firstName}</Typography>
+                  </Item>
+                  <Item as="td" padding="squish-l">
+                    <Typography variant="base">{person.lastName}</Typography>
+                  </Item>
+                  <Item as="td" padding="squish-l">
+                    <Typography variant="base">
+                      {person.isActive ? "Active" : "Inactive"}
+                    </Typography>
+                  </Item>
+                  <Item as="td" padding="squish-l">
+                    <Typography variant="base">
+                      {format(person.dateCreated, "YYYY-MM-DD")}
+                    </Typography>
+                  </Item>
+                </Container>
+              ))}
             </Container>
           </Container>
         </Area>
