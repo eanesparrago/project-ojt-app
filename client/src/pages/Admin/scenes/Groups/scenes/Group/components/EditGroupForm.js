@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import axios from "axios";
+import { connect } from "react-redux";
+
 import { Item, Box, Container } from "src/layout";
 import { Button, Typography, Photo } from "src/components/elements";
 import { TextInput } from "src/components/compounds";
-import axios from "axios";
-import { connect } from "react-redux";
 
 import {
   getGroup,
@@ -53,11 +55,9 @@ export class EditGroupForm extends Component {
       axios
         .put(`/api/groups/${data._id}`, state.data)
         .then(res => {
-          this.setState({ ...state, data: res.data }, () => {
-            getGroup(data._id);
-            getGroups();
-            handleEditFormToggle();
-          });
+          getGroup(data._id);
+          getGroups();
+          handleEditFormToggle();
         })
         .catch(err => {
           this.setState({
@@ -69,9 +69,27 @@ export class EditGroupForm extends Component {
     });
   };
 
+  handleDelete = e => {
+    e.preventDefault();
+    const { data, getGroups, history } = this.props;
+
+    axios
+      .delete(`/api/groups/${data._id}`)
+      .then(res => {
+        getGroups();
+        history.goBack();
+      })
+      .catch(err => {
+        getGroups();
+        history.goBack();
+      });
+  };
+
   render() {
     const { handleEditFormToggle } = this.props;
     const { data, isLoading, errors } = this.state;
+
+    console.log(data);
 
     return (
       <StyledEditGroupForm>
@@ -132,18 +150,26 @@ export class EditGroupForm extends Component {
               Cancel
             </Button>
           </Item>
+
+          <Item style={{ marginLeft: "auto" }}>
+            <Button type="button" variant="text" onClick={this.handleDelete}>
+              Delete Group
+            </Button>
+          </Item>
         </Box>
       </StyledEditGroupForm>
     );
   }
 }
 
-export default connect(
-  state => ({
-    data: state.admin.groups.group
-  }),
-  {
-    getGroup: getGroup,
-    getGroups: getGroups
-  }
-)(EditGroupForm);
+export default withRouter(
+  connect(
+    state => ({
+      data: state.admin.groups.group
+    }),
+    {
+      getGroup: getGroup,
+      getGroups: getGroups
+    }
+  )(EditGroupForm)
+);
