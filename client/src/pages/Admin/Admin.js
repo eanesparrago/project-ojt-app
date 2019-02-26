@@ -34,16 +34,16 @@ const StyledAdmin = styled.div`
     align-items: center;
     justify-content: space-between;
     background-color: ${p => p.theme.color.dark};
-    color: ${p => p.theme.color.light};
+    color: ${p => p.theme.color.primary.main};
   }
 
   .area-admin-sidebar {
     grid-area: sidebar;
     display: flex;
     flex-flow: column;
-    background-color: ${p => p.theme.color.white};
-    border-right: 1px solid ${p => p.theme.color.dark};
+    background-color: ${p => p.theme.color.grey.dark};
     overflow: auto;
+    color: ${p => p.theme.color.light};
 
     /* @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
       display: none;
@@ -75,7 +75,7 @@ const StyledAdmin = styled.div`
   .item-admin-divider {
     height: 1px;
     width: calc(100% - var(--size-base) * 2);
-    background-color: ${p => p.theme.color.dark};
+    background-color: ${p => p.theme.color.primary.accent};
     position: absolute;
     bottom: 0;
   }

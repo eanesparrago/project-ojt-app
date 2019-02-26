@@ -8,8 +8,8 @@ export default css`
 
   .area-admin-content-header {
     background-color: ${p => p.theme.color.white};
-    border-bottom: 1px solid ${p => p.theme.color.dark};
     padding-bottom: ${p => p.theme.size.s};
+    border-bottom: 2px solid ${p => p.theme.color.primary.accent};
   }
 
   .area-admin-content-body {

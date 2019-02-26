@@ -61,7 +61,7 @@ const StyledButton = styled.button`
 // >>> Primary
 const StyledButtonPrimary = styled(StyledButton)`
   background-color: ${p => p.theme.color.primary.main};
-  color: ${p => p.theme.color.lightFixed};
+  color: ${p => p.theme.color.dark};
   border-radius: 1000em;
   text-transform: uppercase;
   font-weight: 700;

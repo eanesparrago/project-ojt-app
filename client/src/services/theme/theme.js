@@ -24,10 +24,10 @@ export default {
   },
   color: {
     primary: {
-      light: "#C8E6C9",
-      main: "#4CAF50",
-      dark: "#1B5E20",
-      accent: "#00E676"
+      light: "#C5E1A5",
+      main: "#8BC34A",
+      dark: "#558B2F",
+      accent: "#64DD17"
     },
     secondary: {
       main: "",

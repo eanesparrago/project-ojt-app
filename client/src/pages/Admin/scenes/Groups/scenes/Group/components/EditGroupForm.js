@@ -89,8 +89,6 @@ export class EditGroupForm extends Component {
     const { handleEditFormToggle } = this.props;
     const { data, isLoading, errors } = this.state;
 
-    console.log(data);
-
     return (
       <StyledEditGroupForm>
         {[

@@ -9,7 +9,9 @@ const StyledPeopleTable = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${p => p.theme.color.white};
-  border: 1px solid ${p => p.theme.color.dark};
+  /* border: 1px solid ${p => p.theme.color.dark}; */
+  border-radius: ${p => p.theme.size.base};
+  box-shadow: ${p => p.theme.shadow[1]};
   padding: var(--size-base);
   display: flex;
   flex-flow: column;
