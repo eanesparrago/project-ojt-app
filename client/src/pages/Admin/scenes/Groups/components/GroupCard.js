@@ -196,7 +196,7 @@ export class GroupCard extends Component {
         <Item NAME="groupCard-view-button" padding="inset-base">
           <Button
             as={Link}
-            to={`${match.url}/technical-support-group`}
+            to={`${match.url}/group/${data._id}`}
             variant="secondary"
             full
           >

@@ -52,20 +52,6 @@ const StyledButton = styled.button`
 
   ${configs};
 
-  /* 
-  &:hover {
-    box-shadow: ${p => p.theme.shadow[1]};
-  }
-
-  &:focus {
-    box-shadow: 0 0 0 var(--size-xs) ${p => p.theme.color.primary.light};
-  }
-
-  &:active {
-    box-shadow: 0 0 0 var(--size-xxs) ${p => p.theme.color.primary.light};
-  }
-  */
-
   &:disabled {
     background-color: ${p => p.theme.color.grey.medium};
     box-shadow: unset;
@@ -79,6 +65,7 @@ const StyledButtonPrimary = styled(StyledButton)`
   border-radius: 1000em;
   text-transform: uppercase;
   font-weight: 700;
+  min-width: ${p => !p.icon && p.theme.incrementFixed(4)};
 
   &:hover {
     box-shadow: ${p => p.theme.shadow[1]};
@@ -104,6 +91,7 @@ const StyledButtonSecondary = styled(StyledButton)`
   color: ${p => p.theme.color.primary.main};
   text-transform: uppercase;
   font-weight: 700;
+  min-width:  ${p => !p.icon && p.theme.incrementFixed(4)};
 
   &:hover {
     /* box-shadow: 0 0 0 var(--size-xxs) ${p => p.theme.color.primary.main}; */

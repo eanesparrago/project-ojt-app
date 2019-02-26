@@ -122,6 +122,10 @@ const GlobalStyle = createGlobalStyle`
 ::-webkit-scrollbar-thumb:hover {
   background: ${theme.color.primary.main}; 
 }
+
+::-webkit-scrollbar-thumb:active {
+  background: ${theme.color.primary.dark}; 
+}
 `;
 
 export default GlobalStyle;

@@ -25,9 +25,37 @@ router
 router
   .route("/")
   .get(
-    // passport.authenticate("jwt", { session: false }),
-    // permittedRoles(enums.roles.ADMINISTRATOR),
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
     GroupController.getGroups
+  );
+
+// --->>> GET /api/groups/:id
+router
+  .route("/:id")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    GroupController.getGroup
+  );
+
+// --->>> DELETE /api/groups/:id
+router
+  .route("/:id")
+  .delete(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    GroupController.deleteGroup
+  );
+
+// --->>> PUT /api/groups/:id
+router
+  .route("/:id")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    validateCreateGroup,
+    GroupController.editGroup
   );
 
 module.exports = router;

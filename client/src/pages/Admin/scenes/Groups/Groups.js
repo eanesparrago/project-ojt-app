@@ -9,7 +9,7 @@ import { Item, Box, Container, Area } from "../../../../layout";
 import { LoadingScene } from "src/components/compounds";
 
 import GroupCard from "./components/GroupCard";
-import Group from "./scenes/Group";
+import Group from "./scenes/Group/Group";
 import CreateGroup from "./scenes/CreateGroup";
 import { PersonModal } from "src/pages/Admin/components";
 import sceneStyles from "src/pages/Admin/adminScenesStyles";
@@ -66,6 +66,7 @@ export class Groups extends Component {
         </Area>
 
         <Area NAME="admin-content-body" padding="inset-base">
+          {/* >>> LoadingScene */}
           <Transition
             native
             items={groups.isLoading}
@@ -99,14 +100,6 @@ export class Groups extends Component {
               )}
             </Trail>
           </Box>
-          {/* 
-          <Box wrap>
-            {groups.data.map(group => (
-              <Item margin="wrap-base" key={group._id}>
-                <GroupCard data={group} />
-              </Item>
-            ))}
-          </Box> */}
         </Area>
 
         {/* >>> Create Group Modal */}
@@ -137,14 +130,14 @@ export class Groups extends Component {
           native
           items={location}
           keys={location.pathname}
-          from={{ transform: "translateY(100%)" }}
-          enter={{ transform: "translateY(0%)" }}
-          leave={{ transform: "translateY(100%)" }}
+          from={{ transform: "translateY(100%)", opacity: "0" }}
+          enter={{ transform: "translateY(0%)", opacity: "1" }}
+          leave={{ transform: "translateY(100%)", opacity: "0" }}
         >
           {loc => style => (
             <Switch location={loc}>
               <Route
-                path={`${match.url}/technical-support-group`}
+                path={`${match.url}/group/:id`}
                 render={() => (
                   <Container NAME="groups-group" animate={style}>
                     <Group />

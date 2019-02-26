@@ -5,15 +5,10 @@ import spinner from "src/assets/spinner.gif";
 const StyledLoadingScene = styled.div`
   width: 100%;
   height: 100%;
-  /* background-image: linear-gradient(
-    to top right,
-    ${p => p.theme.color.primary.light},
-    ${p => p.theme.color.primary.accent}
-  );
-  opacity: 0.5; */
   display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: none;
 
   .lds-grid {
     display: inline-block;

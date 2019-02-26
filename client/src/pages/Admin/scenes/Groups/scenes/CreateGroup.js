@@ -104,7 +104,7 @@ export class CreateGroup extends Component {
         .catch(err => {
           this.setState({
             ...this.state,
-            errors: err.response.data.errors,
+            errors: err.response.data,
             isLoading: false
           });
         });

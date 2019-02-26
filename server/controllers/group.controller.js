@@ -6,6 +6,39 @@ function testRoute(req, res) {
 }
 
 /**
+ * Create a group
+ * @route   POST api/groups
+ * @param   {Object}  req.body.name (required)
+ * @param   {string}  req.body.location
+ * @param   {string}  req.body.phoneNumber
+ * @access  private   (role: administrator)
+ */
+function createGroup(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json(errors.mapped());
+  }
+
+  const newGroup = new Group({
+    name: req.body.name,
+    location: req.body.location,
+    phoneNumber: req.body.phoneNumber
+  });
+
+  Group.findOne({ name: req.body.name }).then(group => {
+    if (group) {
+      errors.name = { msg: "Group name already exists" };
+      return res.status(400).json(errors);
+    } else {
+      newGroup
+        .save()
+        .then(group => res.status(201).json(group))
+        .catch(err => console.log(err));
+    }
+  });
+}
+
+/**
  * Get all groups
  * @route   GET api/groups
  * @access  private (role: administrator)
@@ -28,40 +61,68 @@ function getGroups(req, res) {
 }
 
 /**
- * Create a group
- * @route   POST api/groups
- * @param   {Object}  req.body.name (required)
- * @param   {string}  req.body.location
- * @param   {string}  req.body.phoneNumber
- * @access  private   (role: administrator)
+ * Get a group by id
+ * @route   GET api/groups/:id
+ * @access  private (role: administrator)
  */
-function createGroup(req, res) {
+function getGroup(req, res) {
+  Group.findById(req.params.id)
+    .then(group => res.json(group))
+    .catch(err => res.status(404).json({ group: "Group not found" }));
+}
+
+/**
+ * Edit a group by id
+ * @route   GET api/groups/:id
+ * @param   res.body.name
+ * @param   res.body.location
+ * @param   res.body.phoneNumber
+ * @access  private (role: administrator)
+ */
+function editGroup(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.mapped() });
+    return res.status(422).json(errors.mapped());
   }
 
-  const newGroup = new Group({
-    name: req.body.name,
-    location: req.body.location,
-    phoneNumber: req.body.phoneNumber
-  });
+  Group.findById(req.params.id)
+    .then(group => {
+      Group.findOne({ name: req.body.name }).then(duplicate => {
+        if (duplicate && group.name !== req.body.name) {
+          errors.name = { msg: "Group name already exists" };
+          return res.status(400).json(errors);
+        } else {
+          group.name = req.body.name;
+          group.location = req.body.location;
+          group.phoneNumber = req.body.phoneNumber;
 
-  Group.findOne({ name: req.body.name }).then(group => {
-    if (group) {
-      errors.group = "Group already exists";
-      return res.status(400).json(errors);
-    }
-  });
+          group.save((err, user) => {
+            res.send({ data: user });
+          });
+        }
+      });
+    })
+    .catch(err => res.status(404).json({ group: "Group not found" }));
+}
 
-  newGroup
-    .save()
-    .then(group => res.status(201).json(group))
-    .catch(err => console.log(err));
+/**
+ * Delete a group by id
+ * @route   GET api/groups/:id
+ * @access  private (role: administrator)
+ */
+function deleteGroup(req, res) {
+  Group.findById(req.params.id).then(group => {
+    group.remove((err, user) => {
+      res.send({ data: user });
+    });
+  });
 }
 
 module.exports = {
   testRoute,
   createGroup,
-  getGroups
+  getGroups,
+  getGroup,
+  deleteGroup,
+  editGroup
 };

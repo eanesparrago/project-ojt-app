@@ -8,10 +8,12 @@ const groupSchema = new Schema({
     unique: true
   },
   location: {
-    type: String
+    type: String,
+    default: ""
   },
   phoneNumber: {
-    type: String
+    type: String,
+    default: ""
   },
   supervisors: [
     {
