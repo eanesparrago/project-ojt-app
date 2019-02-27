@@ -153,11 +153,11 @@ export class EditGroupForm extends Component {
             </Button>
           </Item>
 
-          {/* <Item style={{ marginLeft: "auto" }}>
+          <Item style={{ marginLeft: "auto" }}>
             <Button type="button" variant="text" onClick={this.handleDelete}>
               Delete Group
             </Button>
-          </Item> */}
+          </Item>
         </Box>
       </StyledEditGroupForm>
     );

@@ -168,8 +168,6 @@ function getUser(req, res) {
     .catch(err => res.status(404).json({ user: "User not found" }));
 }
 
-
-
 module.exports = {
   getUsers,
   testRoute,

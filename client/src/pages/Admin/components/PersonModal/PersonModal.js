@@ -14,15 +14,14 @@ import {
 const StyledPerson = styled.div`
   /* border: 1px solid magenta; */
   width: 100%;
-  height: 100%;
-  position: absolute;
+  min-height: 100%;
+  position: relative;
   display: grid;
   grid-template-areas:
     "header back"
     "body back";
   grid-template-rows: auto 3fr;
   grid-template-columns: 3fr 1fr;
-  overflow-y: auto;
 
   > * {
     z-index: 100;
@@ -49,7 +48,7 @@ const StyledPerson = styled.div`
     /* border: 1px solid magenta; */
     grid-area: body;
     background-color: ${p => p.theme.color.white};
-    overflow-y: auto;
+    /* overflow-y: auto; */
 
     /* @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
       overflow-y: unset;

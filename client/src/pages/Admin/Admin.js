@@ -33,7 +33,7 @@ const StyledAdmin = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: ${p => p.theme.color.dark};
+    background-color: ${p => p.theme.color.grey.dark};
     color: ${p => p.theme.color.primary.main};
   }
 
@@ -41,7 +41,7 @@ const StyledAdmin = styled.div`
     grid-area: sidebar;
     display: flex;
     flex-flow: column;
-    background-color: ${p => p.theme.color.grey.dark};
+    background-color: ${p => p.theme.color.dark};
     overflow: auto;
     color: ${p => p.theme.color.light};
 

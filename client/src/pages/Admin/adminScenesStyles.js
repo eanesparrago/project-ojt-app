@@ -13,16 +13,18 @@ export default css`
   }
 
   .area-admin-content-body {
-    overflow: auto;
     width: 100%;
     height: 100%;
+    overflow-y: auto;
   }
 
   .container-admin-person {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
- 
+
     @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
       overflow-y: auto;
     }
