@@ -1,12 +1,16 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import { Spring } from "react-spring/renderprops";
 import { Link, withRouter } from "react-router-dom";
 import { Button, Typography } from "src/components/elements";
 import { TextInput, RadioInput, SelectInput } from "src/components/compounds";
 import { Item, Box, Container, Area } from "src/layout";
+import axios from "axios";
 
 import roleInputOptions from "./roleInputOptions";
+
+import { getPeople } from "src/pages/Admin/scenes/People/peopleActionCreators";
 
 const StyledCreatePerson = styled.div`
   /* border: 1px solid magenta; */
@@ -70,7 +74,7 @@ const StyledCreatePerson = styled.div`
 
 export class CreatePerson extends Component {
   state = {
-    person: {
+    data: {
       role: "",
       group: "",
       username: "",
@@ -98,17 +102,36 @@ export class CreatePerson extends Component {
 
   handleInputChange = e => {
     this.setState({
-      person: { ...this.state.person, [e.target.name]: e.target.value }
+      data: { ...this.state.data, [e.target.name]: e.target.value }
     });
   };
 
   handleSubmit = e => {
     e.preventDefault();
     console.log(this.state);
+
+    this.setState({ ...this.state, isLoading: true, errors: {} }, () => {
+      axios
+        .post("/api/users/register", this.state.data)
+        .then(res => {
+          this.setState({ ...this.state, data: res.data }, () => {
+            this.props.getPeople();
+            this.props.history.goBack();
+          });
+        })
+        .catch(err => {
+          this.setState({
+            ...this.state,
+            errors: err.response.data,
+            isLoading: false
+          });
+        });
+    });
   };
 
   render() {
     const { history } = this.props;
+    const { isLoading, data, errors } = this.state;
 
     return (
       <StyledCreatePerson>
@@ -174,11 +197,11 @@ export class CreatePerson extends Component {
               </Box>
 
               {/* >>> Role must be filled */}
-              {this.state.person.role && (
+              {this.state.data.role && (
                 <Fragment>
                   {/* >>> GROUP */}
                   {/* >>> Group is not for administrators */}
-                  {this.state.person.role !== "administrator" && (
+                  {this.state.data.role !== "administrator" && (
                     <Box margin="stack-base">
                       <Item
                         NAME="createPerson-input-name"
@@ -276,7 +299,7 @@ export class CreatePerson extends Component {
                       role: ["trainee"]
                     }
                   ]
-                    .filter(item => item.role.includes(this.state.person.role))
+                    .filter(item => item.role.includes(this.state.data.role))
                     .map(item => (
                       <Box margin="stack-base" key={item.id}>
                         <Item
@@ -298,7 +321,7 @@ export class CreatePerson extends Component {
                             name={item.name}
                             id={item.id}
                             type={item.type}
-                            value={this.state[item.name]}
+                            value={this.state.data[item.name]}
                             onChange={this.handleInputChange}
                           />
                         </Item>
@@ -364,7 +387,7 @@ export class CreatePerson extends Component {
                       ]
                     }
                   ]
-                    .filter(item => item.role.includes(this.state.person.role))
+                    .filter(item => item.role.includes(this.state.data.role))
                     .map(item => (
                       <Box margin="stack-base" key={item.id}>
                         <Item
@@ -386,7 +409,7 @@ export class CreatePerson extends Component {
                             name={item.name}
                             id={item.id}
                             type={item.type}
-                            value={this.state[item.name]}
+                            value={this.state.data[item.name]}
                             onChange={this.handleInputChange}
                           />
                         </Item>
@@ -507,7 +530,7 @@ export class CreatePerson extends Component {
                       role: ["trainee"]
                     }
                   ]
-                    .filter(item => item.role.includes(this.state.person.role))
+                    .filter(item => item.role.includes(this.state.data.role))
                     .map(item => (
                       <Box margin="stack-base" key={item.id}>
                         <Item
@@ -529,7 +552,7 @@ export class CreatePerson extends Component {
                             name={item.name}
                             id={item.id}
                             type={item.type}
-                            value={this.state[item.name]}
+                            value={this.state.data[item.name]}
                             onChange={this.handleInputChange}
                           />
                         </Item>
@@ -558,4 +581,9 @@ export class CreatePerson extends Component {
   }
 }
 
-export default withRouter(CreatePerson);
+export default withRouter(
+  connect(
+    null,
+    { getPeople: getPeople }
+  )(CreatePerson)
+);

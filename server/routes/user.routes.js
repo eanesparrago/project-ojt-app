@@ -21,8 +21,8 @@ router
 
 // --->>> /api/users/register - registerUser
 router.route("/register").post(
-  passport.authenticate("jwt", { session: false }),
-  permittedRoles(enums.roles.ADMINISTRATOR),
+  // passport.authenticate("jwt", { session: false }),
+  // permittedRoles(enums.roles.ADMINISTRATOR),
   function(req, res, next) {
     if (req.body.role === enums.roles.TRAINEE) {
       dynamicValidation(validateCreateUserTrainee, req, res, next);

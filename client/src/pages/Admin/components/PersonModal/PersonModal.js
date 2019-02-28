@@ -48,7 +48,7 @@ const StyledPerson = styled.div`
     /* border: 1px solid magenta; */
     grid-area: body;
     background-color: ${p => p.theme.color.white};
-    /* overflow-y: auto; */
+    overflow-y: auto;
 
     /* @media (max-width: ${p => p.theme.breakpoint.tabletLandscape}) {
       overflow-y: unset;
