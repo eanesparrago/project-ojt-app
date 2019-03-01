@@ -70,7 +70,7 @@ function getUsers(req, res) {
 function createUser(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.mapped() });
+    return res.status(422).json(errors.mapped());
   }
 
   User.findOne({ username: req.body.username }).then(user => {

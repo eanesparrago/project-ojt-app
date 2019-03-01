@@ -86,9 +86,9 @@ export class Groups extends Component {
           </Transition>
 
           <Box wrap>
-            <Trail
+            {/* <Trail
               items={groups.data}
-              keys={data => data._id}
+              keys={data => data.name}
               from={{ transform: "translateY(100%)", opacity: "0" }}
               to={{ transform: "translateY(0%)", opacity: "1" }}
               native
@@ -98,7 +98,13 @@ export class Groups extends Component {
                   <GroupCard data={group} />
                 </Item>
               )}
-            </Trail>
+            </Trail> */}
+
+            {groups.data.map(group => (
+              <Item margin="wrap-base" key={group._id}>
+                <GroupCard data={group} />
+              </Item>
+            ))}
           </Box>
         </Area>
 
