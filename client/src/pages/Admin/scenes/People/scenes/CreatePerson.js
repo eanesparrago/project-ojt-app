@@ -413,6 +413,8 @@ export class CreatePerson extends Component {
                             type={item.type}
                             value={this.state.data[item.name]}
                             onChange={this.handleInputChange}
+                            error={errors[item.name]}
+                            disabled={isLoading}
                           />
                         </Item>
                       </Box>
@@ -556,6 +558,8 @@ export class CreatePerson extends Component {
                             type={item.type}
                             value={this.state.data[item.name]}
                             onChange={this.handleInputChange}
+                            error={errors[item.name]}
+                            disabled={isLoading}
                           />
                         </Item>
                       </Box>

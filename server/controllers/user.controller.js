@@ -72,15 +72,22 @@ function createUser(req, res) {
   if (!errors.isEmpty()) {
     return res.status(422).json(errors.mapped());
   }
+  console.log(req.body);
 
   User.findOne({ username: req.body.username }).then(user => {
     if (user) {
-      errors.user = "Username already exists";
+      errors.username = { msg: "Username already exists" };
       return res.status(400).json(errors);
     } else {
       const userData = {
         username: req.body.username,
-        password: req.body.password
+        password: req.body.password,
+        firstName: req.body.firstName,
+        middleName: req.body.middleName,
+        lastName: req.body.lastName,
+        gender: req.body.gender,
+        contactNumber: req.body.contactNumber,
+        email: req.body.email
       };
 
       let newUser;

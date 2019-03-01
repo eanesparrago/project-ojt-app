@@ -4,8 +4,9 @@ import { Transition } from "react-spring/renderprops";
 import { Route, Switch, withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { Button, Typography } from "../../../../components/elements";
-import { Item, Box, Container, Area } from "../../../../layout";
+import { Item, Box, Container, Area } from "src/layout";
+import { Button, Typography } from "src/components/elements";
+import { LoadingScene } from "src/components/compounds";
 
 import CreatePerson from "./scenes/CreatePerson";
 import PeopleTable from "./components/PeopleTable";
@@ -52,6 +53,25 @@ export class People extends Component {
 
         {/* >>> Content body */}
         <Area NAME="admin-content-body" padding="inset-base">
+          {/* >>> LoadingScene */}
+          <Transition
+            native
+            items={people.isLoading}
+            keys={people.isLoading}
+            from={{ transform: "translateY(100%)", opacity: "0" }}
+            enter={{ transform: "translateY(0%)", opacity: "1" }}
+            leave={{ transform: "translateY(100%)", opacity: "0" }}
+          >
+            {show =>
+              show &&
+              (style => (
+                <Container NAME="admin-loading" animate={style}>
+                  <LoadingScene />
+                </Container>
+              ))
+            }
+          </Transition>
+
           <PeopleTable data={people.data} />
         </Area>
 

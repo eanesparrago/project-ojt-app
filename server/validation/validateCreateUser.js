@@ -1,15 +1,15 @@
-const { body } = require("express-validator/check");
+const { body, check } = require("express-validator/check");
 const enums = require("../enums");
 
 const validateCreateUser = [
   // >>> username
   body("username")
     .trim()
-    .isLength({ min: 2, max: 30 })
-    .withMessage("Username must be between 2 to 30 characters long")
     .not()
     .isEmpty()
-    .withMessage("Username is required"),
+    .withMessage("Username is required")
+    .isLength({ min: 2, max: 30 })
+    .withMessage("Username must be between 2 to 30 characters long"),
 
   // >>> password
   body("password")
@@ -45,45 +45,50 @@ const validateCreateUser = [
     .isEmpty()
     .withMessage("Role is required"),
 
+  // >>> firstName
   body("firstName").trim(),
 
+  // >>> middleName
   body("middleName").trim(),
 
+  // >>> lastName
   body("lastName").trim(),
 
+  // >>> gender
   body("gender")
     .trim()
+    .optional({ checkFalsy: true })
     .isIn(["male", "female"])
-    .withMessage("Invalid gender value")
-    .optional(),
+    .withMessage("Invalid gender value"),
 
+  // >>> contactNumber
   body("contactNumber").trim(),
 
+  // >>> email
   body("email")
     .trim()
-    .normalizeEmail(),
-
-  body("email")
+    .optional({ checkFalsy: true })
     .isEmail()
-    .withMessage("Email is not valid")
-    .optional()
+    .withMessage("Email is not valid"),
+
+  body("email").normalizeEmail()
 ];
 
 const validateCreateUserTrainee = [
   ...validateCreateUser,
   body("requiredHours").trim(),
   body("requiredHours")
-    .isInt({ max: 999 })
-    .withMessage("Required Hours must be a number not greater than 999")
     .not()
     .isEmpty()
-    .withMessage("Required Hours is required"),
+    .withMessage("Required Hours is required")
+    .isInt({ max: 999 })
+    .withMessage("Required Hours must be a number not greater than 999"),
 
   body("dateOfBirth")
     .trim()
+    .optional({ checkFalsy: true })
     .isISO8601()
-    .withMessage("Date of Birth is invalid")
-    .optional(),
+    .withMessage("Date of Birth is invalid"),
 
   body("address").trim(),
 

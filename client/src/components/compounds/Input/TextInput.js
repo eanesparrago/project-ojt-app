@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const StyledTextInput = styled.div`
   display: flex;
   flex-flow: column;
-  align-items: center;
+  align-items: left;
   position: relative;
   width: 100%;
 
