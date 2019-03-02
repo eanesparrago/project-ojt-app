@@ -6,7 +6,8 @@ const permittedRoles = require("../utils/permittedRoles");
 const dynamicValidation = require("../validation/dynamicValidation");
 const {
   validateCreateUser,
-  validateCreateUserTrainee
+  validateCreateUserTrainee,
+  validateCreateUserSupervisor
 } = require("../validation/validateCreateUser");
 const enums = require("../enums");
 
@@ -26,6 +27,11 @@ router.route("/register").post(
   function(req, res, next) {
     if (req.body.role === enums.roles.TRAINEE) {
       dynamicValidation(validateCreateUserTrainee, req, res, next);
+    } else if (
+      req.body.role === enums.roles.SUPERVISOR ||
+      req.body.role === enums.roles.EMPLOYEE
+    ) {
+      dynamicValidation(validateCreateUserSupervisor, req, res, next);
     } else {
       dynamicValidation(validateCreateUser, req, res, next);
     }

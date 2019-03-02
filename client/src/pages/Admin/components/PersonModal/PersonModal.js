@@ -105,7 +105,7 @@ export class Person extends Component {
       group: "",
       accountStatus: "",
       username: "",
-      requiredHours: "",
+      trainingDuration: "",
       firstName: "",
       middleName: "",
       lastName: "",

@@ -2,6 +2,20 @@ const { body, check } = require("express-validator/check");
 const enums = require("../enums");
 
 const validateCreateUser = [
+  // >>> role
+  body("role")
+    .trim()
+    .isIn([
+      enums.roles.ADMINISTRATOR,
+      enums.roles.SUPERVISOR,
+      enums.roles.TRAINEE,
+      enums.roles.EMPLOYEE
+    ])
+    .withMessage("Invalid role value")
+    .not()
+    .isEmpty()
+    .withMessage("Role is required"),
+
   // >>> username
   body("username")
     .trim()
@@ -31,20 +45,6 @@ const validateCreateUser = [
     })
     .withMessage("Passwords must match"),
 
-  // >>> role
-  body("role")
-    .trim()
-    .isIn([
-      enums.roles.ADMINISTRATOR,
-      enums.roles.SUPERVISOR,
-      enums.roles.TRAINEE,
-      enums.roles.EMPLOYEE
-    ])
-    .withMessage("Invalid role value")
-    .not()
-    .isEmpty()
-    .withMessage("Role is required"),
-
   // >>> firstName
   body("firstName").trim(),
 
@@ -69,20 +69,24 @@ const validateCreateUser = [
     .trim()
     .optional({ checkFalsy: true })
     .isEmail()
-    .withMessage("Email is not valid"),
-
-  body("email").normalizeEmail()
+    .withMessage("Email is not valid")
 ];
 
 const validateCreateUserTrainee = [
   ...validateCreateUser,
-  body("requiredHours").trim(),
-  body("requiredHours")
+  // >>> group
+  body("group", "Group is required")
     .not()
     .isEmpty()
-    .withMessage("Required Hours is required")
+    .withMessage("Group is required"),
+
+  body("trainingDuration")
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage("Training Duration is required")
     .isInt({ max: 999 })
-    .withMessage("Required Hours must be a number not greater than 999"),
+    .withMessage("Training Duration must be a number not greater than 999"),
 
   body("dateOfBirth")
     .trim()
@@ -105,7 +109,17 @@ const validateCreateUserTrainee = [
   body("guardianContactNumber").trim()
 ];
 
+const validateCreateUserSupervisor = [
+  ...validateCreateUser,
+  // >>> group
+  body("group", "Group is required")
+    .not()
+    .isEmpty()
+    .withMessage("Group is required")
+];
+
 module.exports = {
   validateCreateUser,
-  validateCreateUserTrainee
+  validateCreateUserTrainee,
+  validateCreateUserSupervisor
 };

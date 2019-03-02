@@ -8,7 +8,7 @@ const UserTrainee = User.discriminator(
   enums.roles.TRAINEE,
   new Schema({
     roleData: {
-      requiredHours: {
+      trainingDuration: {
         type: Number,
         required: true,
         default: 0

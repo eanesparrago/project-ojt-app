@@ -18,30 +18,7 @@ const enums = require("../enums");
  * @private
  */
 function testRoute(req, res) {
-  console.log(req.user);
   res.status(200).json({ message: "Users test" });
-}
-
-/**
- * Get all users
- * GET api/users/
- * @access  private
- */
-function getUsers(req, res) {
-  const errors = {};
-
-  User.find()
-    .then(users => {
-      if (!users) {
-        errors.users = "There are no users";
-        return res.status(404).json(errors);
-      }
-      res.json(users);
-    })
-    .catch(err => {
-      errors.users = "There are no users";
-      return res.status(404).json({});
-    });
 }
 
 /**
@@ -72,23 +49,26 @@ function createUser(req, res) {
   if (!errors.isEmpty()) {
     return res.status(422).json(errors.mapped());
   }
-  console.log(req.body);
+  // console.log(req.body);
 
   User.findOne({ username: req.body.username }).then(user => {
     if (user) {
       errors.username = { msg: "Username already exists" };
       return res.status(400).json(errors);
     } else {
-      const userData = {
-        username: req.body.username,
-        password: req.body.password,
-        firstName: req.body.firstName,
-        middleName: req.body.middleName,
-        lastName: req.body.lastName,
-        gender: req.body.gender,
-        contactNumber: req.body.contactNumber,
-        email: req.body.email
-      };
+      // const userData = {
+      //   username: req.body.username,
+      //   password: req.body.password,
+      //   firstName: req.body.firstName,
+      //   middleName: req.body.middleName,
+      //   lastName: req.body.lastName,
+      //   gender: req.body.gender,
+      //   contactNumber: req.body.contactNumber,
+      //   email: req.body.email
+      // };
+
+      const userData = req.body;
+      userData.roleData = {};
 
       let newUser;
 
@@ -96,13 +76,19 @@ function createUser(req, res) {
         case enums.roles.ADMINISTRATOR:
           newUser = new UserAdministrator(userData);
           break;
+
         case enums.roles.SUPERVISOR:
+          userData.roleData.group = req.body.group;
           newUser = new UserSupervisor(userData);
           break;
+
         case enums.roles.TRAINEE:
+          userData.roleData.group = req.body.group;
           newUser = new UserTrainee(userData);
           break;
+
         case enums.roles.EMPLOYEE:
+          userData.roleData.group = req.body.group;
           newUser = new UserEmployee(userData);
           break;
         default:
@@ -160,6 +146,30 @@ function loginUser(req, res) {
       }
     });
   });
+}
+
+/**
+ * Get all users
+ * GET api/users/
+ * @access  private
+ */
+function getUsers(req, res) {
+  const errors = {};
+
+  User.find()
+    .select("-password")
+    .populate("roleData.group", "name")
+    .then(users => {
+      if (!users) {
+        errors.users = "There are no users";
+        return res.status(404).json(errors);
+      }
+      res.json(users);
+    })
+    .catch(err => {
+      errors.users = "There are no users";
+      return res.status(404).json({});
+    });
 }
 
 /**

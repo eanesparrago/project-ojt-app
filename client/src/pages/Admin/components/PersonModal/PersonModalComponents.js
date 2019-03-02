@@ -44,7 +44,7 @@ const PersonInformation = () => {
           value: "stevenuniverse@example.com"
         },
         {
-          property: "Required Hours",
+          property: "Training Duration",
           value: "486"
         },
         {
@@ -145,7 +145,7 @@ class PersonEdit extends Component {
       accountStatus: "",
       username: "",
       email: "",
-      requiredHours: "",
+      trainingDuration: "",
       firstName: "",
       middleName: "",
       lastName: "",
@@ -271,10 +271,10 @@ class PersonEdit extends Component {
                 role: ["administrator", "supervisor", "trainee", "employee"]
               },
               {
-                label: "Required Hours",
-                name: "requiredHours",
+                label: "Training Duration",
+                name: "trainingDuration",
                 type: "number",
-                id: "required-hours-input",
+                id: "training-duration-input",
                 role: ["trainee"]
               }
             ]

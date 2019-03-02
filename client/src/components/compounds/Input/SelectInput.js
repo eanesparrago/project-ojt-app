@@ -4,14 +4,16 @@ import PropTypes from "prop-types";
 
 const StyledSelectInput = styled.div`
   display: flex;
-  align-items: center;
+  flex-flow: column;
+  align-items: left;
   width: 100%;
 
   select {
     height: var(--size-button);
     width: 100%;
     padding: 0 ${p => p.theme.size.s};
-    border: 1px solid ${p => p.theme.color.grey.medium};
+    border: 1px solid ${p =>
+      p.error ? p.theme.color.error : p.theme.color.grey.medium};
     transition-duration: 200ms;
     transition-property: box-shadow;
 
@@ -20,21 +22,30 @@ const StyledSelectInput = styled.div`
       box-shadow: 0 0 0 var(--size-xs) ${p => p.theme.color.primary.light};
     }
   }
+
+  .error {
+    margin-top: ${p => p.theme.size.s};
+    color: ${p => p.theme.color.error};
+  }
 `;
 
 export class SelectInput extends Component {
   render() {
-    const { name, options, id, onChange } = this.props;
+    const { name, options, id, onChange, error, ...props } = this.props;
 
     return (
-      <StyledSelectInput>
-        <select id={id} name={name} id={name} onChange={onChange}>
+      <StyledSelectInput error={error}>
+        <select id={id} name={name} id={name} onChange={onChange} {...props}>
+          <option value="">Choose a group</option>
+
           {options.map(option => (
             <option value={option.value} key={option.value}>
               {option.label}
             </option>
           ))}
         </select>
+
+        {error && <span className="error">{error.msg}</span>}
       </StyledSelectInput>
     );
   }

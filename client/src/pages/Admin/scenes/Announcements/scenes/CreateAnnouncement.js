@@ -80,7 +80,7 @@ export class CreateAnnouncement extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      requiredHours: "",
+      trainingDuration: "",
       firstName: "",
       middleName: "",
       lastName: "",

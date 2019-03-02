@@ -47,6 +47,7 @@ function getGroups(req, res) {
   const errors = {};
 
   Group.find()
+    .select(req.query.field)
     .then(groups => {
       if (!groups) {
         errors.groups = "There are no groups";
@@ -62,7 +63,7 @@ function getGroups(req, res) {
 
 /**
  * Get a group by id
- * @route   GET api/groups/:id
+ * @route   GET api/groups?name
  * @access  private (role: administrator)
  */
 function getGroup(req, res) {

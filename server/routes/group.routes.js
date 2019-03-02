@@ -30,7 +30,7 @@ router
     GroupController.getGroups
   );
 
-// --->>> GET /api/groups/:id
+// --->>> GET /api/groups/:id - getGroup
 router
   .route("/:id")
   .get(

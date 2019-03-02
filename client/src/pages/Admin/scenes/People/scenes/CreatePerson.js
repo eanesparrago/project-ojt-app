@@ -12,7 +12,7 @@ import roleInputOptions from "./roleInputOptions";
 
 import { getPeople } from "src/pages/Admin/scenes/People/peopleActionCreators";
 
-const StyledCreatePerson = styled.div`
+const StyledCreatePerson = styled.form`
   /* border: 1px solid magenta; */
   width: 100%;
   height: 100%;
@@ -81,7 +81,7 @@ export class CreatePerson extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      requiredHours: "",
+      trainingDuration: "",
       firstName: "",
       middleName: "",
       lastName: "",
@@ -97,8 +97,26 @@ export class CreatePerson extends Component {
       guardianContactNumber: ""
     },
     errors: {},
+    groups: [],
     isLoading: false
   };
+
+  componentDidMount() {
+    this.setState({ ...this.state, isLoading: true }, () => {
+      axios
+        .get("/api/groups?field=name")
+        .then(res => {
+          this.setState({ ...this.state, groups: res.data, isLoading: false });
+        })
+        .catch(err => {
+          this.setState({
+            ...this.state,
+            errors: err.response.data,
+            isLoading: false
+          });
+        });
+    });
+  }
 
   handleInputChange = e => {
     this.setState({
@@ -131,7 +149,7 @@ export class CreatePerson extends Component {
 
   render() {
     const { history } = this.props;
-    const { isLoading, data, errors } = this.state;
+    const { isLoading, data, groups, errors } = this.state;
 
     return (
       <StyledCreatePerson>
@@ -197,11 +215,11 @@ export class CreatePerson extends Component {
               </Box>
 
               {/* >>> Role must be filled */}
-              {this.state.data.role && (
+              {data.role && (
                 <Fragment>
                   {/* >>> GROUP */}
                   {/* >>> Group is not for administrators */}
-                  {this.state.data.role !== "administrator" && (
+                  {data.role !== "administrator" && (
                     <Box margin="stack-base">
                       <Item
                         NAME="createPerson-input-name"
@@ -222,24 +240,12 @@ export class CreatePerson extends Component {
                           id="group-input"
                           onChange={this.handleInputChange}
                           name="group"
-                          options={[
-                            {
-                              label: "Choose an option",
-                              value: ""
-                            },
-                            {
-                              label: "Alpha",
-                              value: "alpha"
-                            },
-                            {
-                              label: "Beta",
-                              value: "beta"
-                            },
-                            {
-                              label: "Charlie",
-                              value: "charlie"
-                            }
-                          ]}
+                          options={groups.map(group => ({
+                            label: group.name,
+                            value: group._id
+                          }))}
+                          error={errors.group}
+                          disabled={isLoading}
                         />
                       </Item>
                     </Box>
@@ -292,14 +298,14 @@ export class CreatePerson extends Component {
                       ]
                     },
                     {
-                      label: "Required Hours",
-                      name: "requiredHours",
+                      label: "Training Duration",
+                      name: "trainingDuration",
                       type: "number",
-                      id: "required-hours-input",
+                      id: "training-duration-input",
                       role: ["trainee"]
                     }
                   ]
-                    .filter(item => item.role.includes(this.state.data.role))
+                    .filter(item => item.role.includes(data.role))
                     .map(item => (
                       <Box margin="stack-base" key={item.id}>
                         <Item
@@ -321,7 +327,7 @@ export class CreatePerson extends Component {
                             name={item.name}
                             id={item.id}
                             type={item.type}
-                            value={this.state.data[item.name]}
+                            value={data[item.name]}
                             onChange={this.handleInputChange}
                             error={errors[item.name]}
                             disabled={isLoading}
@@ -389,7 +395,7 @@ export class CreatePerson extends Component {
                       ]
                     }
                   ]
-                    .filter(item => item.role.includes(this.state.data.role))
+                    .filter(item => item.role.includes(data.role))
                     .map(item => (
                       <Box margin="stack-base" key={item.id}>
                         <Item
@@ -411,7 +417,7 @@ export class CreatePerson extends Component {
                             name={item.name}
                             id={item.id}
                             type={item.type}
-                            value={this.state.data[item.name]}
+                            value={data[item.name]}
                             onChange={this.handleInputChange}
                             error={errors[item.name]}
                             disabled={isLoading}
@@ -534,7 +540,7 @@ export class CreatePerson extends Component {
                       role: ["trainee"]
                     }
                   ]
-                    .filter(item => item.role.includes(this.state.data.role))
+                    .filter(item => item.role.includes(data.role))
                     .map(item => (
                       <Box margin="stack-base" key={item.id}>
                         <Item
@@ -556,7 +562,7 @@ export class CreatePerson extends Component {
                             name={item.name}
                             id={item.id}
                             type={item.type}
-                            value={this.state.data[item.name]}
+                            value={data[item.name]}
                             onChange={this.handleInputChange}
                             error={errors[item.name]}
                             disabled={isLoading}
@@ -566,7 +572,12 @@ export class CreatePerson extends Component {
                     ))}
 
                   <Item margin="stack-l">
-                    <Button variant="primary" onClick={this.handleSubmit}>
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      onClick={this.handleSubmit}
+                      disabled={isLoading}
+                    >
                       Create Person
                     </Button>
                   </Item>

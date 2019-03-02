@@ -5,6 +5,11 @@ import { Item, Container } from "../../../layout";
 import { Typography } from "../../elements";
 
 const StyledRadioInput = styled.div`
+  display: flex;
+  flex-flow: column;
+  align-items: left;
+  width: 100%;
+
   input {
     width: var(--size-base);
     height: var(--size-base);
@@ -18,11 +23,16 @@ const StyledRadioInput = styled.div`
   .container-radioInput-item:last-child {
     margin-bottom: 0;
   }
+
+  .error {
+    margin-top: ${p => p.theme.size.s};
+    color: ${p => p.theme.color.error};
+  }
 `;
 
 export class RadioInput extends Component {
   render() {
-    const { options, name, onChange } = this.props;
+    const { options, name, onChange, error } = this.props;
 
     return (
       <StyledRadioInput>
@@ -45,6 +55,8 @@ export class RadioInput extends Component {
             </Item>
           </Container>
         ))}
+
+        {error && <span className="error">{error.msg}</span>}
       </StyledRadioInput>
     );
   }
