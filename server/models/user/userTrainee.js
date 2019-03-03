@@ -118,35 +118,43 @@ const UserTrainee = User.discriminator(
         }
       },
       dateOfBirth: {
-        type: Date
+        type: Date,
+        default: null
       },
       address: {
-        type: String
+        type: String,
+        default: ""
       },
       contactNumber: {
-        type: String
+        type: String,
+        default: ""
       },
       school: {
-        type: String
+        type: String,
+        default: ""
       },
       adviserName: {
-        type: String
+        type: String,
+        default: ""
       },
       adviserContactNumber: {
-        type: String
+        type: String,
+        default: ""
       },
       guardianName: {
-        type: String
+        type: String,
+        default: ""
       },
       guardianContactNumber: {
-        type: String
+        type: String,
+        default: ""
       },
       isInitialized: {
         type: Boolean,
         required: true,
         default: false
       },
-      group: { type: Schema.Types.ObjectId, ref: "Group" }
+      group: { type: Schema.Types.ObjectId, ref: "Group", default: null }
     }
   })
 );

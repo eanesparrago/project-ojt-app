@@ -1,9 +1,14 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
+import _ from "lodash";
 import { Spring } from "react-spring/renderprops";
 import { Link, withRouter, Route, Switch } from "react-router-dom";
-import { Button, Typography } from "src/components/elements";
+
 import { Item, Box, Container, Area } from "src/layout";
+import { Button, Typography } from "src/components/elements";
+import { LoadingScene } from "src/components/compounds";
+
+import axios from "axios";
 
 import {
   PersonInformation,
@@ -22,6 +27,7 @@ const StyledPerson = styled.div`
     "body back";
   grid-template-rows: auto 3fr;
   grid-template-columns: 3fr 1fr;
+  z-index: 100;
 
   > * {
     z-index: 100;
@@ -84,7 +90,7 @@ const StyledPerson = styled.div`
 
   /* >>> PersonEdit */
   .item-personEdit-input-name {
-    width: ${p => p.theme.incrementFixed(6)};
+    width: ${p => p.theme.incrementFixed(8)};
   }
 
   .item-personEdit-divider {
@@ -100,28 +106,30 @@ const StyledPerson = styled.div`
 
 export class Person extends Component {
   state = {
-    person: {
-      role: "",
-      group: "",
-      accountStatus: "",
-      username: "",
-      trainingDuration: "",
-      firstName: "",
-      middleName: "",
-      lastName: "",
-      nickname: "",
-      gender: "",
-      dateOfBirth: "",
-      address: "",
-      contactNumber: "",
-      email: "",
-      school: "",
-      adviserName: "",
-      adviserContactNumber: "",
-      guardianName: "",
-      guardianContactNumber: ""
-    }
+    person: {},
+    isLoading: false,
+    errors: {}
   };
+
+  componentDidMount() {
+    const { ...state } = this.state;
+    const { ...props } = this.props;
+
+    this.setState({ ...state, isLoading: true }, () => {
+      axios
+        .get(`/api/users/${props.match.params.id}`)
+        .then(res => {
+          this.setState({ ...state, person: res.data, isLoading: false });
+        })
+        .catch(err => {
+          this.setState({
+            ...state,
+            errors: err.response.data,
+            isLoading: false
+          });
+        });
+    });
+  }
 
   handleInputChange = e => {
     this.setState({
@@ -136,6 +144,9 @@ export class Person extends Component {
 
   render() {
     const { history, match } = this.props;
+    const { person, isLoading } = this.state;
+
+    console.log(this.state);
 
     return (
       <StyledPerson>
@@ -154,41 +165,45 @@ export class Person extends Component {
               animate={style}
             >
               <Box wrap>
-                <Item margin="wrap-base">
-                  <Item as={Link} to={`${match.url}`} replace>
-                    <Typography variant="display-1" as="h1">
-                      Steven Universe
-                    </Typography>
-                  </Item>
-                </Item>
-
-                <Item margin="wrap-base">
-                  <Button
-                    variant="secondary"
-                    as={Link}
-                    to={`${match.url}/edit-person`}
-                    replace
-                  >
-                    <Item center margin="inline-s">
-                      <i className="fas fa-edit" />
+                {isLoading ? null : (
+                  <Fragment>
+                    <Item margin="wrap-base">
+                      <Item as={Link} to={`${match.url}`} replace>
+                        <Typography variant="display-1" as="h1">
+                          {person.username}
+                        </Typography>
+                      </Item>
                     </Item>
-                    Edit Person
-                  </Button>
-                </Item>
 
-                <Item margin="wrap-base">
-                  <Button
-                    variant="secondary"
-                    as={Link}
-                    to={`${match.url}/change-password`}
-                    replace
-                  >
-                    <Item center margin="inline-s">
-                      <i className="fas fa-lock" />
+                    <Item margin="wrap-base">
+                      <Button
+                        variant="secondary"
+                        as={Link}
+                        to={`${match.url}/edit-person`}
+                        replace
+                      >
+                        <Item center margin="inline-s">
+                          <i className="fas fa-edit" />
+                        </Item>
+                        Edit Person
+                      </Button>
                     </Item>
-                    Change Password
-                  </Button>
-                </Item>
+
+                    <Item margin="wrap-base">
+                      <Button
+                        variant="secondary"
+                        as={Link}
+                        to={`${match.url}/change-password`}
+                        replace
+                      >
+                        <Item center margin="inline-s">
+                          <i className="fas fa-lock" />
+                        </Item>
+                        Change Password
+                      </Button>
+                    </Item>
+                  </Fragment>
+                )}
               </Box>
 
               <Container NAME="person-close">
@@ -218,23 +233,27 @@ export class Person extends Component {
         >
           {style => (
             <Area NAME="person-body" padding="inset-base" animate={style}>
-              <Switch>
-                <Route
-                  exact
-                  path={`${match.url}`}
-                  render={() => <PersonInformation />}
-                />
+              {isLoading || _.isEmpty(person) ? (
+                <LoadingScene />
+              ) : (
+                <Switch>
+                  <Route
+                    exact
+                    path={`${match.url}`}
+                    render={() => <PersonInformation data={person} />}
+                  />
 
-                <Route
-                  path={`${match.url}/edit-person`}
-                  render={() => <PersonEdit />}
-                />
+                  <Route
+                    path={`${match.url}/edit-person`}
+                    render={() => <PersonEdit />}
+                  />
 
-                <Route
-                  path={`${match.url}/change-password`}
-                  render={() => <PersonChangePassword />}
-                />
-              </Switch>
+                  <Route
+                    path={`${match.url}/change-password`}
+                    render={() => <PersonChangePassword />}
+                  />
+                </Switch>
+              )}
             </Area>
           )}
         </Spring>

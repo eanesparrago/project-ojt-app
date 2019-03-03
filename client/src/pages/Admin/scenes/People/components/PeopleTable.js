@@ -137,7 +137,7 @@ export class PeopleTable extends Component {
                     <Item
                       NAME="peopleTable-username"
                       as={Link}
-                      to={`${match.url}/person/123`}
+                      to={`${match.url}/person/${person._id}`}
                     >
                       <Typography variant="base">{person.username}</Typography>
                     </Item>

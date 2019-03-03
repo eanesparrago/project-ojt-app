@@ -83,6 +83,17 @@ function createUser(req, res) {
           break;
 
         case enums.roles.TRAINEE:
+          userData.roleData.trainingDuration = req.body.trainingDuration;
+          userData.roleData.dateOfBirth = req.body.dateOfBirth;
+          userData.roleData.address = req.body.address;
+          userData.roleData.contactNumber = req.body.contactNumber;
+          userData.roleData.school = req.body.school;
+          userData.roleData.adviserName = req.body.adviserName;
+          userData.roleData.adviserContactNumber =
+            req.body.adviserContactNumber;
+          userData.roleData.guardianName = req.body.guardianName;
+          userData.roleData.guardianContactNumber =
+            req.body.guardianContactNumber;
           userData.roleData.group = req.body.group;
           newUser = new UserTrainee(userData);
           break;
@@ -125,6 +136,9 @@ function loginUser(req, res) {
     if (!user) {
       return res.status(404).json({ error: "Invalid login information" });
     }
+
+    user.set({ dateLastLoggedIn: Date.now() });
+    user.save();
 
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
@@ -181,6 +195,8 @@ function getUsers(req, res) {
  */
 function getUser(req, res) {
   User.findById(req.params.id)
+    .select("-password")
+    .populate("roleData.group", "name")
     .then(user => res.json(user))
     .catch(err => res.status(404).json({ user: "User not found" }));
 }

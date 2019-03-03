@@ -25,6 +25,10 @@ const userSchema = new Schema(
       type: String,
       default: ""
     },
+    nickname: {
+      type: String,
+      default: ""
+    },
     gender: {
       type: String,
       default: ""
@@ -44,7 +48,7 @@ const userSchema = new Schema(
     },
     dateLastLoggedIn: {
       type: Date,
-      default: ""
+      default: null
     },
     isLoggedIn: {
       type: Boolean,
@@ -58,7 +62,7 @@ const userSchema = new Schema(
     },
     creatorId: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "User"
     },
     photoUrl: {
       type: String

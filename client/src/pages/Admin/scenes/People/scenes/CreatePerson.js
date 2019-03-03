@@ -448,10 +448,6 @@ export class CreatePerson extends Component {
                         name="gender"
                         options={[
                           {
-                            label: "Choose an option",
-                            value: ""
-                          },
-                          {
                             label: "Male",
                             value: "male"
                           },

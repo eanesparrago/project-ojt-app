@@ -1,11 +1,14 @@
 import React, { Component, Fragment } from "react";
+import format from "date-fns/format";
+
 import { Button, Typography } from "src/components/elements";
 import { TextInput, RadioInput, SelectInput } from "src/components/compounds";
 import { Item, Box } from "src/layout";
+import enums from "src/services/enums";
 
 import roleInputOptions from "./roleInputOptions";
 
-const PersonInformation = () => {
+const PersonInformation = ({ data }) => {
   return (
     <Fragment>
       <Box margin="stack-l">
@@ -14,19 +17,23 @@ const PersonInformation = () => {
         </Item>
 
         <Item>
-          <Typography variant="display-4">Trainee</Typography>
+          <Typography variant="display-4">{data.role}</Typography>
         </Item>
       </Box>
 
-      <Box margin="stack-l">
-        <Item NAME="personInformation-property" margin="inline-s">
-          <Typography variant="display-4">Group:</Typography>
-        </Item>
+      {data.role !== enums.roles.ADMINISTRATOR && (
+        <Box margin="stack-l">
+          <Item NAME="personInformation-property" margin="inline-s">
+            <Typography variant="display-4">Group:</Typography>
+          </Item>
 
-        <Item>
-          <Typography variant="display-4">Technical Support Group</Typography>
-        </Item>
-      </Box>
+          <Item>
+            <Typography variant="display-4">
+              {data.roleData.group ? data.roleData.group.name : "N/A"}
+            </Typography>
+          </Item>
+        </Box>
+      )}
 
       <Item NAME="personInformation-divider" margin="stack-l" />
 
@@ -37,31 +44,73 @@ const PersonInformation = () => {
       {[
         {
           property: "Username",
-          value: "usteven"
+          value: data.username,
+          roles: [
+            enums.roles.ADMINISTRATOR,
+            enums.roles.SUPERVISOR,
+            enums.roles.TRAINEE,
+            enums.roles.EMPLOYEE
+          ]
         },
         {
           property: "Email",
-          value: "stevenuniverse@example.com"
+          value: data.email,
+          roles: [
+            enums.roles.ADMINISTRATOR,
+            enums.roles.SUPERVISOR,
+            enums.roles.TRAINEE,
+            enums.roles.EMPLOYEE
+          ]
         },
         {
           property: "Training Duration",
-          value: "486"
+          value: data.roleData.trainingDuration,
+          roles: [enums.roles.TRAINEE]
         },
         {
-          property: "Remaining Hours",
-          value: "30"
+          property: "Hours Rendered",
+          value: data.roleData.hoursRendered,
+          roles: [enums.roles.TRAINEE]
+        },
+        {
+          property: "Date Created",
+          value: format(data.dateCreated, "YYYY-MM-DD"),
+          roles: [
+            enums.roles.ADMINISTRATOR,
+            enums.roles.SUPERVISOR,
+            enums.roles.TRAINEE,
+            enums.roles.EMPLOYEE
+          ]
+        },
+        {
+          property: "Date Last Logged In",
+          value:
+            data.dateLastLoggedIn &&
+            format(data.dateLastLoggedIn, "YYYY-MM-DD"),
+          roles: [
+            enums.roles.ADMINISTRATOR,
+            enums.roles.SUPERVISOR,
+            enums.roles.TRAINEE,
+            enums.roles.EMPLOYEE
+          ]
         }
-      ].map(item => (
-        <Box margin="stack-l">
-          <Item NAME="personInformation-property" margin="inline-s">
-            <Typography variant="body">{item.property}:</Typography>
-          </Item>
+      ]
+        .filter(item => item.roles.includes(data.role))
+        .map((item, i) => (
+          <Box margin="stack-l" key={i}>
+            <Item NAME="personInformation-property" margin="inline-s">
+              <Typography variant="body">{item.property}:</Typography>
+            </Item>
 
-          <Item>
-            <Typography variant="body">{item.value}</Typography>
-          </Item>
-        </Box>
-      ))}
+            <Item>
+              <Typography variant="body">
+                {item.value === "" || item.value === null
+                  ? "N/A"
+                  : item.value}
+              </Typography>
+            </Item>
+          </Box>
+        ))}
 
       <Item NAME="personInformation-divider" margin="stack-l" />
 
@@ -72,67 +121,111 @@ const PersonInformation = () => {
       {[
         {
           property: "First Name",
-          value: "Steven"
+          value: data.firstName,
+          roles: [
+            enums.roles.ADMINISTRATOR,
+            enums.roles.SUPERVISOR,
+            enums.roles.TRAINEE,
+            enums.roles.EMPLOYEE
+          ]
         },
         {
           property: "Middle Name",
-          value: "Quartz"
+          value: data.middleName,
+          roles: [
+            enums.roles.ADMINISTRATOR,
+            enums.roles.SUPERVISOR,
+            enums.roles.TRAINEE,
+            enums.roles.EMPLOYEE
+          ]
         },
         {
           property: "Last Name",
-          value: "Universe"
+          value: data.lastName,
+          roles: [
+            enums.roles.ADMINISTRATOR,
+            enums.roles.SUPERVISOR,
+            enums.roles.TRAINEE,
+            enums.roles.EMPLOYEE
+          ]
         },
         {
           property: "Nickname",
-          value: "Steven"
+          value: data.nickname,
+          roles: [
+            enums.roles.ADMINISTRATOR,
+            enums.roles.SUPERVISOR,
+            enums.roles.TRAINEE,
+            enums.roles.EMPLOYEE
+          ]
         },
         {
           property: "Gender",
-          value: "Male"
+          value: data.gender,
+          roles: [
+            enums.roles.ADMINISTRATOR,
+            enums.roles.SUPERVISOR,
+            enums.roles.TRAINEE,
+            enums.roles.EMPLOYEE
+          ]
         },
         {
           property: "Date of Birth",
-          value: "February 20, 2019 "
+          value: data.roleData.dateOfBirth,
+          roles: [enums.roles.TRAINEE]
         },
         {
           property: "Address",
-          value: "8514 Hall Drive, Egg Harbor Township, NJ 08234"
+          value: data.roleData.address,
+          roles: [enums.roles.TRAINEE]
         },
         {
           property: "Contact Number",
-          value: "01234567890"
+          value: data.roleData.contactNumber,
+          roles: [enums.roles.TRAINEE]
         },
         {
           property: "School",
-          value: "AMA Computer College — Parañaque Campus"
+          value: data.roleData.school,
+          roles: [enums.roles.TRAINEE]
         },
         {
           property: "Adviser",
-          value: "Steven Universe"
+          value: data.roleData.adviserName,
+          roles: [enums.roles.TRAINEE]
         },
         {
           property: "Adviser Contact Number",
-          value: "01234567890"
+          value: data.roleData.adviserContactNumber,
+          roles: [enums.roles.TRAINEE]
         },
         {
           property: "Guardian Name",
-          value: "Steven Universe"
+          value: data.roleData.guardianName,
+          roles: [enums.roles.TRAINEE]
         },
         {
           property: "Guardian Contact Number",
-          value: "091234567890"
+          value: data.roleData.guardianContactNumber,
+          roles: [enums.roles.TRAINEE]
         }
-      ].map(item => (
-        <Box margin="stack-l">
-          <Item NAME="personInformation-property" margin="inline-s">
-            <Typography variant="body">{item.property}:</Typography>
-          </Item>
+      ]
+        .filter(item => item.roles.includes(data.role))
+        .map((item, i) => (
+          <Box margin="stack-l" key={i}>
+            <Item NAME="personInformation-property" margin="inline-s">
+              <Typography variant="body">{item.property}:</Typography>
+            </Item>
 
-          <Item>
-            <Typography variant="body">{item.value}</Typography>
-          </Item>
-        </Box>
-      ))}
+            <Item>
+              <Typography variant="body">
+                {item.value === "" || item.value === null
+                  ? "N/A"
+                  : item.value}
+              </Typography>
+            </Item>
+          </Box>
+        ))}
     </Fragment>
   );
 };
