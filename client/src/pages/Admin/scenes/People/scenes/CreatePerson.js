@@ -210,6 +210,7 @@ export class CreatePerson extends Component {
                     options={roleInputOptions}
                     onChange={this.handleInputChange}
                     name="role"
+                    value={data.role}
                   />
                 </Item>
               </Box>
@@ -238,6 +239,7 @@ export class CreatePerson extends Component {
                       <Item NAME="createPerson-input">
                         <SelectInput
                           id="group-input"
+                          value={data.group}
                           onChange={this.handleInputChange}
                           name="group"
                           options={groups.map(group => ({

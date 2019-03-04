@@ -6,258 +6,48 @@ import { TextInput, RadioInput, SelectInput } from "src/components/compounds";
 import { Item, Box } from "src/layout";
 import enums from "src/services/enums";
 
-import roleInputOptions from "./components/roleInputOptions";
-
-const PersonInformation = ({ data }) => {
-  return (
-    <Fragment>
-      <Box margin="stack-l">
-        <Item NAME="personInformation-property" margin="inline-s">
-          <Typography variant="display-4">Role:</Typography>
-        </Item>
-
-        <Item>
-          <Typography variant="display-4">{data.role}</Typography>
-        </Item>
-      </Box>
-
-      {data.role !== enums.roles.ADMINISTRATOR && (
-        <Box margin="stack-l">
-          <Item NAME="personInformation-property" margin="inline-s">
-            <Typography variant="display-4">Group:</Typography>
-          </Item>
-
-          <Item>
-            <Typography variant="display-4">
-              {data.roleData.group ? data.roleData.group.name : "N/A"}
-            </Typography>
-          </Item>
-        </Box>
-      )}
-
-      <Item NAME="personInformation-divider" margin="stack-l" />
-
-      <Item margin="stack-l">
-        <Typography variant="display-3">Account Information</Typography>
-      </Item>
-
-      {[
-        {
-          property: "Username",
-          value: data.username,
-          roles: [
-            enums.roles.ADMINISTRATOR,
-            enums.roles.SUPERVISOR,
-            enums.roles.TRAINEE,
-            enums.roles.EMPLOYEE
-          ]
-        },
-        {
-          property: "Email",
-          value: data.email,
-          roles: [
-            enums.roles.ADMINISTRATOR,
-            enums.roles.SUPERVISOR,
-            enums.roles.TRAINEE,
-            enums.roles.EMPLOYEE
-          ]
-        },
-        {
-          property: "Training Duration",
-          value: data.roleData.trainingDuration,
-          roles: [enums.roles.TRAINEE]
-        },
-        {
-          property: "Hours Rendered",
-          value: data.roleData.hoursRendered,
-          roles: [enums.roles.TRAINEE]
-        },
-        {
-          property: "Date Created",
-          value: format(data.dateCreated, "YYYY-MM-DD"),
-          roles: [
-            enums.roles.ADMINISTRATOR,
-            enums.roles.SUPERVISOR,
-            enums.roles.TRAINEE,
-            enums.roles.EMPLOYEE
-          ]
-        },
-        {
-          property: "Date Last Logged In",
-          value:
-            data.dateLastLoggedIn &&
-            format(data.dateLastLoggedIn, "YYYY-MM-DD"),
-          roles: [
-            enums.roles.ADMINISTRATOR,
-            enums.roles.SUPERVISOR,
-            enums.roles.TRAINEE,
-            enums.roles.EMPLOYEE
-          ]
-        }
-      ]
-        .filter(item => item.roles.includes(data.role))
-        .map((item, i) => (
-          <Box margin="stack-l" key={i}>
-            <Item NAME="personInformation-property" margin="inline-s">
-              <Typography variant="body">{item.property}:</Typography>
-            </Item>
-
-            <Item>
-              <Typography variant="body">
-                {item.value === "" || item.value === null
-                  ? "N/A"
-                  : item.value}
-              </Typography>
-            </Item>
-          </Box>
-        ))}
-
-      <Item NAME="personInformation-divider" margin="stack-l" />
-
-      <Item margin="stack-l">
-        <Typography variant="display-3">Personal Information</Typography>
-      </Item>
-
-      {[
-        {
-          property: "First Name",
-          value: data.firstName,
-          roles: [
-            enums.roles.ADMINISTRATOR,
-            enums.roles.SUPERVISOR,
-            enums.roles.TRAINEE,
-            enums.roles.EMPLOYEE
-          ]
-        },
-        {
-          property: "Middle Name",
-          value: data.middleName,
-          roles: [
-            enums.roles.ADMINISTRATOR,
-            enums.roles.SUPERVISOR,
-            enums.roles.TRAINEE,
-            enums.roles.EMPLOYEE
-          ]
-        },
-        {
-          property: "Last Name",
-          value: data.lastName,
-          roles: [
-            enums.roles.ADMINISTRATOR,
-            enums.roles.SUPERVISOR,
-            enums.roles.TRAINEE,
-            enums.roles.EMPLOYEE
-          ]
-        },
-        {
-          property: "Nickname",
-          value: data.nickname,
-          roles: [
-            enums.roles.ADMINISTRATOR,
-            enums.roles.SUPERVISOR,
-            enums.roles.TRAINEE,
-            enums.roles.EMPLOYEE
-          ]
-        },
-        {
-          property: "Gender",
-          value: data.gender,
-          roles: [
-            enums.roles.ADMINISTRATOR,
-            enums.roles.SUPERVISOR,
-            enums.roles.TRAINEE,
-            enums.roles.EMPLOYEE
-          ]
-        },
-        {
-          property: "Date of Birth",
-          value: data.roleData.dateOfBirth,
-          roles: [enums.roles.TRAINEE]
-        },
-        {
-          property: "Address",
-          value: data.roleData.address,
-          roles: [enums.roles.TRAINEE]
-        },
-        {
-          property: "Contact Number",
-          value: data.roleData.contactNumber,
-          roles: [enums.roles.TRAINEE]
-        },
-        {
-          property: "School",
-          value: data.roleData.school,
-          roles: [enums.roles.TRAINEE]
-        },
-        {
-          property: "Adviser",
-          value: data.roleData.adviserName,
-          roles: [enums.roles.TRAINEE]
-        },
-        {
-          property: "Adviser Contact Number",
-          value: data.roleData.adviserContactNumber,
-          roles: [enums.roles.TRAINEE]
-        },
-        {
-          property: "Guardian Name",
-          value: data.roleData.guardianName,
-          roles: [enums.roles.TRAINEE]
-        },
-        {
-          property: "Guardian Contact Number",
-          value: data.roleData.guardianContactNumber,
-          roles: [enums.roles.TRAINEE]
-        }
-      ]
-        .filter(item => item.roles.includes(data.role))
-        .map((item, i) => (
-          <Box margin="stack-l" key={i}>
-            <Item NAME="personInformation-property" margin="inline-s">
-              <Typography variant="body">{item.property}:</Typography>
-            </Item>
-
-            <Item>
-              <Typography variant="body">
-                {item.value === "" || item.value === null
-                  ? "N/A"
-                  : item.value}
-              </Typography>
-            </Item>
-          </Box>
-        ))}
-    </Fragment>
-  );
-};
+import roleInputOptions from "./roleInputOptions";
 
 class PersonEdit extends Component {
-  state = {
-    person: {
-      role: "",
-      group: "",
-      accountStatus: "",
-      username: "",
-      email: "",
-      trainingDuration: "",
-      firstName: "",
-      middleName: "",
-      lastName: "",
-      nickname: "",
-      gender: "",
-      dateOfBirth: "",
-      address: "",
-      contactNumber: "",
-      school: "",
-      adviserName: "",
-      adviserContactNumber: "",
-      guardianName: "",
-      guardianContactNumber: ""
-    }
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: {
+        role: props.data.role,
+        group: props.data.roleData._id,
+        isActive: props.data.isActive,
+        username: props.data.username,
+        email: props.data.email,
+        trainingDuration: props.data.roleData.trainingDuration,
+        firstName: props.data.firstName,
+        middleName: props.data.middleName,
+        lastName: props.data.lastName,
+        nickname: props.data.nickname,
+        gender: props.data.gender,
+        dateOfBirth: props.data.roleData.dateofBirth,
+        address: props.data.roleData.address,
+        contactNumber: props.data.roleData.contactNumber,
+        school: props.data.roleData.school,
+        adviserName: props.data.roleData.adviserName,
+        adviserContactNumber: props.data.roleData.adviserContactNumber,
+        guardianName: props.data.roleData.guardianName,
+        guardianContactNumber: props.data.roleData.guardianContactNumber
+      },
+      isLoading: false,
+      errors: {}
+    };
+  }
 
   handleInputChange = e => {
     this.setState({
-      person: { ...this.state.person, [e.target.name]: e.target.value }
+      data: { ...this.state.data, [e.target.name]: e.target.value }
+    });
+  };
+
+  handleToggleIsActive = () => {
+    this.setState({
+      data: { ...this.state.data, isActive: !this.state.data.isActive }
     });
   };
 
@@ -267,12 +57,14 @@ class PersonEdit extends Component {
   };
 
   render() {
+    const { data } = this.state;
+
     return (
       <Fragment>
         <Item margin="stack-l">
           <Typography variant="display-2">Edit Person</Typography>
         </Item>
-
+        {/* 
         <Box margin="stack-base">
           <Item NAME="personEdit-input-name" margin="inline-base">
             <Typography variant="display-3">Role</Typography>
@@ -283,16 +75,17 @@ class PersonEdit extends Component {
               options={roleInputOptions}
               onChange={this.handleInputChange}
               name="role"
+              value={data.role}
             />
           </Item>
-        </Box>
+        </Box> */}
 
         {/* >>> Role must be filled */}
-        {this.state.person.role && (
+        {data.role && (
           <Fragment>
             {/* >>> GROUP */}
             {/* >>> Group is not for administrators */}
-            {this.state.person.role !== "administrator" && (
+            {data.role !== "administrator" && (
               <Box margin="stack-base">
                 <Item NAME="personEdit-input-name" left margin="inline-base">
                   <Typography
@@ -309,6 +102,7 @@ class PersonEdit extends Component {
                     id="group-input"
                     onChange={this.handleInputChange}
                     name="group"
+                    value={data.group}
                     options={[
                       {
                         label: "Choose an option",
@@ -339,12 +133,17 @@ class PersonEdit extends Component {
                   as="label"
                   htmlFor="group-input"
                 >
-                  Account Status
+                  Is Active?
                 </Typography>
               </Item>
 
               <Item left NAME="personEdit-input">
-                <TextInput type="checkbox" />
+                <TextInput
+                  name="isActive"
+                  type="checkbox"
+                  checked={data.isActive}
+                  onChange={this.handleToggleIsActive}
+                />
               </Item>
             </Box>
 
@@ -371,7 +170,7 @@ class PersonEdit extends Component {
                 role: ["trainee"]
               }
             ]
-              .filter(item => item.role.includes(this.state.person.role))
+              .filter(item => item.role.includes(data.role))
               .map(item => (
                 <Box margin="stack-base" key={item.id}>
                   <Item NAME="personEdit-input-name" left margin="inline-base">
@@ -385,7 +184,7 @@ class PersonEdit extends Component {
                       name={item.name}
                       id={item.id}
                       type={item.type}
-                      value={this.state[item.name]}
+                      value={data[item.name]}
                       onChange={this.handleInputChange}
                     />
                   </Item>
@@ -431,7 +230,7 @@ class PersonEdit extends Component {
                 role: ["administrator", "supervisor", "trainee", "employee"]
               }
             ]
-              .filter(item => item.role.includes(this.state.person.role))
+              .filter(item => item.role.includes(data.role))
               .map(item => (
                 <Box margin="stack-base" key={item.id}>
                   <Item NAME="personEdit-input-name" left margin="inline-base">
@@ -445,7 +244,7 @@ class PersonEdit extends Component {
                       name={item.name}
                       id={item.id}
                       type={item.type}
-                      value={this.state[item.name]}
+                      value={data[item.name]}
                       onChange={this.handleInputChange}
                     />
                   </Item>
@@ -462,8 +261,9 @@ class PersonEdit extends Component {
               <Item NAME="personEdit-input">
                 <SelectInput
                   id="gender-input"
-                  onChange={this.handleInputChange}
                   name="gender"
+                  value={data.gender}
+                  onChange={this.handleInputChange}
                   options={[
                     {
                       label: "Choose an option",
@@ -547,7 +347,7 @@ class PersonEdit extends Component {
                 role: ["trainee"]
               }
             ]
-              .filter(item => item.role.includes(this.state.person.role))
+              .filter(item => item.role.includes(data.role))
               .map(item => (
                 <Box margin="stack-base" key={item.id}>
                   <Item NAME="personEdit-input-name" left margin="inline-base">
@@ -561,7 +361,7 @@ class PersonEdit extends Component {
                       name={item.name}
                       id={item.id}
                       type={item.type}
-                      value={this.state[item.name]}
+                      value={data[item.name]}
                       onChange={this.handleInputChange}
                     />
                   </Item>
@@ -569,7 +369,11 @@ class PersonEdit extends Component {
               ))}
 
             <Item margin="stack-l">
-              <Button variant="primary" onClick={this.handleSubmit}>
+              <Button
+                variant="primary"
+                type="submit"
+                onClick={this.handleSubmit}
+              >
                 Edit Person
               </Button>
             </Item>
@@ -580,73 +384,4 @@ class PersonEdit extends Component {
   }
 }
 
-class PersonChangePassword extends Component {
-  state = {
-    person: {
-      password: "",
-      confirmPassword: ""
-    }
-  };
-
-  handleInputChange = e => {
-    this.setState({
-      person: { ...this.state.person, [e.target.name]: e.target.value }
-    });
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    console.log(this.state);
-  };
-
-  render() {
-    return (
-      <Fragment>
-        <Item margin="stack-l">
-          <Typography variant="display-2">Change Password</Typography>
-        </Item>
-
-        {[
-          {
-            label: "Password",
-            name: "password",
-            type: "password",
-            id: "password-input"
-          },
-          {
-            label: "Confirm Password",
-            name: "confirmPassword",
-            type: "password",
-            id: "confirm-password-input"
-          }
-        ].map(item => (
-          <Box margin="stack-base" key={item.id}>
-            <Item NAME="personEdit-input-name" left margin="inline-base">
-              <Typography variant="base" as="label" htmlFor={item.id}>
-                {item.label}
-              </Typography>
-            </Item>
-
-            <Item NAME="personEdit-input">
-              <TextInput
-                name={item.name}
-                id={item.id}
-                type={item.type}
-                value={this.state[item.name]}
-                onChange={this.handleInputChange}
-              />
-            </Item>
-          </Box>
-        ))}
-
-        <Item margin="stack-l">
-          <Button variant="primary" onClick={this.handleSubmit}>
-            Change Password
-          </Button>
-        </Item>
-      </Fragment>
-    );
-  }
-}
-
-export { PersonInformation, PersonEdit, PersonChangePassword };
+export default PersonEdit;

@@ -97,8 +97,8 @@ function editGroup(req, res) {
           group.location = req.body.location;
           group.phoneNumber = req.body.phoneNumber;
 
-          group.save((err, user) => {
-            res.send({ data: user });
+          group.save((err, group) => {
+            res.send({ data: group });
           });
         }
       });

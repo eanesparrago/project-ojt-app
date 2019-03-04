@@ -60,4 +60,13 @@ router
 // --->>> POST /api/users/login - loginUser
 router.route("/login").post(UserController.loginUser);
 
+// --->>> PUT /api/users/:id - updateUser
+router
+  .route("/:id")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    UserController.updateUser
+  );
+
 module.exports = router;

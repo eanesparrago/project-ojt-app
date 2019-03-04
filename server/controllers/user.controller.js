@@ -201,10 +201,61 @@ function getUser(req, res) {
     .catch(err => res.status(404).json({ user: "User not found" }));
 }
 
+/**
+ * Update user
+ * PUT api/users/id
+ * @param  req.param.id
+ * @param  res
+ * @access  public
+ */
+function updateUser(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json(errors.mapped());
+  }
+
+  User.findById(req.params.id)
+    .then(user => {
+      User.findOne({ username: req.body.username }).then(duplicate => {
+        if (duplicate && user.username !== req.body.username) {
+          errors.username = { msg: "Username already exists" };
+          return res.status(400).json(errors);
+        }
+      });
+
+      user.set(req.body);
+
+      req.body.school && (user.roleData.school = req.body.school);
+      req.body.trainingDuration &&
+        (user.roleData.trainingDuration = req.body.trainingDuration);
+      req.body.dateOfBirth &&
+        (user.roleData.dateOfBirth = req.body.dateOfBirth);
+      req.body.address && (user.roleData.address = req.body.address);
+      req.body.contactNumber &&
+        (user.roleData.contactNumber = req.body.contactNumber);
+      req.body.school && (user.roleData.school = req.body.school);
+      req.body.adviserName &&
+        (user.roleData.adviserName = req.body.adviserName);
+      req.body.adviserContactNumber &&
+        (user.roleData.adviserContactNumber = req.body.adviserContactNumber);
+      req.body.guardianName &&
+        (user.roleData.guardianName = req.body.guardianName);
+      req.body.guardianContactNumber &&
+        (user.roleData.guardianContactNumber = req.body.guardianContactNumber);
+      req.body.group && (user.roleData.group = req.body.group);
+
+      user.save((err, user) => {
+        res.send({ data: user });
+      });
+    })
+    .catch(err => res.status(404).json({ user: "User not found" }));
+}
+
 module.exports = {
   getUsers,
   testRoute,
   createUser,
   loginUser,
-  getUser
+  getUser,
+  updateUser
 };

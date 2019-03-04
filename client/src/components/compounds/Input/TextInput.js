@@ -53,7 +53,7 @@ export class TextInput extends Component {
   static propTypes = {
     onChange: PropTypes.func,
     name: PropTypes.string,
-    value: PropTypes.string
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   };
 
   static defaultProps = {

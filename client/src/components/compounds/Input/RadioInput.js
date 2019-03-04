@@ -32,7 +32,7 @@ const StyledRadioInput = styled.div`
 
 export class RadioInput extends Component {
   render() {
-    const { options, name, onChange, error } = this.props;
+    const { options, name, onChange, error, value } = this.props;
 
     return (
       <StyledRadioInput>
@@ -43,6 +43,7 @@ export class RadioInput extends Component {
                 type="radio"
                 name={name}
                 value={option.value}
+                checked={option.value === value}
                 id={option.id}
                 onChange={onChange}
               />

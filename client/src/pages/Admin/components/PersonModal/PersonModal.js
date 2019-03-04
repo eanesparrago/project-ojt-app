@@ -8,13 +8,11 @@ import { Item, Box, Container, Area } from "src/layout";
 import { Button, Typography } from "src/components/elements";
 import { LoadingScene } from "src/components/compounds";
 
-import axios from "axios";
+import PersonInformation from "./components/PersonInformation";
+import PersonEdit from "./components/PersonEdit";
+import PersonChangePassword from "./components/PersonChangePassword";
 
-import {
-  PersonInformation,
-  PersonEdit,
-  PersonChangePassword
-} from "./PersonModalComponents";
+import axios from "axios";
 
 const StyledPerson = styled.div`
   /* border: 1px solid magenta; */
@@ -146,8 +144,6 @@ export class Person extends Component {
     const { history, match } = this.props;
     const { person, isLoading } = this.state;
 
-    console.log(this.state);
-
     return (
       <StyledPerson>
         {/* >>> AREA: header */}
@@ -245,7 +241,7 @@ export class Person extends Component {
 
                   <Route
                     path={`${match.url}/edit-person`}
-                    render={() => <PersonEdit />}
+                    render={() => <PersonEdit data={person} />}
                   />
 
                   <Route
