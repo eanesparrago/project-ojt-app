@@ -225,23 +225,16 @@ function updateUser(req, res) {
 
       user.set(req.body);
 
-      req.body.school && (user.roleData.school = req.body.school);
-      req.body.trainingDuration &&
-        (user.roleData.trainingDuration = req.body.trainingDuration);
-      req.body.dateOfBirth &&
-        (user.roleData.dateOfBirth = req.body.dateOfBirth);
-      req.body.address && (user.roleData.address = req.body.address);
-      req.body.contactNumber &&
-        (user.roleData.contactNumber = req.body.contactNumber);
-      req.body.school && (user.roleData.school = req.body.school);
-      req.body.adviserName &&
-        (user.roleData.adviserName = req.body.adviserName);
-      req.body.adviserContactNumber &&
-        (user.roleData.adviserContactNumber = req.body.adviserContactNumber);
-      req.body.guardianName &&
-        (user.roleData.guardianName = req.body.guardianName);
-      req.body.guardianContactNumber &&
-        (user.roleData.guardianContactNumber = req.body.guardianContactNumber);
+      user.roleData.school = req.body.school ? req.body.school : "";
+      user.roleData.trainingDuration = req.body.trainingDuration ? req.body.trainingDuration : "";
+      user.roleData.dateOfBirth = req.body.dateOfBirth ? req.body.dateOfBirth : "";
+      user.roleData.address = req.body.address ? req.body.address : "";
+      user.roleData.contactNumber = req.body.contactNumber ? req.body.contactNumber : "";
+      user.roleData.adviserName = req.body.adviserName ? req.body.adviserName : "";
+      user.roleData.adviserContactNumber = req.body.adviserContactNumber ? req.body.adviserContactNumber : "";
+      user.roleData.guardianName = req.body.guardianName ? req.body.guardianName : "";
+      user.roleData.guardianContactNumber = req.body.guardianContactNumber ? req.body.guardianContactNumber : "";
+
       req.body.group && (user.roleData.group = req.body.group);
 
       user.save((err, user) => {

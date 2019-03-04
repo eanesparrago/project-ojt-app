@@ -158,7 +158,7 @@ export class PeopleTable extends Component {
                   </Item>
                   <Item as="td" padding="squish-l">
                     <Typography variant="base">
-                      {format(person.dateCreated, "YYYY-MM-DD")}
+                      {format(person.dateCreated, "MM-DD-YYYY")}
                     </Typography>
                   </Item>
                 </Container>

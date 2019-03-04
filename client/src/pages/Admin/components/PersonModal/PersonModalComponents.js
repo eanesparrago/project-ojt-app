@@ -74,7 +74,7 @@ const PersonInformation = ({ data }) => {
         },
         {
           property: "Date Created",
-          value: format(data.dateCreated, "YYYY-MM-DD"),
+          value: format(data.dateCreated, "MM-DD-YYYY"),
           roles: [
             enums.roles.ADMINISTRATOR,
             enums.roles.SUPERVISOR,
@@ -86,7 +86,7 @@ const PersonInformation = ({ data }) => {
           property: "Date Last Logged In",
           value:
             data.dateLastLoggedIn &&
-            format(data.dateLastLoggedIn, "YYYY-MM-DD"),
+            format(data.dateLastLoggedIn, "MM-DD-YYYY"),
           roles: [
             enums.roles.ADMINISTRATOR,
             enums.roles.SUPERVISOR,

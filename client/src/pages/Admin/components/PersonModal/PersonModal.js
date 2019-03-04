@@ -109,7 +109,7 @@ export class Person extends Component {
     errors: {}
   };
 
-  componentDidMount() {
+  fetchPerson = () => {
     const { ...state } = this.state;
     const { ...props } = this.props;
 
@@ -127,6 +127,10 @@ export class Person extends Component {
           });
         });
     });
+  };
+
+  componentDidMount() {
+    this.fetchPerson();
   }
 
   handleInputChange = e => {
@@ -143,6 +147,8 @@ export class Person extends Component {
   render() {
     const { history, match } = this.props;
     const { person, isLoading } = this.state;
+
+    console.log(person);
 
     return (
       <StyledPerson>
@@ -241,7 +247,12 @@ export class Person extends Component {
 
                   <Route
                     path={`${match.url}/edit-person`}
-                    render={() => <PersonEdit data={person} />}
+                    render={() => (
+                      <PersonEdit
+                        data={person}
+                        fetchPerson={this.fetchPerson}
+                      />
+                    )}
                   />
 
                   <Route

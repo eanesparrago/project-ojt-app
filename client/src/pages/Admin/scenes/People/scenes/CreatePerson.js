@@ -132,10 +132,13 @@ export class CreatePerson extends Component {
       axios
         .post("/api/users/register", this.state.data)
         .then(res => {
-          this.setState({ ...this.state, data: res.data }, () => {
-            this.props.getPeople();
-            this.props.history.goBack();
-          });
+          this.setState(
+            { ...this.state, data: res.data, isLoading: false },
+            () => {
+              this.props.getPeople();
+              this.props.history.goBack();
+            }
+          );
         })
         .catch(err => {
           this.setState({

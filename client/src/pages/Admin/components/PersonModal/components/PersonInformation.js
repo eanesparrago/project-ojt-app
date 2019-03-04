@@ -1,12 +1,9 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import format from "date-fns/format";
 
-import { Button, Typography } from "src/components/elements";
-import { TextInput, RadioInput, SelectInput } from "src/components/compounds";
+import { Typography } from "src/components/elements";
 import { Item, Box } from "src/layout";
 import enums from "src/services/enums";
-
-import roleInputOptions from "./roleInputOptions";
 
 const PersonInformation = ({ data }) => {
   return (
@@ -74,7 +71,7 @@ const PersonInformation = ({ data }) => {
         },
         {
           property: "Date Created",
-          value: format(data.dateCreated, "YYYY-MM-DD"),
+          value: format(data.dateCreated, "MM-DD-YYYY"),
           roles: [
             enums.roles.ADMINISTRATOR,
             enums.roles.SUPERVISOR,
@@ -86,7 +83,17 @@ const PersonInformation = ({ data }) => {
           property: "Date Last Logged In",
           value:
             data.dateLastLoggedIn &&
-            format(data.dateLastLoggedIn, "YYYY-MM-DD"),
+            format(data.dateLastLoggedIn, "MM-DD-YYYY"),
+          roles: [
+            enums.roles.ADMINISTRATOR,
+            enums.roles.SUPERVISOR,
+            enums.roles.TRAINEE,
+            enums.roles.EMPLOYEE
+          ]
+        },
+        {
+          property: "Account Status",
+          value: data.isActive ? "Active" : "Inactive",
           roles: [
             enums.roles.ADMINISTRATOR,
             enums.roles.SUPERVISOR,
@@ -169,7 +176,9 @@ const PersonInformation = ({ data }) => {
         },
         {
           property: "Date of Birth",
-          value: format(data.roleData.dateOfBirth, "YYYY-MM-DD"),
+          value:
+            data.roleData.dateOfBirth &&
+            format(data.roleData.dateOfBirth, "MM-DD-YYYY"),
           roles: [enums.roles.TRAINEE]
         },
         {

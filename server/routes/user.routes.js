@@ -9,6 +9,11 @@ const {
   validateCreateUserTrainee,
   validateCreateUserSupervisor
 } = require("../validation/validateCreateUser");
+const {
+  validateUpdateUser,
+  validateUpdateUserTrainee,
+  validateUpdateUserSupervisor
+} = require("../validation/validateUpdateUser");
 const enums = require("../enums");
 
 // >>> /api/users
@@ -22,8 +27,8 @@ router
 
 // --->>> /api/users/register - registerUser
 router.route("/register").post(
-  // passport.authenticate("jwt", { session: false }),
-  // permittedRoles(enums.roles.ADMINISTRATOR),
+  passport.authenticate("jwt", { session: false }),
+  permittedRoles(enums.roles.ADMINISTRATOR),
   function(req, res, next) {
     if (req.body.role === enums.roles.TRAINEE) {
       dynamicValidation(validateCreateUserTrainee, req, res, next);
@@ -61,12 +66,22 @@ router
 router.route("/login").post(UserController.loginUser);
 
 // --->>> PUT /api/users/:id - updateUser
-router
-  .route("/:id")
-  .put(
-    passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR),
-    UserController.updateUser
-  );
+router.route("/:id").put(
+  passport.authenticate("jwt", { session: false }),
+  permittedRoles(enums.roles.ADMINISTRATOR),
+  function(req, res, next) {
+    if (req.body.role === enums.roles.TRAINEE) {
+      dynamicValidation(validateUpdateUserTrainee, req, res, next);
+    } else if (
+      req.body.role === enums.roles.SUPERVISOR ||
+      req.body.role === enums.roles.EMPLOYEE
+    ) {
+      dynamicValidation(validateUpdateUserSupervisor, req, res, next);
+    } else {
+      dynamicValidation(validateUpdateUser, req, res, next);
+    }
+  },
+  UserController.updateUser
+);
 
 module.exports = router;

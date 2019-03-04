@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from "react";
 import format from "date-fns/format";
+import axios from "axios";
 
 import { Button, Typography } from "src/components/elements";
 import { TextInput, RadioInput, SelectInput } from "src/components/compounds";
-import { Item, Box } from "src/layout";
+import { Item, Box, Container } from "src/layout";
+import { LoadingScene } from "src/components/compounds";
 import enums from "src/services/enums";
 
 import roleInputOptions from "./roleInputOptions";
@@ -15,7 +17,9 @@ class PersonEdit extends Component {
     this.state = {
       data: {
         role: props.data.role,
-        group: props.data.roleData._id,
+        group: props.data.roleData.group
+          ? props.data.roleData.group._id
+          : undefined,
         isActive: props.data.isActive,
         username: props.data.username,
         email: props.data.email,
@@ -25,7 +29,9 @@ class PersonEdit extends Component {
         lastName: props.data.lastName,
         nickname: props.data.nickname,
         gender: props.data.gender,
-        dateOfBirth: props.data.roleData.dateofBirth,
+        dateOfBirth: props.data.roleData.dateOfBirth
+          ? format(props.data.roleData.dateOfBirth, "YYYY-MM-DD")
+          : "",
         address: props.data.roleData.address,
         contactNumber: props.data.roleData.contactNumber,
         school: props.data.roleData.school,
@@ -35,8 +41,26 @@ class PersonEdit extends Component {
         guardianContactNumber: props.data.roleData.guardianContactNumber
       },
       isLoading: false,
-      errors: {}
+      errors: {},
+      groups: []
     };
+  }
+
+  componentDidMount() {
+    this.setState({ ...this.state, isLoading: true }, () => {
+      axios
+        .get("/api/groups?field=name")
+        .then(res => {
+          this.setState({ ...this.state, groups: res.data, isLoading: false });
+        })
+        .catch(err => {
+          this.setState({
+            ...this.state,
+            errors: err.response.data,
+            isLoading: false
+          });
+        });
+    });
   }
 
   handleInputChange = e => {
@@ -53,14 +77,34 @@ class PersonEdit extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
+    const { data, fetchPerson } = this.props;
+    const { ...state } = this.state;
+
+    this.setState({ ...state, isLoading: true, errors: {} }, () => {
+      axios
+        .put(`/api/users/${data._id}`, state.data)
+        .then(res => {
+          this.setState({ ...state, isLoading: false }, () => {
+            fetchPerson();
+          });
+        })
+        .catch(err => {
+          this.setState({
+            ...state,
+            errors: err.response.data,
+            isLoading: false
+          });
+        });
+    });
   };
 
   render() {
-    const { data } = this.state;
+    const { data, errors, isLoading, groups } = this.state;
 
-    return (
-      <Fragment>
+    return isLoading ? (
+      <LoadingScene />
+    ) : (
+      <Container as="form">
         <Item margin="stack-l">
           <Typography variant="display-2">Edit Person</Typography>
         </Item>
@@ -100,27 +144,15 @@ class PersonEdit extends Component {
                 <Item NAME="personEdit-input">
                   <SelectInput
                     id="group-input"
+                    value={data.group}
                     onChange={this.handleInputChange}
                     name="group"
-                    value={data.group}
-                    options={[
-                      {
-                        label: "Choose an option",
-                        value: ""
-                      },
-                      {
-                        label: "Alpha",
-                        value: "alpha"
-                      },
-                      {
-                        label: "Beta",
-                        value: "beta"
-                      },
-                      {
-                        label: "Charlie",
-                        value: "charlie"
-                      }
-                    ]}
+                    options={groups.map(group => ({
+                      label: group.name,
+                      value: group._id
+                    }))}
+                    error={errors.group}
+                    disabled={isLoading}
                   />
                 </Item>
               </Box>
@@ -143,6 +175,7 @@ class PersonEdit extends Component {
                   type="checkbox"
                   checked={data.isActive}
                   onChange={this.handleToggleIsActive}
+                  disabled={isLoading}
                 />
               </Item>
             </Box>
@@ -167,7 +200,9 @@ class PersonEdit extends Component {
                 name: "trainingDuration",
                 type: "number",
                 id: "training-duration-input",
-                role: ["trainee"]
+                role: ["trainee"],
+                min: "1",
+                max: "999"
               }
             ]
               .filter(item => item.role.includes(data.role))
@@ -186,6 +221,9 @@ class PersonEdit extends Component {
                       type={item.type}
                       value={data[item.name]}
                       onChange={this.handleInputChange}
+                      error={errors[item.name]}
+                      disabled={isLoading}
+                      {...item}
                     />
                   </Item>
                 </Box>
@@ -246,6 +284,8 @@ class PersonEdit extends Component {
                       type={item.type}
                       value={data[item.name]}
                       onChange={this.handleInputChange}
+                      error={errors[item.name]}
+                      disabled={isLoading}
                     />
                   </Item>
                 </Box>
@@ -264,11 +304,8 @@ class PersonEdit extends Component {
                   name="gender"
                   value={data.gender}
                   onChange={this.handleInputChange}
+                  disabled={isLoading}
                   options={[
-                    {
-                      label: "Choose an option",
-                      value: ""
-                    },
                     {
                       label: "Male",
                       value: "male"
@@ -302,7 +339,7 @@ class PersonEdit extends Component {
                 name: "contactNumber",
                 type: "text",
                 id: "contact-number-input",
-                role: ["administrator", "supervisor", "trainee", "employee"]
+                role: ["trainee"]
               },
               {
                 label: "E-mail Address",
@@ -363,6 +400,8 @@ class PersonEdit extends Component {
                       type={item.type}
                       value={data[item.name]}
                       onChange={this.handleInputChange}
+                      error={errors[item.name]}
+                      disabled={isLoading}
                     />
                   </Item>
                 </Box>
@@ -373,13 +412,14 @@ class PersonEdit extends Component {
                 variant="primary"
                 type="submit"
                 onClick={this.handleSubmit}
+                disabled={isLoading}
               >
                 Edit Person
               </Button>
             </Item>
           </Fragment>
         )}
-      </Fragment>
+      </Container>
     );
   }
 }
