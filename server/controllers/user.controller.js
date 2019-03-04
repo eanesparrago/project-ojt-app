@@ -103,7 +103,7 @@ function createUser(req, res) {
           newUser = new UserEmployee(userData);
           break;
         default:
-          res.status(400).json({ error: "Unknown" });
+          return res.status(500).send("Error");
       }
 
       bcrypt.genSalt(12, (err, salt) => {
@@ -113,8 +113,8 @@ function createUser(req, res) {
           newUser.password = hash;
           newUser
             .save()
-            .then(user => res.json(user))
-            .catch(err => console.log(err));
+            .then(user => res.status(200).send("Success"))
+            .catch(err => res.status(500).send("Error"));
         });
       });
     }
@@ -189,9 +189,9 @@ function getUsers(req, res) {
 /**
  * Get user by id
  * POST api/users/id
- * @param  req.param.id
+ * @param  req.params.id
  * @param  res
- * @access  public
+ * @access  private
  */
 function getUser(req, res) {
   User.findById(req.params.id)
@@ -203,10 +203,10 @@ function getUser(req, res) {
 
 /**
  * Update user
- * PUT api/users/id
- * @param  req.param.id
+ * PUT api/users/:id
+ * @param  req.params.id
  * @param  res
- * @access  public
+ * @access  private
  */
 function updateUser(req, res) {
   const errors = validationResult(req);
@@ -226,14 +226,28 @@ function updateUser(req, res) {
       user.set(req.body);
 
       user.roleData.school = req.body.school ? req.body.school : "";
-      user.roleData.trainingDuration = req.body.trainingDuration ? req.body.trainingDuration : "";
-      user.roleData.dateOfBirth = req.body.dateOfBirth ? req.body.dateOfBirth : "";
+      user.roleData.trainingDuration = req.body.trainingDuration
+        ? req.body.trainingDuration
+        : "";
+      user.roleData.dateOfBirth = req.body.dateOfBirth
+        ? req.body.dateOfBirth
+        : "";
       user.roleData.address = req.body.address ? req.body.address : "";
-      user.roleData.contactNumber = req.body.contactNumber ? req.body.contactNumber : "";
-      user.roleData.adviserName = req.body.adviserName ? req.body.adviserName : "";
-      user.roleData.adviserContactNumber = req.body.adviserContactNumber ? req.body.adviserContactNumber : "";
-      user.roleData.guardianName = req.body.guardianName ? req.body.guardianName : "";
-      user.roleData.guardianContactNumber = req.body.guardianContactNumber ? req.body.guardianContactNumber : "";
+      user.roleData.contactNumber = req.body.contactNumber
+        ? req.body.contactNumber
+        : "";
+      user.roleData.adviserName = req.body.adviserName
+        ? req.body.adviserName
+        : "";
+      user.roleData.adviserContactNumber = req.body.adviserContactNumber
+        ? req.body.adviserContactNumber
+        : "";
+      user.roleData.guardianName = req.body.guardianName
+        ? req.body.guardianName
+        : "";
+      user.roleData.guardianContactNumber = req.body.guardianContactNumber
+        ? req.body.guardianContactNumber
+        : "";
 
       req.body.group && (user.roleData.group = req.body.group);
 
@@ -244,11 +258,49 @@ function updateUser(req, res) {
     .catch(err => res.status(404).json({ user: "User not found" }));
 }
 
+/**
+ * Change user password
+ * PUT api/users/:id/password
+ * @param  req.params.id (required)
+ * @param  req.body.password (required)
+ * @param  req.body.confirmPassword (required)
+ * @param  res
+ * @access  public
+ */
+function updatePassword(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json(errors.mapped());
+  }
+
+  User.findById(req.params.id)
+    .then(user => {
+      if (!user) {
+        errors.user = "User not found";
+        return res.status(404).json(errors);
+      }
+
+      bcrypt.genSalt(12, (err, salt) => {
+        bcrypt.hash(req.body.password, salt, (err, hash) => {
+          if (err) throw err;
+
+          user.password = hash;
+          user
+            .save()
+            .then(user => res.status(200).send("Success"))
+            .catch(err => res.status(500).send("Error"));
+        });
+      });
+    })
+    .catch(err => res.status(500).send("Error"));
+}
+
 module.exports = {
   getUsers,
   testRoute,
   createUser,
   loginUser,
   getUser,
-  updateUser
+  updateUser,
+  updatePassword
 };

@@ -98,7 +98,7 @@ const StyledPerson = styled.div`
   }
 
   .item-personEdit-input {
-    width: ${p => p.theme.incrementFixed(16)};
+    width: ${p => p.theme.incrementFixed(16)};    
   }
 `;
 
@@ -257,7 +257,7 @@ export class Person extends Component {
 
                   <Route
                     path={`${match.url}/change-password`}
-                    render={() => <PersonChangePassword />}
+                    render={() => <PersonChangePassword data={person} />}
                   />
                 </Switch>
               )}

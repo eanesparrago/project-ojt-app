@@ -14,6 +14,7 @@ const {
   validateUpdateUserTrainee,
   validateUpdateUserSupervisor
 } = require("../validation/validateUpdateUser");
+const validateChangeUserPassword = require("../validation/validateChangeUserPassword");
 const enums = require("../enums");
 
 // >>> /api/users
@@ -83,5 +84,15 @@ router.route("/:id").put(
   },
   UserController.updateUser
 );
+
+// --->>> PUT /api/users/:id/change-password - updatePassword
+router
+  .route("/:id/change-password")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    validateChangeUserPassword,
+    UserController.updatePassword
+  );
 
 module.exports = router;

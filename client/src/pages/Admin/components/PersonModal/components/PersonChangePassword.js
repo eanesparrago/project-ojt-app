@@ -1,35 +1,53 @@
-import React, { Component, Fragment } from "react";
-import format from "date-fns/format";
+import React, { Component } from "react";
+import axios from "axios";
 
 import { Button, Typography } from "src/components/elements";
-import { TextInput, RadioInput, SelectInput } from "src/components/compounds";
-import { Item, Box } from "src/layout";
+import { TextInput } from "src/components/compounds";
+import { Item, Box, Container } from "src/layout";
 import enums from "src/services/enums";
-
-import roleInputOptions from "./roleInputOptions";
 
 class PersonChangePassword extends Component {
   state = {
-    person: {
+    data: {
       password: "",
       confirmPassword: ""
-    }
+    },
+    isLoading: false,
+    errors: {}
   };
 
   handleInputChange = e => {
     this.setState({
-      person: { ...this.state.person, [e.target.name]: e.target.value }
+      data: { ...this.state.data, [e.target.name]: e.target.value }
     });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
+    const { ...state } = this.state;
+    const { data } = this.props;
+
+    this.setState({ ...state, isLoading: true, errors: {} }, () => {
+      axios
+        .put(`/api/users/${data._id}/change-password`, state.data)
+        .then(res => {
+          this.setState({ ...state, isLoading: false }, () => {});
+        })
+        .catch(err => {
+          this.setState({
+            ...state,
+            errors: err.response.data,
+            isLoading: false
+          });
+        });
+    });
   };
 
   render() {
+    const { ...state } = this.state;
+
     return (
-      <Fragment>
+      <Container as="form">
         <Item margin="stack-l">
           <Typography variant="display-2">Change Password</Typography>
         </Item>
@@ -60,19 +78,26 @@ class PersonChangePassword extends Component {
                 name={item.name}
                 id={item.id}
                 type={item.type}
-                value={this.state[item.name]}
+                value={state.data[item.name]}
                 onChange={this.handleInputChange}
+                disabled={state.isLoading}
+                error={state.errors[item.name]}
               />
             </Item>
           </Box>
         ))}
 
         <Item margin="stack-l">
-          <Button variant="primary" onClick={this.handleSubmit}>
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={this.handleSubmit}
+            disabled={state.isLoading}
+          >
             Change Password
           </Button>
         </Item>
-      </Fragment>
+      </Container>
     );
   }
 }

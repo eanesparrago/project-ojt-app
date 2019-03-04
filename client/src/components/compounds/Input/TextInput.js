@@ -11,7 +11,7 @@ const StyledTextInput = styled.div`
 
   .input {
     height: var(--size-button);
-    width: 100%;
+    min-width: var(--size-button);
     display: flex;
     border: 1px solid ${p =>
       p.error ? p.theme.color.error : p.theme.color.grey.medium};

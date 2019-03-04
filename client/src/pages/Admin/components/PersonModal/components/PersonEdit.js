@@ -3,12 +3,9 @@ import format from "date-fns/format";
 import axios from "axios";
 
 import { Button, Typography } from "src/components/elements";
-import { TextInput, RadioInput, SelectInput } from "src/components/compounds";
+import { TextInput,  SelectInput } from "src/components/compounds";
 import { Item, Box, Container } from "src/layout";
 import { LoadingScene } from "src/components/compounds";
-import enums from "src/services/enums";
-
-import roleInputOptions from "./roleInputOptions";
 
 class PersonEdit extends Component {
   constructor(props) {
