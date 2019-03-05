@@ -10,6 +10,7 @@ import { TextInput } from "src/components/compounds";
 import { Item, Box, Container, Area } from "src/layout";
 
 import { getGroups } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
+import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
 const StyledCreateGroup = styled.div`
   /* border: 1px solid magenta; */
@@ -91,19 +92,24 @@ export class CreateGroup extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    const { ...state } = this.state;
+    const { ...props } = this.props;
 
-    this.setState({ ...this.state, isLoading: true, errors: {} }, () => {
+    this.setState({ ...state, isLoading: true, errors: {} }, () => {
       axios
-        .post("/api/groups", this.state.data)
+        .post("/api/groups", state.data)
         .then(res => {
-          this.setState({ ...this.state, data: res.data }, () => {
-            this.props.getGroups();
-            this.props.history.goBack();
+          this.setState({ ...state, data: res.data }, () => {
+            props.getGroups();
+            props.history.goBack();
+            props.setFlashMessage(
+              `Group ${res.data.name} was created successfully.`
+            );
           });
         })
         .catch(err => {
           this.setState({
-            ...this.state,
+            ...state,
             errors: err.response.data,
             isLoading: false
           });
@@ -233,7 +239,8 @@ export default withRouter(
   connect(
     null,
     {
-      getGroups: getGroups
+      getGroups: getGroups,
+      setFlashMessage: setFlashMessage
     }
   )(CreateGroup)
 );

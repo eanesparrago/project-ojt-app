@@ -6,11 +6,14 @@ import TextAreaInput from "./Input/TextAreaInput";
 
 import LoadingScene from "./LoadingScene/LoadingScene";
 
+import FlashMessage from "./FlashMessage/FlashMessage";
+
 export {
   TextInput,
   TextInputSpecial,
   RadioInput,
   SelectInput,
   TextAreaInput,
-  LoadingScene
+  LoadingScene,
+  FlashMessage
 };

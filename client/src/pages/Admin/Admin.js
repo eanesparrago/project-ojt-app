@@ -3,8 +3,11 @@ import { Route, Link, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Transition } from "react-spring/renderprops";
-import { Button, Typography, Photo } from "../../components/elements";
+
 import { Item, Box, Container, Area } from "../../layout";
+import { Button, Typography, Photo } from "../../components/elements";
+import { FlashMessage } from "src/components/compounds";
+
 import profileImage from "./profile.png";
 
 import Groups from "./scenes/Groups/Groups";
@@ -79,11 +82,17 @@ const StyledAdmin = styled.div`
     position: absolute;
     bottom: 0;
   }
+
+  .item-admin-flashMessage {
+    position: fixed;
+    bottom: ${p => p.theme.size.xl};
+    right: ${p => p.theme.size.base};
+  }
 `;
 
 export class Admin extends Component {
   render() {
-    const { match, logoutUser } = this.props;
+    const { match, logoutUser, app } = this.props;
 
     return (
       <StyledAdmin>
@@ -211,6 +220,29 @@ export class Admin extends Component {
             <Route path={`${match.url}/announcements`} render={Announcements} />
           </Switch>
         </Area>
+
+        <Transition
+          native
+          items={app.flashMessage.isOpen}
+          key={item => item}
+          from={{ opacity: 0, transform: "translateX(100%)" }}
+          enter={{ opacity: 1, transform: "translateX(0)" }}
+          leave={{ opacity: 0, transform: "translateX(100%)" }}
+        >
+          {show =>
+            show &&
+            (style => (
+              <Item NAME="admin-flashMessage" animate={style}>
+                <FlashMessage />
+              </Item>
+            ))
+          }
+        </Transition>
+        {/* {app.flashMessage.message && (
+          <Item NAME="admin-flashMessage">
+            <FlashMessage data={app.flashMessage} />
+          </Item>
+        )} */}
       </StyledAdmin>
     );
   }
@@ -220,7 +252,8 @@ export default withRouter(
   connect(
     state => ({
       admin: state.admin,
-      auth: state.auth
+      auth: state.auth,
+      app: state.app
     }),
     { logoutUser: logoutUser }
   )(Admin)
