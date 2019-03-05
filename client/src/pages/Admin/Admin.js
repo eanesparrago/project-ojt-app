@@ -87,6 +87,7 @@ const StyledAdmin = styled.div`
     position: fixed;
     bottom: ${p => p.theme.size.xl};
     right: ${p => p.theme.size.base};
+    width: ${p => p.theme.incrementFixed(24)};
   }
 `;
 

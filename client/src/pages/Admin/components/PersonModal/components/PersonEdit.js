@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from "react";
 import format from "date-fns/format";
 import axios from "axios";
+import { connect } from "react-redux";
 
 import { Button, Typography } from "src/components/elements";
-import { TextInput,  SelectInput } from "src/components/compounds";
+import { TextInput, SelectInput, LoadingScene } from "src/components/compounds";
 import { Item, Box, Container } from "src/layout";
-import { LoadingScene } from "src/components/compounds";
+
+import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
 class PersonEdit extends Component {
   constructor(props) {
@@ -74,7 +76,7 @@ class PersonEdit extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { data, fetchPerson } = this.props;
+    const { data, fetchPerson, setFlashMessage } = this.props;
     const { ...state } = this.state;
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
@@ -83,14 +85,20 @@ class PersonEdit extends Component {
         .then(res => {
           this.setState({ ...state, isLoading: false }, () => {
             fetchPerson();
+            setFlashMessage(`${res.data} was successfully edited.`, "success");
           });
         })
         .catch(err => {
-          this.setState({
-            ...state,
-            errors: err.response.data,
-            isLoading: false
-          });
+          this.setState(
+            {
+              ...state,
+              errors: err.response.data,
+              isLoading: false
+            },
+            () => {
+              setFlashMessage(`An error occurred.`, "error");
+            }
+          );
         });
     });
   };
@@ -421,4 +429,7 @@ class PersonEdit extends Component {
   }
 }
 
-export default PersonEdit;
+export default connect(
+  null,
+  { setFlashMessage: setFlashMessage }
+)(PersonEdit);

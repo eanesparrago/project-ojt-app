@@ -13,6 +13,8 @@ import {
   getGroups
 } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
 
+import { setFlashMessage } from "src/services/session/actions/appActionCreators";
+
 const StyledEditGroupForm = styled.form`
   width: 100%;
 
@@ -52,7 +54,13 @@ export class EditGroupForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { data, handleEditFormToggle, getGroup, getGroups } = this.props;
+    const {
+      data,
+      handleEditFormToggle,
+      getGroup,
+      getGroups,
+      setFlashMessage
+    } = this.props;
     const { ...state } = this.state;
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
@@ -62,6 +70,10 @@ export class EditGroupForm extends Component {
           getGroup(data._id);
           getGroups();
           handleEditFormToggle();
+          setFlashMessage(
+            `${res.data.name} was edited successfully.`,
+            "success"
+          );
         })
         .catch(err => {
           this.setState({
@@ -138,7 +150,12 @@ export class EditGroupForm extends Component {
 
         <Box NAME="editGroupForm-buttons" justify="flex-end">
           <Item margin="inline-s">
-            <Button type="submit" variant="primary" onClick={this.handleSubmit}>
+            <Button
+              type="submit"
+              variant="primary"
+              onClick={this.handleSubmit}
+              disabled={isLoading}
+            >
               Save
             </Button>
           </Item>
@@ -148,13 +165,19 @@ export class EditGroupForm extends Component {
               type="button"
               variant="secondary"
               onClick={handleEditFormToggle}
+              disabled={isLoading}
             >
               Cancel
             </Button>
           </Item>
 
           <Item style={{ marginLeft: "auto" }}>
-            <Button type="button" variant="text" onClick={this.handleDelete}>
+            <Button
+              type="button"
+              variant="text"
+              onClick={this.handleDelete}
+              disabled={isLoading}
+            >
               Delete Group
             </Button>
           </Item>
@@ -171,7 +194,8 @@ export default withRouter(
     }),
     {
       getGroup: getGroup,
-      getGroups: getGroups
+      getGroups: getGroups,
+      setFlashMessage: setFlashMessage
     }
   )(EditGroupForm)
 );

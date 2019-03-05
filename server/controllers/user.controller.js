@@ -113,7 +113,7 @@ function createUser(req, res) {
           newUser.password = hash;
           newUser
             .save()
-            .then(user => res.status(200).send("Success"))
+            .then(user => res.status(200).send(user.username))
             .catch(err => res.status(500).send("Error"));
         });
       });
@@ -252,7 +252,7 @@ function updateUser(req, res) {
       req.body.group && (user.roleData.group = req.body.group);
 
       user.save((err, user) => {
-        res.send({ data: user });
+        res.send(user.username);
       });
     })
     .catch(err => res.status(404).json({ user: "User not found" }));

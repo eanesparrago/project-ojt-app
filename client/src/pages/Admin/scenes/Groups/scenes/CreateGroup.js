@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Spring } from "react-spring/renderprops";
 import { Link, withRouter } from "react-router-dom";
@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 
 import { Button, Typography, Photo } from "src/components/elements";
-import { TextInput } from "src/components/compounds";
+import { TextInput, LoadingScene } from "src/components/compounds";
 import { Item, Box, Container, Area } from "src/layout";
 
 import { getGroups } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
@@ -103,16 +103,22 @@ export class CreateGroup extends Component {
             props.getGroups();
             props.history.goBack();
             props.setFlashMessage(
-              `Group ${res.data.name} was created successfully.`
+              `${res.data.name} was created successfully.`,
+              "success"
             );
           });
         })
         .catch(err => {
-          this.setState({
-            ...state,
-            errors: err.response.data,
-            isLoading: false
-          });
+          this.setState(
+            {
+              ...state,
+              errors: err.response.data,
+              isLoading: false
+            },
+            () => {
+              props.setFlashMessage("An error occurred", "error");
+            }
+          );
         });
     });
   };
@@ -169,57 +175,67 @@ export class CreateGroup extends Component {
               animate={style}
               as="form"
             >
-              {[
-                {
-                  label: "Group Name*",
-                  name: "name",
-                  type: "text",
-                  id: "group-name-input"
-                },
-                {
-                  label: "Location",
-                  name: "location",
-                  type: "text",
-                  id: "location-input"
-                },
-                {
-                  label: "Phone Number",
-                  name: "phoneNumber",
-                  type: "text",
-                  id: "phone-number-input"
-                }
-              ].map(item => (
-                <Box margin="stack-base" key={item.id}>
-                  <Item NAME="createGroup-input-name" left margin="inline-base">
-                    <Typography variant="base" as="label" htmlFor={item.id}>
-                      {item.label}
-                    </Typography>
-                  </Item>
+              {isLoading ? (
+                <LoadingScene />
+              ) : (
+                <Fragment>
+                  {[
+                    {
+                      label: "Group Name*",
+                      name: "name",
+                      type: "text",
+                      id: "group-name-input"
+                    },
+                    {
+                      label: "Location",
+                      name: "location",
+                      type: "text",
+                      id: "location-input"
+                    },
+                    {
+                      label: "Phone Number",
+                      name: "phoneNumber",
+                      type: "text",
+                      id: "phone-number-input"
+                    }
+                  ].map(item => (
+                    <Box margin="stack-base" key={item.id}>
+                      <Item
+                        NAME="createGroup-input-name"
+                        left
+                        margin="inline-base"
+                      >
+                        <Typography variant="base" as="label" htmlFor={item.id}>
+                          {item.label}
+                        </Typography>
+                      </Item>
 
-                  <Item NAME="createGroup-input">
-                    <TextInput
-                      name={item.name}
-                      id={item.id}
-                      type={item.type}
-                      value={data[item.name]}
-                      onChange={this.handleInputChange}
-                      error={errors[item.name]}
+                      <Item NAME="createGroup-input">
+                        <TextInput
+                          name={item.name}
+                          id={item.id}
+                          type={item.type}
+                          value={data[item.name]}
+                          onChange={this.handleInputChange}
+                          error={errors[item.name]}
+                          disabled={isLoading}
+                        />
+                      </Item>
+                    </Box>
+                  ))}
+
+                  <Item>
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      onClick={this.handleSubmit}
                       disabled={isLoading}
-                    />
+                    >
+                      Create Group
+                    </Button>
                   </Item>
-                </Box>
-              ))}
-
-              <Item>
-                <Button
-                  variant="primary"
-                  type="submit"
-                  onClick={this.handleSubmit}
-                  disabled={isLoading}
-                >
-                  Create Group
-                </Button>
-              </Item>
+                </Fragment>
+              )}
             </Area>
           )}
         </Spring>

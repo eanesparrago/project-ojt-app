@@ -148,8 +148,6 @@ export class Person extends Component {
     const { history, match } = this.props;
     const { person, isLoading } = this.state;
 
-    console.log(person);
-
     return (
       <StyledPerson>
         {/* >>> AREA: header */}

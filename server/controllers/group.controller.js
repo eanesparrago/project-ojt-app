@@ -98,7 +98,7 @@ function editGroup(req, res) {
           group.phoneNumber = req.body.phoneNumber;
 
           group.save((err, group) => {
-            res.send({ data: group });
+            res.send(group);
           });
         }
       });

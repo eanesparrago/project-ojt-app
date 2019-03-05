@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 
 import { Button, Typography } from "src/components/elements";
 import { TextInput } from "src/components/compounds";
 import { Item, Box, Container } from "src/layout";
-import enums from "src/services/enums";
+
+import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
 class PersonChangePassword extends Component {
   state = {
@@ -25,20 +27,35 @@ class PersonChangePassword extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { ...state } = this.state;
-    const { data } = this.props;
+    const { data, setFlashMessage } = this.props;
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
       axios
         .put(`/api/users/${data._id}/change-password`, state.data)
         .then(res => {
-          this.setState({ ...state, isLoading: false }, () => {});
+          this.setState(
+            {
+              ...state,
+              isLoading: false,
+              errors: {},
+              data: { password: "", confirmPassword: "" }
+            },
+            () => {
+              setFlashMessage("Password was changed successfully.", "success");
+            }
+          );
         })
         .catch(err => {
-          this.setState({
-            ...state,
-            errors: err.response.data,
-            isLoading: false
-          });
+          this.setState(
+            {
+              ...state,
+              errors: err.response.data,
+              isLoading: false
+            },
+            () => {
+              setFlashMessage("An error occurred.", "error");
+            }
+          );
         });
     });
   };
@@ -102,4 +119,9 @@ class PersonChangePassword extends Component {
   }
 }
 
-export default PersonChangePassword;
+export default connect(
+  null,
+  {
+    setFlashMessage: setFlashMessage
+  }
+)(PersonChangePassword);

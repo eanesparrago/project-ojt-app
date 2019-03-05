@@ -4,13 +4,19 @@ import { connect } from "react-redux";
 import { Spring } from "react-spring/renderprops";
 import { Link, withRouter } from "react-router-dom";
 import { Button, Typography } from "src/components/elements";
-import { TextInput, RadioInput, SelectInput } from "src/components/compounds";
+import {
+  TextInput,
+  RadioInput,
+  SelectInput,
+  LoadingScene
+} from "src/components/compounds";
 import { Item, Box, Container, Area } from "src/layout";
 import axios from "axios";
 
 import roleInputOptions from "./roleInputOptions";
 
 import { getPeople } from "src/pages/Admin/scenes/People/peopleActionCreators";
+import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
 const StyledCreatePerson = styled.form`
   /* border: 1px solid magenta; */
@@ -126,26 +132,36 @@ export class CreatePerson extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
+    const { ...state } = this.state;
+    const { ...props } = this.props;
 
-    this.setState({ ...this.state, isLoading: true, errors: {} }, () => {
+    this.setState({ ...state, isLoading: true, errors: {} }, () => {
       axios
-        .post("/api/users/register", this.state.data)
+        .post("/api/users/register", state.data)
         .then(res => {
           this.setState(
-            { ...this.state, data: res.data, isLoading: false },
+            { ...state, data: res.data, isLoading: false },
             () => {
-              this.props.getPeople();
-              this.props.history.goBack();
+              props.getPeople();
+              props.history.goBack();
+              props.setFlashMessage(
+                `${res.data} was created successfully.`,
+                "success"
+              );
             }
           );
         })
         .catch(err => {
-          this.setState({
-            ...this.state,
-            errors: err.response.data,
-            isLoading: false
-          });
+          this.setState(
+            {
+              ...state,
+              errors: err.response.data,
+              isLoading: false
+            },
+            () => {
+              props.setFlashMessage("An error occurred", "error");
+            }
+          );
         });
     });
   };
@@ -202,348 +218,243 @@ export class CreatePerson extends Component {
         >
           {style => (
             <Area NAME="createPerson-body" padding="inset-base" animate={style}>
-              {/* >>> Role */}
-              <Box margin="stack-base">
-                <Item NAME="createPerson-input-name" margin="inline-base">
-                  <Typography variant="display-3">Role</Typography>
-                </Item>
-
-                <Item NAME="createPerson-input">
-                  <RadioInput
-                    options={roleInputOptions}
-                    onChange={this.handleInputChange}
-                    name="role"
-                    value={data.role}
-                  />
-                </Item>
-              </Box>
-
-              {/* >>> Role must be filled */}
-              {data.role && (
+              {isLoading ? (
+                <LoadingScene />
+              ) : (
                 <Fragment>
-                  {/* >>> GROUP */}
-                  {/* >>> Group is not for administrators */}
-                  {data.role !== "administrator" && (
-                    <Box margin="stack-base">
-                      <Item
-                        NAME="createPerson-input-name"
-                        left
-                        margin="inline-base"
-                      >
-                        <Typography
-                          variant="display-3"
-                          as="label"
-                          htmlFor="group-input"
-                        >
-                          Group
-                        </Typography>
-                      </Item>
-
-                      <Item NAME="createPerson-input">
-                        <SelectInput
-                          id="group-input"
-                          value={data.group}
-                          onChange={this.handleInputChange}
-                          name="group"
-                          options={groups.map(group => ({
-                            label: group.name,
-                            value: group._id
-                          }))}
-                          error={errors.group}
-                          disabled={isLoading}
-                        />
-                      </Item>
-                    </Box>
-                  )}
-
-                  <Item NAME="createPerson-divider" margin="stack-base" />
-
-                  {/* >>> Account details */}
-                  <Item margin="stack-base">
-                    <Typography variant="display-3">
-                      Account Information
-                    </Typography>
-                  </Item>
-
-                  {[
-                    {
-                      label: "Username",
-                      name: "username",
-                      type: "text",
-                      id: "username-input",
-                      role: [
-                        "administrator",
-                        "supervisor",
-                        "trainee",
-                        "employee"
-                      ]
-                    },
-                    {
-                      label: "Password",
-                      name: "password",
-                      type: "password",
-                      id: "password-input",
-                      role: [
-                        "administrator",
-                        "supervisor",
-                        "trainee",
-                        "employee"
-                      ]
-                    },
-                    {
-                      label: "Confirm Password",
-                      name: "confirmPassword",
-                      type: "password",
-                      id: "confirm-password-input",
-                      role: [
-                        "administrator",
-                        "supervisor",
-                        "trainee",
-                        "employee"
-                      ]
-                    },
-                    {
-                      label: "Training Duration",
-                      name: "trainingDuration",
-                      type: "number",
-                      id: "training-duration-input",
-                      role: ["trainee"]
-                    }
-                  ]
-                    .filter(item => item.role.includes(data.role))
-                    .map(item => (
-                      <Box margin="stack-base" key={item.id}>
-                        <Item
-                          NAME="createPerson-input-name"
-                          left
-                          margin="inline-base"
-                        >
-                          <Typography
-                            variant="base"
-                            as="label"
-                            htmlFor={item.id}
-                          >
-                            {item.label}
-                          </Typography>
-                        </Item>
-
-                        <Item NAME="createPerson-input">
-                          <TextInput
-                            name={item.name}
-                            id={item.id}
-                            type={item.type}
-                            value={data[item.name]}
-                            onChange={this.handleInputChange}
-                            error={errors[item.name]}
-                            disabled={isLoading}
-                          />
-                        </Item>
-                      </Box>
-                    ))}
-
-                  <Item NAME="createPerson-divider" margin="stack-base" />
-
-                  {/* >>> Personal details */}
-                  <Item margin="stack-base">
-                    <Typography variant="display-3">
-                      Personal Information &mdash; Optional
-                    </Typography>
-                  </Item>
-
-                  {[
-                    {
-                      label: "First Name",
-                      name: "firstName",
-                      type: "text",
-                      id: "first-name-input",
-                      role: [
-                        "administrator",
-                        "supervisor",
-                        "trainee",
-                        "employee"
-                      ]
-                    },
-                    {
-                      label: "Middle Name",
-                      name: "middleName",
-                      type: "text",
-                      id: "middle-name-input",
-                      role: [
-                        "administrator",
-                        "supervisor",
-                        "trainee",
-                        "employee"
-                      ]
-                    },
-                    {
-                      label: "Last Name",
-                      name: "lastName",
-                      type: "text",
-                      id: "last-name-input",
-                      role: [
-                        "administrator",
-                        "supervisor",
-                        "trainee",
-                        "employee"
-                      ]
-                    },
-                    {
-                      label: "Nickname",
-                      name: "nickname",
-                      type: "text",
-                      id: "nickname-input",
-                      role: [
-                        "administrator",
-                        "supervisor",
-                        "trainee",
-                        "employee"
-                      ]
-                    }
-                  ]
-                    .filter(item => item.role.includes(data.role))
-                    .map(item => (
-                      <Box margin="stack-base" key={item.id}>
-                        <Item
-                          NAME="createPerson-input-name"
-                          left
-                          margin="inline-base"
-                        >
-                          <Typography
-                            variant="base"
-                            as="label"
-                            htmlFor={item.id}
-                          >
-                            {item.label}
-                          </Typography>
-                        </Item>
-
-                        <Item NAME="createPerson-input">
-                          <TextInput
-                            name={item.name}
-                            id={item.id}
-                            type={item.type}
-                            value={data[item.name]}
-                            onChange={this.handleInputChange}
-                            error={errors[item.name]}
-                            disabled={isLoading}
-                          />
-                        </Item>
-                      </Box>
-                    ))}
-
+                  {/* >>> Role */}
                   <Box margin="stack-base">
-                    <Item
-                      NAME="createPerson-input-name"
-                      left
-                      margin="inline-base"
-                    >
-                      <Typography
-                        variant="base"
-                        as="label"
-                        htmlFor="gender-input"
-                      >
-                        Gender
-                      </Typography>
+                    <Item NAME="createPerson-input-name" margin="inline-base">
+                      <Typography variant="display-3">Role</Typography>
                     </Item>
 
                     <Item NAME="createPerson-input">
-                      <SelectInput
-                        id="gender-input"
+                      <RadioInput
+                        options={roleInputOptions}
                         onChange={this.handleInputChange}
-                        name="gender"
-                        options={[
-                          {
-                            label: "Male",
-                            value: "male"
-                          },
-                          {
-                            label: "Female",
-                            value: "female"
-                          }
-                        ]}
+                        name="role"
+                        value={data.role}
                       />
                     </Item>
                   </Box>
 
-                  {[
-                    {
-                      label: "Date of Birth",
-                      name: "dateOfBirth",
-                      type: "date",
-                      id: "date-of-birth-input",
-                      role: ["trainee"]
-                    },
-                    {
-                      label: "Address",
-                      name: "address",
-                      type: "text",
-                      id: "address-input",
-                      role: ["trainee"]
-                    },
-                    {
-                      label: "Contact Number",
-                      name: "contactNumber",
-                      type: "text",
-                      id: "contact-number-input",
-                      role: [
-                        "administrator",
-                        "supervisor",
-                        "trainee",
-                        "employee"
-                      ]
-                    },
-                    {
-                      label: "E-mail Address",
-                      name: "email",
-                      type: "email",
-                      id: "email-input",
-                      role: [
-                        "administrator",
-                        "supervisor",
-                        "trainee",
-                        "employee"
-                      ]
-                    },
+                  {/* >>> Role must be filled */}
+                  {data.role && (
+                    <Fragment>
+                      {/* >>> GROUP */}
+                      {/* >>> Group is not for administrators */}
+                      {data.role !== "administrator" && (
+                        <Box margin="stack-base">
+                          <Item
+                            NAME="createPerson-input-name"
+                            left
+                            margin="inline-base"
+                          >
+                            <Typography
+                              variant="display-3"
+                              as="label"
+                              htmlFor="group-input"
+                            >
+                              Group
+                            </Typography>
+                          </Item>
 
-                    {
-                      label: "School",
-                      name: "school",
-                      type: "text",
-                      id: "school-input",
-                      role: ["trainee"]
-                    },
-                    {
-                      label: "Adviser Name",
-                      name: "adviserName",
-                      type: "text",
-                      id: "adviser-name-input",
-                      role: ["trainee"]
-                    },
-                    {
-                      label: "Adviser Contact Number",
-                      name: "adviserContactNumber",
-                      type: "text",
-                      id: "adviser-contact-number-input",
-                      role: ["trainee"]
-                    },
-                    {
-                      label: "Guardian Name",
-                      name: "guardianName",
-                      type: "text",
-                      id: "guardian-name-input",
-                      role: ["trainee"]
-                    },
-                    {
-                      label: "Guardian Contact Number",
-                      name: "guardianContactNumber",
-                      type: "text",
-                      id: "guardian-contact-number-input",
-                      role: ["trainee"]
-                    }
-                  ]
-                    .filter(item => item.role.includes(data.role))
-                    .map(item => (
-                      <Box margin="stack-base" key={item.id}>
+                          <Item NAME="createPerson-input">
+                            <SelectInput
+                              id="group-input"
+                              value={data.group}
+                              onChange={this.handleInputChange}
+                              name="group"
+                              options={groups.map(group => ({
+                                label: group.name,
+                                value: group._id
+                              }))}
+                              error={errors.group}
+                              disabled={isLoading}
+                            />
+                          </Item>
+                        </Box>
+                      )}
+
+                      <Item NAME="createPerson-divider" margin="stack-base" />
+
+                      {/* >>> Account details */}
+                      <Item margin="stack-base">
+                        <Typography variant="display-3">
+                          Account Information
+                        </Typography>
+                      </Item>
+
+                      {[
+                        {
+                          label: "Username",
+                          name: "username",
+                          type: "text",
+                          id: "username-input",
+                          role: [
+                            "administrator",
+                            "supervisor",
+                            "trainee",
+                            "employee"
+                          ]
+                        },
+                        {
+                          label: "Password",
+                          name: "password",
+                          type: "password",
+                          id: "password-input",
+                          role: [
+                            "administrator",
+                            "supervisor",
+                            "trainee",
+                            "employee"
+                          ]
+                        },
+                        {
+                          label: "Confirm Password",
+                          name: "confirmPassword",
+                          type: "password",
+                          id: "confirm-password-input",
+                          role: [
+                            "administrator",
+                            "supervisor",
+                            "trainee",
+                            "employee"
+                          ]
+                        },
+                        {
+                          label: "Training Duration",
+                          name: "trainingDuration",
+                          type: "number",
+                          id: "training-duration-input",
+                          role: ["trainee"],
+                          min: "1",
+                          max: "999"
+                        }
+                      ]
+                        .filter(item => item.role.includes(data.role))
+                        .map(item => (
+                          <Box margin="stack-base" key={item.id}>
+                            <Item
+                              NAME="createPerson-input-name"
+                              left
+                              margin="inline-base"
+                            >
+                              <Typography
+                                variant="base"
+                                as="label"
+                                htmlFor={item.id}
+                              >
+                                {item.label}
+                              </Typography>
+                            </Item>
+
+                            <Item NAME="createPerson-input">
+                              <TextInput
+                                name={item.name}
+                                id={item.id}
+                                type={item.type}
+                                value={data[item.name]}
+                                onChange={this.handleInputChange}
+                                error={errors[item.name]}
+                                disabled={isLoading}
+                                {...item}
+                              />
+                            </Item>
+                          </Box>
+                        ))}
+
+                      <Item NAME="createPerson-divider" margin="stack-base" />
+
+                      {/* >>> Personal details */}
+                      <Item margin="stack-base">
+                        <Typography variant="display-3">
+                          Personal Information &mdash; Optional
+                        </Typography>
+                      </Item>
+
+                      {[
+                        {
+                          label: "First Name",
+                          name: "firstName",
+                          type: "text",
+                          id: "first-name-input",
+                          role: [
+                            "administrator",
+                            "supervisor",
+                            "trainee",
+                            "employee"
+                          ]
+                        },
+                        {
+                          label: "Middle Name",
+                          name: "middleName",
+                          type: "text",
+                          id: "middle-name-input",
+                          role: [
+                            "administrator",
+                            "supervisor",
+                            "trainee",
+                            "employee"
+                          ]
+                        },
+                        {
+                          label: "Last Name",
+                          name: "lastName",
+                          type: "text",
+                          id: "last-name-input",
+                          role: [
+                            "administrator",
+                            "supervisor",
+                            "trainee",
+                            "employee"
+                          ]
+                        },
+                        {
+                          label: "Nickname",
+                          name: "nickname",
+                          type: "text",
+                          id: "nickname-input",
+                          role: [
+                            "administrator",
+                            "supervisor",
+                            "trainee",
+                            "employee"
+                          ]
+                        }
+                      ]
+                        .filter(item => item.role.includes(data.role))
+                        .map(item => (
+                          <Box margin="stack-base" key={item.id}>
+                            <Item
+                              NAME="createPerson-input-name"
+                              left
+                              margin="inline-base"
+                            >
+                              <Typography
+                                variant="base"
+                                as="label"
+                                htmlFor={item.id}
+                              >
+                                {item.label}
+                              </Typography>
+                            </Item>
+
+                            <Item NAME="createPerson-input">
+                              <TextInput
+                                name={item.name}
+                                id={item.id}
+                                type={item.type}
+                                value={data[item.name]}
+                                onChange={this.handleInputChange}
+                                error={errors[item.name]}
+                                disabled={isLoading}
+                              />
+                            </Item>
+                          </Box>
+                        ))}
+
+                      <Box margin="stack-base">
                         <Item
                           NAME="createPerson-input-name"
                           left
@@ -552,36 +463,150 @@ export class CreatePerson extends Component {
                           <Typography
                             variant="base"
                             as="label"
-                            htmlFor={item.id}
+                            htmlFor="gender-input"
                           >
-                            {item.label}
+                            Gender
                           </Typography>
                         </Item>
 
                         <Item NAME="createPerson-input">
-                          <TextInput
-                            name={item.name}
-                            id={item.id}
-                            type={item.type}
-                            value={data[item.name]}
+                          <SelectInput
+                            id="gender-input"
                             onChange={this.handleInputChange}
-                            error={errors[item.name]}
-                            disabled={isLoading}
+                            name="gender"
+                            options={[
+                              {
+                                label: "Male",
+                                value: "male"
+                              },
+                              {
+                                label: "Female",
+                                value: "female"
+                              }
+                            ]}
                           />
                         </Item>
                       </Box>
-                    ))}
 
-                  <Item margin="stack-l">
-                    <Button
-                      type="submit"
-                      variant="primary"
-                      onClick={this.handleSubmit}
-                      disabled={isLoading}
-                    >
-                      Create Person
-                    </Button>
-                  </Item>
+                      {[
+                        {
+                          label: "Date of Birth",
+                          name: "dateOfBirth",
+                          type: "date",
+                          id: "date-of-birth-input",
+                          role: ["trainee"]
+                        },
+                        {
+                          label: "Address",
+                          name: "address",
+                          type: "text",
+                          id: "address-input",
+                          role: ["trainee"]
+                        },
+                        {
+                          label: "Contact Number",
+                          name: "contactNumber",
+                          type: "text",
+                          id: "contact-number-input",
+                          role: [
+                            "administrator",
+                            "supervisor",
+                            "trainee",
+                            "employee"
+                          ]
+                        },
+                        {
+                          label: "E-mail Address",
+                          name: "email",
+                          type: "email",
+                          id: "email-input",
+                          role: [
+                            "administrator",
+                            "supervisor",
+                            "trainee",
+                            "employee"
+                          ]
+                        },
+
+                        {
+                          label: "School",
+                          name: "school",
+                          type: "text",
+                          id: "school-input",
+                          role: ["trainee"]
+                        },
+                        {
+                          label: "Adviser Name",
+                          name: "adviserName",
+                          type: "text",
+                          id: "adviser-name-input",
+                          role: ["trainee"]
+                        },
+                        {
+                          label: "Adviser Contact Number",
+                          name: "adviserContactNumber",
+                          type: "text",
+                          id: "adviser-contact-number-input",
+                          role: ["trainee"]
+                        },
+                        {
+                          label: "Guardian Name",
+                          name: "guardianName",
+                          type: "text",
+                          id: "guardian-name-input",
+                          role: ["trainee"]
+                        },
+                        {
+                          label: "Guardian Contact Number",
+                          name: "guardianContactNumber",
+                          type: "text",
+                          id: "guardian-contact-number-input",
+                          role: ["trainee"]
+                        }
+                      ]
+                        .filter(item => item.role.includes(data.role))
+                        .map(item => (
+                          <Box margin="stack-base" key={item.id}>
+                            <Item
+                              NAME="createPerson-input-name"
+                              left
+                              margin="inline-base"
+                            >
+                              <Typography
+                                variant="base"
+                                as="label"
+                                htmlFor={item.id}
+                              >
+                                {item.label}
+                              </Typography>
+                            </Item>
+
+                            <Item NAME="createPerson-input">
+                              <TextInput
+                                name={item.name}
+                                id={item.id}
+                                type={item.type}
+                                value={data[item.name]}
+                                onChange={this.handleInputChange}
+                                error={errors[item.name]}
+                                disabled={isLoading}
+                              />
+                            </Item>
+                          </Box>
+                        ))}
+
+                      <Item margin="stack-l">
+                        <Button
+                          type="submit"
+                          variant="primary"
+                          onClick={this.handleSubmit}
+                          disabled={isLoading}
+                        >
+                          Create Person
+                        </Button>
+                      </Item>
+                    </Fragment>
+                  )}
                 </Fragment>
               )}
             </Area>
@@ -602,6 +627,6 @@ export class CreatePerson extends Component {
 export default withRouter(
   connect(
     null,
-    { getPeople: getPeople }
+    { getPeople: getPeople, setFlashMessage: setFlashMessage }
   )(CreatePerson)
 );

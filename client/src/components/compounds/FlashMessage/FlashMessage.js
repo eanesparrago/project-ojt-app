@@ -8,6 +8,7 @@ import { Button, Typography } from "src/components/elements";
 import { unsetFlashMessage } from "src/services/session/actions/appActionCreators";
 
 const StyledFlashMessage = styled.div`
+  width: 100%;
   background-color: ${p => p.theme.color.white};
   border: 2px solid
     ${p =>
@@ -17,6 +18,7 @@ const StyledFlashMessage = styled.div`
   border-radius: ${p => p.theme.size.base};
   padding: ${p => p.theme.size.m};
   display: flex;
+  justify-content: space-between;
   align-items: center;
 `;
 
