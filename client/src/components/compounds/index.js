@@ -3,10 +3,9 @@ import TextInputSpecial from "./Input/TextInputSpecial";
 import RadioInput from "./Input/RadioInput";
 import SelectInput from "./Input/SelectInput";
 import TextAreaInput from "./Input/TextAreaInput";
-
 import LoadingScene from "./LoadingScene/LoadingScene";
-
 import FlashMessage from "./FlashMessage/FlashMessage";
+import CloudinaryUploadWidget from "./CloudinaryUploadWidget/CloudinaryUploadWidget";
 
 export {
   TextInput,
@@ -15,5 +14,6 @@ export {
   SelectInput,
   TextAreaInput,
   LoadingScene,
-  FlashMessage
+  FlashMessage,
+  CloudinaryUploadWidget
 };

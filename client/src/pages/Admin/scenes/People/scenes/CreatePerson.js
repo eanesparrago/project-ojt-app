@@ -3,14 +3,16 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { Spring } from "react-spring/renderprops";
 import { Link, withRouter } from "react-router-dom";
+
+import { Item, Box, Container, Area } from "src/layout";
 import { Button, Typography } from "src/components/elements";
 import {
   TextInput,
   RadioInput,
   SelectInput,
-  LoadingScene
+  LoadingScene,
+  CloudinaryUploadWidget
 } from "src/components/compounds";
-import { Item, Box, Container, Area } from "src/layout";
 import axios from "axios";
 
 import roleInputOptions from "./roleInputOptions";
@@ -139,17 +141,14 @@ export class CreatePerson extends Component {
       axios
         .post("/api/users/register", state.data)
         .then(res => {
-          this.setState(
-            { ...state, data: res.data, isLoading: false },
-            () => {
-              props.getPeople();
-              props.history.goBack();
-              props.setFlashMessage(
-                `${res.data} was created successfully.`,
-                "success"
-              );
-            }
-          );
+          this.setState({ ...state, data: res.data, isLoading: false }, () => {
+            props.getPeople();
+            props.history.goBack();
+            props.setFlashMessage(
+              `${res.data} was created successfully.`,
+              "success"
+            );
+          });
         })
         .catch(err => {
           this.setState(
@@ -594,6 +593,10 @@ export class CreatePerson extends Component {
                             </Item>
                           </Box>
                         ))}
+
+                      <Item margin="stack-base">
+                        <CloudinaryUploadWidget />
+                      </Item>
 
                       <Item margin="stack-l">
                         <Button
