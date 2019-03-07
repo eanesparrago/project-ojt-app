@@ -63,7 +63,7 @@ const userSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User"
     },
-    photoUrl: {
+    profilePictureUrl: {
       type: String
     },
     activities: [

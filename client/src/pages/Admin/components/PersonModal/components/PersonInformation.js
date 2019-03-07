@@ -1,13 +1,23 @@
 import React, { Fragment } from "react";
 import format from "date-fns/format";
 
-import { Typography } from "src/components/elements";
+import { Typography, Photo } from "src/components/elements";
 import { Item, Box } from "src/layout";
 import enums from "src/services/enums";
 
 const PersonInformation = ({ data }) => {
   return (
     <Fragment>
+      <Item NAME="person-profilePicture" margin="stack-l" center>
+        {!data.profilePictureUrl? (
+          <Typography variant="base">No profile picture</Typography>
+        ) : (
+          <Photo>
+            <img src={data.profilePictureUrl} alt="" />
+          </Photo>
+        )}
+      </Item>
+
       <Box margin="stack-l">
         <Item NAME="personInformation-property" margin="inline-s">
           <Typography variant="display-4">Role:</Typography>

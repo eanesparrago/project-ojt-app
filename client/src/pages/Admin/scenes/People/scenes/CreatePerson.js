@@ -5,7 +5,7 @@ import { Spring } from "react-spring/renderprops";
 import { Link, withRouter } from "react-router-dom";
 
 import { Item, Box, Container, Area } from "src/layout";
-import { Button, Typography } from "src/components/elements";
+import { Button, Typography, Photo } from "src/components/elements";
 import {
   TextInput,
   RadioInput,
@@ -78,6 +78,12 @@ const StyledCreatePerson = styled.form`
   .item-createPerson-input {
     width: ${p => p.theme.incrementFixed(16)};
   }
+
+  .item-createPerson-profilePicture {
+    width: ${p => p.theme.incrementFixed(8)};
+    height: ${p => p.theme.incrementFixed(8)};
+    background-color: ${p => p.theme.color.grey.light};
+  }
 `;
 
 export class CreatePerson extends Component {
@@ -102,7 +108,8 @@ export class CreatePerson extends Component {
       adviserName: "",
       adviserContactNumber: "",
       guardianName: "",
-      guardianContactNumber: ""
+      guardianContactNumber: "",
+      profilePictureUrl: ""
     },
     errors: {},
     groups: [],
@@ -129,6 +136,12 @@ export class CreatePerson extends Component {
   handleInputChange = e => {
     this.setState({
       data: { ...this.state.data, [e.target.name]: e.target.value }
+    });
+  };
+
+  handleProfilePictureUpload = photoUrl => {
+    this.setState({
+      data: { ...this.state.data, profilePictureUrl: photoUrl }
     });
   };
 
@@ -594,8 +607,40 @@ export class CreatePerson extends Component {
                           </Box>
                         ))}
 
-                      <Item margin="stack-base">
-                        <CloudinaryUploadWidget />
+                      <Box margin="stack-base">
+                        <Item
+                          NAME="createPerson-input-name"
+                          left
+                          margin="inline-base"
+                        >
+                          <Typography variant="base">
+                            Profile Picture
+                          </Typography>
+                        </Item>
+
+                        <Item NAME="createPerson-input">
+                          <CloudinaryUploadWidget
+                            handleProfilePictureUpload={
+                              this.handleProfilePictureUpload
+                            }
+                          />
+                        </Item>
+                      </Box>
+
+                      <Item
+                        NAME="createPerson-profilePicture"
+                        margin="stack-base"
+                        center
+                      >
+                        {data.profilePictureUrl === "" ? (
+                          <Typography variant="base">
+                            No profile picture
+                          </Typography>
+                        ) : (
+                          <Photo>
+                            <img src={data.profilePictureUrl} alt="" />
+                          </Photo>
+                        )}
                       </Item>
 
                       <Item margin="stack-l">

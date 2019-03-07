@@ -75,6 +75,13 @@ const StyledPerson = styled.div`
     }
   }
 
+  .item-person-profilePicture { 
+    width: ${p => p.theme.incrementFixed(8)};
+    height: ${p => p.theme.incrementFixed(8)};
+    background-color: ${p => p.theme.color.grey.light};
+  }
+
+
   .item-personInformation-divider {
     width: 100%;
     height: var(--size-xxs);
@@ -100,6 +107,7 @@ const StyledPerson = styled.div`
   .item-personEdit-input {
     width: ${p => p.theme.incrementFixed(16)};    
   }
+
 `;
 
 export class Person extends Component {

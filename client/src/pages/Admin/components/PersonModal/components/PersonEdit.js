@@ -3,8 +3,13 @@ import format from "date-fns/format";
 import axios from "axios";
 import { connect } from "react-redux";
 
-import { Button, Typography } from "src/components/elements";
-import { TextInput, SelectInput, LoadingScene } from "src/components/compounds";
+import { Button, Typography, Photo } from "src/components/elements";
+import {
+  TextInput,
+  SelectInput,
+  LoadingScene,
+  CloudinaryUploadWidget
+} from "src/components/compounds";
 import { Item, Box, Container } from "src/layout";
 
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
@@ -37,7 +42,8 @@ class PersonEdit extends Component {
         adviserName: props.data.roleData.adviserName,
         adviserContactNumber: props.data.roleData.adviserContactNumber,
         guardianName: props.data.roleData.guardianName,
-        guardianContactNumber: props.data.roleData.guardianContactNumber
+        guardianContactNumber: props.data.roleData.guardianContactNumber,
+        profilePictureUrl: props.data.profilePictureUrl
       },
       isLoading: false,
       errors: {},
@@ -65,6 +71,12 @@ class PersonEdit extends Component {
   handleInputChange = e => {
     this.setState({
       data: { ...this.state.data, [e.target.name]: e.target.value }
+    });
+  };
+
+  handleProfilePictureUpload = photoUrl => {
+    this.setState({
+      data: { ...this.state.data, profilePictureUrl: photoUrl }
     });
   };
 
@@ -411,6 +423,28 @@ class PersonEdit extends Component {
                   </Item>
                 </Box>
               ))}
+
+            <Box margin="stack-base">
+              <Item NAME="personEdit-input-name" left margin="inline-base">
+                <Typography variant="base">Profile Picture</Typography>
+              </Item>
+
+              <Item NAME="personEdit-input">
+                <CloudinaryUploadWidget
+                  handleProfilePictureUpload={this.handleProfilePictureUpload}
+                />
+              </Item>
+            </Box>
+
+            <Item NAME="person-profilePicture" margin="stack-base" center>
+              {data.profilePictureUrl === "" ? (
+                <Typography variant="base">No profile picture</Typography>
+              ) : (
+                <Photo>
+                  <img src={data.profilePictureUrl} alt="" />
+                </Photo>
+              )}
+            </Item>
 
             <Item margin="stack-l">
               <Button
