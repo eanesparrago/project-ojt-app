@@ -35,7 +35,7 @@ const StyledTextInput = styled.div`
 
 export class TextInput extends Component {
   render() {
-    const { ...props } = this.props;
+    const { autoFocus, ...props } = this.props;
 
     return (
       <StyledTextInput
@@ -43,7 +43,7 @@ export class TextInput extends Component {
         type={props.type}
         error={props.error}
       >
-        <input className="input" {...props} />
+        <input className="input" {...props} autoFocus={autoFocus} />
 
         {props.error && <span className="error">{props.error.msg}</span>}
       </StyledTextInput>

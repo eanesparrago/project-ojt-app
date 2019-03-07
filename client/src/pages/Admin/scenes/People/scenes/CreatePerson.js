@@ -20,6 +20,8 @@ import roleInputOptions from "./roleInputOptions";
 import { getPeople } from "src/pages/Admin/scenes/People/peopleActionCreators";
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
+import enums from "src/services/enums";
+
 const StyledCreatePerson = styled.form`
   /* border: 1px solid magenta; */
   width: 100%;
@@ -310,7 +312,7 @@ export class CreatePerson extends Component {
                             "trainee",
                             "employee"
                           ],
-                          autoFocus: true
+                          autoFocus: data.role === enums.roles.ADMINISTRATOR
                         },
                         {
                           label: "Password",
