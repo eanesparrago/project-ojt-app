@@ -241,6 +241,7 @@ function updateUser(req, res) {
 
       if (
         user.role !== enums.roles.ADMINISTRATOR &&
+        user.roleData.group &&
         user.roleData.group._id !== req.body.group
       ) {
         Group.findById(user.roleData.group._id).then(group => {
@@ -291,7 +292,7 @@ function updateUser(req, res) {
         }
       });
     })
-    .catch(err => res.status(404).json({ message: "An error occurred" }));
+    .catch(err => res.status(404).json({ message: err }));
 }
 
 /**

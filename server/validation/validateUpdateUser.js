@@ -65,7 +65,7 @@ const validateUpdateUserTrainee = [
     .not()
     .isEmpty()
     .withMessage("Training Duration is required")
-    .isInt({ max: 999 })
+    .isInt({ min: 1, max: 999 })
     .withMessage("Training Duration must be a number not greater than 999"),
 
   body("dateOfBirth")
