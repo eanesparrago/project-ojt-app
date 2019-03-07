@@ -95,4 +95,13 @@ router
     UserController.updatePassword
   );
 
+// --->>> DELETE /api/users/:id - deleteUser
+router
+  .route("/:id")
+  .delete(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    UserController.deleteUser
+  );
+
 module.exports = router;

@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import format from "date-fns/format";
 import axios from "axios";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 import { Button, Typography, Photo } from "src/components/elements";
 import {
@@ -13,6 +14,7 @@ import {
 import { Item, Box, Container } from "src/layout";
 
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
+import { getPeople } from "src/pages/Admin/scenes/People/peopleActionCreators";
 
 class PersonEdit extends Component {
   constructor(props) {
@@ -88,7 +90,7 @@ class PersonEdit extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { data, fetchPerson, setFlashMessage } = this.props;
+    const { data, fetchPerson, setFlashMessage, history } = this.props;
     const { ...state } = this.state;
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
@@ -97,8 +99,37 @@ class PersonEdit extends Component {
         .then(res => {
           this.setState({ ...state, isLoading: false }, () => {
             fetchPerson();
+            getPeople();
             setFlashMessage(`${res.data} was successfully edited.`, "success");
           });
+        })
+        .catch(err => {
+          this.setState(
+            {
+              ...state,
+              errors: err.response.data,
+              isLoading: false
+            },
+            () => {
+              setFlashMessage(`An error occurred.`, "error");
+            }
+          );
+        });
+    });
+  };
+
+  handleDeletePerson = e => {
+    e.preventDefault();
+    const { ...state } = this.state;
+    const { getPeople, setFlashMessage, data, history } = this.props;
+
+    this.setState({ ...state, isLoading: true, errors: {} }, () => {
+      axios
+        .delete(`/api/users/${data._id}`)
+        .then(res => {
+          getPeople();
+          setFlashMessage(`${res.data} was successfully deleted.`, "success");
+          history.go(-1);
         })
         .catch(err => {
           this.setState(
@@ -456,6 +487,16 @@ class PersonEdit extends Component {
                 Edit Person
               </Button>
             </Item>
+
+            <Item margin="stack-l">
+              <Button
+                variant="secondary"
+                onClick={this.handleDeletePerson}
+                disabled={isLoading}
+              >
+                Delete Person
+              </Button>
+            </Item>
           </Fragment>
         )}
       </Container>
@@ -463,7 +504,9 @@ class PersonEdit extends Component {
   }
 }
 
-export default connect(
-  null,
-  { setFlashMessage: setFlashMessage }
-)(PersonEdit);
+export default withRouter(
+  connect(
+    null,
+    { setFlashMessage: setFlashMessage, getPeople: getPeople }
+  )(PersonEdit)
+);

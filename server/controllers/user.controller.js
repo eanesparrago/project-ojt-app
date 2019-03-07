@@ -295,6 +295,21 @@ function updatePassword(req, res) {
     .catch(err => res.status(500).send("Error"));
 }
 
+/**
+ * Delete a user by id
+ * @route   DELETE api/users/:id
+ * @access  private (role: administrator)
+ */
+function deleteUser(req, res) {
+  User.findById(req.params.id)
+    .then(user => {
+      user.remove((err, user) => {
+        res.send(user.username);
+      });
+    })
+    .catch(err => res.status(404).json({ user: "User not found" }));
+}
+
 module.exports = {
   getUsers,
   testRoute,
@@ -302,5 +317,6 @@ module.exports = {
   loginUser,
   getUser,
   updateUser,
-  updatePassword
+  updatePassword,
+  deleteUser
 };

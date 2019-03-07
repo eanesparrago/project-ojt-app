@@ -108,7 +108,7 @@ function editGroup(req, res) {
 
 /**
  * Delete a group by id
- * @route   GET api/groups/:id
+ * @route   DELETE api/groups/:id
  * @access  private (role: administrator)
  */
 function deleteGroup(req, res) {

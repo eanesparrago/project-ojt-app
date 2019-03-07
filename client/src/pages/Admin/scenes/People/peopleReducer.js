@@ -14,7 +14,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case ADMIN_PEOPLE_GET_REQUEST:
-      return { ...state, isLoading: true };
+      return { ...state, isLoading: true, data: [] };
     case ADMIN_PEOPLE_GET_SUCCESS:
       return { ...state, data: action.payload, isLoading: false };
     case ADMIN_PEOPLE_GET_FAILURE:
