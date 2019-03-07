@@ -437,7 +437,7 @@ class PersonEdit extends Component {
             </Box>
 
             <Item NAME="person-profilePicture" margin="stack-base" center>
-              {data.profilePictureUrl === "" ? (
+              {!data.profilePictureUrl ? (
                 <Typography variant="base">No profile picture</Typography>
               ) : (
                 <Photo>
