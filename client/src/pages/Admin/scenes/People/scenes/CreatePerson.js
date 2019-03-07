@@ -623,30 +623,32 @@ export class CreatePerson extends Component {
                           </Typography>
                         </Item>
 
-                        <Item NAME="createPerson-input">
-                          <CloudinaryUploadWidget
-                            handleProfilePictureUpload={
-                              this.handleProfilePictureUpload
-                            }
-                          />
-                        </Item>
-                      </Box>
+                        <Box NAME="createPerson-input" row>
+                          <Item
+                            NAME="createPerson-profilePicture"
+                            margin="inline-m"
+                            center
+                          >
+                            {data.profilePictureUrl === "" ? (
+                              <Typography variant="base">
+                                No profile picture
+                              </Typography>
+                            ) : (
+                              <Photo>
+                                <img src={data.profilePictureUrl} alt="" />
+                              </Photo>
+                            )}
+                          </Item>
 
-                      <Item
-                        NAME="createPerson-profilePicture"
-                        margin="stack-base"
-                        center
-                      >
-                        {data.profilePictureUrl === "" ? (
-                          <Typography variant="base">
-                            No profile picture
-                          </Typography>
-                        ) : (
-                          <Photo>
-                            <img src={data.profilePictureUrl} alt="" />
-                          </Photo>
-                        )}
-                      </Item>
+                          <Item>
+                            <CloudinaryUploadWidget
+                              handleProfilePictureUpload={
+                                this.handleProfilePictureUpload
+                              }
+                            />
+                          </Item>
+                        </Box>
+                      </Box>
 
                       <Item margin="stack-l">
                         <Button

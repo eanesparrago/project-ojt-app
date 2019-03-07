@@ -468,27 +468,29 @@ class PersonEdit extends Component {
                 </Box>
               ))}
 
-            <Box margin="stack-base">
+            <Box margin="stack-base" NAME="personEdit-input">
               <Item NAME="personEdit-input-name" left margin="inline-base">
                 <Typography variant="base">Profile Picture</Typography>
               </Item>
 
-              <Item NAME="personEdit-input">
-                <CloudinaryUploadWidget
-                  handleProfilePictureUpload={this.handleProfilePictureUpload}
-                />
-              </Item>
-            </Box>
+              <Box>
+                <Item NAME="person-profilePicture" margin="inline-m" center>
+                  {!data.profilePictureUrl ? (
+                    <Typography variant="base">No profile picture</Typography>
+                  ) : (
+                    <Photo>
+                      <img src={data.profilePictureUrl} alt="" />
+                    </Photo>
+                  )}
+                </Item>
 
-            <Item NAME="person-profilePicture" margin="stack-base" center>
-              {!data.profilePictureUrl ? (
-                <Typography variant="base">No profile picture</Typography>
-              ) : (
-                <Photo>
-                  <img src={data.profilePictureUrl} alt="" />
-                </Photo>
-              )}
-            </Item>
+                <Item>
+                  <CloudinaryUploadWidget
+                    handleProfilePictureUpload={this.handleProfilePictureUpload}
+                  />
+                </Item>
+              </Box>
+            </Box>
 
             <Item margin="stack-l">
               <Button
