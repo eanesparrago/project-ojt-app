@@ -4,9 +4,9 @@ import { Link, withRouter } from "react-router-dom";
 import format from "date-fns/format";
 import { connect } from "react-redux";
 
-import { Button, Typography, Photo } from "../../../../../components/elements";
-import { TextInput, SelectInput } from "../../../../../components/compounds";
-import { Item, Box, Container, Area } from "../../../../../layout";
+import { Button, Typography, Photo } from "src/components/elements";
+import { TextInput, SelectInput, Avatar } from "src/components/compounds";
+import { Item, Box, Container, Area } from "src/layout";
 
 const StyledPeopleTable = styled.div`
   width: 100%;
@@ -136,18 +136,27 @@ export class PeopleTable extends Component {
               {data.map((person, i) => (
                 <Container NAME="peopleTable-table-body-row" as="tr" key={i}>
                   <Item padding="squish-l" center as="td">
-                    <Item NAME="peopleTable-username">
-                      <Button
-                        variant="text"
-                        as={Link}
-                        to={`${match.url}/person/${person._id}`}
-                        full
-                        left
-                      >
-                        {person.username}
-                      </Button>
-                      {/* <Typography variant="base"></Typography> */}
-                    </Item>
+                    <Box>
+                      <Item>
+                        <Avatar
+                          src={person.profilePictureUrl}
+                          id={person._id}
+                        />
+                      </Item>
+
+                      <Item NAME="peopleTable-username">
+                        <Button
+                          variant="text"
+                          as={Link}
+                          to={`${match.url}/person/${person._id}`}
+                          full
+                          left
+                        >
+                          {person.username}
+                        </Button>
+                        {/* <Typography variant="base"></Typography> */}
+                      </Item>
+                    </Box>
                   </Item>
 
                   <Item as="td" center padding="squish-l">

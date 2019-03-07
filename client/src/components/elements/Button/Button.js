@@ -55,7 +55,7 @@ const StyledButton = styled.button`
   &:disabled {
     background-color: ${p => p.theme.color.grey.medium};
     box-shadow: unset;
-  } 
+  }
 `;
 
 // >>> Primary
@@ -131,7 +131,7 @@ const StyledButtonText = styled(StyledButton)`
 // >>> Photo
 const StyledButtonPhoto = styled(StyledButton)`
   box-shadow: 0 0 0 0 transparent;
-  background-color: unset;
+  background-color: ${p => p.theme.color.primary.main};
   overflow: hidden;
   width: 100%;
   height: 100%;
