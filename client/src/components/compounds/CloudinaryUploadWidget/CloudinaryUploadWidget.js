@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { Button } from "src/components/elements";
 
 export class CloudinaryUploadWidget extends Component {
-  render() {
+  uploadWidget = () => {
     const { handleProfilePictureUpload } = this.props;
 
-    const myWidget = window.cloudinary.createUploadWidget(
+    window.cloudinary.openUploadWidget(
       {
         cloudName: "dtpbb2rgx",
         uploadPreset: "slzwnlxl",
@@ -22,14 +22,16 @@ export class CloudinaryUploadWidget extends Component {
         }
       }
     );
+  };
 
+  render() {
     return (
       <div>
         <Button
           variant="secondary"
           onClick={e => {
             e.preventDefault();
-            myWidget.open();
+            this.uploadWidget();
           }}
         >
           Upload Photo
