@@ -5,6 +5,7 @@ import spinner from "src/assets/spinner.gif";
 const StyledLoadingScene = styled.div`
   width: 100%;
   height: 100%;
+  overflow-y: hidden;
   display: flex;
   justify-content: center;
   align-items: center;

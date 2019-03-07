@@ -13,7 +13,9 @@ import {
 const initialState = {
   data: [],
   isLoading: false,
-  group: {},
+  group: {
+    users: []
+  },
   errors: {}
 };
 
@@ -31,7 +33,12 @@ export default (state = initialState, action) => {
     case ADMIN_GROUPS_GET_GROUP_SUCCESS:
       return { ...state, isLoading: false, group: action.payload };
     case ADMIN_GROUPS_GET_GROUP_FAILURE:
-      return { ...state, isLoading: false, errors: action.payload };
+      return {
+        ...state,
+        isLoading: false,
+        errors: action.payload,
+        group: initialState.group
+      };
 
     default:
       return state;

@@ -69,6 +69,7 @@ function getGroups(req, res) {
  */
 function getGroup(req, res) {
   Group.findById(req.params.id)
+    .populate("users", "profilePictureUrl firstName lastName username")
     .then(group => res.json(group))
     .catch(err => res.status(404).json({ group: "Group not found" }));
 }

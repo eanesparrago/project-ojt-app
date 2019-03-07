@@ -42,6 +42,7 @@ export default css`
 
   .container-admin-loading {
     position: absolute;
+    overflow-y: hidden;
     top: 0;
     bottom: 0;
     left: 0;

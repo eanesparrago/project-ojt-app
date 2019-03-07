@@ -93,7 +93,7 @@ export class GroupCard extends Component {
             {data.users
               .filter(user => user.role === enums.roles.TRAINEE)
               .map(user => (
-                <Item margin="wrap-s">
+                <Item margin="wrap-s" key={user._id}>
                   <Avatar src={user.profilePictureUrl} id={user._id} />
                 </Item>
               ))}

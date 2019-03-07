@@ -13,6 +13,8 @@ import AnnouncementItem from "./components/AnnouncementItem";
 import UserItem from "./components/UserItem";
 import EditGroupForm from "./components/EditGroupForm";
 
+import enums from "src/services/enums";
+
 const StyledGroup = styled.div`
   /* border: 1px solid magenta; */
   width: 100%;
@@ -22,7 +24,7 @@ const StyledGroup = styled.div`
   grid-template-areas:
     "header announcements activity"
     "people announcements activity";
-  grid-template-rows: 1fr;
+  grid-template-rows: auto 1fr;
   grid-template-columns: 3fr 2fr 2fr;
   background-color: ${p => p.theme.color.white};
 
@@ -145,20 +147,18 @@ export class Group extends Component {
   };
 
   render() {
-    const { history, match, data, isLoading } = this.props;
+    const { history, location, match, data, isLoading } = this.props;
     const { isEditFormOpen } = this.state;
+
+    console.log(data);
+
+    console.log(data);
 
     return (
       <StyledGroup>
         <Container NAME="group-close">
           <Item>
-            <Button
-              variant="primary"
-              icon
-              rounded
-              as={Link}
-              to="/admin/groups"
-            >
+            <Button variant="primary" icon rounded as={Link} to="/admin/groups">
               <i className="fas fa-times" />
             </Button>
           </Item>
@@ -249,13 +249,13 @@ export class Group extends Component {
                   </Box>
 
                   <Box column>
-                    <Item margin="stack-m">
-                      <UserItem />
-                    </Item>
-
-                    <Item margin="stack-m">
-                      <UserItem />
-                    </Item>
+                    {data.users
+                      .filter(user => user.role === enums.roles.SUPERVISOR)
+                      .map(user => (
+                        <Item margin="stack-m">
+                          <UserItem data={user} />
+                        </Item>
+                      ))}
                   </Box>
                 </Container>
 
@@ -273,11 +273,11 @@ export class Group extends Component {
                   </Box>
 
                   <Box column>
-                    {Array(15)
-                      .fill(null)
-                      .map(item => (
+                    {data.users
+                      .filter(user => user.role === enums.roles.EMPLOYEE)
+                      .map(user => (
                         <Item margin="stack-m">
-                          <UserItem />
+                          <UserItem data={user} />
                         </Item>
                       ))}
                   </Box>
@@ -299,11 +299,11 @@ export class Group extends Component {
                 </Box>
 
                 <Box column>
-                  {Array(10)
-                    .fill(null)
-                    .map(item => (
+                  {data.users
+                    .filter(user => user.role === enums.roles.TRAINEE)
+                    .map(user => (
                       <Item margin="stack-m">
-                        <UserItem />
+                        <UserItem data={user} />
                       </Item>
                     ))}
                 </Box>
