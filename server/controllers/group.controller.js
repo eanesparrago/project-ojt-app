@@ -48,6 +48,7 @@ function getGroups(req, res) {
 
   Group.find()
     .select(req.query.field)
+    .populate("users", "profilePictureUrl")
     .then(groups => {
       if (!groups) {
         errors.groups = "There are no groups";

@@ -7,6 +7,8 @@ import { Item, Box, Container, Area } from "src/layout";
 import { Button, Typography, Photo } from "src/components/elements";
 import { Avatar } from "src/components/compounds";
 
+import enums from "src/services/enums";
+
 const StyledGroupCard = styled.div`
   /* border: 1px solid magenta; */
   width: ${p => p.theme.incrementFixed(16)};
@@ -21,41 +23,20 @@ const StyledGroupCard = styled.div`
   display: flex;
   flex-flow: column;
 
-  .container-groupCard {
-    flex-grow: 1;
-  }
-
-  .item-groupCard-button {
-
-  }
-
   &:hover {
     box-shadow: ${p => p.theme.shadow[2]};
   }
 
-  .item-cover {
-    height: ${p => p.theme.incrementFixed(9)};
+  .container-groupCard {
+    flex-grow: 1;
   }
-
-  .item-avatar {
-    width: var(--size-button);
-    height: var(--size-button);
-  }
-
+ 
   .item-icon {
     width: ${p => p.theme.size.m};
   }
 `;
 
 export class GroupCard extends Component {
-  // static defaultProps = {
-  //   data: {
-  //     name: "default name",
-  //     location: "default location",
-  //     phoneNumber: "default phoneNumber"
-  //   }
-  // };
-
   render() {
     const { match, data } = this.props;
 
@@ -95,30 +76,13 @@ export class GroupCard extends Component {
           </Item>
 
           <Box margin="stack-base" wrap>
-            <Item margin="inline-s">
-              <Avatar
-                src="https://images-na.ssl-images-amazon.com/images/M/MV5BNWRmYWVlNmQtNTRiOS00YjBjLWE0MDAtNWYwZGVkMjgwY2M0XkEyXkFqcGdeQXVyMTgwMTYzNQ@@._V1_UY256_CR106,0,172,256_AL_.jpg"
-                id="5c6fdb0bd267fkjgfac9de081"
-              />
-            </Item>
-
-            <Item NAME="avatar" margin="inline-s">
-              <Button variant="photo" rounded>
-                <img
-                  src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTk4NzUxNTU3Nl5BMl5BanBnXkFtZTgwNjIzMzY5NzE@._V1_UY256_CR42,0,172,256_AL_.jpg"
-                  alt=""
-                />
-              </Button>
-            </Item>
-
-            <Item NAME="avatar" margin="inline-s">
-              <Button variant="photo" rounded>
-                <img
-                  src="https://m.media-amazon.com/images/M/MV5BMTM2NzI3NTU5Nl5BMl5BanBnXkFtZTcwODkxODAwNA@@._V1_UY256_CR9,0,172,256_AL_.jpg"
-                  alt=""
-                />
-              </Button>
-            </Item>
+            {data.users
+              .filter(user => user.role === enums.roles.SUPERVISOR)
+              .map(user => (
+                <Item margin="wrap-s">
+                  <Avatar src={user.profilePictureUrl} id={user._id} />
+                </Item>
+              ))}
           </Box>
 
           <Item margin="stack-s">
@@ -126,32 +90,13 @@ export class GroupCard extends Component {
           </Item>
 
           <Box margin="stack-base" wrap>
-            <Item NAME="avatar" margin="inline-s">
-              <Button variant="photo" rounded>
-                <img
-                  src="https://images-na.ssl-images-amazon.com/images/M/MV5BNWRmYWVlNmQtNTRiOS00YjBjLWE0MDAtNWYwZGVkMjgwY2M0XkEyXkFqcGdeQXVyMTgwMTYzNQ@@._V1_UY256_CR106,0,172,256_AL_.jpg"
-                  alt=""
-                />
-              </Button>
-            </Item>
-
-            <Item NAME="avatar" margin="inline-s">
-              <Button variant="photo" rounded>
-                <img
-                  src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTk4NzUxNTU3Nl5BMl5BanBnXkFtZTgwNjIzMzY5NzE@._V1_UY256_CR42,0,172,256_AL_.jpg"
-                  alt=""
-                />
-              </Button>
-            </Item>
-
-            <Item NAME="avatar" margin="inline-s">
-              <Button variant="photo" rounded>
-                <img
-                  src="https://m.media-amazon.com/images/M/MV5BMTM2NzI3NTU5Nl5BMl5BanBnXkFtZTcwODkxODAwNA@@._V1_UY256_CR9,0,172,256_AL_.jpg"
-                  alt=""
-                />
-              </Button>
-            </Item>
+            {data.users
+              .filter(user => user.role === enums.roles.TRAINEE)
+              .map(user => (
+                <Item margin="wrap-s">
+                  <Avatar src={user.profilePictureUrl} id={user._id} />
+                </Item>
+              ))}
           </Box>
 
           <Item margin="stack-s">
@@ -159,32 +104,13 @@ export class GroupCard extends Component {
           </Item>
 
           <Box wrap>
-            <Item NAME="avatar" margin="inline-s">
-              <Button variant="photo" rounded>
-                <img
-                  src="https://images-na.ssl-images-amazon.com/images/M/MV5BNWRmYWVlNmQtNTRiOS00YjBjLWE0MDAtNWYwZGVkMjgwY2M0XkEyXkFqcGdeQXVyMTgwMTYzNQ@@._V1_UY256_CR106,0,172,256_AL_.jpg"
-                  alt=""
-                />
-              </Button>
-            </Item>
-
-            <Item NAME="avatar" margin="inline-s">
-              <Button variant="photo" rounded>
-                <img
-                  src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTk4NzUxNTU3Nl5BMl5BanBnXkFtZTgwNjIzMzY5NzE@._V1_UY256_CR42,0,172,256_AL_.jpg"
-                  alt=""
-                />
-              </Button>
-            </Item>
-
-            <Item NAME="avatar" margin="inline-s">
-              <Button variant="photo" rounded>
-                <img
-                  src="https://m.media-amazon.com/images/M/MV5BMTM2NzI3NTU5Nl5BMl5BanBnXkFtZTcwODkxODAwNA@@._V1_UY256_CR9,0,172,256_AL_.jpg"
-                  alt=""
-                />
-              </Button>
-            </Item>
+            {data.users
+              .filter(user => user.role === enums.roles.EMPLOYEE)
+              .map(user => (
+                <Item margin="wrap-s">
+                  <Avatar src={user.profilePictureUrl} id={user._id} />
+                </Item>
+              ))}
           </Box>
         </Container>
 

@@ -74,7 +74,8 @@ class PersonChangePassword extends Component {
             label: "Password",
             name: "password",
             type: "password",
-            id: "password-input"
+            id: "password-input",
+            autoFocus: true
           },
           {
             label: "Confirm Password",
@@ -92,6 +93,7 @@ class PersonChangePassword extends Component {
 
             <Item NAME="personEdit-input">
               <TextInput
+                autoFocus={item.autoFocus}
                 name={item.name}
                 id={item.id}
                 type={item.type}

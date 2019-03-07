@@ -15,6 +15,7 @@ import { Item, Box, Container } from "src/layout";
 
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 import { getPeople } from "src/pages/Admin/scenes/People/peopleActionCreators";
+import { getGroups } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
 
 class PersonEdit extends Component {
   constructor(props) {
@@ -90,8 +91,17 @@ class PersonEdit extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { data, fetchPerson, setFlashMessage } = this.props;
+    const {
+      data,
+      fetchPerson,
+      setFlashMessage,
+      getPeople,
+      getGroups,
+      match
+    } = this.props;
     const { ...state } = this.state;
+
+    console.log(match);
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
       axios
@@ -100,6 +110,7 @@ class PersonEdit extends Component {
           this.setState({ ...state, isLoading: false }, () => {
             fetchPerson();
             getPeople();
+            getGroups();
             setFlashMessage(`${res.data} was successfully edited.`, "success");
           });
         })
@@ -121,13 +132,14 @@ class PersonEdit extends Component {
   handleDeletePerson = e => {
     e.preventDefault();
     const { ...state } = this.state;
-    const { getPeople, setFlashMessage, data, history } = this.props;
+    const { getPeople, setFlashMessage, data, history, getGroups } = this.props;
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
       axios
         .delete(`/api/users/${data._id}`)
         .then(res => {
           getPeople();
+          getGroups();
           setFlashMessage(`${res.data} was successfully deleted.`, "success");
           history.go(-1);
         })
@@ -191,6 +203,7 @@ class PersonEdit extends Component {
 
                 <Item NAME="personEdit-input">
                   <SelectInput
+                    autoFocus
                     id="group-input"
                     value={data.group}
                     onChange={this.handleInputChange}
@@ -507,6 +520,10 @@ class PersonEdit extends Component {
 export default withRouter(
   connect(
     null,
-    { setFlashMessage: setFlashMessage, getPeople: getPeople }
+    {
+      setFlashMessage: setFlashMessage,
+      getPeople: getPeople,
+      getGroups: getGroups
+    }
   )(PersonEdit)
 );

@@ -112,7 +112,8 @@ export class EditGroupForm extends Component {
             label: "Group Name*",
             name: "name",
             type: "text",
-            id: "group-name-input"
+            id: "group-name-input",
+            autoFocus: true
           },
           {
             label: "Location",
@@ -136,6 +137,7 @@ export class EditGroupForm extends Component {
 
             <Item NAME="editGroupForm-input">
               <TextInput
+                autoFocus={item.autoFocus}
                 name={item.name}
                 id={item.id}
                 type={item.type}

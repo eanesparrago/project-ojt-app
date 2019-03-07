@@ -1,3 +1,4 @@
+const Group = require("../models/group");
 const User = require("../models/user/user");
 const UserAdministrator = require("../models/user/userAdministrator");
 const UserSupervisor = require("../models/user/userSupervisor");
@@ -49,7 +50,6 @@ function createUser(req, res) {
   if (!errors.isEmpty()) {
     return res.status(422).json(errors.mapped());
   }
-  // console.log(req.body);
 
   User.findOne({ username: req.body.username }).then(user => {
     if (user) {
@@ -113,7 +113,18 @@ function createUser(req, res) {
           newUser.password = hash;
           newUser
             .save()
-            .then(user => res.status(200).send(user.username))
+            .then(user => {
+              if (user.role !== enums.roles.ADMINISTRATOR) {
+                Group.findById(user.roleData.group, (err, group) => {
+                  if (err) return res.send(err);
+                  group.users.push(user._id);
+                  group.save(err => {
+                    if (err) return res.send(err);
+                    return res.status(200).send(user.username);
+                  });
+                });
+              }
+            })
             .catch(err => res.status(500).send("Error"));
         });
       });
@@ -228,6 +239,18 @@ function updateUser(req, res) {
         }
       });
 
+      if (
+        user.role !== enums.roles.ADMINISTRATOR &&
+        user.roleData.group._id !== req.body.group
+      ) {
+        Group.findById(user.roleData.group._id).then(group => {
+          if (group) {
+            group.users.remove(user._id);
+            group.save();
+          }
+        });
+      }
+
       user.set(req.body);
 
       user.roleData.school = req.body.school ? req.body.school : "";
@@ -256,11 +279,18 @@ function updateUser(req, res) {
 
       req.body.group && (user.roleData.group = req.body.group);
 
-      user.save((err, user) => {
-        res.send(user.username);
+      user.save().then(user => {
+        if (user.role !== enums.roles.ADMINISTRATOR) {
+          Group.findById(user.roleData.group._id).then(group => {
+            group.users.push(user._id);
+            group.save();
+          });
+        }
+
+        return res.status(200).send(user.username);
       });
     })
-    .catch(err => res.status(404).json({ user: "User not found" }));
+    .catch(err => res.status(404).json({ message: "An error occurred" }));
 }
 
 /**

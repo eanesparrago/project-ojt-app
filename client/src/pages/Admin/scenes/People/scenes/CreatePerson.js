@@ -273,6 +273,7 @@ export class CreatePerson extends Component {
 
                           <Item NAME="createPerson-input">
                             <SelectInput
+                              autoFocus
                               id="group-input"
                               value={data.group}
                               onChange={this.handleInputChange}
@@ -308,7 +309,8 @@ export class CreatePerson extends Component {
                             "supervisor",
                             "trainee",
                             "employee"
-                          ]
+                          ],
+                          autoFocus: true
                         },
                         {
                           label: "Password",
@@ -363,6 +365,7 @@ export class CreatePerson extends Component {
 
                             <Item NAME="createPerson-input">
                               <TextInput
+                                autoFocus={item.autoFocus}
                                 name={item.name}
                                 id={item.id}
                                 type={item.type}

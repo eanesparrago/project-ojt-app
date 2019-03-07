@@ -21,6 +21,12 @@ const groupSchema = new Schema({
       ref: "User"
     }
   ],
+  users: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ],
   trainees: [
     {
       type: Schema.Types.ObjectId,
