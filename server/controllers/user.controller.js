@@ -284,10 +284,11 @@ function updateUser(req, res) {
           Group.findById(user.roleData.group._id).then(group => {
             group.users.push(user._id);
             group.save();
+            return res.status(200).send(user.username);
           });
+        } else {
+          return res.status(200).send(user.username);
         }
-
-        return res.status(200).send(user.username);
       });
     })
     .catch(err => res.status(404).json({ message: "An error occurred" }));
