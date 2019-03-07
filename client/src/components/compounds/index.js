@@ -6,6 +6,7 @@ import TextAreaInput from "./Input/TextAreaInput";
 import LoadingScene from "./LoadingScene/LoadingScene";
 import FlashMessage from "./FlashMessage/FlashMessage";
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget/CloudinaryUploadWidget";
+import Avatar from "./Avatar/Avatar";
 
 export {
   TextInput,
@@ -15,5 +16,6 @@ export {
   TextAreaInput,
   LoadingScene,
   FlashMessage,
-  CloudinaryUploadWidget
+  CloudinaryUploadWidget,
+  Avatar
 };

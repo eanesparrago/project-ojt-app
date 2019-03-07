@@ -42,6 +42,7 @@ const StyledPerson = styled.div`
     padding-bottom: ${p => p.theme.size.s};
     display: grid;
     grid-template-columns: auto 1fr;
+    min-height: ${p => p.theme.incrementFixed(4)};
   }
 
   .container-person-close {
@@ -112,9 +113,9 @@ const StyledPerson = styled.div`
 
 export class Person extends Component {
   state = {
-    person: {},
+    person: null,
     isLoading: false,
-    errors: {}
+    errors: null
   };
 
   fetchPerson = () => {
@@ -130,8 +131,8 @@ export class Person extends Component {
         .catch(err => {
           this.setState({
             ...state,
-            errors: err.response.data,
-            isLoading: false
+            isLoading: false,
+            errors: err.response.data
           });
         });
     });
@@ -147,14 +148,9 @@ export class Person extends Component {
     });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    console.log(this.state);
-  };
-
   render() {
     const { history, match } = this.props;
-    const { person, isLoading } = this.state;
+    const { person, isLoading, errors } = this.state;
 
     return (
       <StyledPerson>
@@ -173,7 +169,7 @@ export class Person extends Component {
               animate={style}
             >
               <Box wrap>
-                {isLoading ? null : (
+                {isLoading ? null : errors || _.isEmpty(person) ? null : (
                   <Fragment>
                     <Item margin="wrap-base">
                       <Item as={Link} to={`${match.url}`} replace>
@@ -241,8 +237,12 @@ export class Person extends Component {
         >
           {style => (
             <Area NAME="person-body" padding="inset-base" animate={style}>
-              {isLoading || _.isEmpty(person) ? (
+              {isLoading ? (
                 <LoadingScene />
+              ) : errors || _.isEmpty(person) ? (
+                <Item>
+                  <Typography variant="base">User not found</Typography>
+                </Item>
               ) : (
                 <Switch>
                   <Route

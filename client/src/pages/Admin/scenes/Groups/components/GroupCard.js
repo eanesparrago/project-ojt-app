@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import { Button, Typography, Photo } from "../../../../../components/elements";
-import { Item, Box, Container, Area } from "../../../../../layout";
+
+import { Item, Box, Container, Area } from "src/layout";
+import { Button, Typography, Photo } from "src/components/elements";
+import { Avatar } from "src/components/compounds";
 
 const StyledGroupCard = styled.div`
   /* border: 1px solid magenta; */
@@ -93,18 +95,11 @@ export class GroupCard extends Component {
           </Item>
 
           <Box margin="stack-base" wrap>
-            <Item NAME="avatar" margin="inline-s">
-              <Button
-                variant="photo"
-                rounded
-                as={Link}
-                to={`${match.url}/person/123`}
-              >
-                <img
-                  src="https://images-na.ssl-images-amazon.com/images/M/MV5BNWRmYWVlNmQtNTRiOS00YjBjLWE0MDAtNWYwZGVkMjgwY2M0XkEyXkFqcGdeQXVyMTgwMTYzNQ@@._V1_UY256_CR106,0,172,256_AL_.jpg"
-                  alt=""
-                />
-              </Button>
+            <Item margin="inline-s">
+              <Avatar
+                src="https://images-na.ssl-images-amazon.com/images/M/MV5BNWRmYWVlNmQtNTRiOS00YjBjLWE0MDAtNWYwZGVkMjgwY2M0XkEyXkFqcGdeQXVyMTgwMTYzNQ@@._V1_UY256_CR106,0,172,256_AL_.jpg"
+                id="5c6fdb0bd267fkjgfac9de081"
+              />
             </Item>
 
             <Item NAME="avatar" margin="inline-s">

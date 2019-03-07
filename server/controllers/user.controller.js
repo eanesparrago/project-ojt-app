@@ -197,7 +197,12 @@ function getUser(req, res) {
   User.findById(req.params.id)
     .select("-password")
     .populate("roleData.group", "name")
-    .then(user => res.json(user))
+    .then(user => {
+      if (!user) {
+        return res.status(404).json({ user: "User not found" });
+      }
+      res.json(user);
+    })
     .catch(err => res.status(404).json({ user: "User not found" }));
 }
 

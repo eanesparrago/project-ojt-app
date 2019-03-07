@@ -90,7 +90,7 @@ class PersonEdit extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { data, fetchPerson, setFlashMessage, history } = this.props;
+    const { data, fetchPerson, setFlashMessage } = this.props;
     const { ...state } = this.state;
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
