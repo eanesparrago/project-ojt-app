@@ -16,16 +16,15 @@ const MainCreateModal = ({
   location,
   match,
   routePath,
-  routeSplice,
+  routeLevel,
   children
 }) => {
   let key = location.pathname;
-  if (routeSplice) {
-    key = location.pathname
-      .split("/")
-      .slice(routeSplice[0], routeSplice[1])
-      .join("/");
+  if (routeLevel) {
+    key = location.pathname.split("/").filter(a => a)[routeLevel];
   }
+
+  console.log(match.url, routePath, "-", key);
 
   return (
     <Transition

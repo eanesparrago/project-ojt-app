@@ -26,15 +26,15 @@ class Main extends Component {
       <StyledMain>
         {this.props.children}
 
-        <MainSideModal routePath={`/person/:id`}>
-          <PersonModal />
-        </MainSideModal>
-
-        <MainFullModal routePath={`/group/:id`} routeSplice={[0, 6]}>
+        <MainFullModal routePath={`/group/:id`} routeLevel={2}>
           <GroupModal />
         </MainFullModal>
 
-        <MainSideModal routePath={`/group/:id/person/:id`}>
+        <MainSideModal routePath={`/person/:id`} routeLevel={2}>
+          <PersonModal />
+        </MainSideModal>
+
+        <MainSideModal routePath={`/group/:id/person/:id`} routeLevel={4}>
           <PersonModal />
         </MainSideModal>
       </StyledMain>

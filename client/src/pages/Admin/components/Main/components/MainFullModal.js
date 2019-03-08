@@ -9,28 +9,39 @@ const StyledMainFullModal = animated(styled.div`
   height: 100%;
 `);
 
-const MainFullModal = ({ location, match, routePath, children }) => {
+const MainFullModal = ({
+  location,
+  match,
+  routePath,
+  routeLevel,
+  children
+}) => {
+  let key = location.pathname;
+  if (routeLevel) {
+    key = location.pathname.split("/").filter(a => a)[routeLevel];
+  }
   return (
-    // <Transition
-    //   native
-    //   items={location}
-    //   keys={location.pathname}
-    //   from={{ transform: "translateY(100%)", opacity: "0" }}
-    //   enter={{ transform: "translateY(0%)", opacity: "1" }}
-    //   leave={{ transform: "translateY(100%)", opacity: "0" }}
-    // >
-    //   {loc => style => (
-    //     <Switch location={loc}>
-    <Route
-      path={`${match.url}${routePath}`}
-      render={() => (
-        // <StyledMainFullModal style={style}>
-        <StyledMainFullModal>{children}</StyledMainFullModal>
+    <Transition
+      native
+      items={location}
+      keys={key}
+      from={{ transform: "translateY(100%)", opacity: "0" }}
+      enter={{ transform: "translateY(0%)", opacity: "1" }}
+      leave={{ transform: "translateY(100%)", opacity: "0" }}
+    >
+      {loc => style => (
+        <Switch location={loc}>
+          <Route
+            path={`${match.url}${routePath}`}
+            render={() => (
+              <StyledMainFullModal style={style}>
+                {children}
+              </StyledMainFullModal>
+            )}
+          />
+        </Switch>
       )}
-    />
-    //     </Switch>
-    //   )}
-    // </Transition>
+    </Transition>
   );
 };
 

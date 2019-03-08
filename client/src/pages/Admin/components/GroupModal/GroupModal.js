@@ -375,10 +375,6 @@ export class GroupModal extends Component {
             />
           </Fragment>
         )}
-
-        <MainSideModal routePath={`/person/:id`}>
-          <PersonModal />
-        </MainSideModal>
       </StyledGroup>
     );
   }
