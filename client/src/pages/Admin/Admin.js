@@ -65,6 +65,8 @@ export class Admin extends Component {
         <Area NAME="admin-main">
           <Switch>
             <Route path={`${match.url}/groups`} component={Groups} />
+
+            <Route path={`${match.url}/people`} component={People} />
           </Switch>
           {/* <Switch>
             <Route path={`${match.url}/groups`} component={Groups} />

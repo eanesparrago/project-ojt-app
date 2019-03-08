@@ -13,8 +13,8 @@ const StyledPeopleTable = styled.div`
   height: 100%;
   background-color: ${p => p.theme.color.white};
   /* border: 1px solid ${p => p.theme.color.dark}; */
-  border-radius: ${p => p.theme.size.base};
-  box-shadow: ${p => p.theme.shadow[1]};
+  /* border-radius: ${p => p.theme.size.base};
+  box-shadow: ${p => p.theme.shadow[1]}; */
   padding: var(--size-base);
   display: flex;
   flex-flow: column;
@@ -30,7 +30,7 @@ const StyledPeopleTable = styled.div`
     /* border: 1px solid magenta; */
     flex-grow: 1;
     width: 100%;
-    overflow: auto;
+    overflow-y: auto;
   }
 
   .container-peopleTable-table-head {
@@ -88,7 +88,7 @@ const StyledPeopleTable = styled.div`
 
 export class PeopleTable extends Component {
   render() {
-    const { match, data, people } = this.props;
+    const { match, people } = this.props;
 
     return (
       <StyledPeopleTable>
@@ -133,7 +133,7 @@ export class PeopleTable extends Component {
             </Container>
 
             <Container NAME="peopleTable-table-body" as="tbody">
-              {data.map((person, i) => (
+              {people.data.map((person, i) => (
                 <Container NAME="peopleTable-table-body-row" as="tr" key={i}>
                   <Item padding="squish-l" center as="td">
                     <Box>
