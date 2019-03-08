@@ -9,7 +9,7 @@ export class CloudinaryUploadWidget extends Component {
       {
         cloudName: "dtpbb2rgx",
         uploadPreset: "slzwnlxl",
-        sources: ["local"],
+        sources: ["local", "url"],
         multiple: false,
         cropping: true,
         croppingAspectRatio: 1,
@@ -29,6 +29,7 @@ export class CloudinaryUploadWidget extends Component {
       <div>
         <Button
           variant="secondary"
+          type="button"
           onClick={e => {
             e.preventDefault();
             this.uploadWidget();

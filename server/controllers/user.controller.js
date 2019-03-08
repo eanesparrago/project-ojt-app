@@ -239,18 +239,20 @@ function updateUser(req, res) {
 
   User.findById(req.params.id)
     .then(user => {
-      if (
-        user.role !== enums.roles.ADMINISTRATOR &&
-        user.roleData.group &&
-        user.roleData.group._id !== req.body.group
-      ) {
-        Group.findById(user.roleData.group._id).then(group => {
-          if (group) {
-            group.users.remove(user._id);
-            group.save();
-          }
-        });
-      }
+      // if (
+      //   user.role !== enums.roles.ADMINISTRATOR &&
+      //   user.roleData.group &&
+      //   user.roleData.group._id !== req.body.group
+      // ) {
+      //   Group.findById(user.roleData.group._id).then(group => {
+      //     if (group) {
+      //       group.users.remove(user._id);
+      //       group.save();
+      //     }
+      //   });
+      // }
+
+      const oldGroupId = user.roleData.group._id;
 
       user.set(req.body);
 
@@ -288,6 +290,11 @@ function updateUser(req, res) {
           }
         } else {
           if (user.role !== enums.roles.ADMINISTRATOR) {
+            Group.findById(oldGroupId).then(group => {
+              group.users.remove(user._id);
+              group.save();
+            });
+
             Group.findById(user.roleData.group._id).then(group => {
               group.users.push(user._id);
               group.save();

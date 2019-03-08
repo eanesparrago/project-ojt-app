@@ -118,6 +118,9 @@ export class PeopleTable extends Component {
                   <Typography variant="base">Role</Typography>
                 </Item>
                 <Item as="th" padding="squish-l">
+                  <Typography variant="base">Group</Typography>
+                </Item>
+                <Item as="th" padding="squish-l">
                   <Typography variant="base">First Name</Typography>
                 </Item>
                 <Item as="th" padding="squish-l">
@@ -161,6 +164,12 @@ export class PeopleTable extends Component {
 
                   <Item as="td" center padding="squish-l">
                     <Typography variant="base">{person.role}</Typography>
+                  </Item>
+
+                  <Item as="td" center padding="squish-l">
+                    <Typography variant="base">
+                      {person.roleData.group && person.roleData.group.name}
+                    </Typography>
                   </Item>
 
                   <Item as="td" center padding="squish-l">
