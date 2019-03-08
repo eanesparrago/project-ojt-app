@@ -153,7 +153,14 @@ function loginUser(req, res) {
 
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
-        const payload = { id: user.id, role: user.role };
+        const payload = {
+          id: user.id,
+          role: user.role,
+          username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          profilePictureUrl: user.profilePictureUrl
+        };
 
         jwt.sign(
           payload,

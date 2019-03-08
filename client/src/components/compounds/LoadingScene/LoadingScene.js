@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import spinner from "src/assets/spinner.gif";
 
 const StyledLoadingScene = styled.div`
   width: 100%;

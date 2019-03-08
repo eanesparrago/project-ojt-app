@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { Transition, animated } from "react-spring/renderprops";
 
 import { Item } from "src/layout";
 import { Button, Typography } from "src/components/elements";
 
 import { unsetFlashMessage } from "src/services/session/actions/appActionCreators";
 
-const StyledFlashMessage = styled.div`
+const StyledFlashMessage = animated(styled.div`
   width: 100%;
   background-color: ${p => p.theme.color.white};
   border: 2px solid
@@ -20,32 +21,47 @@ const StyledFlashMessage = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`);
 
 const FlashMessage = ({
-  data: {
-    message: { message, type }
+  flashMessage: {
+    message: { message, type },
+    isOpen
   },
   unsetFlashMessage
 }) => {
   return (
-    <StyledFlashMessage type={type}>
-      <Item margin="inline-m">
-        <Typography variant="base">{message}</Typography>
-      </Item>
+    <Transition
+      native
+      items={isOpen}
+      key={item => item}
+      from={{ opacity: 0, transform: "translateX(100%)" }}
+      enter={{ opacity: 1, transform: "translateX(0)" }}
+      leave={{ opacity: 0, transform: "translateX(100%)" }}
+    >
+      {show =>
+        show &&
+        (style => (
+          <StyledFlashMessage type={type} style={style}>
+            <Item margin="inline-m">
+              <Typography variant="base">{message}</Typography>
+            </Item>
 
-      <Item>
-        <Button variant="text" icon onClick={unsetFlashMessage}>
-          <i className="fas fa-times" />
-        </Button>
-      </Item>
-    </StyledFlashMessage>
+            <Item>
+              <Button variant="text" icon onClick={unsetFlashMessage}>
+                <i className="fas fa-times" />
+              </Button>
+            </Item>
+          </StyledFlashMessage>
+        ))
+      }
+    </Transition>
   );
 };
 
 export default connect(
   state => ({
-    data: state.app.flashMessage
+    flashMessage: state.app.flashMessage
   }),
   {
     unsetFlashMessage: unsetFlashMessage
