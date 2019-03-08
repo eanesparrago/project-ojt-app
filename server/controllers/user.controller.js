@@ -239,13 +239,6 @@ function updateUser(req, res) {
 
   User.findById(req.params.id)
     .then(user => {
-      User.findOne({ username: req.body.username }).then(duplicate => {
-        if (duplicate && user.username !== req.body.username) {
-          errors.username = { msg: "Username already exists" };
-          return res.status(400).json(errors);
-        }
-      });
-
       if (
         user.role !== enums.roles.ADMINISTRATOR &&
         user.roleData.group &&
@@ -287,15 +280,22 @@ function updateUser(req, res) {
 
       req.body.group && (user.roleData.group = req.body.group);
 
-      user.save().then(user => {
-        if (user.role !== enums.roles.ADMINISTRATOR) {
-          Group.findById(user.roleData.group._id).then(group => {
-            group.users.push(user._id);
-            group.save();
-            return res.status(200).send(user.username);
-          });
+      user.save(err => {
+        if (err) {
+          if (err.code === 11000) {
+            errors.username = { msg: "Username already exists" };
+            return res.status(500).json(errors);
+          }
         } else {
-          return res.status(200).send(user.username);
+          if (user.role !== enums.roles.ADMINISTRATOR) {
+            Group.findById(user.roleData.group._id).then(group => {
+              group.users.push(user._id);
+              group.save();
+              return res.status(200).send(user.username);
+            });
+          } else {
+            return res.status(200).send(user.username);
+          }
         }
       });
     })
