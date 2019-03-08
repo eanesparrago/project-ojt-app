@@ -34,7 +34,7 @@ export class Login extends Component {
       <StyledLogin>
         <Item margin="stack-l">
           <Typography as="h1" variant="display-1">
-            SPi OJT App
+            Parousía
           </Typography>
         </Item>
 

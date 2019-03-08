@@ -7,7 +7,7 @@ import { Transition } from "react-spring/renderprops";
 import { Item, Area } from "src/layout";
 import { FlashMessage } from "src/components/compounds";
 
-import { Header, Sidebar } from "./components";
+import { Header, Sidebar, Main } from "./components";
 
 import Groups from "./scenes/Groups/Groups";
 import People from "./scenes/People/People";
@@ -29,13 +29,12 @@ const StyledAdmin = styled.div`
 
   .area-admin-sidebar {
     grid-area: sidebar;
+    overflow-y: auto;
   }
 
   .area-admin-main {
     grid-area: main;
-    background-color: ${p => p.theme.color.grey.light};
-    overflow: auto;
-    position: relative;
+    overflow-y: auto;
   }
 
   .item-admin-flashMessage {
@@ -65,12 +64,15 @@ export class Admin extends Component {
         {/* >>> Main */}
         <Area NAME="admin-main">
           <Switch>
-            <Route path={`${match.url}/groups`} render={Groups} />
-
-            <Route path={`${match.url}/people`} render={People} />
-
-            <Route path={`${match.url}/announcements`} render={Announcements} />
+            <Route path={`${match.url}/groups`} component={Groups} />
           </Switch>
+          {/* <Switch>
+            <Route path={`${match.url}/groups`} component={Groups} />
+
+            <Route path={`${match.url}/people`} component={People} />
+
+            <Route path={`${match.url}/announcements`} component={Announcements} />
+          </Switch> */}
         </Area>
 
         <Item NAME="admin-flashMessage">

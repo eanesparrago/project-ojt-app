@@ -21,7 +21,7 @@ const Header = ({ logoutUser }) => {
   return (
     <StyledHeader>
       <Item as={Link} to="/admin">
-        <Typography variant="display-4">SPi OJT App</Typography>
+        <Typography variant="display-4">Parousía</Typography>
       </Item>
 
       <Item>
