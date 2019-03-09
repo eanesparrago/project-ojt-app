@@ -15,7 +15,7 @@ import {
 } from "src/components/compounds";
 import axios from "axios";
 
-import roleInputOptions from "./roleInputOptions";
+import roleInputOptions from "../roleInputOptions";
 
 import { getPeople } from "src/pages/Admin/scenes/People/peopleActionCreators";
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";

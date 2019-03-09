@@ -5,7 +5,6 @@ import { Transition, animated } from "react-spring/renderprops";
 import { LoadingScene } from "src/components/compounds";
 
 const StyledMainBody = styled.div`
-  /* border: 1px solid magenta; */
   position: relative;
   width: 100%;
   height: 100%;

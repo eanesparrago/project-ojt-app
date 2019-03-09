@@ -7,6 +7,7 @@ import LoadingScene from "./LoadingScene/LoadingScene";
 import FlashMessage from "./FlashMessage/FlashMessage";
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget/CloudinaryUploadWidget";
 import Avatar from "./Avatar/Avatar";
+import InputGroup from "./InputGroup/InputGroup";
 
 export {
   TextInput,
@@ -17,5 +18,6 @@ export {
   LoadingScene,
   FlashMessage,
   CloudinaryUploadWidget,
-  Avatar
+  Avatar,
+  InputGroup
 };

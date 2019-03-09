@@ -10,9 +10,6 @@ const StyledLoginForm = styled.form`
   width: 100%;
   height: 100%;
 
-  .item-button {
-  }
-
   .item-error {
     color: ${p => p.theme.color.error};
   }

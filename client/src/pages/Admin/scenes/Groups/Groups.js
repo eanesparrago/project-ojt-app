@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { Box, Item } from "src/components/blocks";
 import { Main } from "src/pages/Admin/components";
 
+import { SideModalCreateGroup } from "src/components/layouts/SideModal/compositions";
+
 import GroupCard from "./components/GroupCard";
 import CreateGroup from "./scenes/CreateGroup";
 
@@ -34,10 +36,10 @@ export class Groups extends Component {
             ))}
           </Box>
         </Main.Body>
-
+{/* 
         <Main.SideModal routePath="/create-group">
-          <CreateGroup />
-        </Main.SideModal>
+          <SideModalCreateGroup />
+        </Main.SideModal> */}
       </Main>
     );
   }
