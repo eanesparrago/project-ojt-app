@@ -7,7 +7,7 @@ import axios from "axios";
 
 import { Button, Typography, Photo } from "src/components/elements";
 import { TextInput, LoadingScene } from "src/components/compounds";
-import { Item, Box, Container, Area } from "src/layout";
+import { Item, Box, Container, Area } from "src/components/blocks";
 
 import { getGroups } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";

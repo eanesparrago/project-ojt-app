@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { Transition } from "react-spring/renderprops";
 
-import { Item, Area } from "src/layout";
+import { Item, Area } from "src/components/blocks";
 import { FlashMessage } from "src/components/compounds";
 
 import { Header, Sidebar, Main } from "./components";

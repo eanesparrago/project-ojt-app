@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Transition } from "react-spring/renderprops";
 import { Route, Switch, withRouter, Link } from "react-router-dom";
 import { Button, Typography } from "../../../../components/elements";
-import { Item, Box, Container, Area } from "../../../../layout";
+import { Item, Box, Container, Area } from "src/components/blocks";
 
 import CreateAnnouncement from "./scenes/CreateAnnouncement";
 import AnnouncementTable from "./components/AnnouncementTable";

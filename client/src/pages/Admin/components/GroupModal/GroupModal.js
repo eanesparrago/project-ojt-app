@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
 import { Button, Typography, Photo } from "src/components/elements";
-import { Item, Box, Container, Area } from "src/layout";
+import { Item, Box, Container, Area } from "src/components/blocks";
 
 import { getGroup } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
 

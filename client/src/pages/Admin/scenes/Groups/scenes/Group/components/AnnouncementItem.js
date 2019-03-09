@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Item, Container } from "src/layout";
+import { Item, Container } from "src/components/blocks";
 import { Button, Typography } from "src/components/elements";
 
 const StyledAnnouncementItem = styled.article`

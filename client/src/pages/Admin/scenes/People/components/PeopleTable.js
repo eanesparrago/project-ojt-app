@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 import { Button, Typography, Photo } from "src/components/elements";
 import { TextInput, SelectInput, Avatar } from "src/components/compounds";
-import { Item, Box, Container, Area } from "src/layout";
+import { Item, Box, Container, Area } from "src/components/blocks";
 
 const StyledPeopleTable = styled.div`
   width: 100%;

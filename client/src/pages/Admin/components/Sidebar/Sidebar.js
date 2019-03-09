@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { Item, Box, Container } from "src/layout";
+import { Item, Box, Container } from "src/components/blocks";
 import { Photo, Typography, Button } from "src/components/elements";
 
 const StyledSidebar = styled.div`

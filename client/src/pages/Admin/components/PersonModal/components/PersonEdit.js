@@ -11,7 +11,7 @@ import {
   LoadingScene,
   CloudinaryUploadWidget
 } from "src/components/compounds";
-import { Item, Box, Container } from "src/layout";
+import { Item, Box, Container } from "src/components/blocks";
 
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 import { getPeople } from "src/pages/Admin/scenes/People/peopleActionCreators";

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { Item, Container } from "../../../layout";
+import { Item, Container } from "src/components/blocks";
 import { Typography } from "../../elements";
 
 const StyledRadioInput = styled.div`

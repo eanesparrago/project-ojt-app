@@ -4,7 +4,7 @@ import { Transition } from "react-spring/renderprops";
 import { Route, Switch, withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { Item, Box, Container, Area } from "src/layout";
+import { Item, Box, Container, Area } from "src/components/blocks";
 import { Button, Typography } from "src/components/elements";
 import { LoadingScene } from "src/components/compounds";
 

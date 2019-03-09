@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { Item } from "src/layout";
+import { Item } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";
 
 import { logoutUser } from "src/services/session/actions/authActionCreators";

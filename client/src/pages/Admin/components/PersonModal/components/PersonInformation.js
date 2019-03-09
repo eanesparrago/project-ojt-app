@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import format from "date-fns/format";
 
 import { Typography, Photo } from "src/components/elements";
-import { Item, Box } from "src/layout";
+import { Item, Box } from "src/components/blocks";
 import enums from "src/services/enums";
 
 const PersonInformation = ({ data }) => {

@@ -9,7 +9,7 @@ import {
   SelectInput,
   TextAreaInput
 } from "../../../../../components/compounds";
-import { Item, Box, Container, Area } from "../../../../../layout";
+import { Item, Box, Container, Area } from "src/components/blocks";
 
 const StyledCreateAnnouncement = styled.div`
   /* border: 1px solid magenta; */

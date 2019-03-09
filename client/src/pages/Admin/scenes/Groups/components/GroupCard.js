@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-import { Item, Box, Container, Area } from "src/layout";
+import { Item, Box, Container, Area } from "src/components/blocks";
 import { Button, Typography, Photo } from "src/components/elements";
 import { Avatar } from "src/components/compounds";
 

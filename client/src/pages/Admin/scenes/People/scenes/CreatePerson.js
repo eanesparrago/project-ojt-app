@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Spring } from "react-spring/renderprops";
 import { Link, withRouter } from "react-router-dom";
 
-import { Item, Box, Container, Area } from "src/layout";
+import { Item, Box, Container, Area } from "src/components/blocks";
 import { Button, Typography, Photo } from "src/components/elements";
 import {
   TextInput,

@@ -4,7 +4,7 @@ import _ from "lodash";
 import { Spring } from "react-spring/renderprops";
 import { Link, withRouter, Route, Switch } from "react-router-dom";
 
-import { Item, Box, Container, Area } from "src/layout";
+import { Item, Box, Container, Area } from "src/components/blocks";
 import { Button, Typography } from "src/components/elements";
 import { LoadingScene } from "src/components/compounds";
 

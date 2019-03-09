@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Button, Typography } from "../../../components/elements";
 import { TextInputSpecial } from "../../../components/compounds";
-import { Item, Container } from "../../../layout";
+import { Item, Container } from "src/components/blocks";
 import { loginUser } from "src/services/session/actions/authActionCreators";
 import { connect } from "react-redux";
 

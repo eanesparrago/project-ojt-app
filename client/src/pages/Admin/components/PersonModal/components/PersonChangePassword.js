@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { Button, Typography } from "src/components/elements";
 import { TextInput } from "src/components/compounds";
-import { Item, Box, Container } from "src/layout";
+import { Item, Box, Container } from "src/components/blocks";
 
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 
-import { Item, Box } from "src/layout";
+import { Item, Box } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";
 
 const StyledMainHeader = styled.header`

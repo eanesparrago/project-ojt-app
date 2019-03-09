@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import { Button, Typography, Photo } from "../../../../../components/elements";
 import { TextInput, SelectInput } from "../../../../../components/compounds";
-import { Item, Box, Container, Area } from "../../../../../layout";
+import { Item, Box, Container, Area } from "src/components/blocks";
 
 const StyledAnnouncementTable = styled.div`
   width: 100%;

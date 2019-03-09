@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Button, Typography } from "../../components/elements";
 import { TextInput } from "../../components/compounds";
-import { Item, Container } from "../../layout";
+import { Item, Container } from "src/components/blocks";
 import { connect } from "react-redux";
 import enums from "src/services/enums";
 

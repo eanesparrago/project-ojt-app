@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Item, Container } from "src/layout";
+import { Item, Container } from "src/components/blocks";
 import { Button, Typography, Photo } from "src/components/elements";
 import { Avatar } from "src/components/compounds";
 

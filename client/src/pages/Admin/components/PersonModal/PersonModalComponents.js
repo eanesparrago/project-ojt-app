@@ -3,7 +3,7 @@ import format from "date-fns/format";
 
 import { Button, Typography } from "src/components/elements";
 import { TextInput, RadioInput, SelectInput } from "src/components/compounds";
-import { Item, Box } from "src/layout";
+import { Item, Box } from "src/components/blocks";
 import enums from "src/services/enums";
 
 import roleInputOptions from "./components/roleInputOptions";

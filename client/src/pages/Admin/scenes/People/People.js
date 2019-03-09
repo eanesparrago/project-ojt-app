@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Item, Box, Container, Area } from "src/layout";
+import { Item, Box, Container, Area } from "src/components/blocks";
 import { Main } from "src/pages/Admin/components";
 
 import CreatePerson from "./scenes/CreatePerson";

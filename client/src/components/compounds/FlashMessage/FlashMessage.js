@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { Transition, animated } from "react-spring/renderprops";
 
-import { Item } from "src/layout";
+import { Item } from "src/components/blocks";
 import { Button, Typography } from "src/components/elements";
 
 import { unsetFlashMessage } from "src/services/session/actions/appActionCreators";
