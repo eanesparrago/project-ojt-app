@@ -25,7 +25,7 @@ const StyledAnnouncementTable = styled.div`
     /* border: 1px solid magenta; */
     flex-grow: 1;
     width: 100%;
-    overflow: auto;
+    overflow-y: auto;
   }
 
   .container-announcementTable-table-head {

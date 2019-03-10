@@ -11,7 +11,7 @@ const StyledSidebar = styled.div`
   display: flex;
   flex-flow: column;
   background-color: ${p => p.theme.color.dark};
-  overflow: auto;
+  overflow-y: auto;
   color: ${p => p.theme.color.light};
 
   .container-sidebar-profile {

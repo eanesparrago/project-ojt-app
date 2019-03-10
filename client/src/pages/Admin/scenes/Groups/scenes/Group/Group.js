@@ -98,7 +98,7 @@ const StyledGroup = styled.div`
 
   .container-group-announcements-content {
     padding-top: var(--size-xs);
-    overflow: auto;
+    overflow-y: auto;
   }
 
     /* >>> Activty */
@@ -115,7 +115,7 @@ const StyledGroup = styled.div`
 
   .container-group-activity-content {
     padding-top: var(--size-xs);
-    overflow: auto;
+    overflow-y: auto;
   }
 
   .area-group-back {
