@@ -10,7 +10,8 @@ import { PersonModal, GroupModal } from "src/pages/Admin/components";
 
 import {
   SideModalCreatePerson,
-  SideModalCreateGroup
+  SideModalCreateGroup,
+  SideModalPerson
 } from "src/components/layouts/SideModal/compositions";
 
 const StyledMain = styled.div`
@@ -35,12 +36,16 @@ class Main extends Component {
           <GroupModal />
         </MainFullModal>
 
-        <MainSideModal routePath={`/person/:id`} routeLevel={2}>
+        {/* <MainSideModal routePath={`/person/:id`} routeLevel={2}>
           <PersonModal />
+        </MainSideModal> */}
+
+        <MainSideModal routePath="/person/:id" routeLevel={2}>
+          <SideModalPerson />
         </MainSideModal>
 
         <MainSideModal routePath={`/group/:id/person/:id`} routeLevel={4}>
-          <PersonModal />
+          <SideModalPerson />
         </MainSideModal>
 
         <MainSideModal routePath="/create-group">

@@ -12,7 +12,6 @@ import { SideModal } from "src/components/layouts";
 import { getGroups } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
-
 export class SideModalCreateGroup extends Component {
   state = {
     data: {
@@ -112,15 +111,21 @@ export class SideModalCreateGroup extends Component {
             </Item>
           ))}
 
-          <Item>
-            <Button
-              variant="primary"
-              type="submit"
-              onClick={this.handleSubmit}
-              disabled={isLoading}
-            >
-              Create Group
-            </Button>
+          <Item margin="stack-base">
+            <FormGroup>
+              <FormGroup.Label />
+
+              <FormGroup.Input>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={this.handleSubmit}
+                  disabled={isLoading}
+                >
+                  Create Group
+                </Button>
+              </FormGroup.Input>
+            </FormGroup>
           </Item>
         </SideModal.Body>
       </SideModal>

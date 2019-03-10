@@ -67,7 +67,8 @@ export default {
     m: "0.67rem", //
     l: "1.33rem", //
     xl: "2.67rem", //
-    base: "1rem" //
+    base: "1rem", //
+    baseHalf: "0.5rem" //
   },
   increment: increment => `calc(${increment} * var(--size-base))`,
   incrementFixed: increment => `calc(${increment} * var(--size-base-fixed))`,

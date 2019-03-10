@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
     --size-l: ${theme.size.l};
     --size-xl: ${theme.size.xl};
     --size-base: ${theme.size.base};
+    --size-base-half: ${theme.size.baseHalf};
     --size-base-fixed: ${theme.size.base};
     --size-button: 2.5rem;
 
@@ -24,6 +25,7 @@ const GlobalStyle = createGlobalStyle`
       --size-m: ${theme.sizeMobile.m};
       --size-l: ${theme.sizeMobile.l};
       --size-xl: ${theme.sizeMobile.xl};
+      --size-base-half: ${theme.sizeMobile.baseHalf};
       --size-base: ${theme.sizeMobile.base};
     } 
   }

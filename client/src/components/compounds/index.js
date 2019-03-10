@@ -8,6 +8,8 @@ import FlashMessage from "./FlashMessage/FlashMessage";
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget/CloudinaryUploadWidget";
 import Avatar from "./Avatar/Avatar";
 import FormGroup from "./FormGroup/FormGroup";
+import ProfilePicture from "./ProfilePicture/ProfilePicture";
+import DataGroup from "./DataGroup/DataGroup";
 
 export {
   TextInput,
@@ -19,5 +21,7 @@ export {
   FlashMessage,
   CloudinaryUploadWidget,
   Avatar,
-  FormGroup
+  FormGroup,
+  ProfilePicture,
+  DataGroup
 };

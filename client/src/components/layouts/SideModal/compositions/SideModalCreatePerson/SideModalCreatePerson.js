@@ -162,7 +162,7 @@ export class SideModalCreatePerson extends Component {
               {data.role !== "administrator" && (
                 <Item margin="stack-base">
                   <FormGroup>
-                    <FormGroup.Label title="Group" />
+                    <FormGroup.Label title="Group" htmlFor="group-input" />
 
                     <FormGroup.Input>
                       <SelectInput
@@ -229,7 +229,7 @@ export class SideModalCreatePerson extends Component {
                 .map(item => (
                   <Item margin="stack-base" key={item.id}>
                     <FormGroup>
-                      <FormGroup.Label title={item.label} />
+                      <FormGroup.Label title={item.label} htmlFor={item.id} />
 
                       <FormGroup.Input>
                         <TextInput
@@ -293,7 +293,7 @@ export class SideModalCreatePerson extends Component {
                 .map(item => (
                   <Item margin="stack-base" key={item.id}>
                     <FormGroup>
-                      <FormGroup.Label title={item.label} />
+                      <FormGroup.Label title={item.label} htmlFor={item.id} />
 
                       <FormGroup.Input>
                         <TextInput
@@ -314,7 +314,7 @@ export class SideModalCreatePerson extends Component {
 
               <Item margin="stack-base">
                 <FormGroup>
-                  <FormGroup.Label title="Gender" />
+                  <FormGroup.Label title="Gender" htmlFor="gender-input" />
 
                   <FormGroup.Input>
                     <SelectInput
@@ -406,7 +406,7 @@ export class SideModalCreatePerson extends Component {
                 .map(item => (
                   <Item margin="stack-base" key={item.id}>
                     <FormGroup>
-                      <FormGroup.Label title={item.label} />
+                      <FormGroup.Label title={item.label} htmlFor={item.id} />
 
                       <FormGroup.Input>
                         <TextInput
