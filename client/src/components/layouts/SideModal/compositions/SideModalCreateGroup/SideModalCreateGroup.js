@@ -6,7 +6,7 @@ import axios from "axios";
 
 import { Item } from "src/components/blocks";
 import { Button } from "src/components/elements";
-import { TextInput, InputGroup } from "src/components/compounds";
+import { TextInput, FormGroup } from "src/components/compounds";
 import { SideModal } from "src/components/layouts";
 
 import { getGroups } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
@@ -93,10 +93,10 @@ export class SideModalCreateGroup extends Component {
             }
           ].map(item => (
             <Item margin="stack-base" key={item.id}>
-              <InputGroup>
-                <InputGroup.Label title={item.label} />
+              <FormGroup>
+                <FormGroup.Label title={item.label} />
 
-                <InputGroup.Input>
+                <FormGroup.Input>
                   <TextInput
                     autoFocus={item.autoFocus}
                     name={item.name}
@@ -107,8 +107,8 @@ export class SideModalCreateGroup extends Component {
                     error={errors[item.name]}
                     disabled={isLoading}
                   />
-                </InputGroup.Input>
-              </InputGroup>
+                </FormGroup.Input>
+              </FormGroup>
             </Item>
           ))}
 

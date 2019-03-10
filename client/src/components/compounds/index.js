@@ -7,7 +7,7 @@ import LoadingScene from "./LoadingScene/LoadingScene";
 import FlashMessage from "./FlashMessage/FlashMessage";
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget/CloudinaryUploadWidget";
 import Avatar from "./Avatar/Avatar";
-import InputGroup from "./InputGroup/InputGroup";
+import FormGroup from "./FormGroup/FormGroup";
 
 export {
   TextInput,
@@ -19,5 +19,5 @@ export {
   FlashMessage,
   CloudinaryUploadWidget,
   Avatar,
-  InputGroup
+  FormGroup
 };

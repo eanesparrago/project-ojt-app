@@ -9,7 +9,7 @@ import {
   TextInput,
   RadioInput,
   SelectInput,
-  InputGroup,
+  FormGroup,
   CloudinaryUploadWidget
 } from "src/components/compounds";
 import { SideModal } from "src/components/layouts";
@@ -119,10 +119,10 @@ export class SideModalCreatePerson extends Component {
 
         <SideModal.Body isLoading={isLoading}>
           <Item margin="stack-base">
-            <InputGroup>
-              <InputGroup.Label title="Role" />
+            <FormGroup>
+              <FormGroup.Label title="Role" />
 
-              <InputGroup.Input>
+              <FormGroup.Input>
                 <RadioInput
                   options={[
                     {
@@ -150,8 +150,8 @@ export class SideModalCreatePerson extends Component {
                   name="role"
                   value={data.role}
                 />
-              </InputGroup.Input>
-            </InputGroup>
+              </FormGroup.Input>
+            </FormGroup>
           </Item>
 
           {/* >>> Role must be filled */}
@@ -161,10 +161,10 @@ export class SideModalCreatePerson extends Component {
               {/* >>> Group is not for administrators */}
               {data.role !== "administrator" && (
                 <Item margin="stack-base">
-                  <InputGroup>
-                    <InputGroup.Label title="Group" />
+                  <FormGroup>
+                    <FormGroup.Label title="Group" />
 
-                    <InputGroup.Input>
+                    <FormGroup.Input>
                       <SelectInput
                         autoFocus
                         id="group-input"
@@ -178,8 +178,8 @@ export class SideModalCreatePerson extends Component {
                         error={errors.group}
                         disabled={isLoading}
                       />
-                    </InputGroup.Input>
-                  </InputGroup>
+                    </FormGroup.Input>
+                  </FormGroup>
                 </Item>
               )}
 
@@ -228,10 +228,10 @@ export class SideModalCreatePerson extends Component {
                 .filter(item => item.role.includes(data.role))
                 .map(item => (
                   <Item margin="stack-base" key={item.id}>
-                    <InputGroup>
-                      <InputGroup.Label title={item.label} />
+                    <FormGroup>
+                      <FormGroup.Label title={item.label} />
 
-                      <InputGroup.Input>
+                      <FormGroup.Input>
                         <TextInput
                           autoFocus={item.autoFocus}
                           name={item.name}
@@ -243,8 +243,8 @@ export class SideModalCreatePerson extends Component {
                           disabled={isLoading}
                           {...item}
                         />
-                      </InputGroup.Input>
-                    </InputGroup>
+                      </FormGroup.Input>
+                    </FormGroup>
                   </Item>
                 ))}
 
@@ -292,10 +292,10 @@ export class SideModalCreatePerson extends Component {
                 .filter(item => item.role.includes(data.role))
                 .map(item => (
                   <Item margin="stack-base" key={item.id}>
-                    <InputGroup>
-                      <InputGroup.Label title={item.label} />
+                    <FormGroup>
+                      <FormGroup.Label title={item.label} />
 
-                      <InputGroup.Input>
+                      <FormGroup.Input>
                         <TextInput
                           autoFocus={item.autoFocus}
                           name={item.name}
@@ -307,16 +307,16 @@ export class SideModalCreatePerson extends Component {
                           disabled={isLoading}
                           {...item}
                         />
-                      </InputGroup.Input>
-                    </InputGroup>
+                      </FormGroup.Input>
+                    </FormGroup>
                   </Item>
                 ))}
 
               <Item margin="stack-base">
-                <InputGroup>
-                  <InputGroup.Label title="Gender" />
+                <FormGroup>
+                  <FormGroup.Label title="Gender" />
 
-                  <InputGroup.Input>
+                  <FormGroup.Input>
                     <SelectInput
                       id="gender-input"
                       onChange={this.handleInputChange}
@@ -332,8 +332,8 @@ export class SideModalCreatePerson extends Component {
                         }
                       ]}
                     />
-                  </InputGroup.Input>
-                </InputGroup>
+                  </FormGroup.Input>
+                </FormGroup>
               </Item>
 
               {[
@@ -405,10 +405,10 @@ export class SideModalCreatePerson extends Component {
                 .filter(item => item.role.includes(data.role))
                 .map(item => (
                   <Item margin="stack-base" key={item.id}>
-                    <InputGroup>
-                      <InputGroup.Label title={item.label} />
+                    <FormGroup>
+                      <FormGroup.Label title={item.label} />
 
-                      <InputGroup.Input>
+                      <FormGroup.Input>
                         <TextInput
                           autoFocus={item.autoFocus}
                           name={item.name}
@@ -420,16 +420,16 @@ export class SideModalCreatePerson extends Component {
                           disabled={isLoading}
                           {...item}
                         />
-                      </InputGroup.Input>
-                    </InputGroup>
+                      </FormGroup.Input>
+                    </FormGroup>
                   </Item>
                 ))}
 
               <Item margin="stack-base">
-                <InputGroup>
-                  <InputGroup.Label title="Profile Picture" />
+                <FormGroup>
+                  <FormGroup.Label title="Profile Picture" />
 
-                  <InputGroup.Input>
+                  <FormGroup.Input>
                     <Item margin="stack-base">
                       <CloudinaryUploadWidget
                         handleProfilePictureUpload={
@@ -449,14 +449,14 @@ export class SideModalCreatePerson extends Component {
                         </Photo>
                       )}
                     </Item>
-                  </InputGroup.Input>
-                </InputGroup>
+                  </FormGroup.Input>
+                </FormGroup>
               </Item>
 
               <Item margin="stack-l">
-                <InputGroup.Label />
-                <InputGroup>
-                  <InputGroup.Input>
+                <FormGroup.Label />
+                <FormGroup>
+                  <FormGroup.Input>
                     <Item right>
                       <Button
                         type="submit"
@@ -467,8 +467,8 @@ export class SideModalCreatePerson extends Component {
                         Create Person
                       </Button>
                     </Item>
-                  </InputGroup.Input>
-                </InputGroup>
+                  </FormGroup.Input>
+                </FormGroup>
               </Item>
             </Fragment>
           )}

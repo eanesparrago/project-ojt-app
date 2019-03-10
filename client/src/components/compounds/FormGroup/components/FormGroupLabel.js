@@ -3,20 +3,20 @@ import styled from "styled-components";
 
 import { Typography } from "src/components/elements";
 
-const StyledInputGroupLabel = styled.div`
+const StyledFormGroupLabel = styled.div`
   width: ${p => p.theme.incrementFixed(8)};
   margin-top: var(--size-m);
   margin-right: var(--size-m);
 `;
 
-const InputGroupLabel = ({ title = "", htmlFor }) => {
+const FormGroupLabel = ({ title = "", htmlFor }) => {
   return (
-    <StyledInputGroupLabel>
+    <StyledFormGroupLabel>
       <Typography variant="base" as="label" htmlFor={htmlFor}>
         {title}
       </Typography>
-    </StyledInputGroupLabel>
+    </StyledFormGroupLabel>
   );
 };
 
-export default InputGroupLabel;
+export default FormGroupLabel;
