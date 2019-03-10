@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Main } from "src/pages/Admin/components";
-
 import PeopleTable from "./components/PeopleTable";
 
-import { getPeople } from "./peopleActionCreators";
+import { getPeople } from "src/services/session/actions/peopleActionCreators";
+
 export class People extends Component {
   componentDidMount() {
     this.props.getPeople();
@@ -32,7 +32,7 @@ export class People extends Component {
 
 export default connect(
   state => ({
-    people: state.admin.people
+    people: state.people
   }),
   { getPeople: getPeople }
 )(People);

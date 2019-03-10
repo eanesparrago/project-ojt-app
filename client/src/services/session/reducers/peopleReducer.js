@@ -2,7 +2,7 @@ import {
   ADMIN_PEOPLE_GET_REQUEST,
   ADMIN_PEOPLE_GET_SUCCESS,
   ADMIN_PEOPLE_GET_FAILURE
-} from "./peopleActionCreators";
+} from "../actions/peopleActionCreators";
 
 const initialState = {
   data: [],

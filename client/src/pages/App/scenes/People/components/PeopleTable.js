@@ -204,7 +204,7 @@ export class PeopleTable extends Component {
 export default withRouter(
   connect(
     state => ({
-      people: state.admin.people
+      people: state.people
     }),
     null
   )(PeopleTable)

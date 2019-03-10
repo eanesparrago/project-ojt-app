@@ -6,7 +6,7 @@ import { Main } from "src/pages/Admin/components";
 
 import GroupCard from "./components/GroupCard";
 
-import { getGroups } from "./groupsActionCreators";
+import { getGroups } from "src/services/session/actions/groupsActionCreators";
 
 export class Groups extends Component {
   componentDidMount() {
@@ -40,7 +40,7 @@ export class Groups extends Component {
 
 export default connect(
   state => ({
-    groups: state.admin.groups
+    groups: state.groups
   }),
   { getGroups: getGroups }
 )(Groups);

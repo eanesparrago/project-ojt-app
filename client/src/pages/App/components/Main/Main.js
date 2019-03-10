@@ -6,7 +6,7 @@ import MainBody from "./components/MainBody";
 import MainSideModal from "./components/MainSideModal";
 import MainFullModal from "./components/MainFullModal";
 
-import { GroupModal } from "src/pages/Admin/components";
+import { GroupModal } from "src/pages/App/components";
 
 import {
   SideModalCreatePerson,

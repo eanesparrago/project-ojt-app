@@ -8,7 +8,7 @@ import {
   ADMIN_GROUPS_GET_GROUP_REQUEST,
   ADMIN_GROUPS_GET_GROUP_SUCCESS,
   ADMIN_GROUPS_GET_GROUP_FAILURE
-} from "./groupsActionCreators";
+} from "../actions/groupsActionCreators";
 
 const initialState = {
   data: [],
