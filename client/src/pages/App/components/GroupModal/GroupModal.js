@@ -6,7 +6,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Button, Typography } from "src/components/elements";
 import { Item, Box, Container, Area } from "src/components/blocks";
 
-import { getGroup } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
+import { getGroup } from "src/services/session/actions/groupsActionCreators";
 
 import ActivityItem from "./components/ActivityItem";
 import AnnouncementItem from "./components/AnnouncementItem";

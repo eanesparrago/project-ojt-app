@@ -15,8 +15,8 @@ import {
 } from "src/components/compounds";
 
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
-import { getPeople } from "src/pages/Admin/scenes/People/peopleActionCreators";
-import { getGroups } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
+import { getPeople } from "src/services/session/actions/peopleActionCreators";
+import { getGroups } from "src/services/session/actions/groupsActionCreators";
 
 class PersonEdit extends Component {
   constructor(props) {

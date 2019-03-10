@@ -1,4 +1,4 @@
-import React, { Component  } from "react";
+import React, { Component } from "react";
 
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -9,7 +9,7 @@ import { Button } from "src/components/elements";
 import { TextInput, FormGroup } from "src/components/compounds";
 import { SideModal } from "src/components/layouts";
 
-import { getGroups } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
+import { getGroups } from "src/services/session/actions/groupsActionCreators";
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
 export class SideModalCreateGroup extends Component {

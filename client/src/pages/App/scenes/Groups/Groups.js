@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Box, Item } from "src/components/blocks";
-import { Main } from "src/pages/Admin/components";
+import { Main } from "src/pages/App/components";
 
 import GroupCard from "./components/GroupCard";
 

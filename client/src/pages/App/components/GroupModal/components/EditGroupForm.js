@@ -11,7 +11,7 @@ import { TextInput } from "src/components/compounds";
 import {
   getGroup,
   getGroups
-} from "src/pages/Admin/scenes/Groups/groupsActionCreators";
+} from "src/services/session/actions/groupsActionCreators";
 
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 

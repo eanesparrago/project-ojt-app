@@ -14,7 +14,7 @@ import {
 } from "src/components/compounds";
 import { SideModal } from "src/components/layouts";
 
-import { getPeople } from "src/pages/Admin/scenes/People/peopleActionCreators";
+import { getPeople } from "src/services/session/actions/peopleActionCreators";
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 import enums from "src/services/enums";
 
@@ -457,7 +457,7 @@ export class SideModalCreatePerson extends Component {
                 <FormGroup.Label />
                 <FormGroup>
                   <FormGroup.Input>
-                    <Item right>
+                    <Item>
                       <Button
                         type="submit"
                         variant="primary"

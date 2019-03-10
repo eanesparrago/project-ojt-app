@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Main } from "src/pages/Admin/components";
+import { Main } from "src/pages/App/components";
 import PeopleTable from "./components/PeopleTable";
 
 import { getPeople } from "src/services/session/actions/peopleActionCreators";
