@@ -20,12 +20,8 @@ export const loginUser = userData => dispatch => {
       setAuthToken(token);
       const decoded = jwt_decode(token);
       dispatch(setCurrentUser(decoded));
-
-      if (decoded.role === enums.roles.ADMINISTRATOR) {
-        window.location.href = "/admin";
-      } else {
-        window.location.href = "/app";
-      }
+      
+      window.location.href = "/app";
     })
     .catch(err => {
       dispatch({

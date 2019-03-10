@@ -133,7 +133,7 @@ const StyledGroup = styled.div`
   }
 `;
 
-export class GroupModal extends Component {
+export class Group extends Component {
   state = {
     isEditFormOpen: false
   };
@@ -150,6 +150,8 @@ export class GroupModal extends Component {
     const { history, location, match, data, isLoading } = this.props;
     const { isEditFormOpen } = this.state;
 
+    console.log(data);
+
     return (
       <StyledGroup>
         <Container NAME="group-close">
@@ -160,7 +162,7 @@ export class GroupModal extends Component {
           </Item>
         </Container>
 
-        {!isLoading && (
+        {!isLoading ? (
           <Fragment>
             {/* >>> Header */}
             <Area NAME="group-header" padding="inset-base">
@@ -345,7 +347,7 @@ export class GroupModal extends Component {
                   </Item>
 
                   <Item style={{ visibility: "hidden" }}>
-                    <Button variant="primary" icon rounded>
+                    <Button variant="primary" variant="primary" icon rounded>
                       <i className="fas fa-plus" />
                     </Button>
                   </Item>
@@ -367,11 +369,11 @@ export class GroupModal extends Component {
             <Area
               NAME="group-back"
               onClick={() => {
-                history.push("/admin/groups");
+                history.goBack();
               }}
             />
           </Fragment>
-        )}
+        ) : null}
       </StyledGroup>
     );
   }
@@ -384,5 +386,5 @@ export default withRouter(
       isLoading: state.admin.groups.isLoading
     }),
     { getGroup: getGroup }
-  )(GroupModal)
+  )(Group)
 );

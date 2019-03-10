@@ -1,20 +1,24 @@
 import React, { Component, Fragment } from "react";
 import jwt_decode from "jwt-decode";
-import "./assets/css/destyle.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./services/session/store";
 import { ThemeProvider } from "styled-components";
+
 import theme from "./services/theme/theme";
+import "./assets/css/destyle.css";
+import GlobalStyle from "./GlobalStyle";
+
+import PrivateRoute from "./components/utils/PrivateRoute";
+
 import {
   setCurrentUser,
   logoutUser
 } from "src/services/session/actions/authActionCreators";
 import setAuthToken from "src/services/session/utils/setAuthToken";
-import GlobalStyle from "./GlobalStyle";
-import { Login, Admin } from "./pages";
-import PrivateRoute from "./PrivateRoute";
 import enums from "./services/enums";
+
+import { App, Login, Admin } from "./pages";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -40,7 +44,7 @@ if (localStorage.jwtToken) {
   }
 }
 
-class App extends Component {
+class Main extends Component {
   render() {
     return (
       <Provider store={store}>
@@ -53,20 +57,25 @@ class App extends Component {
                 <Route path="/" exact component={Login} />
 
                 <PrivateRoute
-                  path="/admin"
-                  component={Admin}
-                  permittedRoles={[enums.roles.ADMINISTRATOR]}
-                />
-
-                <PrivateRoute
                   path="/app"
-                  component={() => <h1>App</h1>}
+                  component={App}
                   permittedRoles={[
+                    enums.roles.ADMINISTRATOR,
                     enums.roles.SUPERVISOR,
                     enums.roles.TRAINEE,
                     enums.roles.EMPLOYEE
                   ]}
                 />
+
+                {/* <PrivateRoute
+                  path="/app"
+                  component={() => <h1>Main</h1>}
+                  permittedRoles={[
+                    enums.roles.SUPERVISOR,
+                    enums.roles.TRAINEE,
+                    enums.roles.EMPLOYEE
+                  ]}
+                /> */}
 
                 <Route render={() => <h1>Not found</h1>} />
               </Switch>
@@ -78,4 +87,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Main;

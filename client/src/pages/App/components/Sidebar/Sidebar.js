@@ -27,32 +27,24 @@ const StyledSidebar = styled.div`
     width: ${p => p.theme.increment(6)};
     height: ${p => p.theme.increment(6)};
   }
-
-  .item-sidebar-divider {
-    height: 1px;
-    width: calc(100% - var(--size-base) * 2);
-    background-color: ${p => p.theme.color.primary.accent};
-    position: absolute;
-    bottom: 0;
-  }
 `;
 
-const Sidebar = ({ match, data }) => {
+const Sidebar = ({ match, user }) => {
   return (
     <StyledSidebar>
       <Container NAME="sidebar-profile" margin="stack-base">
         <Item NAME="sidebar-profile-picture" margin="stack-m">
           <Photo rounded>
-            <img src={data.profilePictureUrl} alt="" />
+            <img src={user.profilePictureUrl} alt="" />
           </Photo>
         </Item>
 
         <Item margin="stack-m">
-          <Typography variant="display-3">{data.username}</Typography>
+          <Typography variant="display-3">{user.username}</Typography>
         </Item>
 
         <Item margin="stack-base">
-          <Typography>{data.role}</Typography>
+          <Typography>{user.role}</Typography>
         </Item>
 
         <Divider />
@@ -128,7 +120,7 @@ const Sidebar = ({ match, data }) => {
 
 export default withRouter(
   connect(
-    state => ({ data: state.auth.user }),
+    state => ({ user: state.auth.user }),
     null
   )(Sidebar)
 );

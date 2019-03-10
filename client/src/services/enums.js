@@ -7,7 +7,7 @@ const roles = Object.freeze({
   properties: {
     administrator: {
       label: "Administrator",
-      defaultRoute: "/admin"
+      defaultRoute: "/app"
     },
     supervisor: {
       label: "Supervisor",
@@ -23,7 +23,7 @@ const roles = Object.freeze({
     },
     unauthorized: {
       label: "Unauthorized",
-      defaultRoute: "/app"
+      defaultRoute: "/"
     }
   }
 });

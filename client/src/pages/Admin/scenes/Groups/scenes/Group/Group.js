@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-import { Button, Typography, Photo } from "src/components/elements";
+import { Button, Typography } from "src/components/elements";
 import { Item, Box, Container, Area } from "src/components/blocks";
 
 import { getGroup } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
@@ -152,19 +152,17 @@ export class Group extends Component {
 
     console.log(data);
 
-    console.log(data);
-
     return (
       <StyledGroup>
         <Container NAME="group-close">
           <Item>
-            <Button variant="primary" icon rounded as={Link} to="/admin/groups">
+            <Button variant="primary" icon rounded as={Link} to="/app/groups">
               <i className="fas fa-times" />
             </Button>
           </Item>
         </Container>
 
-        {!isLoading && (
+        {!isLoading ? (
           <Fragment>
             {/* >>> Header */}
             <Area NAME="group-header" padding="inset-base">
@@ -375,7 +373,7 @@ export class Group extends Component {
               }}
             />
           </Fragment>
-        )}
+        ) : null}
       </StyledGroup>
     );
   }

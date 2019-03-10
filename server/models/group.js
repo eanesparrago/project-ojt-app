@@ -15,25 +15,7 @@ const groupSchema = new Schema({
     type: String,
     default: ""
   },
-  supervisors: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User"
-    }
-  ],
   users: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User"
-    }
-  ],
-  trainees: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User"
-    }
-  ],
-  employees: [
     {
       type: Schema.Types.ObjectId,
       ref: "User"
