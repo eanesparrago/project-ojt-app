@@ -13,7 +13,7 @@ const StyledUserListItem = styled.div`
 `;
 
 const UserItem = ({
-  data: { profilePictureUrl, firstName, lastName, _id, username }
+  group: { profilePictureUrl, firstName, lastName, _id, username }
 }) => {
   let name;
   if (firstName === "" || lastName === "") {

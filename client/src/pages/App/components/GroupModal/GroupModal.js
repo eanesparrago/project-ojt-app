@@ -147,7 +147,10 @@ export class GroupModal extends Component {
   };
 
   render() {
-    const { history, location, match, data, isLoading } = this.props;
+    const {
+      groups: { group, isLoading },
+      history
+    } = this.props;
     const { isEditFormOpen } = this.state;
 
     return (
@@ -169,11 +172,13 @@ export class GroupModal extends Component {
                   <Fragment>
                     <Box wrap align="flex-start">
                       <Item margin="stack-l">
-                        <Typography variant="display-1">{data.name}</Typography>
+                        <Typography variant="display-1">
+                          {group.name}
+                        </Typography>
                       </Item>
                     </Box>
 
-                    {data.location && (
+                    {group.location && (
                       <Item margin="stack-base">
                         <Typography variant="caption">
                           <Item
@@ -184,12 +189,12 @@ export class GroupModal extends Component {
                           >
                             <i className="fas fa-map-marker-alt" />
                           </Item>
-                          {data.location}
+                          {group.location}
                         </Typography>
                       </Item>
                     )}
 
-                    {data.phoneNumber && (
+                    {group.phoneNumber && (
                       <Item>
                         <Typography variant="caption">
                           <Item
@@ -200,7 +205,7 @@ export class GroupModal extends Component {
                           >
                             <i className="fas fa-phone" />
                           </Item>
-                          {data.phoneNumber}
+                          {group.phoneNumber}
                         </Typography>
                       </Item>
                     )}
@@ -245,11 +250,11 @@ export class GroupModal extends Component {
                   </Box>
 
                   <Box column>
-                    {data.users
+                    {group.users
                       .filter(user => user.role === enums.roles.SUPERVISOR)
                       .map(user => (
-                        <Item margin="stack-m">
-                          <UserItem data={user} />
+                        <Item margin="stack-m" key={user._id}>
+                          <UserItem group={user} />
                         </Item>
                       ))}
                   </Box>
@@ -269,11 +274,11 @@ export class GroupModal extends Component {
                   </Box>
 
                   <Box column>
-                    {data.users
+                    {group.users
                       .filter(user => user.role === enums.roles.EMPLOYEE)
                       .map(user => (
-                        <Item margin="stack-m">
-                          <UserItem data={user} />
+                        <Item margin="stack-m" key={user._id}>
+                          <UserItem group={user} />
                         </Item>
                       ))}
                   </Box>
@@ -295,11 +300,11 @@ export class GroupModal extends Component {
                 </Box>
 
                 <Box column>
-                  {data.users
+                  {group.users
                     .filter(user => user.role === enums.roles.TRAINEE)
                     .map(user => (
-                      <Item margin="stack-m">
-                        <UserItem data={user} />
+                      <Item margin="stack-m" key={user._id}>
+                        <UserItem group={user} />
                       </Item>
                     ))}
                 </Box>
@@ -328,8 +333,8 @@ export class GroupModal extends Component {
               >
                 {Array(3)
                   .fill(null)
-                  .map(item => (
-                    <Item margin="stack-base">
+                  .map((item, i) => (
+                    <Item margin="stack-base" key={i}>
                       <AnnouncementItem />
                     </Item>
                   ))}
@@ -355,8 +360,8 @@ export class GroupModal extends Component {
               <Container NAME="group-activity-content" padding="inset-base">
                 {Array(5)
                   .fill(null)
-                  .map(item => (
-                    <Item margin="stack-l">
+                  .map((item, i) => (
+                    <Item margin="stack-l" key={i}>
                       <ActivityItem />
                     </Item>
                   ))}
@@ -380,8 +385,7 @@ export class GroupModal extends Component {
 export default withRouter(
   connect(
     state => ({
-      data: state.admin.groups.group,
-      isLoading: state.admin.groups.isLoading
+      groups: state.groups
     }),
     { getGroup: getGroup }
   )(GroupModal)

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
@@ -7,7 +7,7 @@ import { Item, Area } from "src/components/blocks";
 import { FlashMessage } from "src/components/compounds";
 import PrivateRoute from "src/components/utils/PrivateRoute";
 
-import { Header, Main, Sidebar } from "./components";
+import { Header, Sidebar } from "./components";
 
 import { Groups, People } from "./scenes";
 
@@ -74,7 +74,11 @@ export class App extends Component {
             <PrivateRoute
               path={`${match.url}/people`}
               component={People}
-              permittedRoles={[enums.roles.ADMINISTRATOR]}
+              permittedRoles={[
+                enums.roles.ADMINISTRATOR,
+                enums.roles.SUPERVISOR,
+                enums.roles.EMPLOYEE
+              ]}
             />
           </Switch>
         </Area>

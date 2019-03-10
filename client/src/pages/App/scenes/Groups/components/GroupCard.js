@@ -1,10 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
-import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-import { Item, Box, Container, Area } from "src/components/blocks";
-import { Button, Typography, Photo } from "src/components/elements";
+import { Item, Box, Container } from "src/components/blocks";
+import { Button, Typography } from "src/components/elements";
 import { Avatar } from "src/components/compounds";
 
 import enums from "src/services/enums";
@@ -68,13 +67,21 @@ const GroupCard = ({ match, data }) => {
 
         <Item margin="stack-s">
           <Typography variant="display-4">Supervisors</Typography>
+          <Typography variant="body">
+            &nbsp;(
+            {
+              data.users.filter(user => user.role === enums.roles.SUPERVISOR)
+                .length
+            }
+            )
+          </Typography>
         </Item>
 
         <Box margin="stack-base" wrap>
           {data.users
             .filter(user => user.role === enums.roles.SUPERVISOR)
             .map(user => (
-              <Item margin="wrap-s">
+              <Item margin="wrap-s" key={user._id}>
                 <Avatar src={user.profilePictureUrl} id={user._id} />
               </Item>
             ))}
@@ -82,6 +89,14 @@ const GroupCard = ({ match, data }) => {
 
         <Item margin="stack-s">
           <Typography variant="display-4">Trainees</Typography>
+          <Typography variant="body">
+            &nbsp;(
+            {
+              data.users.filter(user => user.role === enums.roles.TRAINEE)
+                .length
+            }
+            )
+          </Typography>
         </Item>
 
         <Box margin="stack-base" wrap>
@@ -96,13 +111,22 @@ const GroupCard = ({ match, data }) => {
 
         <Item margin="stack-s">
           <Typography variant="display-4">Employees</Typography>
+
+          <Typography variant="body">
+            &nbsp;(
+            {
+              data.users.filter(user => user.role === enums.roles.EMPLOYEE)
+                .length
+            }
+            )
+          </Typography>
         </Item>
 
         <Box wrap>
           {data.users
             .filter(user => user.role === enums.roles.EMPLOYEE)
             .map(user => (
-              <Item margin="wrap-s">
+              <Item margin="wrap-s" key={user._id}>
                 <Avatar src={user.profilePictureUrl} id={user._id} />
               </Item>
             ))}

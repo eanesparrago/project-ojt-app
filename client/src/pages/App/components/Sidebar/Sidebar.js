@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { Item, Box, Container } from "src/components/blocks";
 import { Photo, Typography, Button, Divider } from "src/components/elements";
 
+import enums from "src/services/enums";
+
 const StyledSidebar = styled.div`
   height: 100%;
   display: flex;
@@ -29,7 +31,140 @@ const StyledSidebar = styled.div`
   }
 `;
 
+const adminMenu = [
+  {
+    title: "Groups",
+    icon: "fas fa-briefcase",
+    to: "/groups"
+  },
+  {
+    title: "People",
+    icon: "fas fa-users",
+    to: "/people"
+  },
+  {
+    title: "Notifications",
+    icon: "fas fa-bell",
+    to: "/notifications"
+  },
+  {
+    title: "Announcements",
+    icon: "fas fa-bullhorn",
+    to: "/announcements"
+  },
+  {
+    title: "Activities",
+    icon: "fas fa-list-ul",
+    to: "/activities"
+  },
+  {
+    title: "My Profile",
+    icon: "fas fa-user-circle",
+    to: "/profile"
+  }
+];
+
+const supervisorMenu = [
+  {
+    title: "My Group",
+    icon: "fas fa-briefcase",
+    to: "/group"
+  },
+  {
+    title: "People",
+    icon: "fas fa-users",
+    to: "/people"
+  },
+  {
+    title: "Notifications",
+    icon: "fas fa-bell",
+    to: "/notifications"
+  },
+  {
+    title: "Announcements",
+    icon: "fas fa-bullhorn",
+    to: "/announcements"
+  },
+  {
+    title: "Activities",
+    icon: "fas fa-list-ul",
+    to: "/activities"
+  },
+  {
+    title: "My Profile",
+    icon: "fas fa-user-circle",
+    to: "/profile"
+  }
+];
+
+const employeeMenu = [
+  {
+    title: "My Group",
+    icon: "fas fa-briefcase",
+    to: "/group"
+  },
+  {
+    title: "People",
+    icon: "fas fa-users",
+    to: "/people"
+  },
+  {
+    title: "Notifications",
+    icon: "fas fa-bell",
+    to: "/notifications"
+  },
+  {
+    title: "Announcements",
+    icon: "fas fa-bullhorn",
+    to: "/announcements"
+  },
+  {
+    title: "Activities",
+    icon: "fas fa-list-ul",
+    to: "/activities"
+  },
+  {
+    title: "My Profile",
+    icon: "fas fa-user-circle",
+    to: "/profile"
+  }
+];
+
+const traineeMenu = [
+  {
+    title: "My Group",
+    icon: "fas fa-briefcase",
+    to: "/group"
+  },
+  {
+    title: "Notifications",
+    icon: "fas fa-bell",
+    to: "/notifications"
+  },
+  {
+    title: "Announcements",
+    icon: "fas fa-bullhorn",
+    to: "/announcements"
+  },
+  {
+    title: "Tasks",
+    icon: "fas fa-tasks",
+    to: "/tasks"
+  },
+  {
+    title: "My Profile",
+    icon: "fas fa-user-circle",
+    to: "/profile"
+  }
+];
+
 const Sidebar = ({ match, user }) => {
+  const menu =
+    (user.role === enums.roles.ADMINISTRATOR && adminMenu) ||
+    (user.role === enums.roles.SUPERVISOR && supervisorMenu) ||
+    (user.role === enums.roles.EMPLOYEE && employeeMenu) ||
+    (user.role === enums.roles.TRAINEE && traineeMenu);
+
   return (
     <StyledSidebar>
       <Container NAME="sidebar-profile" margin="stack-base">
@@ -51,68 +186,22 @@ const Sidebar = ({ match, user }) => {
       </Container>
 
       <Box column>
-        <Item left margin="stack-s">
-          <Button variant="text" full left as={Link} to={`${match.url}/groups`}>
-            <Item center style={{ width: "2rem" }} margin="inline-s">
-              <i className="fas fa-briefcase" />
-            </Item>
-            Groups
-          </Button>
-        </Item>
-
-        <Item margin="stack-s">
-          <Button variant="text" full left as={Link} to={`${match.url}/people`}>
-            <Item center style={{ width: "2rem" }} margin="inline-s">
-              <i className="fas fa-users" />
-            </Item>
-            People
-          </Button>
-        </Item>
-
-        <Item margin="stack-s">
-          <Button
-            variant="text"
-            full
-            left
-            as={Link}
-            to={`${match.url}/notifications`}
-          >
-            <Item center style={{ width: "2rem" }} margin="inline-s">
-              <i className="fas fa-bell" />
-            </Item>
-            Notifications
-          </Button>
-        </Item>
-
-        <Item margin="stack-s">
-          <Button
-            variant="text"
-            full
-            left
-            as={Link}
-            to={`${match.url}/announcements`}
-          >
-            <Item center style={{ width: "2rem" }} margin="inline-s">
-              <i className="fas fa-bullhorn" />
-            </Item>
-            Announcements
-          </Button>
-        </Item>
-
-        <Item margin="stack-s">
-          <Button
-            variant="text"
-            full
-            left
-            as={Link}
-            to={`${match.url}/activities`}
-          >
-            <Item center style={{ width: "2rem" }} margin="inline-s">
-              <i className="fas fa-list-ul" />
-            </Item>
-            Activities
-          </Button>
-        </Item>
+        {menu.map(item => (
+          <Item left margin="stack-s" key={item.title}>
+            <Button
+              variant="text"
+              full
+              left
+              as={Link}
+              to={`${match.url}${item.to}`}
+            >
+              <Item center style={{ width: "2rem" }} margin="inline-s">
+                <i className={item.icon} />
+              </Item>
+              {item.title}
+            </Button>
+          </Item>
+        ))}
       </Box>
     </StyledSidebar>
   );

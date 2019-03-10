@@ -36,10 +36,10 @@ export class EditGroupForm extends Component {
     super(props);
 
     this.state = {
-      data: {
-        name: props.data.name,
-        location: props.data.location,
-        phoneNumber: props.data.phoneNumber
+      group: {
+        name: props.group.name,
+        location: props.group.location,
+        phoneNumber: props.group.phoneNumber
       },
       isLoading: false,
       errors: {}
@@ -48,14 +48,14 @@ export class EditGroupForm extends Component {
 
   handleInputChange = e => {
     this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value }
+      group: { ...this.state.group, [e.target.name]: e.target.value }
     });
   };
 
   handleSubmit = e => {
     e.preventDefault();
     const {
-      data,
+      group,
       handleEditFormToggle,
       getGroup,
       getGroups,
@@ -65,9 +65,9 @@ export class EditGroupForm extends Component {
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
       axios
-        .put(`/api/groups/${data._id}`, state.data)
+        .put(`/api/groups/${group._id}`, state.group)
         .then(res => {
-          getGroup(data._id);
+          getGroup(group._id);
           getGroups();
           handleEditFormToggle();
           setFlashMessage(
@@ -87,10 +87,10 @@ export class EditGroupForm extends Component {
 
   handleDelete = e => {
     e.preventDefault();
-    const { data, getGroups, history } = this.props;
+    const { group, getGroups, history } = this.props;
 
     axios
-      .delete(`/api/groups/${data._id}`)
+      .delete(`/api/groups/${group._id}`)
       .then(res => {
         getGroups();
         history.goBack();
@@ -103,7 +103,7 @@ export class EditGroupForm extends Component {
 
   render() {
     const { handleEditFormToggle } = this.props;
-    const { data, isLoading, errors } = this.state;
+    const { group, isLoading, errors } = this.state;
 
     return (
       <StyledEditGroupForm>
@@ -141,7 +141,7 @@ export class EditGroupForm extends Component {
                 name={item.name}
                 id={item.id}
                 type={item.type}
-                value={data[item.name]}
+                value={group[item.name]}
                 onChange={this.handleInputChange}
                 error={errors[item.name]}
                 disabled={isLoading}
@@ -192,7 +192,7 @@ export class EditGroupForm extends Component {
 export default withRouter(
   connect(
     state => ({
-      data: state.admin.groups.group
+      group: state.groups.group
     }),
     {
       getGroup: getGroup,
