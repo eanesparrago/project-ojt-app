@@ -6,7 +6,7 @@ import MainBody from "./components/MainBody";
 import MainSideModal from "./components/MainSideModal";
 import MainFullModal from "./components/MainFullModal";
 
-import { PersonModal, GroupModal } from "src/pages/Admin/components";
+import { GroupModal } from "src/pages/Admin/components";
 
 import {
   SideModalCreatePerson,
@@ -35,10 +35,6 @@ class Main extends Component {
         <MainFullModal routePath={`/group/:id`} routeLevel={2}>
           <GroupModal />
         </MainFullModal>
-
-        {/* <MainSideModal routePath={`/person/:id`} routeLevel={2}>
-          <PersonModal />
-        </MainSideModal> */}
 
         <MainSideModal routePath="/person/:id" routeLevel={2}>
           <SideModalPerson />

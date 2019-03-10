@@ -35,7 +35,7 @@ export class SelectInput extends Component {
 
     return (
       <StyledSelectInput error={error}>
-        <select id={id} name={name} id={name} onChange={onChange} {...props}>
+        <select id={id} name={name} onChange={onChange} {...props}>
           <option value="">Choose an option</option>
 
           {options.map(option => (

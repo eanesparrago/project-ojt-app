@@ -8,7 +8,6 @@ import { Item, Box, Container, Area } from "src/components/blocks";
 import CreateAnnouncement from "./scenes/CreateAnnouncement";
 import AnnouncementTable from "./components/AnnouncementTable";
 
-import { PersonModal } from "src/pages/Admin/components";
 import adminScenesStyles from "src/pages/Admin/adminScenesStyles";
 
 const StyledAnnouncements = styled.div`
@@ -76,33 +75,7 @@ export class Announcements extends Component {
             </Switch>
           )}
         </Transition>
-
-        {/* >>> announcements Modal */}
-
-        <Transition
-          native
-          items={location}
-          keys={location.pathname
-            .split("/")
-            .slice(2, 4)
-            .join("/")}
-          from={{ transform: "translateX(-100%)" }}
-          enter={{ transform: "translateX(0%)" }}
-          leave={{ transform: "translateX(-100%)" }}
-        >
-          {loc => style => (
-            <Switch location={loc}>
-              <Route
-                path={`${match.url}/person/:id`}
-                render={() => (
-                  <Container NAME="admin-person" animate={style}>
-                    <PersonModal />
-                  </Container>
-                )}
-              />
-            </Switch>
-          )}
-        </Transition>
+    
       </StyledAnnouncements>
     );
   }

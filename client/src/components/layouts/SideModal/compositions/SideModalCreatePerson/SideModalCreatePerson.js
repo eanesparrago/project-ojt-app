@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 
-import { Item, Box } from "src/components/blocks";
+import { Item } from "src/components/blocks";
 import { Button, Typography, Photo, Divider } from "src/components/elements";
 import {
   TextInput,

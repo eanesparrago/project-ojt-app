@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import format from "date-fns/format";
 
-import { Item, Box } from "src/components/blocks";
+import { Item } from "src/components/blocks";
 import { Typography, Photo, Divider } from "src/components/elements";
 import { DataGroup } from "src/components/compounds";
 

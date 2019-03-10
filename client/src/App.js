@@ -1,12 +1,7 @@
 import React, { Component, Fragment } from "react";
 import jwt_decode from "jwt-decode";
 import "./assets/css/destyle.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./services/session/store";
 import { ThemeProvider } from "styled-components";
@@ -17,7 +12,7 @@ import {
 } from "src/services/session/actions/authActionCreators";
 import setAuthToken from "src/services/session/utils/setAuthToken";
 import GlobalStyle from "./GlobalStyle";
-import { Main, Login, Admin } from "./pages";
+import { Login, Admin } from "./pages";
 import PrivateRoute from "./PrivateRoute";
 import enums from "./services/enums";
 

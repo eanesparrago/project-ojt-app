@@ -3,8 +3,8 @@ import { withRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import _ from "lodash";
 
-import { Item, Box, Container, Area } from "src/components/blocks";
-import { Button, Typography } from "src/components/elements";
+import { Item } from "src/components/blocks";
+import { Typography } from "src/components/elements";
 import { SideModal } from "src/components/layouts";
 
 import PersonInformation from "./components/PersonInformation";
@@ -49,8 +49,8 @@ export class SideModalPerson extends Component {
   };
 
   render() {
-    const { history, match } = this.props;
-    const { person, isLoading, errors } = this.state;
+    const { match } = this.props;
+    const { person, isLoading } = this.state;
 
     return (
       <SideModal>

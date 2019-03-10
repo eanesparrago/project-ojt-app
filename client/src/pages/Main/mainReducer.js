@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { combineReducers } from "redux";
 import { dataReducer } from "./data/dataReducer";
 import {
   MAIN_DATA_POSTS_ADD_REQUEST,

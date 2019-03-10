@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React  from "react";
 import styled from "styled-components";
 import { Transition, animated } from "react-spring/renderprops";
 import { withRouter, Route, Switch } from "react-router-dom";

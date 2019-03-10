@@ -2,16 +2,14 @@ import React, { Component } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { Transition } from "react-spring/renderprops";
 
 import { Item, Area } from "src/components/blocks";
 import { FlashMessage } from "src/components/compounds";
 
-import { Header, Sidebar, Main } from "./components";
+import { Header, Sidebar } from "./components";
 
 import Groups from "./scenes/Groups/Groups";
 import People from "./scenes/People/People";
-import Announcements from "./scenes/Announcements/Announcements";
 
 const StyledAdmin = styled.div`
   width: 100%;

@@ -4,8 +4,8 @@ import { Link, withRouter } from "react-router-dom";
 import format from "date-fns/format";
 import { connect } from "react-redux";
 
-import { Button, Typography, Photo } from "src/components/elements";
-import { TextInput, SelectInput, Avatar } from "src/components/compounds";
+import { Button, Typography } from "src/components/elements";
+import {  SelectInput, Avatar } from "src/components/compounds";
 import { Item, Box, Container, Area } from "src/components/blocks";
 
 const StyledPeopleTable = styled.div`

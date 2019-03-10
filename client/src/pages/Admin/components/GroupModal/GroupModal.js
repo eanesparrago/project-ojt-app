@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-import { Button, Typography, Photo } from "src/components/elements";
+import { Button, Typography } from "src/components/elements";
 import { Item, Box, Container, Area } from "src/components/blocks";
 
 import { getGroup } from "src/pages/Admin/scenes/Groups/groupsActionCreators";
@@ -14,9 +14,6 @@ import UserItem from "./components/UserItem";
 import EditGroupForm from "./components/EditGroupForm";
 
 import enums from "src/services/enums";
-
-import { PersonModal } from "src/pages/Admin/components";
-import MainSideModal from "src/pages/Admin/components/Main/components/MainSideModal";
 
 const StyledGroup = styled.div`
   /* border: 1px solid magenta; */
@@ -348,7 +345,7 @@ export class GroupModal extends Component {
                   </Item>
 
                   <Item style={{ visibility: "hidden" }}>
-                    <Button variant="primary" variant="primary" icon rounded>
+                    <Button variant="primary" icon rounded>
                       <i className="fas fa-plus" />
                     </Button>
                   </Item>
