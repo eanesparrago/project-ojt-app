@@ -27,7 +27,7 @@ class PersonChangePassword extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { ...state } = this.state;
-    const { data, setFlashMessage } = this.props;
+    const { data, setFlashMessage, closeForms } = this.props;
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
       axios
@@ -41,6 +41,7 @@ class PersonChangePassword extends Component {
               data: { password: "", confirmPassword: "" }
             },
             () => {
+              closeForms();
               setFlashMessage("Password was changed successfully.", "success");
             }
           );

@@ -98,17 +98,17 @@ class PersonEdit extends Component {
       setFlashMessage,
       getPeople,
       getGroups,
+      closeForms,
       match
     } = this.props;
     const { ...state } = this.state;
-
-    console.log(match);
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
       axios
         .put(`/api/users/${data._id}`, state.data)
         .then(res => {
           this.setState({ ...state, isLoading: false }, () => {
+            closeForms();
             fetchPerson();
             getPeople();
             getGroups();
@@ -161,7 +161,7 @@ class PersonEdit extends Component {
 
   render() {
     const { data, errors, isLoading, groups } = this.state;
-
+ 
     return isLoading ? (
       <LoadingScene />
     ) : (
@@ -478,7 +478,7 @@ class PersonEdit extends Component {
                       onClick={this.handleSubmit}
                       disabled={isLoading}
                     >
-                      Edit {data.username}
+                      Save
                     </Button>
                   </Item>
                 </FormGroup.Input>
@@ -495,7 +495,7 @@ class PersonEdit extends Component {
                       onClick={this.handleDeletePerson}
                       disabled={isLoading}
                     >
-                      Delete {data.username}
+                      Delete User
                     </Button>
                   </Item>
                 </FormGroup.Input>

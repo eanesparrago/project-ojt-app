@@ -148,7 +148,7 @@ const traineeMenu = [
   },
   {
     title: "Tasks",
-    icon: "fas fa-tasks",
+    icon: "far fa-check-circle",
     to: "/tasks"
   },
   {

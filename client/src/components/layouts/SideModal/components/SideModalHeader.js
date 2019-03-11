@@ -28,16 +28,16 @@ const SideModalHeader = ({
     <StyledSideModalHeader>
       {!isLoading && (
         <Box wrap>
-          <Item margin="wrap-base" as={Link} to={match.url} replace>
+          <Item margin="wrap-base">
             <Typography variant="display-1" as="h1">
               {title}
             </Typography>
           </Item>
 
           {buttons.map((button, i) => (
-            <Item margin="wrap-base" key={i}>
+            <Item margin="wrap-m" key={i}>
               <Button
-                variant="secondary"
+                variant="text"
                 as={Link}
                 to={`${match.url}${button.to}`}
                 replace
