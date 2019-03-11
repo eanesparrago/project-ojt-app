@@ -47,6 +47,20 @@ const StyledApp = styled.div`
 `;
 
 export class App extends Component {
+  componentDidMount() {
+    const {
+      auth: { user },
+      history
+    } = this.props;
+
+    if (
+      user.role === enums.roles.TRAINEE &&
+      user.roleData.isInitialized === false
+    ) {
+      history.push("/initialize");
+    }
+  }
+
   render() {
     const { match } = this.props;
 
@@ -93,7 +107,7 @@ export class App extends Component {
 
 export default withRouter(
   connect(
-    null,
+    state => ({ auth: state.auth }),
     null
   )(App)
 );

@@ -19,7 +19,7 @@ const enums = require("../enums");
  * @private
  */
 function testRoute(req, res) {
-  res.status(200).json({ message: "Users test" });
+  res.status(200).json({ message: "User test" });
 }
 
 /**
@@ -159,7 +159,8 @@ function loginUser(req, res) {
           username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,
-          profilePictureUrl: user.profilePictureUrl
+          profilePictureUrl: user.profilePictureUrl,
+          roleData: user.roleData
         };
 
         jwt.sign(
@@ -239,19 +240,6 @@ function updateUser(req, res) {
 
   User.findById(req.params.id)
     .then(user => {
-      // if (
-      //   user.role !== enums.roles.ADMINISTRATOR &&
-      //   user.roleData.group &&
-      //   user.roleData.group._id !== req.body.group
-      // ) {
-      //   Group.findById(user.roleData.group._id).then(group => {
-      //     if (group) {
-      //       group.users.remove(user._id);
-      //       group.save();
-      //     }
-      //   });
-      // }
-
       const oldGroupId = user.roleData.group._id;
 
       user.set(req.body);
@@ -263,7 +251,7 @@ function updateUser(req, res) {
       user.roleData.dateOfBirth = req.body.dateOfBirth
         ? req.body.dateOfBirth
         : "";
-      user.roleData.address = req.body.address ? req.body.address : "";
+      user.roleData.address = req.body.address;
       user.roleData.contactNumber = req.body.contactNumber
         ? req.body.contactNumber
         : "";

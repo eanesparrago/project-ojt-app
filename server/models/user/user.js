@@ -32,10 +32,6 @@ const userSchema = new Schema(
       type: String,
       default: ""
     },
-    contactNumber: {
-      type: String,
-      default: ""
-    },
     email: {
       type: String,
       default: ""

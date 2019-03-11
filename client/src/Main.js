@@ -18,7 +18,7 @@ import {
 import setAuthToken from "src/services/session/utils/setAuthToken";
 import enums from "./services/enums";
 
-import { App, Login, Admin } from "./pages";
+import { App, Login, Initialize } from "./pages";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -67,15 +67,11 @@ class Main extends Component {
                   ]}
                 />
 
-                {/* <PrivateRoute
-                  path="/app"
-                  component={() => <h1>Main</h1>}
-                  permittedRoles={[
-                    enums.roles.SUPERVISOR,
-                    enums.roles.TRAINEE,
-                    enums.roles.EMPLOYEE
-                  ]}
-                /> */}
+                <PrivateRoute
+                  path="/initialize"
+                  component={Initialize}
+                  permittedRoles={[enums.roles.TRAINEE]}
+                />
 
                 <Route render={() => <h1>Not found</h1>} />
               </Switch>

@@ -20,7 +20,14 @@ export const loginUser = userData => dispatch => {
       setAuthToken(token);
       const decoded = jwt_decode(token);
       dispatch(setCurrentUser(decoded));
-      
+
+      // if (
+      //   decoded.role === enums.roles.TRAINEE &&
+      //   decoded.roleData.isInitialized === false
+      // ) {
+      //   window.location.href = "/initialize";
+      // } else {
+      // }
       window.location.href = "/app";
     })
     .catch(err => {

@@ -7,6 +7,7 @@ const path = require("path");
 
 // >>> Route imports
 const user = require("./routes/user.routes");
+const userTrainee = require("./routes/user.trainee.routes");
 const group = require("./routes/group.routes");
 
 const app = express();
@@ -28,6 +29,7 @@ require("./config/passport")(passport);
 
 // >>> Use routes
 app.use("/api/users", user);
+app.use("/api/trainee", userTrainee);
 app.use("/api/groups", group);
 
 // >>> Serve static in production

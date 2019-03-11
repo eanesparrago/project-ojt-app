@@ -7,17 +7,29 @@ import { Item } from "src/components/blocks";
 import { Typography } from "src/components/elements";
 import { SideModal } from "src/components/layouts";
 
-import PersonInformation from "./components/PersonInformation";
-import PersonEdit from "./components/PersonEdit";
-import PersonChangePassword from "./components/PersonChangePassword";
 import PersonAccount from "./components/PersonAccount";
 
+import enums from "src/services/enums";
+
 const buttons = [
-  { title: "Edit Person", icon: "fas fa-edit", to: "/edit-person" },
+  { title: "Account", icon: "fas fa-user-circle", to: "/account" },
   {
-    title: "Change Password",
-    icon: "fas fa-lock",
-    to: "/change-password"
+    title: "Activity",
+    icon: "fas fa-list-ul",
+    to: "/activity"
+  }
+];
+
+const traineeButtons = [
+  {
+    title: "Schedule",
+    icon: "far fa-calendar-alt",
+    to: "/schedule"
+  },
+  {
+    title: "Tasks",
+    icon: "far fa-check-circle",
+    to: "/tasks"
   }
 ];
 
@@ -66,24 +78,11 @@ export class SideModalPerson extends Component {
       <SideModal>
         <SideModal.Header
           title={person.username}
-          buttons={[
-            { title: "Account", icon: "fas fa-user-circle", to: "/account" },
-            {
-              title: "Activity",
-              icon: "fas fa-list-ul",
-              to: "/activity"
-            },
-            {
-              title: "Schedule",
-              icon: "far fa-calendar-alt",
-              to: "/schedule"
-            },
-            {
-              title: "Tasks",
-              icon: "far fa-check-circle",
-              to: "/tasks"
-            }
-          ]}
+          buttons={
+            person.role === enums.roles.TRAINEE
+              ? buttons.concat(traineeButtons)
+              : buttons
+          }
           isLoading={isLoading}
         />
 
@@ -102,20 +101,12 @@ export class SideModalPerson extends Component {
 
               <Route
                 path={`${match.url}/account`}
-                render={() => <PersonAccount data={person} fetchPerson={this.fetchPerson}/>}
-              />
-
-              <Route
-                path={`${match.url}/edit`}
                 render={() => (
-                  <PersonEdit data={person} fetchPerson={this.fetchPerson} />
+                  <PersonAccount data={person} fetchPerson={this.fetchPerson} />
                 )}
               />
 
-              <Route
-                path={`${match.url}/change-password`}
-                render={() => <PersonChangePassword data={person} />}
-              />
+              {/* TODO: activity, schedule, tasks */}
             </Switch>
           )}
         </SideModal.Body>

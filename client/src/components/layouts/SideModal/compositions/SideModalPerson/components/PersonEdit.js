@@ -98,8 +98,7 @@ class PersonEdit extends Component {
       setFlashMessage,
       getPeople,
       getGroups,
-      closeForms,
-      match
+      closeForms
     } = this.props;
     const { ...state } = this.state;
 
@@ -161,7 +160,7 @@ class PersonEdit extends Component {
 
   render() {
     const { data, errors, isLoading, groups } = this.state;
- 
+
     return isLoading ? (
       <LoadingScene />
     ) : (
