@@ -12,7 +12,7 @@ router.route("/test").get(UserTraineeController.testRoute);
 
 router
   .route("/initialize")
-  .get(
+  .post(
     passport.authenticate("jwt", { session: false }),
     permittedRoles(enums.roles.TRAINEE),
     validateInitializeTrainee,

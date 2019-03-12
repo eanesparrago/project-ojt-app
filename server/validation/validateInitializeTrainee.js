@@ -1,5 +1,4 @@
 const { body, check } = require("express-validator/check");
-const enums = require("../enums");
 
 const validateInitializeTrainee = [
   body("password")
@@ -9,10 +8,17 @@ const validateInitializeTrainee = [
     .withMessage("Password is required"),
 
   body("confirmPassword")
-    .trim()
     .not()
     .isEmpty()
-    .withMessage("Confirm password is required"),
+    .withMessage("Confirm Password is required")
+    .custom((value, { req, loc, path }) => {
+      if (value !== req.body.password) {
+        throw new Error("Passwords must match");
+      } else {
+        return value;
+      }
+    })
+    .withMessage("Passwords must match"),
 
   body("firstName")
     .trim()

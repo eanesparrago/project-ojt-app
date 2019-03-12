@@ -5,6 +5,7 @@ import { FormGroupInput, FormGroupLabel } from "./components";
 
 const StyledFormGroup = styled.div`
   display: flex;
+  flex-flow: row wrap;
 `;
 
 export class FormGroup extends Component {

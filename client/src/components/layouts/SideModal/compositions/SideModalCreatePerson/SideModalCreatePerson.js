@@ -356,7 +356,7 @@ export class SideModalCreatePerson extends Component {
                   name: "contactNumber",
                   type: "text",
                   id: "contact-number-input",
-                  role: ["administrator", "supervisor", "trainee", "employee"]
+                  role: ["trainee"]
                 },
                 {
                   label: "E-mail Address",
