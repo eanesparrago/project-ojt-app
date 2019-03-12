@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link, withRouter } from "react-router-dom";
+import { NavLink, Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { Item, Box, Container } from "src/components/blocks";
@@ -178,11 +178,11 @@ const Sidebar = ({ match, user }) => {
           <Typography variant="display-3">{user.username}</Typography>
         </Item>
 
-        <Item margin="stack-base">
+        <Item>
           <Typography>{user.role}</Typography>
         </Item>
 
-        <Divider />
+        {/* <Divider /> */}
       </Container>
 
       <Box column>
@@ -192,8 +192,9 @@ const Sidebar = ({ match, user }) => {
               variant="text"
               full
               left
-              as={Link}
+              as={NavLink}
               to={`${match.url}${item.to}`}
+              activeClassName="active"
             >
               <Item center style={{ width: "2rem" }} margin="inline-s">
                 <i className={item.icon} />

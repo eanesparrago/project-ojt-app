@@ -50,6 +50,16 @@ const StyledButton = styled.button`
   justify-content: center;
   letter-spacing: 1.25;
 
+  &.active {
+    color: ${p => p.theme.color.primary.main};
+  }
+  
+  &.active-underline {
+    color: ${p => p.theme.color.primary.accent};
+    border-bottom: 2px solid ${p => p.theme.color.primary.accent};
+    margin-bottom: -2px;
+  }
+
   ${configs};
 
   &:disabled {

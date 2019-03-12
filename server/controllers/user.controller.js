@@ -207,13 +207,31 @@ function getUsers(req, res) {
 
 /**
  * Get user by id
- * POST api/users/id
+ * POST api/users/:id
  * @param  req.params.id
  * @param  res
  * @access  private
  */
 function getUser(req, res) {
   User.findById(req.params.id)
+    .select("-password")
+    .populate("roleData.group", "name")
+    .then(user => {
+      if (!user) {
+        return res.status(404).json({ user: "User not found" });
+      }
+      res.json(user);
+    })
+    .catch(err => res.status(404).json({ user: "User not found" }));
+}
+
+/**
+ * Get current user
+ * POST api/users/current
+ * @access  private
+ */
+function getCurrentUser(req, res) {
+  User.findById(req.user._id)
     .select("-password")
     .populate("roleData.group", "name")
     .then(user => {
@@ -358,5 +376,6 @@ module.exports = {
   getUser,
   updateUser,
   updatePassword,
-  deleteUser
+  deleteUser,
+  getCurrentUser
 };

@@ -54,13 +54,21 @@ router
     UserController.getUsers
   );
 
-// --->>> GET /api/users/:id - getUser
+// --->>> GET /api/users/user/:id - getUser
 router
-  .route("/:id")
+  .route("/user/:id")
   .get(
     passport.authenticate("jwt", { session: false }),
     permittedRoles(enums.roles.ADMINISTRATOR),
     UserController.getUser
+  );
+
+// --->>> GET /api/users/current - getCurrentUser
+router
+  .route("/current")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    UserController.getCurrentUser
   );
 
 // --->>> POST /api/users/login - loginUser

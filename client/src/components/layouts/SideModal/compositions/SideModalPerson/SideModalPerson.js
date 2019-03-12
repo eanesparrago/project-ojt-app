@@ -46,7 +46,7 @@ export class SideModalPerson extends Component {
 
     this.setState({ ...state, isLoading: true }, () => {
       axios
-        .get(`/api/users/${props.match.params.id}`)
+        .get(`/api/users/user/${props.match.params.id}`)
         .then(res => {
           this.setState({ ...state, person: res.data, isLoading: false });
         })

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter, NavLink } from "react-router-dom";
 
 import { Item, Box } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";
@@ -38,8 +38,9 @@ const SideModalHeader = ({
             <Item margin="wrap-m" key={i}>
               <Button
                 variant="text"
-                as={Link}
+                as={NavLink}
                 to={`${match.url}${button.to}`}
+                activeClassName="active-underline"
                 replace
               >
                 {button.icon && (

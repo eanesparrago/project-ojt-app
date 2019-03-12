@@ -120,6 +120,11 @@ const PersonInformation = ({ data }) => {
             enums.roles.TRAINEE,
             enums.roles.EMPLOYEE
           ]
+        },
+        {
+          property: "Trainee Initialized?",
+          value: data.roleData.isInitialized ? "Yes" : "No",
+          roles: [enums.roles.TRAINEE]
         }
       ]
         .filter(item => item.roles.includes(data.role))

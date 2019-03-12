@@ -18,35 +18,43 @@ import { logoutUser } from "src/services/session/actions/authActionCreators";
 
 const StyledInitialize = styled.form`
   min-height: 100%;
-  padding: var(--size-xl);
+  padding: var(--size-l);
   background-color: ${p => p.theme.color.white};
   display: flex;
   flex-flow: column;
   align-items: center;
+
+  .item-initialize-welcome {
+    text-align: center;
+  }
 `;
 
 export class Initialize extends Component {
-  state = {
-    data: {
-      firstName: "",
-      middleName: "",
-      lastName: "",
-      nickname: "",
-      gender: "",
-      email: "",
-      profilePictureUrl: "",
-      school: "",
-      dateOfBirth: "",
-      address: "",
-      contactNumber: "",
-      adviserName: "",
-      adviserContactNumber: "",
-      guardianName: "",
-      guardianContactNumber: ""
-    },
-    isLoading: false,
-    errors: {}
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: {
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        nickname: "",
+        gender: "",
+        email: "",
+        profilePictureUrl: "",
+        school: "",
+        dateOfBirth: "",
+        address: "",
+        contactNumber: "",
+        adviserName: "",
+        adviserContactNumber: "",
+        guardianName: "",
+        guardianContactNumber: ""
+      },
+      isLoading: false,
+      errors: {}
+    };
+  }
 
   handleInputChange = e => {
     this.setState({
@@ -90,7 +98,8 @@ export class Initialize extends Component {
 
   render() {
     const {
-      auth: { user }
+      auth: { user },
+      logoutUser
     } = this.props;
 
     const { data, isLoading, errors } = this.state;
@@ -98,7 +107,15 @@ export class Initialize extends Component {
     return (
       <StyledInitialize>
         <Item margin="stack-l">
-          <Typography variant="display-1">Hello.</Typography>
+          <Button variant="secondary" onClick={logoutUser}>
+            Logout
+          </Button>
+        </Item>
+
+        <Item NAME="initialize-welcome" margin="stack-l">
+          <Typography variant="display-1">
+            SPi Attendance Application
+          </Typography>
         </Item>
 
         <Item margin="stack-l">
@@ -300,7 +317,7 @@ export class Initialize extends Component {
           </FormGroup>
         </Item>
 
-        <Item>
+        <Item margin="stack-l">
           <FormGroup>
             <FormGroup.Label />
 
