@@ -25,24 +25,24 @@ const MainSideModal = ({
   }
 
   return (
-    // <Transition
-    //   native
-    //   items={location}
-    //   keys={key}
-    //   from={{ transform: "translateX(-100%)" }}
-    //   enter={{ transform: "translateX(0%)" }}
-    //   leave={{ transform: "translateX(-100%)" }}
-    //   immediate
-    // >
-    //   {loc => style => (
-    //     <Switch location={loc}>
-    <Route
-      path={`${match.url}${routePath}`}
-      render={() => <StyledMainSideModal>{children}</StyledMainSideModal>}
-    />
-    //     </Switch>
-    //   )}
-    // </Transition>
+    <Transition
+      native
+      items={location}
+      keys={key}
+      from={{ transform: "translateX(-100%)" }}
+      enter={{ transform: "translateX(0%)" }}
+      leave={{ transform: "translateX(-100%)" }}
+      // immediate
+    >
+      {loc => style => (
+        <Switch location={loc}>
+          <Route
+            path={`${match.url}${routePath}`}
+            render={() => <StyledMainSideModal style={style}>{children}</StyledMainSideModal>}
+          />
+        </Switch>
+      )}
+    </Transition>
   );
 };
 
