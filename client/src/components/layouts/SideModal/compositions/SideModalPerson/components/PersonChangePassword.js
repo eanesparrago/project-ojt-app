@@ -67,7 +67,7 @@ class PersonChangePassword extends Component {
     return (
       <Container as="form">
         <Item margin="stack-l">
-          <Typography variant="display-2">Change Password</Typography>
+          <Typography variant="display-3">Change Password</Typography>
         </Item>
 
         {[

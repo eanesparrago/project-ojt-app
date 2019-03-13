@@ -166,7 +166,7 @@ class PersonEdit extends Component {
     ) : (
       <Container as="form">
         <Item margin="stack-l">
-          <Typography variant="display-2">Edit Person</Typography>
+          <Typography variant="display-3">Edit Person</Typography>
         </Item>
 
         {/* >>> Role must be filled */}
@@ -220,7 +220,7 @@ class PersonEdit extends Component {
 
             {/* >>> Account details */}
             <Item margin="stack-base">
-              <Typography variant="display-3">Account Information</Typography>
+              <Typography variant="display-4">Account Information</Typography>
             </Item>
 
             {[
@@ -270,7 +270,7 @@ class PersonEdit extends Component {
 
             {/* >>> Personal details */}
             <Item margin="stack-base">
-              <Typography variant="display-3">
+              <Typography variant="display-4">
                 Personal Information &mdash; Optional
               </Typography>
             </Item>
@@ -337,6 +337,7 @@ class PersonEdit extends Component {
                     id="gender-input"
                     onChange={this.handleInputChange}
                     name="gender"
+                    value={data.gender}
                     options={[
                       {
                         label: "Male",

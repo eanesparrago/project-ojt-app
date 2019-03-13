@@ -55,7 +55,7 @@ const PersonInformation = ({ data }) => {
       </Item>
 
       <Item margin="stack-l">
-        <Typography variant="display-3">Account Information</Typography>
+        <Typography variant="display-4">Account Information</Typography>
       </Item>
 
       {[
@@ -149,7 +149,7 @@ const PersonInformation = ({ data }) => {
       </Item>
 
       <Item margin="stack-l">
-        <Typography variant="display-3">Personal Information</Typography>
+        <Typography variant="display-4">Personal Information</Typography>
       </Item>
 
       {[

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 
 import { Item, Box } from "src/components/blocks";
-import { Button } from "src/components/elements";
+import { Button, Typography } from "src/components/elements";
 import PersonInformation from "./PersonInformation";
 import PersonEdit from "./PersonEdit";
 import PersonChangePassword from "./PersonChangePassword";
@@ -31,6 +31,10 @@ export class PersonAccount extends Component {
     return (
       <Fragment>
         <Box margin="stack-l">
+          <Item center margin="inline-base">
+            <Typography variant="display-2">Account</Typography>
+          </Item>
+
           {isEditOpen || isChangePasswordOpen ? (
             <Button variant="secondary" icon onClick={this.closeForms}>
               <i className="fas fa-arrow-left" />
