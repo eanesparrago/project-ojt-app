@@ -8,6 +8,7 @@ import { Typography } from "src/components/elements";
 import { SideModal } from "src/components/layouts";
 
 import PersonAccount from "./components/PersonAccount";
+import TraineeSchedule from "./components/TraineeSchedule/TraineeSchedule";
 
 import enums from "src/services/enums";
 
@@ -94,12 +95,6 @@ export class SideModalPerson extends Component {
           ) : (
             <Switch>
               <Route
-                exact
-                path={match.url}
-                render={() => <Redirect to={`${match.url}/account`} replace />}
-              />
-
-              <Route
                 path={`${match.url}/account`}
                 render={() => (
                   <PersonAccount data={person} fetchPerson={this.fetchPerson} />
@@ -107,6 +102,14 @@ export class SideModalPerson extends Component {
               />
 
               {/* TODO: activity, schedule, tasks */}
+              {person.role === enums.roles.TRAINEE && (
+                <Route
+                  path={`${match.url}/schedule`}
+                  render={() => <TraineeSchedule />}
+                />
+              )}
+
+              <Redirect to={`${match.url}/account`} replace />
             </Switch>
           )}
         </SideModal.Body>
