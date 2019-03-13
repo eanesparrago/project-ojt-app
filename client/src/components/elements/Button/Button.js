@@ -55,8 +55,8 @@ const StyledButton = styled.button`
   }
   
   &.active-underline {
-    color: ${p => p.theme.color.primary.accent};
-    border-bottom: 2px solid ${p => p.theme.color.primary.accent};
+    color: ${p => p.theme.color.primary.dark};
+    border-bottom: 2px solid ${p => p.theme.color.primary.dark};
     margin-bottom: -2px;
   }
 
