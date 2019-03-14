@@ -297,15 +297,24 @@ function updateUser(req, res) {
         } else {
           if (user.role !== enums.roles.ADMINISTRATOR) {
             Group.findById(oldGroupId).then(group => {
-              group.users.remove(user._id);
-              group.save().then(() => {
+              if (group) {
+                group.users.remove(user._id);
+                group.save().then(() => {
+                  Group.findById(user.roleData.group._id).then(group => {
+                    group.users.remove(user._id);
+                    group.users.push(user._id);
+                    group.save();
+                    return res.status(200).send(user.username);
+                  });
+                });
+              } else {
                 Group.findById(user.roleData.group._id).then(group => {
                   group.users.remove(user._id);
                   group.users.push(user._id);
                   group.save();
                   return res.status(200).send(user.username);
                 });
-              });
+              }
             });
           } else {
             return res.status(200).send(user.username);
