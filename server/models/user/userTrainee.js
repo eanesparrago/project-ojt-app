@@ -15,105 +15,141 @@ const UserTrainee = User.discriminator(
       },
       hoursRendered: {
         type: Number,
-        default: 0
+        default: 0,
+        required: true
       },
       schedule: {
         monday: {
-          isWorkSchedule: {
+          isTrainingDay: {
             type: Boolean,
-            default: false
+            default: false,
+            required: true
           },
           startTime: {
             type: Number,
-            default: 0
+            min: 0,
+            max: 23,
+            default: 0,
+            required: true
           },
-          endTime: {
+          hours: {
             type: Number,
-            default: 0
+            default: 0,
+            required: true
           }
         },
         tuesday: {
-          isWorkSchedule: {
+          isTrainingDay: {
             type: Boolean,
-            default: false
+            default: false,
+            required: true
           },
           startTime: {
             type: Number,
-            default: 0
+            min: 0,
+            max: 23,
+            default: 0,
+            required: true
           },
-          endTime: {
+          hours: {
             type: Number,
-            default: 0
+            default: 0,
+            required: true
           }
         },
         wednesday: {
-          isWorkSchedule: {
+          isTrainingDay: {
             type: Boolean,
-            default: false
+            default: false,
+            required: true
           },
           startTime: {
             type: Number,
-            default: 0
+            min: 0,
+            max: 23,
+            default: 0,
+            required: true
           },
-          endTime: {
+          hours: {
             type: Number,
-            default: 0
+            default: 0,
+            required: true
           }
         },
         thursday: {
-          isWorkSchedule: {
+          isTrainingDay: {
             type: Boolean,
-            default: false
+            default: false,
+            required: true
           },
           startTime: {
             type: Number,
-            default: 0
+            min: 0,
+            max: 23,
+            default: 0,
+            required: true
           },
-          endTime: {
+          hours: {
             type: Number,
-            default: 0
+            default: 0,
+            required: true
           }
         },
         friday: {
-          isWorkSchedule: {
+          isTrainingDay: {
             type: Boolean,
-            default: false
+            default: false,
+            required: true
           },
           startTime: {
             type: Number,
-            default: 0
+            min: 0,
+            max: 23,
+            default: 0,
+            required: true
           },
-          endTime: {
+          hours: {
             type: Number,
-            default: 0
+            default: 0,
+            required: true
           }
         },
         saturday: {
-          isWorkSchedule: {
+          isTrainingDay: {
             type: Boolean,
-            default: false
+            default: false,
+            required: true
           },
           startTime: {
             type: Number,
-            default: 0
+            min: 0,
+            max: 23,
+            default: 0,
+            required: true
           },
-          endTime: {
+          hours: {
             type: Number,
-            default: 0
+            default: 0,
+            required: true
           }
         },
         sunday: {
-          isWorkSchedule: {
+          isTrainingDay: {
             type: Boolean,
-            default: false
+            default: false,
+            required: true
           },
           startTime: {
             type: Number,
-            default: 0
+            min: 0,
+            max: 23,
+            default: 0,
+            required: true
           },
-          endTime: {
+          hours: {
             type: Number,
-            default: 0
+            default: 0,
+            required: true
           }
         }
       },

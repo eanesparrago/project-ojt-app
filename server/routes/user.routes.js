@@ -15,6 +15,7 @@ const {
   validateUpdateUserSupervisor
 } = require("../validation/validateUpdateUser");
 const validateChangeUserPassword = require("../validation/validateChangeUserPassword");
+const validateUpdateSchedule = require("../validation/validateUpdateSchedule");
 const enums = require("../enums");
 
 // >>> /api/users
@@ -101,6 +102,16 @@ router
     permittedRoles(enums.roles.ADMINISTRATOR),
     validateChangeUserPassword,
     UserController.updatePassword
+  );
+
+// --->>> PUT /api/users/:id/schedule
+router
+  .route("/:id/schedule")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    validateUpdateSchedule,
+    UserController.updateTraineeSchedule
   );
 
 // --->>> DELETE /api/users/:id - deleteUser

@@ -105,7 +105,9 @@ export class SideModalPerson extends Component {
               {person.role === enums.roles.TRAINEE && (
                 <Route
                   path={`${match.url}/schedule`}
-                  render={() => <TraineeSchedule />}
+                  render={() => (
+                    <TraineeSchedule schedule={person.roleData.schedule} />
+                  )}
                 />
               )}
 

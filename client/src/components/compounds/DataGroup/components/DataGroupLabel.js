@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import startCase from "lodash/startCase";
 
 import { Typography } from "src/components/elements";
 
@@ -12,7 +13,7 @@ const DataGroupLabel = ({ title = "" }) => {
   return (
     <StyledDataGroupLabel>
       <Typography variant="body" as="label">
-        {title}
+        {startCase(title)}
       </Typography>
     </StyledDataGroupLabel>
   );
