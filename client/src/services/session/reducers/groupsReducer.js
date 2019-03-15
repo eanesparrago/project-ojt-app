@@ -11,7 +11,7 @@ import {
 } from "../actions/groupsActionCreators";
 
 const initialState = {
-  data: [],
+  data: null,
   isLoading: false,
   group: {
     users: []
@@ -22,7 +22,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case ADMIN_GROUPS_GET_REQUEST:
-      return { ...state, isLoading: true, data: [] };
+      return { ...state, isLoading: true, data: initialState.data };
     case ADMIN_GROUPS_GET_SUCCESS:
       return { ...state, data: action.payload, isLoading: false };
     case ADMIN_GROUPS_GET_FAILURE:

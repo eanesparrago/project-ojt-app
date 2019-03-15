@@ -12,7 +12,9 @@ export class People extends Component {
   }
 
   render() {
-    const { people } = this.props;
+    const {
+      people: { isLoading }
+    } = this.props;
 
     return (
       <Main>
@@ -22,7 +24,7 @@ export class People extends Component {
           buttonPath="/create-person"
         />
 
-        <Main.Body isLoading={people.isLoading}>
+        <Main.Body isLoading={isLoading}>
           <PeopleTable />
         </Main.Body>
       </Main>

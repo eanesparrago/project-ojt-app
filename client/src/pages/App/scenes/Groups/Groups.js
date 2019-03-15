@@ -14,7 +14,9 @@ export class Groups extends Component {
   }
 
   render() {
-    const { groups } = this.props;
+    const {
+      groups: { isLoading, data }
+    } = this.props;
 
     return (
       <Main>
@@ -24,14 +26,16 @@ export class Groups extends Component {
           buttonPath="/create-group"
         />
 
-        <Main.Body isLoading={groups.isLoading}>
-          <Box wrap padding="inset-base">
-            {groups.data.map(group => (
-              <Item margin="wrap-base" key={group._id}>
-                <GroupCard data={group} />
-              </Item>
-            ))}
-          </Box>
+        <Main.Body isLoading={isLoading}>
+          {data !== null && (
+            <Box wrap padding="inset-base">
+              {data.map(group => (
+                <Item margin="wrap-base" key={group._id}>
+                  <GroupCard data={group} />
+                </Item>
+              ))}
+            </Box>
+          )}
         </Main.Body>
       </Main>
     );

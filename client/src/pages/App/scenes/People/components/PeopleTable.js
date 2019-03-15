@@ -5,7 +5,7 @@ import format from "date-fns/format";
 import { connect } from "react-redux";
 
 import { Button, Typography } from "src/components/elements";
-import {  SelectInput, Avatar } from "src/components/compounds";
+import { SelectInput, Avatar } from "src/components/compounds";
 import { Item, Box, Container, Area } from "src/components/blocks";
 
 const StyledPeopleTable = styled.div`
@@ -88,7 +88,10 @@ const StyledPeopleTable = styled.div`
 
 export class PeopleTable extends Component {
   render() {
-    const { match, people } = this.props;
+    const {
+      match,
+      people: { data }
+    } = this.props;
 
     return (
       <StyledPeopleTable>
@@ -136,63 +139,64 @@ export class PeopleTable extends Component {
             </Container>
 
             <Container NAME="peopleTable-table-body" as="tbody">
-              {people.data.map((person, i) => (
-                <Container NAME="peopleTable-table-body-row" as="tr" key={i}>
-                  <Item padding="squish-l" center as="td">
-                    <Box>
-                      <Item>
-                        <Avatar
-                          src={person.profilePictureUrl}
-                          id={person._id}
-                        />
-                      </Item>
+              {data !== null &&
+                data.map((person, i) => (
+                  <Container NAME="peopleTable-table-body-row" as="tr" key={i}>
+                    <Item padding="squish-l" center as="td">
+                      <Box>
+                        <Item>
+                          <Avatar
+                            src={person.profilePictureUrl}
+                            id={person._id}
+                          />
+                        </Item>
 
-                      <Item NAME="peopleTable-username">
-                        <Button
-                          variant="text"
-                          as={Link}
-                          to={`${match.url}/person/${person._id}`}
-                          full
-                          left
-                        >
-                          {person.username}
-                        </Button>
-                        {/* <Typography variant="base"></Typography> */}
-                      </Item>
-                    </Box>
-                  </Item>
+                        <Item NAME="peopleTable-username">
+                          <Button
+                            variant="text"
+                            as={Link}
+                            to={`${match.url}/person/${person._id}`}
+                            full
+                            left
+                          >
+                            {person.username}
+                          </Button>
+                          {/* <Typography variant="base"></Typography> */}
+                        </Item>
+                      </Box>
+                    </Item>
 
-                  <Item as="td" center padding="squish-l">
-                    <Typography variant="base">{person.role}</Typography>
-                  </Item>
+                    <Item as="td" center padding="squish-l">
+                      <Typography variant="base">{person.role}</Typography>
+                    </Item>
 
-                  <Item as="td" center padding="squish-l">
-                    <Typography variant="base">
-                      {person.roleData.group && person.roleData.group.name}
-                    </Typography>
-                  </Item>
+                    <Item as="td" center padding="squish-l">
+                      <Typography variant="base">
+                        {person.roleData.group && person.roleData.group.name}
+                      </Typography>
+                    </Item>
 
-                  <Item as="td" center padding="squish-l">
-                    <Typography variant="base">{person.firstName}</Typography>
-                  </Item>
+                    <Item as="td" center padding="squish-l">
+                      <Typography variant="base">{person.firstName}</Typography>
+                    </Item>
 
-                  <Item as="td" center padding="squish-l">
-                    <Typography variant="base">{person.lastName}</Typography>
-                  </Item>
+                    <Item as="td" center padding="squish-l">
+                      <Typography variant="base">{person.lastName}</Typography>
+                    </Item>
 
-                  <Item as="td" center padding="squish-l">
-                    <Typography variant="base">
-                      {person.isActive ? "Active" : "Inactive"}
-                    </Typography>
-                  </Item>
+                    <Item as="td" center padding="squish-l">
+                      <Typography variant="base">
+                        {person.isActive ? "Active" : "Inactive"}
+                      </Typography>
+                    </Item>
 
-                  <Item as="td" center padding="squish-l">
-                    <Typography variant="base">
-                      {format(person.dateCreated, "MM-DD-YYYY")}
-                    </Typography>
-                  </Item>
-                </Container>
-              ))}
+                    <Item as="td" center padding="squish-l">
+                      <Typography variant="base">
+                        {format(person.dateCreated, "MM-DD-YYYY")}
+                      </Typography>
+                    </Item>
+                  </Container>
+                ))}
             </Container>
           </Container>
         </Area>
