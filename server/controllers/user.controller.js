@@ -199,10 +199,7 @@ function getUsers(req, res) {
       }
       res.json(users);
     })
-    .catch(err => {
-      errors.users = "There are no users";
-      return res.status(404).json({});
-    });
+    .catch(err => res.status(500).json({ message: "Error occurred" }));
 }
 
 /**
@@ -222,7 +219,7 @@ function getUser(req, res) {
       }
       res.json(user);
     })
-    .catch(err => res.status(404).json({ user: "User not found" }));
+    .catch(err => res.status(500).json({ message: "Error occurred" }));
 }
 
 /**
@@ -322,7 +319,7 @@ function updateUser(req, res) {
         }
       });
     })
-    .catch(err => res.status(404).json({ message: err }));
+    .catch(err => res.status(500).json({ message: "Error occurred" }));
 }
 
 /**
@@ -359,7 +356,41 @@ function updatePassword(req, res) {
         });
       });
     })
-    .catch(err => res.status(500).send("Error"));
+    .catch(err => res.status(500).json({ message: "Error occurred" }));
+}
+
+/**
+ * Update trainee schedule
+ * PUT api/users/:id/schedule
+ * @param  req.params.id (required)
+ * @param  req.body.schedule (required)
+ * @access  public
+ */
+function updateTraineeSchedule(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json(errors.mapped());
+  }
+
+  User.findById(req.params.id)
+    .then(user => {
+      if (!user) {
+        errors.message = "User not found";
+        return res.status(404).json(errors);
+      }
+
+      if (user.role !== enums.roles.TRAINEE) {
+        errors.message = "Role must be trainee";
+        return res.status(422).json(errors);
+      }
+
+      user.roleData.schedule = req.body.schedule;
+      user
+        .save()
+        .then(user => res.status(200).json(user))
+        .catch(err => res.status(500).send(err));
+    })
+    .catch(err => res.status(500).json({ message: "Error occurred" }));
 }
 
 /**
@@ -374,7 +405,7 @@ function deleteUser(req, res) {
         res.send(user.username);
       });
     })
-    .catch(err => res.status(404).json({ user: "User not found" }));
+    .catch(err => res.status(500).json({ message: "Error occurred" }));
 }
 
 module.exports = {
@@ -386,5 +417,6 @@ module.exports = {
   updateUser,
   updatePassword,
   deleteUser,
-  getCurrentUser
+  getCurrentUser,
+  updateTraineeSchedule
 };

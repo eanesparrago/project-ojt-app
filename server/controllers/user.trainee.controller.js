@@ -19,38 +19,40 @@ function initializeUser(req, res) {
     return res.status(422).json(errors.mapped());
   }
 
-  User.findById(req.user._id).then(user => {
-    user.firstName = req.body.firstName;
-    user.middleName = req.body.middleName;
-    user.lastName = req.body.lastName;
-    user.nickname = req.body.nickname;
-    user.gender = req.body.gender;
-    user.email = req.body.email;
-    user.profilePictureUrl = req.body.profilePictureUrl;
+  User.findById(req.user._id)
+    .then(user => {
+      user.firstName = req.body.firstName;
+      user.middleName = req.body.middleName;
+      user.lastName = req.body.lastName;
+      user.nickname = req.body.nickname;
+      user.gender = req.body.gender;
+      user.email = req.body.email;
+      user.profilePictureUrl = req.body.profilePictureUrl;
 
-    user.roleData.school = req.body.school;
-    user.roleData.dateOfBirth = req.body.dateOfBirth;
-    user.roleData.address = req.body.address;
-    user.roleData.contactNumber = req.body.contactNumber;
-    user.roleData.adviserName = req.body.adviserName;
-    user.roleData.adviserContactNumber = req.body.adviserContactNumber;
-    user.roleData.guardianName = req.body.guardianName;
-    user.roleData.guardianContactNumber = req.body.guardianContactNumber;
+      user.roleData.school = req.body.school;
+      user.roleData.dateOfBirth = req.body.dateOfBirth;
+      user.roleData.address = req.body.address;
+      user.roleData.contactNumber = req.body.contactNumber;
+      user.roleData.adviserName = req.body.adviserName;
+      user.roleData.adviserContactNumber = req.body.adviserContactNumber;
+      user.roleData.guardianName = req.body.guardianName;
+      user.roleData.guardianContactNumber = req.body.guardianContactNumber;
 
-    user.roleData.isInitialized = true;
+      user.roleData.isInitialized = true;
 
-    bcrypt.genSalt(12, (err, salt) => {
-      bcrypt.hash(req.body.password, salt, (err, hash) => {
-        if (err) throw err;
+      bcrypt.genSalt(12, (err, salt) => {
+        bcrypt.hash(req.body.password, salt, (err, hash) => {
+          if (err) throw err;
 
-        user.password = hash;
-        user
-          .save()
-          .then(user => res.status(200).json(user))
-          .catch(err => console.log(err));
+          user.password = hash;
+          user
+            .save()
+            .then(user => res.status(200).json(user))
+            .catch(err => console.log(err));
+        });
       });
-    });
-  });
+    })
+    .catch(err => res.status(500).json({ message: "Error occurred" }));
 }
 
 module.exports = {

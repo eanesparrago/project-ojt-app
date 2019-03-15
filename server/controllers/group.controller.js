@@ -25,17 +25,19 @@ function createGroup(req, res) {
     phoneNumber: req.body.phoneNumber
   });
 
-  Group.findOne({ name: req.body.name }).then(group => {
-    if (group) {
-      errors.name = { msg: "Group name already exists" };
-      return res.status(400).json(errors);
-    } else {
-      newGroup
-        .save()
-        .then(group => res.status(201).json(group))
-        .catch(err => console.log(err));
-    }
-  });
+  Group.findOne({ name: req.body.name })
+    .then(group => {
+      if (group) {
+        errors.name = { msg: "Group name already exists" };
+        return res.status(400).json(errors);
+      } else {
+        newGroup
+          .save()
+          .then(group => res.status(201).json(group))
+          .catch(err => console.log(err));
+      }
+    })
+    .catch(err => res.status(500).json({ message: "Error occurred" }));
 }
 
 /**
@@ -57,9 +59,7 @@ function getGroups(req, res) {
 
       res.json(groups);
     })
-    .catch(err => {
-      console.log(err);
-    });
+    .catch(err => res.status(500).json({ message: "Error occurred" }));
 }
 
 /**
@@ -76,7 +76,7 @@ function getGroup(req, res) {
       }
       return res.json(group);
     })
-    .catch(err => res.status(404).json({ group: "Group not found" }));
+    .catch(err => res.status(500).json({ message: "Error occurred" }));
 }
 
 /**
@@ -110,7 +110,7 @@ function editGroup(req, res) {
         }
       });
     })
-    .catch(err => res.status(404).json({ group: "Group not found" }));
+    .catch(err => res.status(500).json({ message: "Error occurred" }));
 }
 
 /**
@@ -119,11 +119,13 @@ function editGroup(req, res) {
  * @access  private (role: administrator)
  */
 function deleteGroup(req, res) {
-  Group.findById(req.params.id).then(group => {
-    group.remove((err, user) => {
-      res.send({ data: user });
-    });
-  });
+  Group.findById(req.params.id)
+    .then(group => {
+      group.remove((err, user) => {
+        res.send({ data: user });
+      });
+    })
+    .catch(err => res.status(500).json({ message: "Error occurred" }));
 }
 
 module.exports = {
