@@ -363,7 +363,7 @@ function updatePassword(req, res) {
  * Update trainee schedule
  * PUT api/users/:id/schedule
  * @param  req.params.id (required)
- * @param  req.body.schedule (required)
+ * @param  req.body (required)
  * @access  public
  */
 function updateTraineeSchedule(req, res) {
@@ -384,10 +384,10 @@ function updateTraineeSchedule(req, res) {
         return res.status(422).json(errors);
       }
 
-      user.roleData.schedule = req.body.schedule;
+      user.roleData.schedule = req.body;
       user
         .save()
-        .then(user => res.status(200).json(user))
+        .then(user => res.status(200).send(user.username))
         .catch(err => res.status(500).send(err));
     })
     .catch(err => res.status(500).json({ message: "Error occurred" }));

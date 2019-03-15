@@ -1,10 +1,14 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import startCase from "lodash/startCase";
+import { connect } from "react-redux";
+import axios from "axios";
 
 import { Item, Container } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";
 import { FormGroup, SelectInput, TextInput } from "src/components/compounds";
+
+import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
 const StyledTraineeScheduleEdit = styled.div``;
 
@@ -29,9 +33,20 @@ export class TraineeScheduleEdit extends Component {
     };
   }
 
-  handleInputChange = e => {};
+  handleInputChange = (e, day) => {
+    this.setState({
+      ...this.state,
+      schedule: {
+        ...this.state.schedule,
+        [day]: {
+          ...this.state.schedule[day],
+          [e.target.name]: e.target.value
+        }
+      }
+    });
+  };
 
-  handleInputToggle = (day, e) => {
+  handleInputToggle = day => {
     this.setState({
       schedule: {
         ...this.state.schedule,
@@ -45,6 +60,34 @@ export class TraineeScheduleEdit extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    const { fetchPerson, id, setFlashMessage } = this.props;
+    const { ...state } = this.state;
+
+    console.log(id);
+
+    this.setState({ ...state, isLoading: true, errors: {} }, () => {
+      axios
+        .put(`/api/users/${id}/schedule`, state.schedule)
+        .then(res => {
+          this.setState({ ...state, isLoading: false }, () => {
+            fetchPerson();
+            setFlashMessage(`${res.data} was successfully edited.`, "success");
+          });
+        })
+        .catch(err => {
+          this.setState(
+            {
+              ...state,
+              errors: err.response.data,
+              isLoading: false
+            },
+            () => {
+              setFlashMessage(`An error occurred.`, "error");
+              console.log(state.errors);
+            }
+          );
+        });
+    });
   };
 
   render() {
@@ -82,7 +125,10 @@ export class TraineeScheduleEdit extends Component {
 
                     <FormGroup.Input>
                       <SelectInput
+                        name="startTime"
                         value={schedule[day].startTime}
+                        onChange={e => this.handleInputChange(e, day)}
+                        disabled={isLoading}
                         options={[
                           {
                             label: "0:00 (12 AM)",
@@ -192,7 +238,10 @@ export class TraineeScheduleEdit extends Component {
 
                     <FormGroup.Input>
                       <SelectInput
+                        name="hours"
                         value={schedule[day].hours}
+                        onChange={e => this.handleInputChange(e, day)}
+                        disabled={isLoading}
                         options={[
                           {
                             label: "1 hour",
@@ -256,4 +305,9 @@ export class TraineeScheduleEdit extends Component {
   }
 }
 
-export default TraineeScheduleEdit;
+export default connect(
+  null,
+  {
+    setFlashMessage: setFlashMessage
+  }
+)(TraineeScheduleEdit);

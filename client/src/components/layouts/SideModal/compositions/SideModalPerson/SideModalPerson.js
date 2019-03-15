@@ -106,7 +106,11 @@ export class SideModalPerson extends Component {
                 <Route
                   path={`${match.url}/schedule`}
                   render={() => (
-                    <TraineeSchedule schedule={person.roleData.schedule} />
+                    <TraineeSchedule
+                      schedule={person.roleData.schedule}
+                      fetchPerson={this.fetchPerson}
+                      id={person._id}
+                    />
                   )}
                 />
               )}

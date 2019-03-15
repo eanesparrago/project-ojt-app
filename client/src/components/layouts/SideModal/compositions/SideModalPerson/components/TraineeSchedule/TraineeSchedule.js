@@ -23,7 +23,7 @@ export class TraineeSchedule extends Component {
   };
 
   render() {
-    const { schedule } = this.props;
+    const { schedule, id, fetchPerson } = this.props;
     const { isEditOpen } = this.state;
 
     return (
@@ -46,7 +46,7 @@ export class TraineeSchedule extends Component {
         </Box>
 
         {isEditOpen ? (
-          <TraineeScheduleEdit schedule={schedule} />
+          <TraineeScheduleEdit schedule={schedule} id={id} fetchPerson={fetchPerson} />
         ) : (
           Object.entries(schedule).map(([key, value]) => (
             <Item margin="stack-base" key={key}>
