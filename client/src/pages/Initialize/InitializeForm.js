@@ -159,6 +159,7 @@ export class InitializeForm extends Component {
                     name="gender"
                     value={data.gender}
                     error={errors.gender}
+                    withPlaceholder
                     options={[
                       {
                         label: "Male",

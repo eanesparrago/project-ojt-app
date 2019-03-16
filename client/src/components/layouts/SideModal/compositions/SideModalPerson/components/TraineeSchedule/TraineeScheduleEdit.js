@@ -93,6 +93,8 @@ export class TraineeScheduleEdit extends Component {
   render() {
     const { schedule, isLoading, errors } = this.state;
 
+    console.log(errors);
+
     return (
       <StyledTraineeScheduleEdit>
         {days.map(day => (
@@ -129,6 +131,7 @@ export class TraineeScheduleEdit extends Component {
                         value={schedule[day].startTime}
                         onChange={e => this.handleInputChange(e, day)}
                         disabled={isLoading}
+                        error={errors[`${day}.startTime`]}
                         options={[
                           {
                             label: "0:00 (12 AM)",

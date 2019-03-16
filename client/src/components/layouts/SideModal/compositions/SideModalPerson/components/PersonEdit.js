@@ -192,6 +192,7 @@ class PersonEdit extends Component {
                       }))}
                       error={errors.group}
                       disabled={isLoading}
+                      withPlaceholder
                     />
                   </FormGroup.Input>
                 </FormGroup>
@@ -338,6 +339,7 @@ class PersonEdit extends Component {
                     onChange={this.handleInputChange}
                     name="gender"
                     value={data.gender}
+                    withPlaceholder
                     options={[
                       {
                         label: "Male",

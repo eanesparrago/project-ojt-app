@@ -177,6 +177,7 @@ export class SideModalCreatePerson extends Component {
                         }))}
                         error={errors.group}
                         disabled={isLoading}
+                        withPlaceholder
                       />
                     </FormGroup.Input>
                   </FormGroup>
@@ -321,6 +322,7 @@ export class SideModalCreatePerson extends Component {
                       id="gender-input"
                       onChange={this.handleInputChange}
                       name="gender"
+                      withPlaceholder
                       options={[
                         {
                           label: "Male",

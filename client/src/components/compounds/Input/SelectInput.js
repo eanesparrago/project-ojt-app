@@ -31,12 +31,20 @@ const StyledSelectInput = styled.div`
 
 export class SelectInput extends Component {
   render() {
-    const { name, options, id, onChange, error, ...props } = this.props;
+    const {
+      name,
+      options,
+      id,
+      onChange,
+      error,
+      withPlaceholder,
+      ...props
+    } = this.props;
 
     return (
       <StyledSelectInput error={error}>
         <select id={id} name={name} onChange={onChange} {...props}>
-          <option value="">Choose an option</option>
+          {withPlaceholder && <option value="">Choose an option</option>}
 
           {options.map(option => (
             <option value={option.value} key={option.value}>

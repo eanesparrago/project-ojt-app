@@ -22,7 +22,6 @@ days.forEach((day, i) => {
       .isEmpty(),
 
     body(`${day}.startTime`)
-      .isInt({ min: 0, max: 23 })
       .custom((value, { req, loc, path }) => {
         if (req.body[day].isTrainingDay) {
           const {
@@ -37,22 +36,24 @@ days.forEach((day, i) => {
           }
         }
 
-        return value;
-      }),
+        return true;
+      })
+      .isInt({ min: 0, max: 23 }),
 
-    // body(`${day}.hours`)
-    //   .optional({ checkFalsy: true })
-    //   .isInt({ min: 0, max: 23 })
-    //   .withMessage("Must be a number between 0 - 23")
-    //   .custom((value, { req, loc, path }) => {
-    //     if (req.body[day].isTrainingDay) {
-    //       if (value === "") {
-    //         throw new Error("Must not be empty");
-    //       }
-    //     }
+    body(`${day}.hours`)
+      .custom((value, { req, loc, path }) => {
+        console.log(day, value, req.body[day].isTrainingDay);
 
-    //     return value;
-    //   })
+        if (req.body[day].isTrainingDay) {
+          if (value === 0) {
+            throw new Error("Must not be empty");
+          }
+        }
+
+        return true;
+      })
+      .isInt({ min: 1, max: 8 })
+      .withMessage("Must be a number between 1 - 8")
   );
 });
 

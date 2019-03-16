@@ -9,6 +9,17 @@ import TraineeScheduleEdit from "./TraineeScheduleEdit";
 
 const StyledTraineeSchedule = styled.div``;
 
+function returnEndTime(startTime, hours) {
+  let endTime = startTime + hours;
+  if (endTime > 24) {
+    endTime -= 24;
+
+    return `${endTime}:00 Next day`;
+  }
+
+  return `${endTime}:00`;
+}
+
 export class TraineeSchedule extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +57,11 @@ export class TraineeSchedule extends Component {
         </Box>
 
         {isEditOpen ? (
-          <TraineeScheduleEdit schedule={schedule} id={id} fetchPerson={fetchPerson} />
+          <TraineeScheduleEdit
+            schedule={schedule}
+            id={id}
+            fetchPerson={fetchPerson}
+          />
         ) : (
           Object.entries(schedule).map(([key, value]) => (
             <Item margin="stack-base" key={key}>
@@ -57,8 +72,9 @@ export class TraineeSchedule extends Component {
                   {value.isTrainingDay ? (
                     <Box>
                       <Typography variant="body">
-                        {value.startTime}:00 - {value.startTime + value.hours}
-                        :00 ({value.hours} hours)
+                        {value.startTime}:00 -{" "}
+                        {returnEndTime(value.startTime, value.hours)} (
+                        {value.hours} hour{value.hours > 1 && "s"})
                       </Typography>
                     </Box>
                   ) : (
