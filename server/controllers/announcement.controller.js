@@ -8,6 +8,8 @@ function testRoute(req, res) {
 function createAnnouncement(req, res) {
   const newAnnouncement = new Announcement(req.body.announcement);
 
+  newAnnouncement.user = req.user._id;
+
   newAnnouncement.save((err, saved) => {
     if (err) {
       return res.status(500).send(err);
@@ -33,6 +35,7 @@ function createAnnouncement(req, res) {
 function getAnnouncements(req, res) {
   Announcement.find()
     .populate("group", "name")
+    .populate("user", "username")
     .then(announcements => {
       if (!announcements) {
         return res.status(404);

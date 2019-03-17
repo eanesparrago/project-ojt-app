@@ -4,7 +4,6 @@ const GroupController = require("../controllers/group.controller");
 const passport = require("passport");
 const permittedRoles = require("../utils/permittedRoles");
 const validateCreateGroup = require("../validation/validateCreateGroup");
-
 const enums = require("../enums");
 
 // >>> /api/groups

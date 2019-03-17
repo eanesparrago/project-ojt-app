@@ -18,6 +18,7 @@ const StyledTypography = styled.span`
     `}
   font-size: ${p => p.theme.font.scale.base};
 
+
   ${config};
 `;
 
@@ -37,7 +38,7 @@ const StyledTypographyBody = styled(StyledTypography)`
   font-size: ${p => p.theme.font.scale.body};
 `;
 
-const StyledTypographyNormal= styled(StyledTypography)`
+const StyledTypographyNormal = styled(StyledTypography)`
   ${p =>
     !p.inline &&
     css`

@@ -16,8 +16,10 @@ const StyledSidebar = styled.div`
   overflow-y: auto;
   color: ${p => p.theme.color.light};
   padding: var(--size-base);
+  flex-shrink: 0;
 
   .container-sidebar-profile {
+    flex-shrink: 0;
     display: flex;
     flex-flow: column;
     align-items: center;

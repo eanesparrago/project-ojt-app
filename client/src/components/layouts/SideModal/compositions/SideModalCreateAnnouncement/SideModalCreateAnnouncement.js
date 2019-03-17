@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 import { Item } from "src/components/blocks";
 import { Button } from "src/components/elements";
@@ -10,6 +12,9 @@ import {
 } from "src/components/compounds";
 import { SideModal } from "src/components/layouts";
 
+import { getAnnouncements } from "src/services/session/actions/announcementsActionCreators";
+import { setFlashMessage } from "src/services/session/actions/appActionCreators";
+
 export class SideModalCreateAnnouncement extends Component {
   state = {
     announcement: {
@@ -18,7 +23,7 @@ export class SideModalCreateAnnouncement extends Component {
     },
     isLoading: false,
     errors: {},
-    groups: []
+    groups: null
   };
 
   componentDidMount() {
@@ -49,7 +54,43 @@ export class SideModalCreateAnnouncement extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
+
+    const { getAnnouncements, setFlashMessage, history } = this.props;
+
+    this.setState(
+      {
+        ...this.state,
+        isLoading: true,
+        errors: {}
+      },
+      () => {
+        axios
+          .post("/api/announcements", { announcement: this.state.announcement })
+          .then(res => {
+            this.setState(
+              ({
+                ...this.state,
+                isLoading: false
+              },
+              () => {
+                setFlashMessage(
+                  "Announcement was created successfully.",
+                  "success"
+                );
+                getAnnouncements();
+                history.goBack();
+              })
+            );
+          })
+          .catch(err => {
+            this.setState({
+              ...this.state,
+              errors: err.response.data,
+              isLoading: false
+            });
+          });
+      }
+    );
   };
 
   render() {
@@ -65,20 +106,22 @@ export class SideModalCreateAnnouncement extends Component {
               <FormGroup.Label title="Group" htmlFor="group-input" />
 
               <FormGroup.Input>
-                <SelectInput
-                  autoFocus
-                  id="group-input"
-                  value={announcement.group}
-                  name="group"
-                  options={groups.map(group => ({
-                    label: group.name,
-                    value: group._id
-                  }))}
-                  error={errors.group}
-                  disabled={isLoading}
-                  withPlaceholder
-                  onChange={this.handleInputChange}
-                />
+                {groups && (
+                  <SelectInput
+                    autoFocus
+                    id="group-input"
+                    value={announcement.group}
+                    name="group"
+                    options={groups.map(group => ({
+                      label: group.name,
+                      value: group._id
+                    }))}
+                    error={errors.group}
+                    disabled={isLoading}
+                    withPlaceholder
+                    onChange={this.handleInputChange}
+                  />
+                )}
               </FormGroup.Input>
             </FormGroup>
           </Item>
@@ -123,4 +166,9 @@ export class SideModalCreateAnnouncement extends Component {
   }
 }
 
-export default SideModalCreateAnnouncement;
+export default withRouter(
+  connect(
+    null,
+    { setFlashMessage: setFlashMessage, getAnnouncements: getAnnouncements }
+  )(SideModalCreateAnnouncement)
+);

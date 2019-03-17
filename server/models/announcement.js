@@ -4,16 +4,25 @@ const Schema = mongoose.Schema;
 const announcementSchema = new Schema({
   group: {
     type: Schema.Types.ObjectId,
-    ref: "Group"
+    ref: "Group",
+    required: true
   },
   message: {
     type: String,
     required: true
   },
-  creatorId: {
+  user: {
     type: Schema.Types.ObjectId,
-    ref: "User"
+    ref: "User",
+    required: true
+  },
+  dateCreated: {
+    type: Date,
+    default: Date.now
   }
 });
 
-module.exports = Announcement = mongoose.model("Announcement", announcementSchema);
+module.exports = Announcement = mongoose.model(
+  "Announcement",
+  announcementSchema
+);

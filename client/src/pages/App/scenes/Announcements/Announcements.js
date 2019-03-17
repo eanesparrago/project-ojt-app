@@ -2,11 +2,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Main } from "src/pages/App/components";
+import { TableAnnouncements } from "src/components/layouts/Table/compositions";
+
+import { getAnnouncements } from "src/services/session/actions/announcementsActionCreators";
 
 export class Announcements extends Component {
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.getAnnouncements();
+  }
 
   render() {
+    const {
+      announcements: { isLoading }
+    } = this.props;
+
     return (
       <Main>
         <Main.Header
@@ -15,10 +24,17 @@ export class Announcements extends Component {
           buttonPath="/create-announcement"
         />
 
-        <Main className="Body" />
+        <Main.Body isLoading={isLoading}>
+          <TableAnnouncements />
+        </Main.Body>
       </Main>
     );
   }
 }
 
-export default connect()(Announcements);
+export default connect(
+  state => ({
+    announcements: state.announcements
+  }),
+  { getAnnouncements: getAnnouncements }
+)(Announcements);
