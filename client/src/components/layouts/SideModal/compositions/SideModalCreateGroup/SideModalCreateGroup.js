@@ -122,7 +122,7 @@ export class SideModalCreateGroup extends Component {
                   onClick={this.handleSubmit}
                   disabled={isLoading}
                 >
-                  Create Group
+                  Submit
                 </Button>
               </FormGroup.Input>
             </FormGroup>

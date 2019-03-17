@@ -117,7 +117,7 @@ class PersonChangePassword extends Component {
                   onClick={this.handleSubmit}
                   disabled={isLoading}
                 >
-                  Change Password
+                  Save
                 </Button>
               </Item>
             </FormGroup.Input>

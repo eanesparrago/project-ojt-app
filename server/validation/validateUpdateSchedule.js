@@ -42,8 +42,6 @@ days.forEach((day, i) => {
 
     body(`${day}.hours`)
       .custom((value, { req, loc, path }) => {
-        console.log(day, value, req.body[day].isTrainingDay);
-
         if (req.body[day].isTrainingDay) {
           if (value === 0) {
             throw new Error("Must not be empty");

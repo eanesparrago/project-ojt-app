@@ -466,7 +466,7 @@ export class SideModalCreatePerson extends Component {
                         onClick={this.handleSubmit}
                         disabled={isLoading}
                       >
-                        Create Person
+                        Submit
                       </Button>
                     </Item>
                   </FormGroup.Input>
