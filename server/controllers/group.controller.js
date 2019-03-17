@@ -1,4 +1,5 @@
 const Group = require("../models/group");
+const Announcement = require("../models/announcement");
 const { validationResult } = require("express-validator/check");
 
 function testRoute(req, res) {
@@ -121,8 +122,18 @@ function editGroup(req, res) {
 function deleteGroup(req, res) {
   Group.findById(req.params.id)
     .then(group => {
-      group.remove((err, user) => {
-        res.send({ data: user });
+      Announcement.deleteMany({ group: group._id }, err => {
+        if (err) {
+          return res.status(500);
+        }
+
+        group.remove((err, user) => {
+          if (err) {
+            return res.status(500);
+          }
+
+          res.send({ data: user });
+        });
       });
     })
     .catch(err => res.status(500).json({ message: "Error occurred" }));

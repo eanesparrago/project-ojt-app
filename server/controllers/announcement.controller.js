@@ -46,7 +46,6 @@ function getAnnouncements(req, res) {
       if (!announcements) {
         return res.status(404);
       }
-
       res.status(200).json({ announcements });
     });
 }
