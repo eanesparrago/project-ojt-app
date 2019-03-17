@@ -11,7 +11,8 @@ import { GroupModal } from "src/pages/App/components";
 import {
   SideModalCreatePerson,
   SideModalCreateGroup,
-  SideModalPerson
+  SideModalPerson,
+  SideModalCreateAnnouncement
 } from "src/components/layouts/SideModal/compositions";
 
 const StyledMain = styled.div`
@@ -50,6 +51,10 @@ class Main extends Component {
 
         <MainSideModal routePath="/create-person">
           <SideModalCreatePerson />
+        </MainSideModal>
+
+        <MainSideModal routePath="/create-announcement">
+          <SideModalCreateAnnouncement />
         </MainSideModal>
       </StyledMain>
     );

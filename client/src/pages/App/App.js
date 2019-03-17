@@ -9,7 +9,7 @@ import PrivateRoute from "src/components/utils/PrivateRoute";
 
 import { Header, Sidebar } from "./components";
 
-import { Groups, People } from "./scenes";
+import { Groups, People, Announcements } from "./scenes";
 
 import enums from "src/services/enums";
 
@@ -88,6 +88,16 @@ export class App extends Component {
             <PrivateRoute
               path={`${match.url}/people`}
               component={People}
+              permittedRoles={[
+                enums.roles.ADMINISTRATOR,
+                enums.roles.SUPERVISOR,
+                enums.roles.EMPLOYEE
+              ]}
+            />
+
+            <PrivateRoute
+              path={`${match.url}/announcements`}
+              component={Announcements}
               permittedRoles={[
                 enums.roles.ADMINISTRATOR,
                 enums.roles.SUPERVISOR,

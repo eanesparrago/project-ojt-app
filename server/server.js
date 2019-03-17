@@ -9,6 +9,7 @@ const path = require("path");
 const user = require("./routes/user.routes");
 const userTrainee = require("./routes/user.trainee.routes");
 const group = require("./routes/group.routes");
+const announcement = require("./routes/announcement.routes");
 
 const app = express();
 
@@ -31,6 +32,7 @@ require("./config/passport")(passport);
 app.use("/api/users", user);
 app.use("/api/trainee", userTrainee);
 app.use("/api/groups", group);
+app.use("/api/announcements", announcement);
 
 // >>> Serve static in production
 if (process.env.NODE_ENV === "production") {
