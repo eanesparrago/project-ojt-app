@@ -1,11 +1,17 @@
 const Announcement = require("../models/announcement");
 const Group = require("../models/group");
+const { validationResult } = require("express-validator/check");
 
 function testRoute(req, res) {
   res.status(200).send("Announcement route test");
 }
 
 function createAnnouncement(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json(errors.mapped());
+  }
+
   const newAnnouncement = new Announcement(req.body.announcement);
 
   newAnnouncement.user = req.user._id;

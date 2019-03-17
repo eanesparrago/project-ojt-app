@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 
 const StyledTextInput = styled.div`
   display: flex;
-  align-items: center;
+  flex-flow: column;
+  align-items: left;
   position: relative;
   width: 100%;
 
@@ -13,22 +14,28 @@ const StyledTextInput = styled.div`
     border: 1px solid ${p => p.theme.color.grey.medium};
     transition-duration: 200ms;
     transition-property: box-shadow;
-    padding: ${p => p.theme.size.s} ;
+    padding: ${p => p.theme.size.s};
 
     &:focus {
-      /* border: 2px solid ${p => p.theme.color.primary.main}; */
       box-shadow: 0 0 0 var(--size-xs) ${p => p.theme.color.primary.light};
     }
+  }
+
+  .error {
+    margin-top: ${p => p.theme.size.s};
+    color: ${p => p.theme.color.error};
   }
 `;
 
 export class TextInput extends Component {
   render() {
-    const { ...props } = this.props;
+    const { error, ...props } = this.props;
 
     return (
       <StyledTextInput>
         <textarea className="input" {...props} />
+
+        {error && <span className="error">{error.msg}</span>}
       </StyledTextInput>
     );
   }

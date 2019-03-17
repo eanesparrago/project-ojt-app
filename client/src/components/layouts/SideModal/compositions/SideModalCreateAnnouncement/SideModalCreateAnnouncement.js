@@ -116,7 +116,7 @@ export class SideModalCreateAnnouncement extends Component {
                       label: group.name,
                       value: group._id
                     }))}
-                    error={errors.group}
+                    error={errors["announcement.group"]}
                     disabled={isLoading}
                     withPlaceholder
                     onChange={this.handleInputChange}
@@ -137,7 +137,7 @@ export class SideModalCreateAnnouncement extends Component {
                   name="message"
                   cols="30"
                   rows="10"
-                  error={errors.group}
+                  error={errors["announcement.message"]}
                   disabled={isLoading}
                   onChange={this.handleInputChange}
                 />

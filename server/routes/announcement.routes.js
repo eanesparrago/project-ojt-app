@@ -4,6 +4,7 @@ const AnnouncementController = require("../controllers/announcement.controller")
 const passport = require("passport");
 const permittedRoles = require("../utils/permittedRoles");
 const enums = require("../enums");
+const validateCreateAnnouncement = require("../validation/validateCreateAnnouncement");
 
 // >>> /api/announcements
 
@@ -21,6 +22,7 @@ router
   .post(
     passport.authenticate("jwt", { session: false }),
     permittedRoles(enums.roles.ADMINISTRATOR),
+    validateCreateAnnouncement,
     AnnouncementController.createAnnouncement
   );
 
