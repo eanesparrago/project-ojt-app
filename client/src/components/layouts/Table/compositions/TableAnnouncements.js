@@ -16,14 +16,31 @@ export class TableAnnouncements extends Component {
 
         {announcements && (
           <Table.Body
-            headings={["Date Created", "Username", "Role", "Group", "Message"]}
-            data={announcements.map(announcement => [
-              format(announcement.dateCreated, "MM-DD-YYYY"),
-              announcement.user.username,
-              announcement.user.role,
-              announcement.group.name,
-              announcement.message
-            ])}
+            headings={[
+              {
+                property: "dateCreated",
+                title: "Date Created",
+                type: "date"
+              },
+              {
+                property: "user.username",
+                title: "Username"
+              },
+              {
+                property: "user.role",
+                title: "Role"
+              },
+              {
+                property: "group.name",
+                title: "Group"
+              },
+              {
+                property: "message",
+                title: "Message"
+              }
+            ]}
+            data={announcements}
+            route="/announcement"
           />
         )}
       </Table>

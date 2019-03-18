@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import get from "lodash/get";
+import format from "date-fns/format";
+import { withRouter } from "react-router-dom";
 
-import { Item, Container } from "src/components/blocks";
+import { Item } from "src/components/blocks";
 import { Typography } from "src/components/elements";
 
 const StyledTableBody = styled.div`
@@ -35,17 +38,26 @@ const StyledTableBody = styled.div`
     display: table-row;
     border-bottom: 1px solid ${p => p.theme.color.primary.light};
   }
+
+  .data-row {
+    &:hover {
+      background-color: ${p => p.theme.color.grey.light};
+      cursor: pointer;
+    }
+  }
 `;
 
-const TableBody = ({ headings, data }) => {
+const TableBody = ({ headings, data, route, match, history }) => {
+  console.log(data[0]["group"]["name"]);
+
   return (
     <StyledTableBody>
       <table>
         <thead>
           <tr>
-            {headings.map(header => (
-              <Item as="th" padding="squish-l" inline key={header}>
-                <Typography>{header}</Typography>
+            {headings.map(heading => (
+              <Item as="th" padding="squish-l" inline key={heading.title}>
+                <Typography>{heading.title}</Typography>
               </Item>
             ))}
           </tr>
@@ -53,12 +65,23 @@ const TableBody = ({ headings, data }) => {
 
         <tbody>
           {data.map(item => (
-            <tr>
-              {item.map(value => (
-                <Item as="td" padding="squish-l" inline>
-                  <Typography>{value}</Typography>
-                </Item>
-              ))}
+            <tr
+              className="data-row"
+              onClick={() => {
+                history.push(`${match.url}${route}/${item._id}`);
+              }}
+            >
+              {headings.map(heading => {
+                return (
+                  <Item as="td" padding="squish-l" inline>
+                    <Typography>
+                      {heading.type === "date"
+                        ? format(get(item, heading.property), "MM-DD-YYYY")
+                        : get(item, heading.property)}
+                    </Typography>
+                  </Item>
+                );
+              })}
             </tr>
           ))}
         </tbody>
@@ -67,4 +90,4 @@ const TableBody = ({ headings, data }) => {
   );
 };
 
-export default TableBody;
+export default withRouter(TableBody);

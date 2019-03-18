@@ -12,7 +12,8 @@ import {
   SideModalCreatePerson,
   SideModalCreateGroup,
   SideModalPerson,
-  SideModalCreateAnnouncement
+  SideModalCreateAnnouncement,
+  SideModalAnnouncement
 } from "src/components/layouts/SideModal/compositions";
 
 const StyledMain = styled.div`
@@ -33,7 +34,7 @@ class Main extends Component {
       <StyledMain>
         {this.props.children}
 
-        <MainFullModal routePath={`/group/:id`} routeLevel={2}>
+        <MainFullModal routePath="/group/:id" routeLevel={2}>
           <GroupModal />
         </MainFullModal>
 
@@ -41,7 +42,7 @@ class Main extends Component {
           <SideModalPerson />
         </MainSideModal>
 
-        <MainSideModal routePath={`/group/:id/person/:id`} routeLevel={4}>
+        <MainSideModal routePath="/group/:id/person/:id" routeLevel={4}>
           <SideModalPerson />
         </MainSideModal>
 
@@ -55,6 +56,10 @@ class Main extends Component {
 
         <MainSideModal routePath="/create-announcement">
           <SideModalCreateAnnouncement />
+        </MainSideModal>
+
+        <MainSideModal routePath="/announcement/:id" routeLevel={2}>
+          <SideModalAnnouncement />
         </MainSideModal>
       </StyledMain>
     );
