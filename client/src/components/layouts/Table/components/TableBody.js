@@ -48,8 +48,6 @@ const StyledTableBody = styled.div`
 `;
 
 const TableBody = ({ headings, data, route, match, history }) => {
-  console.log(data[0]["group"]["name"]);
-
   return (
     <StyledTableBody>
       <table>
@@ -70,10 +68,11 @@ const TableBody = ({ headings, data, route, match, history }) => {
               onClick={() => {
                 history.push(`${match.url}${route}/${item._id}`);
               }}
+              key={item._id}
             >
               {headings.map(heading => {
                 return (
-                  <Item as="td" padding="squish-l" inline>
+                  <Item as="td" padding="squish-l" key={heading.title}>
                     <Typography>
                       {heading.type === "date"
                         ? format(get(item, heading.property), "MM-DD-YYYY")

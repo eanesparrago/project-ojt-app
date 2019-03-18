@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import format from "date-fns/format";
 
 import { Table } from "src/components/layouts";
 
