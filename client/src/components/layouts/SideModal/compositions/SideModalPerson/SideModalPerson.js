@@ -13,7 +13,7 @@ import TraineeSchedule from "./components/TraineeSchedule/TraineeSchedule";
 import enums from "src/services/enums";
 
 const buttons = [
-  { title: "Account", icon: "fas fa-user-circle", to: "/account" },
+  { title: "Account", icon: "fas fa-user-circle", to: "" },
   {
     title: "Activity",
     icon: "fas fa-list-ul",
@@ -95,7 +95,8 @@ export class SideModalPerson extends Component {
           ) : (
             <Switch>
               <Route
-                path={`${match.url}/account`}
+                path={`${match.url}/`}
+                exact
                 render={() => (
                   <PersonAccount data={person} fetchPerson={this.fetchPerson} />
                 )}
@@ -115,7 +116,7 @@ export class SideModalPerson extends Component {
                 />
               )}
 
-              <Redirect to={`${match.url}/account`} replace />
+              <Redirect to={`${match.url}`} replace />
             </Switch>
           )}
         </SideModal.Body>
