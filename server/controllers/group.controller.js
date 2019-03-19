@@ -124,12 +124,12 @@ function deleteGroup(req, res) {
     .then(group => {
       Announcement.deleteMany({ group: group._id }, err => {
         if (err) {
-          return res.status(500);
+          return res.status(500).send("Error");
         }
 
         group.remove((err, user) => {
           if (err) {
-            return res.status(500);
+            return res.status(500).send("Error");
           }
 
           res.send({ data: user });

@@ -11,7 +11,8 @@ const StyledTextInput = styled.div`
 
   .input {
     width: 100%;
-    border: 1px solid ${p => p.theme.color.grey.medium};
+    border: 1px solid
+      ${p => (p.error ? p.theme.color.error : p.theme.color.grey.medium)};
     transition-duration: 200ms;
     transition-property: box-shadow;
     padding: ${p => p.theme.size.s};
@@ -32,7 +33,7 @@ export class TextInput extends Component {
     const { error, ...props } = this.props;
 
     return (
-      <StyledTextInput>
+      <StyledTextInput error={error}>
         <textarea className="input" {...props} />
 
         {error && <span className="error">{error.msg}</span>}

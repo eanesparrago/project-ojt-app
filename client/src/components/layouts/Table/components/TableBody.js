@@ -4,8 +4,9 @@ import get from "lodash/get";
 import format from "date-fns/format";
 import { withRouter } from "react-router-dom";
 
-import { Item } from "src/components/blocks";
+import { Item, Box } from "src/components/blocks";
 import { Typography } from "src/components/elements";
+import { ProfilePicture } from "src/components/compounds";
 
 const StyledTableBody = styled.div`
   flex-grow: 1;
@@ -73,11 +74,27 @@ const TableBody = ({ headings, data, route, match, history }) => {
               {headings.map(heading => {
                 return (
                   <Item as="td" padding="squish-l" key={heading.title}>
-                    <Typography>
-                      {heading.type === "date"
-                        ? format(get(item, heading.property), "MM-DD-YYYY")
-                        : get(item, heading.property)}
-                    </Typography>
+                    {heading.type === "user" ? (
+                      <Box>
+                        <Item margin="inline-m">
+                          <ProfilePicture
+                            src={get(item, heading.property[0])}
+                          />
+                        </Item>
+
+                        <Item left>
+                          <Typography variant="base">
+                            {get(item, heading.property[1])}
+                          </Typography>
+                        </Item>
+                      </Box>
+                    ) : (
+                      <Typography variant="base">
+                        {heading.type === "date"
+                          ? format(get(item, heading.property), "MM-DD-YYYY")
+                          : get(item, heading.property)}
+                      </Typography>
+                    )}
                   </Item>
                 );
               })}

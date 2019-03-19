@@ -17,13 +17,14 @@ export class TableAnnouncements extends Component {
           <Table.Body
             headings={[
               {
+                property: ["user.profilePictureUrl", "user.username"],
+                title: "Username",
+                type: "user"
+              },
+              {
                 property: "dateCreated",
                 title: "Date Created",
                 type: "date"
-              },
-              {
-                property: "user.username",
-                title: "Username"
               },
               {
                 property: "user.role",

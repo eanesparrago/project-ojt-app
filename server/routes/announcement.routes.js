@@ -35,6 +35,23 @@ router
     AnnouncementController.getAnnouncements
   );
 
+router
+  .route("/:id")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    AnnouncementController.getAnnouncement
+  );
+
+// --->>> PUT /api/announcements/:id - updateAnnouncement
+router
+  .route("/:id")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    AnnouncementController.updateAnnouncement
+  );
+
 // --->>> DELETE /api/announcements/:id - deleteAnnouncement
 router
   .route("/:id")

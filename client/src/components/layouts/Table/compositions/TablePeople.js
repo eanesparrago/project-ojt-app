@@ -17,8 +17,9 @@ export class TablePeople extends Component {
           <Table.Body
             headings={[
               {
-                property: "username",
-                title: "Username"
+                property: ["profilePictureUrl", "username"],
+                title: "Username",
+                type: "user"
               },
               {
                 property: "role",
