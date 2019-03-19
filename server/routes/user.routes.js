@@ -51,7 +51,7 @@ router
   .route("/")
   .get(
     passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR),
+    permittedRoles(enums.roles.ADMINISTRATOR, enums.roles.SUPERVISOR),
     UserController.getUsers
   );
 
@@ -60,7 +60,7 @@ router
   .route("/user/:id")
   .get(
     passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR),
+    permittedRoles(enums.roles.ADMINISTRATOR, enums.roles.SUPERVISOR),
     UserController.getUser
   );
 
@@ -109,7 +109,7 @@ router
   .route("/:id/schedule")
   .put(
     passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR),
+    permittedRoles(enums.roles.ADMINISTRATOR, enums.roles.SUPERVISOR),
     validateUpdateSchedule,
     UserController.updateTraineeSchedule
   );

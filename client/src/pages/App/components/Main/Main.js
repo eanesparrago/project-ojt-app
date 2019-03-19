@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 
 import MainHeader from "./components/MainHeader";
 import MainBody from "./components/MainBody";
@@ -16,6 +17,8 @@ import {
   SideModalAnnouncement
 } from "src/components/layouts/SideModal/compositions";
 
+import enums from "src/services/enums";
+
 const StyledMain = styled.div`
   height: 100%;
   position: relative;
@@ -30,32 +33,42 @@ class Main extends Component {
   static FullModal = MainFullModal;
 
   render() {
+    const {
+      auth: {
+        user: { role }
+      }
+    } = this.props;
+
     return (
       <StyledMain>
         {this.props.children}
 
-        <MainFullModal routePath="/group/:id" routeLevel={2}>
-          <GroupModal />
-        </MainFullModal>
+        {role === enums.roles.ADMINISTRATOR && (
+          <Fragment>
+            <MainFullModal routePath="/group/:id" routeLevel={2}>
+              <GroupModal />
+            </MainFullModal>
 
-        <MainSideModal routePath="/person/:id" routeLevel={2}>
-          <SideModalPerson />
-        </MainSideModal>
+            <MainSideModal routePath="/group/:id/person/:id" routeLevel={4}>
+              <SideModalPerson />
+            </MainSideModal>
 
-        <MainSideModal routePath="/group/:id/person/:id" routeLevel={4}>
-          <SideModalPerson />
-        </MainSideModal>
+            <MainSideModal routePath="/create-group">
+              <SideModalCreateGroup />
+            </MainSideModal>
 
-        <MainSideModal routePath="/create-group">
-          <SideModalCreateGroup />
-        </MainSideModal>
-
-        <MainSideModal routePath="/create-person">
-          <SideModalCreatePerson />
-        </MainSideModal>
+            <MainSideModal routePath="/create-person">
+              <SideModalCreatePerson />
+            </MainSideModal>
+          </Fragment>
+        )}
 
         <MainSideModal routePath="/create-announcement">
           <SideModalCreateAnnouncement />
+        </MainSideModal>
+
+        <MainSideModal routePath="/person/:id" routeLevel={2}>
+          <SideModalPerson />
         </MainSideModal>
 
         <MainSideModal routePath="/announcement/:id" routeLevel={2}>
@@ -66,4 +79,6 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default connect(state => ({
+  auth: state.auth
+}))(Main);

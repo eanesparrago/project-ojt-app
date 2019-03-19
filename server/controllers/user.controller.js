@@ -124,6 +124,7 @@ function createUser(req, res) {
                   });
                 });
               }
+              return res.status(200).send(user.username);
             })
             .catch(err => res.status(500).send("Error"));
         });
@@ -189,7 +190,12 @@ function loginUser(req, res) {
 function getUsers(req, res) {
   const errors = {};
 
-  User.find()
+  let conditions = {};
+  if (req.user.role !== enums.roles.ADMINISTRATOR) {
+    conditions = { "roleData.group": req.user.roleData.group._id };
+  }
+
+  User.find(conditions)
     .select("-password")
     .populate("roleData.group", "name")
     .then(users => {
@@ -255,7 +261,11 @@ function updateUser(req, res) {
 
   User.findById(req.params.id)
     .then(user => {
-      const oldGroupId = user.roleData.group._id;
+      let oldGroupId;
+
+      if (user.role !== enums.roles.ADMINISTRATOR) {
+        oldGroupId = user.roleData.group._id;
+      }
 
       user.set(req.body);
 
@@ -319,7 +329,7 @@ function updateUser(req, res) {
         }
       });
     })
-    .catch(err => res.status(500).json({ message: "Error occurred" }));
+    .catch(err => res.status(500).json({ message: err }));
 }
 
 /**

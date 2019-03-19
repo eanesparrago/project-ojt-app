@@ -42,7 +42,7 @@ export const getGroup = groupId => dispatch => {
   });
 
   axios
-    .get(`/api/groups/${groupId}`)
+    .get(`/api/groups/group/${groupId}`)
     .then(res => {
       dispatch({
         type: ADMIN_GROUPS_GET_GROUP_SUCCESS,

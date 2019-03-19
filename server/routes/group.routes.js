@@ -25,17 +25,30 @@ router
   .route("/")
   .get(
     passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR),
+    permittedRoles(enums.roles.ADMINISTRATOR, enums.roles.SUPERVISOR),
     GroupController.getGroups
   );
 
-// --->>> GET /api/groups/:id - getGroup
+// --->>> GET /api/groups/group/:id - getGroup
 router
-  .route("/:id")
+  .route("/group/:id")
   .get(
     passport.authenticate("jwt", { session: false }),
     permittedRoles(enums.roles.ADMINISTRATOR),
     GroupController.getGroup
+  );
+
+// --->>> GET /api/groups/own - getOwnGroup
+router
+  .route("/own")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(
+      enums.roles.SUPERVISOR,
+      enums.roles.TRAINEE,
+      enums.roles.EMPLOYEE
+    ),
+    GroupController.getOwnGroup
   );
 
 // --->>> DELETE /api/groups/:id

@@ -1,6 +1,7 @@
 const Announcement = require("../models/announcement");
 const Group = require("../models/group");
 const { validationResult } = require("express-validator/check");
+const enums = require("../enums");
 
 function testRoute(req, res) {
   res.status(200).send("Announcement route test");
@@ -83,6 +84,14 @@ function updateAnnouncement(req, res) {
   }
 
   Announcement.findById(req.params.id).then(announcement => {
+    // >>> User validation. If not admin, compare user ids
+    if (
+      req.user.role !== enums.roles.ADMINISTRATOR &&
+      !announcement.user._id.equals(req.user._id)
+    ) {
+      return res.status(403).send("Forbidden");
+    }
+
     if (!announcement) {
       return res.status(404).send("Not found");
     }
@@ -100,6 +109,14 @@ function updateAnnouncement(req, res) {
 
 function deleteAnnouncement(req, res) {
   Announcement.findById(req.params.id).then(announcement => {
+    // >>> User validation. If not admin, compare user ids
+    if (
+      req.user.role !== enums.roles.ADMINISTRATOR &&
+      !announcement.user._id.equals(req.user._id)
+    ) {
+      return res.status(403).send("Forbidden");
+    }
+
     if (!announcement) {
       return res.status(404).send("Not found");
     }

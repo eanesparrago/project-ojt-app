@@ -21,7 +21,7 @@ router
   .route("/")
   .post(
     passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR),
+    permittedRoles(enums.roles.ADMINISTRATOR, enums.roles.SUPERVISOR),
     validateCreateAnnouncement,
     AnnouncementController.createAnnouncement
   );
@@ -31,15 +31,16 @@ router
   .route("/")
   .get(
     passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR),
+    permittedRoles(enums.roles.ADMINISTRATOR, enums.roles.SUPERVISOR),
     AnnouncementController.getAnnouncements
   );
 
+// --->>> GET /api/announcements/:id - getAnnouncement
 router
   .route("/:id")
   .get(
     passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR),
+    permittedRoles(enums.roles.ADMINISTRATOR, enums.roles.SUPERVISOR),
     AnnouncementController.getAnnouncement
   );
 
@@ -48,7 +49,7 @@ router
   .route("/:id")
   .put(
     passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR),
+    permittedRoles(enums.roles.ADMINISTRATOR, enums.roles.SUPERVISOR),
     AnnouncementController.updateAnnouncement
   );
 
@@ -57,7 +58,7 @@ router
   .route("/:id")
   .delete(
     passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR),
+    permittedRoles(enums.roles.ADMINISTRATOR, enums.roles.SUPERVISOR),
     AnnouncementController.deleteAnnouncement
   );
 

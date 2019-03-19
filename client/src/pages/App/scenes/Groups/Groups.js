@@ -7,6 +7,7 @@ import { Main } from "src/pages/App/components";
 import GroupCard from "./components/GroupCard";
 
 import { getGroups } from "src/services/session/actions/groupsActionCreators";
+import enums from "src/services/enums";
 
 export class Groups extends Component {
   componentDidMount() {
@@ -24,6 +25,7 @@ export class Groups extends Component {
           title="Groups"
           buttonText="Create Group"
           buttonPath="/create-group"
+          buttonPermissions={[enums.roles.ADMINISTRATOR]}
         />
 
         <Main.Body isLoading={isLoading}>

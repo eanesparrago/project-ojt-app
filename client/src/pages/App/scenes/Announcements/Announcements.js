@@ -5,6 +5,7 @@ import { Main } from "src/pages/App/components";
 import { TableAnnouncements } from "src/components/layouts/Table/compositions";
 
 import { getAnnouncements } from "src/services/session/actions/announcementsActionCreators";
+import enums from "src/services/enums";
 
 export class Announcements extends Component {
   componentDidMount() {
@@ -22,6 +23,10 @@ export class Announcements extends Component {
           title="Announcements"
           buttonText="Create Announcement"
           buttonPath="/create-announcement"
+          buttonPermissions={[
+            enums.roles.ADMINISTRATOR,
+            enums.roles.SUPERVISOR
+          ]}
         />
 
         <Main.Body isLoading={isLoading}>

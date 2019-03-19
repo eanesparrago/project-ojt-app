@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import includes from "lodash/includes";
 
 import { Item, Box } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";
@@ -14,9 +16,14 @@ const StyledMainHeader = styled.header`
 
 const MainHeader = ({
   title = "Title",
-  buttonText = "Button Text",
+  buttonText,
   buttonPath,
-  match
+  buttonPermissions,
+  match,
+  children,
+  auth: {
+    user: { role }
+  }
 }) => {
   return (
     <StyledMainHeader>
@@ -25,17 +32,32 @@ const MainHeader = ({
           <Typography variant="display-1">{title}</Typography>
         </Item>
 
-        <Item margin="wrap-base">
-          <Button variant="primary" as={Link} to={`${match.url}${buttonPath}`}>
-            <Item margin="inline-s">
-              <i className="fas fa-plus" />
-            </Item>
-            {buttonText}
-          </Button>
-        </Item>
+        {buttonText && includes(buttonPermissions, role) && (
+          <Item margin="wrap-base">
+            <Button
+              variant="primary"
+              as={Link}
+              to={`${match.url}${buttonPath}`}
+            >
+              <Item margin="inline-s">
+                <i className="fas fa-plus" />
+              </Item>
+              {buttonText}
+            </Button>
+          </Item>
+        )}
+
+        {children}
       </Box>
     </StyledMainHeader>
   );
 };
 
-export default withRouter(MainHeader);
+export default withRouter(
+  connect(
+    state => ({
+      auth: state.auth
+    }),
+    null
+  )(MainHeader)
+);

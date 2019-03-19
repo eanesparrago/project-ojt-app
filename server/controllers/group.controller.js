@@ -1,6 +1,7 @@
 const Group = require("../models/group");
 const Announcement = require("../models/announcement");
 const { validationResult } = require("express-validator/check");
+const enums = require("../enums");
 
 function testRoute(req, res) {
   res.status(200).json({ message: "Groups test" });
@@ -81,6 +82,22 @@ function getGroup(req, res) {
 }
 
 /**
+ * Get own group
+ * @route   GET api/groups/own
+ */
+function getOwnGroup(req, res) {
+  Group.findById(req.user.roleData.group._id)
+    .populate("users", "profilePictureUrl firstName lastName username")
+    .then(group => {
+      if (!group) {
+        return res.status(404).json({ group: "Group not found" });
+      }
+      return res.json(group);
+    })
+    .catch(err => res.status(500).json({ message: "Error occurred" }));
+}
+
+/**
  * Edit a group by id
  * @route   PUT api/groups/:id
  * @param   res.body.name
@@ -144,6 +161,7 @@ module.exports = {
   createGroup,
   getGroups,
   getGroup,
+  getOwnGroup,
   deleteGroup,
   editGroup
 };

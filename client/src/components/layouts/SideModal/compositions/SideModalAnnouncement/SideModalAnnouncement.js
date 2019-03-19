@@ -12,6 +12,7 @@ import {
   getAnnouncement,
   deleteAnnouncement
 } from "src/services/session/actions/announcementsActionCreators";
+import enums from "src/services/enums";
 
 export class SideModalAnnouncement extends Component {
   constructor(props) {
@@ -43,9 +44,11 @@ export class SideModalAnnouncement extends Component {
 
   render() {
     const {
-      announcement: { data, isLoading, deleteAnnouncement }
+      announcement: { data, isLoading },
+      auth
     } = this.props;
-    const { isEditOpen, message } = this.state;
+    const { isEditOpen } = this.state;
+
 
     return (
       <SideModal>
@@ -54,34 +57,40 @@ export class SideModalAnnouncement extends Component {
         <SideModal.Body isLoading={isLoading}>
           {data ? (
             <Fragment>
-              <Box margin="stack-l">
-                {isEditOpen ? (
-                  <Button
-                    variant="secondary"
-                    icon
-                    onClick={this.handleToggleEdit}
-                  >
-                    <i className="fas fa-arrow-left" />
-                    <span id="hidden">Back</span>
-                  </Button>
-                ) : (
-                  <Fragment>
-                    <Item margin="inline-base">
+              {auth.user.role === enums.roles.ADMINISTRATOR ||
+                (auth.user.id === data.user._id && (
+                  <Box margin="stack-l">
+                    {isEditOpen ? (
                       <Button
                         variant="secondary"
+                        icon
                         onClick={this.handleToggleEdit}
                       >
-                        Edit Announcement
+                        <i className="fas fa-arrow-left" />
+                        <span id="hidden">Back</span>
                       </Button>
-                    </Item>
-                    <Item>
-                      <Button variant="secondary" onClick={this.handleDelete}>
-                        Delete Announcement
-                      </Button>
-                    </Item>
-                  </Fragment>
-                )}
-              </Box>
+                    ) : (
+                      <Fragment>
+                        <Item margin="inline-base">
+                          <Button
+                            variant="secondary"
+                            onClick={this.handleToggleEdit}
+                          >
+                            Edit Announcement
+                          </Button>
+                        </Item>
+                        <Item>
+                          <Button
+                            variant="secondary"
+                            onClick={this.handleDelete}
+                          >
+                            Delete Announcement
+                          </Button>
+                        </Item>
+                      </Fragment>
+                    )}
+                  </Box>
+                ))}
 
               {isEditOpen ? (
                 <AnnouncementEdit handleToggleEdit={this.handleToggleEdit} />
@@ -103,7 +112,8 @@ export class SideModalAnnouncement extends Component {
 export default withRouter(
   connect(
     state => ({
-      announcement: state.announcements.announcement
+      announcement: state.announcements.announcement,
+      auth: state.auth
     }),
     {
       getAnnouncement: getAnnouncement,

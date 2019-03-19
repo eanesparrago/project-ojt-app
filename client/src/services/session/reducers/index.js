@@ -6,6 +6,7 @@ import groupsReducer from "./groupsReducer";
 import peopleReducer from "./peopleReducer";
 import userReducer from "./userReducer";
 import announcementsReducer from "./announcementsReducer";
+import groupReducer from "./groupReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -13,5 +14,6 @@ export default combineReducers({
   groups: groupsReducer,
   people: peopleReducer,
   user: userReducer,
-  announcements: announcementsReducer
+  announcements: announcementsReducer,
+  group: groupReducer
 });

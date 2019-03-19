@@ -15,6 +15,8 @@ import { SideModal } from "src/components/layouts";
 import { getAnnouncements } from "src/services/session/actions/announcementsActionCreators";
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
+import enums from "src/services/enums";
+
 export class SideModalCreateAnnouncement extends Component {
   state = {
     announcement: {
@@ -27,11 +29,29 @@ export class SideModalCreateAnnouncement extends Component {
   };
 
   componentDidMount() {
+    const { auth } = this.props;
+
     this.setState({ ...this.state, isLoading: true }, () => {
       axios
         .get("/api/groups?field=name")
         .then(res => {
-          this.setState({ ...this.state, groups: res.data, isLoading: false });
+          this.setState(
+            {
+              ...this.state,
+              groups: res.data,
+              isLoading: false
+            },
+            () => {
+              if (auth.user.role !== enums.roles.ADMINISTRATOR) {
+                this.setState({
+                  ...this.state,
+                  announcement: {
+                    group: auth.user.roleData.group
+                  }
+                });
+              }
+            }
+          );
         })
         .catch(err => {
           this.setState({
@@ -83,11 +103,19 @@ export class SideModalCreateAnnouncement extends Component {
             );
           })
           .catch(err => {
-            this.setState({
-              ...this.state,
-              errors: err.response.data,
-              isLoading: false
-            });
+            this.setState(
+              {
+                ...this.state,
+                errors: err.response.data,
+                isLoading: false
+              },
+              () => {
+                setFlashMessage(
+                  "An error occurred.",
+                  "error"
+                );
+              }
+            );
           });
       }
     );
@@ -95,6 +123,11 @@ export class SideModalCreateAnnouncement extends Component {
 
   render() {
     const { announcement, groups, isLoading, errors } = this.state;
+    const {
+      auth: {
+        user: { role }
+      }
+    } = this.props;
 
     return (
       <SideModal>
@@ -123,7 +156,7 @@ export class SideModalCreateAnnouncement extends Component {
                       }))
                     ]}
                     error={errors["announcement.group"]}
-                    disabled={isLoading}
+                    disabled={isLoading || role !== enums.roles.ADMINISTRATOR}
                     onChange={this.handleInputChange}
                   />
                 )}
@@ -173,7 +206,9 @@ export class SideModalCreateAnnouncement extends Component {
 
 export default withRouter(
   connect(
-    null,
+    state => ({
+      auth: state.auth
+    }),
     { setFlashMessage: setFlashMessage, getAnnouncements: getAnnouncements }
   )(SideModalCreateAnnouncement)
 );
