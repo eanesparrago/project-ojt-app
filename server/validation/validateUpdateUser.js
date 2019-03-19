@@ -1,5 +1,6 @@
 const { body, check } = require("express-validator/check");
 const enums = require("../enums");
+const upperFirst = require("lodash/upperFirst");
 
 const validateUpdateUser = [
   // >>> role
@@ -26,13 +27,24 @@ const validateUpdateUser = [
     .withMessage("Username must be between 2 to 30 characters long"),
 
   // >>> firstName
-  body("firstName").trim(),
+  body("firstName")
+    .trim()
+    .customSanitizer((value, { req }) => upperFirst(value)),
 
   // >>> middleName
-  body("middleName").trim(),
+  body("middleName")
+    .trim()
+    .customSanitizer((value, { req }) => upperFirst(value)),
 
   // >>> lastName
-  body("lastName").trim(),
+  body("lastName")
+    .trim()
+    .customSanitizer((value, { req }) => upperFirst(value)),
+
+  // >>> nickname
+  body("nickname")
+    .trim()
+    .customSanitizer((value, { req }) => upperFirst(value)),
 
   // >>> gender
   body("gender")
@@ -74,17 +86,25 @@ const validateUpdateUserTrainee = [
     .isISO8601()
     .withMessage("Date of Birth is invalid"),
 
-  body("address").trim(),
+  body("address")
+    .trim()
+    .customSanitizer((value, { req }) => upperFirst(value)),
 
   body("contactNumber").trim(),
 
-  body("school").trim(),
+  body("school")
+    .trim()
+    .customSanitizer((value, { req }) => upperFirst(value)),
 
-  body("adviserName").trim(),
+  body("adviserName")
+    .trim()
+    .customSanitizer((value, { req }) => upperFirst(value)),
 
   body("adviserContactNumber").trim(),
 
-  body("guardianName").trim(),
+  body("guardianName")
+    .trim()
+    .customSanitizer((value, { req }) => upperFirst(value)),
 
   body("guardianContactNumber").trim()
 ];

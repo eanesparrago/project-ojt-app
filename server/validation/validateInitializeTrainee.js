@@ -1,4 +1,5 @@
-const { body, check } = require("express-validator/check");
+const { body } = require("express-validator/check");
+const upperFirst = require("lodash/upperFirst");
 
 const validateInitializeTrainee = [
   body("password")
@@ -24,13 +25,23 @@ const validateInitializeTrainee = [
     .trim()
     .not()
     .isEmpty()
-    .withMessage("First name is required"),
+    .withMessage("First name is required")
+    .customSanitizer((value, { req }) => upperFirst(value)),
+
+  body("middleName")
+    .trim()
+    .customSanitizer((value, { req }) => upperFirst(value)),
 
   body("lastName")
     .trim()
     .not()
     .isEmpty()
-    .withMessage("Last name is required"),
+    .withMessage("Last name is required")
+    .customSanitizer((value, { req }) => upperFirst(value)),
+
+  body("nickname")
+    .trim()
+    .customSanitizer((value, { req }) => upperFirst(value)),
 
   body("gender")
     .trim()
@@ -62,8 +73,9 @@ const validateInitializeTrainee = [
     .trim()
     .not()
     .isEmpty()
-    .withMessage("Address is required"),
-
+    .withMessage("Address is required")
+    .customSanitizer((value, { req }) => upperFirst(value)),
+  
   body("contactNumber")
     .trim()
     .not()
@@ -74,7 +86,8 @@ const validateInitializeTrainee = [
     .trim()
     .not()
     .isEmpty()
-    .withMessage("Adviser name is required"),
+    .withMessage("Adviser name is required")
+    .customSanitizer((value, { req }) => upperFirst(value)),
 
   body("adviserContactNumber")
     .trim()
@@ -86,7 +99,8 @@ const validateInitializeTrainee = [
     .trim()
     .not()
     .isEmpty()
-    .withMessage("Guardian name is required"),
+    .withMessage("Guardian name is required")
+    .customSanitizer((value, { req }) => upperFirst(value)),
 
   body("guardianContactNumber")
     .trim()
