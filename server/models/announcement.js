@@ -4,8 +4,7 @@ const Schema = mongoose.Schema;
 const announcementSchema = new Schema({
   group: {
     type: Schema.Types.ObjectId,
-    ref: "Group",
-    required: true
+    ref: "Group"
   },
   message: {
     type: String,
@@ -19,6 +18,10 @@ const announcementSchema = new Schema({
   dateCreated: {
     type: Date,
     default: Date.now
+  },
+  isGlobal: {
+    type: Boolean,
+    default: false
   }
 });
 

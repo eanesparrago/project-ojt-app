@@ -90,9 +90,11 @@ const TableBody = ({ headings, data, route, match, history }) => {
                       </Box>
                     ) : (
                       <Typography variant="base">
-                        {heading.type === "date"
-                          ? format(get(item, heading.property), "MM-DD-YYYY")
-                          : get(item, heading.property)}
+                        {(heading.type === "date" &&
+                          format(get(item, heading.property), "MM-DD-YYYY")) ||
+                          (heading.type === "group" &&
+                            get(item, heading.property, "All")) ||
+                          get(item, heading.property)}
                       </Typography>
                     )}
                   </Item>

@@ -45,7 +45,7 @@ const AnnouncementInformation = ({ announcement: { data } }) => {
           <DataGroup.Label title="Group" />
 
           <DataGroup.Content>
-            <Typography variant="display-4">{data.group.name}</Typography>
+            <Typography variant="display-4">{data.group ? data.group.name : "All"}</Typography>
           </DataGroup.Content>
         </DataGroup>
       </Item>

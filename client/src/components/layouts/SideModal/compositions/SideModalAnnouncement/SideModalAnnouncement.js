@@ -5,12 +5,6 @@ import format from "date-fns/format";
 
 import { Item, Box } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";
-import {
-  DataGroup,
-  ProfilePicture,
-  FormGroup,
-  TextAreaInput
-} from "src/components/compounds";
 import { SideModal } from "src/components/layouts";
 import { AnnouncementInformation, AnnouncementEdit } from "./components";
 

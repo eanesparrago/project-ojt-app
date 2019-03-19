@@ -4,12 +4,7 @@ import { withRouter } from "react-router-dom";
 
 import { Item } from "src/components/blocks";
 import { Button } from "src/components/elements";
-import {
-  DataGroup,
-  ProfilePicture,
-  FormGroup,
-  TextAreaInput
-} from "src/components/compounds";
+import { FormGroup, TextAreaInput } from "src/components/compounds";
 
 import { editAnnouncement } from "src/services/session/actions/announcementsActionCreators";
 
@@ -37,7 +32,7 @@ export class AnnouncementEdit extends Component {
 
     editAnnouncement(data._id, this.state).then(() => {
       handleToggleEdit();
-    })
+    });
   };
 
   render() {
@@ -82,11 +77,13 @@ export class AnnouncementEdit extends Component {
   }
 }
 
-export default withRouter(connect(
-  state => ({
-    announcement: state.announcements.announcement
-  }),
-  {
-    editAnnouncement: editAnnouncement
-  }
-)(AnnouncementEdit));
+export default withRouter(
+  connect(
+    state => ({
+      announcement: state.announcements.announcement
+    }),
+    {
+      editAnnouncement: editAnnouncement
+    }
+  )(AnnouncementEdit)
+);

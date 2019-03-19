@@ -18,7 +18,7 @@ import { setFlashMessage } from "src/services/session/actions/appActionCreators"
 export class SideModalCreateAnnouncement extends Component {
   state = {
     announcement: {
-      group: "",
+      group: "all",
       message: ""
     },
     isLoading: false,
@@ -112,13 +112,18 @@ export class SideModalCreateAnnouncement extends Component {
                     id="group-input"
                     value={announcement.group}
                     name="group"
-                    options={groups.map(group => ({
-                      label: group.name,
-                      value: group._id
-                    }))}
+                    options={[
+                      {
+                        label: "All",
+                        value: "all"
+                      },
+                      ...groups.map(group => ({
+                        label: group.name,
+                        value: group._id
+                      }))
+                    ]}
                     error={errors["announcement.group"]}
                     disabled={isLoading}
-                    withPlaceholder
                     onChange={this.handleInputChange}
                   />
                 )}

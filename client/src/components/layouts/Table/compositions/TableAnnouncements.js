@@ -32,7 +32,8 @@ export class TableAnnouncements extends Component {
               },
               {
                 property: "group.name",
-                title: "Group"
+                title: "Group",
+                type: "group"
               },
               {
                 property: "message",

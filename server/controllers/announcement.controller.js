@@ -16,25 +16,34 @@ function createAnnouncement(req, res) {
 
   newAnnouncement.user = req.user._id;
 
+  if (req.body.announcement.group === "all") {
+    newAnnouncement.group = null;
+    newAnnouncement.isGlobal = true;
+  }
+
   newAnnouncement.save((err, saved) => {
     if (err) {
       return res.status(500).send(err);
     }
 
-    Group.findById(req.body.announcement.group).then(group => {
-      if (!group) {
-        return res.status(404);
-      }
-
-      group.announcements.push(saved);
-      group.save(err => {
-        if (err) {
-          return res.status(500).send(err);
+    if (req.body.announcement.group !== "all") {
+      Group.findById(req.body.announcement.group).then(group => {
+        if (!group) {
+          return res.status(404);
         }
 
-        res.status(200).json({ announcement: saved });
+        group.announcements.push(saved);
+        group.save(err => {
+          if (err) {
+            return res.status(500).send(err);
+          }
+
+          res.status(200).json({ announcement: saved });
+        });
       });
-    });
+    } else {
+      res.status(200).json({ announcement: saved });
+    }
   });
 }
 
@@ -95,26 +104,36 @@ function deleteAnnouncement(req, res) {
       return res.status(404).send("Not found");
     }
 
-    Group.findById(announcement.group).then(group => {
-      if (!group) {
-        return res.status(404).send("Not found");
-      }
-
-      group.announcements.remove(announcement._id);
-      group.save(err => {
+    if (announcement.isGlobal) {
+      announcement.remove((err, announcement) => {
         if (err) {
           return res.status(500).send(err);
         }
 
-        announcement.remove((err, announcement) => {
+        res.status(200).json({ announcement });
+      });
+    } else {
+      Group.findById(announcement.group).then(group => {
+        if (!group) {
+          return res.status(404).send("Not found");
+        }
+
+        group.announcements.remove(announcement._id);
+        group.save(err => {
           if (err) {
             return res.status(500).send(err);
           }
 
-          res.status(200).json({ announcement });
+          announcement.remove((err, announcement) => {
+            if (err) {
+              return res.status(500).send(err);
+            }
+
+            res.status(200).json({ announcement });
+          });
         });
       });
-    });
+    }
   });
 }
 
