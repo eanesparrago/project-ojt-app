@@ -17,7 +17,7 @@ const SideModalContent = ({ children }) => {
       native
       from={{ transform: "translateX(-100%)" }}
       to={{ transform: "translateX(0)" }}
-      // immediate
+      immediate
     >
       {style => (
         <StyledSideModalContent style={style}>

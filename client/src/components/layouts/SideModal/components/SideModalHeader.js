@@ -41,6 +41,7 @@ const SideModalHeader = ({
                 as={NavLink}
                 to={`${match.url}${button.to}`}
                 activeClassName="active-underline"
+                exact
                 replace
               >
                 {button.icon && (

@@ -32,7 +32,7 @@ const MainSideModal = ({
       from={{ transform: "translateX(-100%)" }}
       enter={{ transform: "translateX(0%)" }}
       leave={{ transform: "translateX(-100%)" }}
-      // immediate
+      immediate
     >
       {loc => style => (
         <Switch location={loc}>

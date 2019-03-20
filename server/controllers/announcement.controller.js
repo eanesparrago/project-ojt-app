@@ -49,7 +49,12 @@ function createAnnouncement(req, res) {
 }
 
 function getAnnouncements(req, res) {
-  Announcement.find()
+  let conditions = {};
+  if (req.user.role !== enums.roles.ADMINISTRATOR) {
+    conditions = { "group": req.user.roleData.group._id };
+  }
+
+  Announcement.find(conditions)
     .populate("group", "name")
     .populate("user", "username profilePictureUrl")
     .then(announcements => {

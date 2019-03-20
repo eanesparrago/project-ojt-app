@@ -23,7 +23,7 @@ export class TablePeople extends Component {
               },
               {
                 property: "role",
-                title: "role"
+                title: "Role"
               },
               {
                 property: "dateCreated",
