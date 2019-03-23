@@ -11,21 +11,7 @@ const StyledSideModalContent = animated(styled.div`
 `);
 
 const SideModalContent = ({ children }) => {
-  return (
-    <Spring
-      delay={100}
-      native
-      from={{ transform: "translateX(-100%)" }}
-      to={{ transform: "translateX(0)" }}
-      immediate
-    >
-      {style => (
-        <StyledSideModalContent style={style}>
-          {children}
-        </StyledSideModalContent>
-      )}
-    </Spring>
-  );
+  return <StyledSideModalContent>{children}</StyledSideModalContent>;
 };
 
 export default SideModalContent;

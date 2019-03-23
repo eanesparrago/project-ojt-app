@@ -1,13 +1,15 @@
 import {
   ADMIN_PEOPLE_GET_REQUEST,
   ADMIN_PEOPLE_GET_SUCCESS,
-  ADMIN_PEOPLE_GET_FAILURE
+  ADMIN_PEOPLE_GET_FAILURE,
+  PEOPLE_PERSON_GET_REQUEST,
+  PEOPLE_PERSON_GET_SUCCESS,
+  PEOPLE_PERSON_GET_FAILURE
 } from "../actions/peopleActionCreators";
 
 const initialState = {
   data: null,
   isLoading: false,
-  person: {},
   errors: {}
 };
 

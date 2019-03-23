@@ -10,6 +10,7 @@ import Avatar from "./Avatar/Avatar";
 import FormGroup from "./FormGroup/FormGroup";
 import ProfilePicture from "./ProfilePicture/ProfilePicture";
 import DataGroup from "./DataGroup/DataGroup";
+import NavMenu from "./NavMenu/NavMenu";
 
 export {
   TextInput,
@@ -23,5 +24,6 @@ export {
   Avatar,
   FormGroup,
   ProfilePicture,
-  DataGroup
+  DataGroup,
+  NavMenu
 };

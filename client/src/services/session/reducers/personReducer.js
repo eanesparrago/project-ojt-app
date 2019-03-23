@@ -1,8 +1,8 @@
 import {
-  USER_GET_FAILURE,
-  USER_GET_REQUEST,
-  USER_GET_SUCCESS
-} from "../actions/userActionCreators";
+  PEOPLE_PERSON_GET_REQUEST,
+  PEOPLE_PERSON_GET_SUCCESS,
+  PEOPLE_PERSON_GET_FAILURE
+} from "../actions/personActionCreators";
 
 const initialState = {
   data: null,
@@ -12,23 +12,19 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case USER_GET_REQUEST:
+    case PEOPLE_PERSON_GET_REQUEST:
       return {
         ...state,
         isLoading: true,
-        errors: initialState.errors,
-        data: initialState.data
+        errors: initialState.errors
       };
-
-    case USER_GET_SUCCESS:
+    case PEOPLE_PERSON_GET_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        data: action.payload,
-        errors: initialState.errors
+        data: action.payload
       };
-
-    case USER_GET_FAILURE:
+    case PEOPLE_PERSON_GET_FAILURE:
       return {
         ...state,
         isLoading: false,

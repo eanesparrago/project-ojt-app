@@ -15,8 +15,6 @@ import {
 } from "src/components/compounds";
 
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
-import { getPeople } from "src/services/session/actions/peopleActionCreators";
-import { getGroups } from "src/services/session/actions/groupsActionCreators";
 
 class PersonEdit extends Component {
   constructor(props) {
@@ -92,14 +90,7 @@ class PersonEdit extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const {
-      data,
-      fetchPerson,
-      setFlashMessage,
-      getPeople,
-      getGroups,
-      closeForms
-    } = this.props;
+    const { data, setFlashMessage, afterEdit, closeForms } = this.props;
     const { ...state } = this.state;
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
@@ -108,9 +99,7 @@ class PersonEdit extends Component {
         .then(res => {
           this.setState({ ...state, isLoading: false }, () => {
             closeForms();
-            fetchPerson();
-            getPeople();
-            getGroups();
+            afterEdit();
             setFlashMessage(`${res.data} was successfully edited.`, "success");
           });
         })
@@ -514,9 +503,7 @@ export default withRouter(
   connect(
     null,
     {
-      setFlashMessage: setFlashMessage,
-      getPeople: getPeople,
-      getGroups: getGroups
+      setFlashMessage: setFlashMessage
     }
   )(PersonEdit)
 );

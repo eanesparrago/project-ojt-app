@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { withRouter, NavLink } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import { Item, Box } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";
+import { NavMenu } from "src/components/compounds";
 
 const StyledSideModalHeader = styled.header`
   background-color: ${p => p.theme.color.grey.light};
@@ -21,7 +22,6 @@ const SideModalHeader = ({
   title = "",
   buttons = [],
   isLoading = false,
-  match,
   history
 }) => {
   return (
@@ -34,25 +34,7 @@ const SideModalHeader = ({
             </Typography>
           </Item>
 
-          {buttons.map((button, i) => (
-            <Item margin="wrap-m" key={i}>
-              <Button
-                variant="text"
-                as={NavLink}
-                to={`${match.url}${button.to}`}
-                activeClassName="active-underline"
-                exact
-                replace
-              >
-                {button.icon && (
-                  <Item center margin="inline-s">
-                    <i className={button.icon} />
-                  </Item>
-                )}
-                {button.title}
-              </Button>
-            </Item>
-          ))}
+          <NavMenu buttons={buttons} />
         </Box>
       )}
 

@@ -27,7 +27,7 @@ export class TraineeScheduleEdit extends Component {
     super(props);
 
     this.state = {
-      schedule: props.schedule,
+      schedule: props.data.roleData.schedule,
       isLoading: false,
       errors: {}
     };
@@ -60,17 +60,15 @@ export class TraineeScheduleEdit extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { fetchPerson, id, setFlashMessage } = this.props;
+    const { data, afterEdit, setFlashMessage } = this.props;
     const { ...state } = this.state;
-
-    console.log(id);
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
       axios
-        .put(`/api/users/${id}/schedule`, state.schedule)
+        .put(`/api/users/${data._id}/schedule`, state.schedule)
         .then(res => {
           this.setState({ ...state, isLoading: false }, () => {
-            fetchPerson();
+            afterEdit();
             setFlashMessage(`${res.data} was successfully edited.`, "success");
           });
         })
@@ -92,8 +90,6 @@ export class TraineeScheduleEdit extends Component {
 
   render() {
     const { schedule, isLoading, errors } = this.state;
-
-    console.log(errors);
 
     return (
       <StyledTraineeScheduleEdit>

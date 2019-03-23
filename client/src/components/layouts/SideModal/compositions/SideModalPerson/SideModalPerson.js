@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import { withRouter, Switch, Route, Redirect } from "react-router-dom";
-import axios from "axios";
+import { withRouter } from "react-router-dom";
 import _ from "lodash";
+import { connect } from "react-redux";
 
-import { Item } from "src/components/blocks";
-import { Typography } from "src/components/elements";
 import { SideModal } from "src/components/layouts";
+import { Person } from "src/components/fragments";
 
-import PersonAccount from "./components/PersonAccount";
-import TraineeSchedule from "./components/TraineeSchedule/TraineeSchedule";
-
+import { getPerson } from "src/services/session/actions/personActionCreators";
+import { getPeople } from "src/services/session/actions/peopleActionCreators";
+import { getGroups } from "src/services/session/actions/groupsActionCreators";
 import enums from "src/services/enums";
 
 const buttons = [
@@ -35,94 +34,62 @@ const traineeButtons = [
 ];
 
 export class SideModalPerson extends Component {
-  state = {
-    person: {},
-    isLoading: false,
-    errors: {}
-  };
-
-  fetchPerson = () => {
-    const { ...state } = this.state;
-    const { ...props } = this.props;
-
-    this.setState({ ...state, isLoading: true }, () => {
-      axios
-        .get(`/api/users/user/${props.match.params.id}`)
-        .then(res => {
-          this.setState({ ...state, person: res.data, isLoading: false });
-        })
-        .catch(err => {
-          this.setState({
-            ...state,
-            isLoading: false,
-            errors: err.response.data
-          });
-        });
-    });
-  };
-
   componentDidMount() {
-    this.fetchPerson();
+    const { getPerson, match } = this.props;
+
+    getPerson(match.params.id);
   }
 
-  handleInputChange = e => {
-    this.setState({
-      person: { ...this.state.person, [e.target.name]: e.target.value }
-    });
+  afterEdit = () => {
+    const {
+      person: { data },
+      getPerson,
+      getPeople,
+      getGroups
+    } = this.props;
+
+    getPerson(data._id);
+    getPeople();
+    getGroups();
   };
 
   render() {
-    const { match } = this.props;
-    const { person, isLoading } = this.state;
+    const {
+      person: { data, isLoading }
+    } = this.props;
 
     return (
       <SideModal>
-        <SideModal.Header
-          title={person.username}
-          buttons={
-            person.role === enums.roles.TRAINEE
-              ? buttons.concat(traineeButtons)
-              : buttons
-          }
-          isLoading={isLoading}
-        />
+        {data ? (
+          <SideModal.Header
+            title={data.username}
+            buttons={
+              data.role === enums.roles.TRAINEE
+                ? buttons.concat(traineeButtons)
+                : buttons
+            }
+          />
+        ) : (
+          <SideModal.Header />
+        )}
 
         <SideModal.Body isLoading={isLoading}>
-          {_.isEmpty(person) ? (
-            <Item>
-              <Typography variant="base">User not found</Typography>
-            </Item>
-          ) : (
-            <Switch>
-              <Route
-                path={`${match.url}/`}
-                exact
-                render={() => (
-                  <PersonAccount data={person} fetchPerson={this.fetchPerson} />
-                )}
-              />
-
-              {/* TODO: activity, schedule, tasks */}
-              {person.role === enums.roles.TRAINEE && (
-                <Route
-                  path={`${match.url}/schedule`}
-                  render={() => (
-                    <TraineeSchedule
-                      schedule={person.roleData.schedule}
-                      fetchPerson={this.fetchPerson}
-                      id={person._id}
-                    />
-                  )}
-                />
-              )}
-
-              <Redirect to={`${match.url}`} replace />
-            </Switch>
-          )}
+          {data && <Person data={data} afterEdit={this.afterEdit} />}
         </SideModal.Body>
       </SideModal>
     );
   }
 }
 
-export default withRouter(SideModalPerson);
+export default withRouter(
+  connect(
+    state => ({
+      person: state.person
+    }),
+    {
+      getPerson: getPerson,
+      getPeople: getPeople,
+      getGroups: getGroups
+    }
+  )(SideModalPerson)
+);

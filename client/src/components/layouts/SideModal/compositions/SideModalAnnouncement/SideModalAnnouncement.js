@@ -49,7 +49,6 @@ export class SideModalAnnouncement extends Component {
     } = this.props;
     const { isEditOpen } = this.state;
 
-
     return (
       <SideModal>
         <SideModal.Header title="Announcement" />
@@ -58,39 +57,36 @@ export class SideModalAnnouncement extends Component {
           {data ? (
             <Fragment>
               {auth.user.role === enums.roles.ADMINISTRATOR ||
-                (auth.user.id === data.user._id && (
-                  <Box margin="stack-l">
-                    {isEditOpen ? (
-                      <Button
-                        variant="secondary"
-                        icon
-                        onClick={this.handleToggleEdit}
-                      >
-                        <i className="fas fa-arrow-left" />
-                        <span id="hidden">Back</span>
-                      </Button>
-                    ) : (
-                      <Fragment>
-                        <Item margin="inline-base">
-                          <Button
-                            variant="secondary"
-                            onClick={this.handleToggleEdit}
-                          >
-                            Edit Announcement
-                          </Button>
-                        </Item>
-                        <Item>
-                          <Button
-                            variant="secondary"
-                            onClick={this.handleDelete}
-                          >
-                            Delete Announcement
-                          </Button>
-                        </Item>
-                      </Fragment>
-                    )}
-                  </Box>
-                ))}
+              auth.user.id === data.user._id ? (
+                <Box margin="stack-l">
+                  {isEditOpen ? (
+                    <Button
+                      variant="secondary"
+                      icon
+                      onClick={this.handleToggleEdit}
+                    >
+                      <i className="fas fa-arrow-left" />
+                      <span id="hidden">Back</span>
+                    </Button>
+                  ) : (
+                    <Fragment>
+                      <Item margin="inline-base">
+                        <Button
+                          variant="secondary"
+                          onClick={this.handleToggleEdit}
+                        >
+                          Edit Announcement
+                        </Button>
+                      </Item>
+                      <Item>
+                        <Button variant="secondary" onClick={this.handleDelete}>
+                          Delete Announcement
+                        </Button>
+                      </Item>
+                    </Fragment>
+                  )}
+                </Box>
+              ) : null}
 
               {isEditOpen ? (
                 <AnnouncementEdit handleToggleEdit={this.handleToggleEdit} />

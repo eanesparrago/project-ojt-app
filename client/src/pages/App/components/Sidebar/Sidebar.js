@@ -31,6 +31,14 @@ const StyledSidebar = styled.div`
     width: ${p => p.theme.increment(6)};
     height: ${p => p.theme.increment(6)};
   }
+
+  .box-nav {
+    flex-grow: 1;
+  }
+
+  .item-profile {
+    margin-top: auto;
+  }
 `;
 
 const adminMenu = [
@@ -58,12 +66,12 @@ const adminMenu = [
     title: "Activities",
     icon: "fas fa-list-ul",
     to: "/activities"
-  },
-  {
-    title: "My Profile",
-    icon: "fas fa-user-circle",
-    to: "/profile"
   }
+  // {
+  //   title: "My Profile",
+  //   icon: "fas fa-user-circle",
+  //   to: "/profile"
+  // }
 ];
 
 const supervisorMenu = [
@@ -91,12 +99,12 @@ const supervisorMenu = [
     title: "Activities",
     icon: "fas fa-list-ul",
     to: "/activities"
-  },
-  {
-    title: "My Profile",
-    icon: "fas fa-user-circle",
-    to: "/profile"
   }
+  // {
+  //   title: "My Profile",
+  //   icon: "fas fa-user-circle",
+  //   to: "/profile"
+  // }
 ];
 
 const employeeMenu = [
@@ -124,12 +132,12 @@ const employeeMenu = [
     title: "Activities",
     icon: "fas fa-list-ul",
     to: "/activities"
-  },
-  {
-    title: "My Profile",
-    icon: "fas fa-user-circle",
-    to: "/profile"
   }
+  // {
+  //   title: "My Profile",
+  //   icon: "fas fa-user-circle",
+  //   to: "/profile"
+  // }
 ];
 
 const traineeMenu = [
@@ -152,12 +160,12 @@ const traineeMenu = [
     title: "Tasks",
     icon: "far fa-check-circle",
     to: "/tasks"
-  },
-  {
-    title: "My Profile",
-    icon: "fas fa-user-circle",
-    to: "/profile"
   }
+  // {
+  //   title: "My Profile",
+  //   icon: "fas fa-user-circle",
+  //   to: "/profile"
+  // }
 ];
 
 const Sidebar = ({ match, user }) => {
@@ -187,7 +195,7 @@ const Sidebar = ({ match, user }) => {
         {/* <Divider /> */}
       </Container>
 
-      <Box column>
+      <Box NAME="nav" column>
         {menu.map(item => (
           <Item left margin="stack-s" key={item.title}>
             <Button
@@ -205,6 +213,22 @@ const Sidebar = ({ match, user }) => {
             </Button>
           </Item>
         ))}
+
+        <Item NAME="profile" left margin="stack-s">
+          <Button
+            variant="text"
+            full
+            left
+            as={NavLink}
+            to={`${match.url}/profile`}
+            activeClassName="active"
+          >
+            <Item center style={{ width: "2rem" }} margin="inline-s">
+              <i className="fas fa-user-circle" />
+            </Item>
+            My Profile
+          </Button>
+        </Item>
       </Box>
     </StyledSidebar>
   );

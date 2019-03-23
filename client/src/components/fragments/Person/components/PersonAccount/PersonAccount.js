@@ -30,7 +30,7 @@ export class PersonAccount extends Component {
   render() {
     const {
       data,
-      fetchPerson,
+      afterEdit,
       auth: {
         user: { role }
       }
@@ -73,7 +73,7 @@ export class PersonAccount extends Component {
         {(isEditOpen && (
           <PersonEdit
             data={data}
-            fetchPerson={fetchPerson}
+            afterEdit={afterEdit}
             closeForms={this.closeForms}
           />
         )) ||
