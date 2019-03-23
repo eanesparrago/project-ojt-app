@@ -17,6 +17,7 @@ import {
 
 import { logoutUser } from "src/services/session/actions/authActionCreators";
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
+import enums from "src/services/enums";
 
 const StyledInitializeForm = animated(styled.form``);
 
@@ -42,7 +43,9 @@ export class InitializeForm extends Component {
         adviserName: props.data.roleData.adviserName,
         adviserContactNumber: props.data.adviserContactNumber,
         guardianName: props.data.roleData.guardianName,
-        guardianContactNumber: props.data.roleData.guardianContactNumber
+        guardianContactNumber: props.data.roleData.guardianContactNumber,
+        password: "",
+        confirmPassword: ""
       },
       isLoading: false,
       errors: {}
@@ -109,7 +112,7 @@ export class InitializeForm extends Component {
                 autoFocus: true
               },
               {
-                label: "Middle Name",
+                label: "Middle Name (Optional)",
                 name: "middleName",
                 type: "text",
                 id: "middle-name-input"
@@ -121,7 +124,7 @@ export class InitializeForm extends Component {
                 id: "last-name-input"
               },
               {
-                label: "Nickname",
+                label: "Nickname (Optional)",
                 name: "nickname",
                 type: "text",
                 id: "nickname-input"
@@ -175,95 +178,134 @@ export class InitializeForm extends Component {
               </FormGroup>
             </Item>
 
-            {[
-              {
-                label: "Date of Birth",
-                name: "dateOfBirth",
-                type: "date",
-                id: "date-of-birth-input"
-              },
-              {
-                label: "Address",
-                name: "address",
-                type: "text",
-                id: "address-input"
-              },
-              {
-                label: "Contact Number",
-                name: "contactNumber",
-                type: "text",
-                id: "contact-number-input"
-              },
-              {
-                label: "E-mail Address",
-                name: "email",
-                type: "email",
-                id: "email-input"
-              },
+            <Item margin="stack-base">
+              <FormGroup>
+                <FormGroup.Label title="E-mail Address" htmlFor="email-input" />
 
-              {
-                label: "School",
-                name: "school",
-                type: "text",
-                id: "school-input"
-              },
-              {
-                label: "Adviser Name",
-                name: "adviserName",
-                type: "text",
-                id: "adviser-name-input"
-              },
-              {
-                label: "Adviser Contact Number",
-                name: "adviserContactNumber",
-                type: "text",
-                id: "adviser-contact-number-input"
-              },
-              {
-                label: "Guardian Name",
-                name: "guardianName",
-                type: "text",
-                id: "guardian-name-input"
-              },
-              {
-                label: "Guardian Contact Number",
-                name: "guardianContactNumber",
-                type: "text",
-                id: "guardian-contact-number-input"
-              },
-              {
-                label: "Password",
-                name: "password",
-                type: "password",
-                id: "password-input"
-              },
-              {
-                label: "Confirm Password",
-                name: "confirmPassword",
-                type: "password",
-                id: "confirm-password-input"
-              }
-            ].map(item => (
-              <Item margin="stack-base" key={item.id}>
-                <FormGroup>
-                  <FormGroup.Label title={item.label} htmlFor={item.id} />
+                <FormGroup.Input>
+                  <TextInput
+                    name="email"
+                    id="email-input"
+                    type="email"
+                    value={data.email}
+                    onChange={this.handleInputChange}
+                    error={errors.email}
+                    disabled={isLoading}
+                  />
+                </FormGroup.Input>
+              </FormGroup>
+            </Item>
 
-                  <FormGroup.Input>
-                    <TextInput
-                      autoFocus={item.autoFocus}
-                      name={item.name}
-                      id={item.id}
-                      type={item.type}
-                      value={data[item.name]}
-                      onChange={this.handleInputChange}
-                      error={errors[item.name]}
-                      disabled={isLoading}
-                      {...item}
-                    />
-                  </FormGroup.Input>
-                </FormGroup>
-              </Item>
-            ))}
+            {data.role === enums.roles.TRAINEE &&
+              [
+                {
+                  label: "Date of Birth",
+                  name: "dateOfBirth",
+                  type: "date",
+                  id: "date-of-birth-input"
+                },
+                {
+                  label: "Address",
+                  name: "address",
+                  type: "text",
+                  id: "address-input"
+                },
+                {
+                  label: "Contact Number",
+                  name: "contactNumber",
+                  type: "text",
+                  id: "contact-number-input"
+                },
+                {
+                  label: "School",
+                  name: "school",
+                  type: "text",
+                  id: "school-input"
+                },
+                {
+                  label: "Adviser Name",
+                  name: "adviserName",
+                  type: "text",
+                  id: "adviser-name-input"
+                },
+                {
+                  label: "Adviser Contact Number",
+                  name: "adviserContactNumber",
+                  type: "text",
+                  id: "adviser-contact-number-input"
+                },
+                {
+                  label: "Guardian Name",
+                  name: "guardianName",
+                  type: "text",
+                  id: "guardian-name-input"
+                },
+                {
+                  label: "Guardian Contact Number",
+                  name: "guardianContactNumber",
+                  type: "text",
+                  id: "guardian-contact-number-input"
+                }
+              ].map(item => (
+                <Item margin="stack-base" key={item.id}>
+                  <FormGroup>
+                    <FormGroup.Label title={item.label} htmlFor={item.id} />
+
+                    <FormGroup.Input>
+                      <TextInput
+                        autoFocus={item.autoFocus}
+                        name={item.name}
+                        id={item.id}
+                        type={item.type}
+                        value={data[item.name]}
+                        onChange={this.handleInputChange}
+                        error={errors[item.name]}
+                        disabled={isLoading}
+                        {...item}
+                      />
+                    </FormGroup.Input>
+                  </FormGroup>
+                </Item>
+              ))}
+
+            <Item margin="stack-base">
+              <FormGroup>
+                <FormGroup.Label title="Password" htmlFor="password-input" />
+
+                <FormGroup.Input>
+                  <TextInput
+                    name="password"
+                    id="password-input"
+                    type="password"
+                    value={data.password}
+                    onChange={this.handleInputChange}
+                    error={errors.password}
+                    disabled={isLoading}
+                  />
+                </FormGroup.Input>
+              </FormGroup>
+            </Item>
+
+            <Item margin="stack-base">
+              <FormGroup>
+                <FormGroup.Label
+                  title="Confirm Password"
+                  htmlFor="confirm-password-input"
+                />
+
+                <FormGroup.Input>
+                  <TextInput
+                    name="confirmPassword"
+                    id="confirm-password-input"
+                    type="password"
+                    value={data.confirmPassword}
+                    onChange={this.handleInputChange}
+                    error={errors.confirmPassword}
+                    disabled={isLoading}
+                  />
+                </FormGroup.Input>
+              </FormGroup>
+            </Item>
 
             <Item margin="stack-base">
               <FormGroup>

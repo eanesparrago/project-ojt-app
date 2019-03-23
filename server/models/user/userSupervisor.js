@@ -14,6 +14,11 @@ const UserSupervisor = User.discriminator(
           ref: "Announcement"
         }
       ],
+      isInitialized: {
+        type: Boolean,
+        required: true,
+        default: false
+      },
       group: { type: Schema.Types.ObjectId, ref: "Group", default: null }
     }
   })

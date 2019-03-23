@@ -62,7 +62,7 @@ export class Initialize extends Component {
           </Typography>
         </Item>
 
-        {isLoading ? (
+        {isLoading || !data ? (
           <Item padding="inset-base">
             <LoadingScene />
           </Item>

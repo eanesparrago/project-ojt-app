@@ -54,7 +54,7 @@ export class App extends Component {
     } = this.props;
 
     if (
-      user.role === enums.roles.TRAINEE &&
+      user.role !== enums.roles.ADMINISTRATOR &&
       user.roleData.isInitialized === false
     ) {
       history.push("/initialize");

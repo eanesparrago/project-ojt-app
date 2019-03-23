@@ -70,7 +70,11 @@ class Main extends Component {
                 <PrivateRoute
                   path="/initialize"
                   component={Initialize}
-                  permittedRoles={[enums.roles.TRAINEE]}
+                  permittedRoles={[
+                    enums.roles.TRAINEE,
+                    enums.roles.EMPLOYEE,
+                    enums.roles.SUPERVISOR
+                  ]}
                 />
 
                 <Route render={() => <h1>Not found</h1>} />
