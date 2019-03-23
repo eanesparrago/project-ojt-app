@@ -16,7 +16,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        errors: initialState.errors
+        errors: initialState.errors,
+        data: initialState.data
       };
     case PEOPLE_PERSON_GET_SUCCESS:
       return {

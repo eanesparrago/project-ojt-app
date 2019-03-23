@@ -15,6 +15,8 @@ import {
 } from "src/components/compounds";
 
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
+import { getPeople } from "src/services/session/actions/peopleActionCreators";
+import { getGroups } from "src/services/session/actions/groupsActionCreators";
 
 class PersonEdit extends Component {
   constructor(props) {
@@ -260,9 +262,7 @@ class PersonEdit extends Component {
 
             {/* >>> Personal details */}
             <Item margin="stack-base">
-              <Typography variant="display-4">
-                Personal Information &mdash; Optional
-              </Typography>
+              <Typography variant="display-4">Personal Information</Typography>
             </Item>
 
             {[
@@ -503,7 +503,9 @@ export default withRouter(
   connect(
     null,
     {
-      setFlashMessage: setFlashMessage
+      setFlashMessage: setFlashMessage,
+      getPeople: getPeople,
+      getGroups: getGroups
     }
   )(PersonEdit)
 );

@@ -123,8 +123,9 @@ function createUser(req, res) {
                     return res.status(200).send(user.username);
                   });
                 });
+              } else {
+                return res.status(200).send(user.username);
               }
-              return res.status(200).send(user.username);
             })
             .catch(err => res.status(500).send("Error"));
         });

@@ -81,7 +81,6 @@ export class TraineeScheduleEdit extends Component {
             },
             () => {
               setFlashMessage(`An error occurred.`, "error");
-              console.log(state.errors);
             }
           );
         });
@@ -105,7 +104,6 @@ export class TraineeScheduleEdit extends Component {
 
                 <FormGroup.Input>
                   <TextInput
-                    // name={}
                     type="checkbox"
                     checked={schedule[day].isTrainingDay}
                     disabled={isLoading}
