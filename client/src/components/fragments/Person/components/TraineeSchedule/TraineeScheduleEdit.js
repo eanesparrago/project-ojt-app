@@ -22,6 +22,15 @@ const days = [
   "sunday"
 ];
 
+function returnEndTime(startTime, hours) {
+  let endTime = startTime + hours;
+  if (endTime > 24) {
+    endTime -= 24;
+  }
+
+  return `${endTime}:00`;
+}
+
 export class TraineeScheduleEdit extends Component {
   constructor(props) {
     super(props);
@@ -231,7 +240,7 @@ export class TraineeScheduleEdit extends Component {
 
                 <Item>
                   <FormGroup>
-                    <FormGroup.Label title="Hours" />
+                    <FormGroup.Label title="End Time" />
 
                     <FormGroup.Input>
                       <SelectInput
@@ -241,35 +250,59 @@ export class TraineeScheduleEdit extends Component {
                         disabled={isLoading}
                         options={[
                           {
-                            label: "1 hour",
+                            label: `${returnEndTime(
+                              schedule[day].startTime,
+                              1
+                            )} (1 hour)`,
                             value: 1
                           },
                           {
-                            label: "2 hours",
+                            label: `${returnEndTime(
+                              schedule[day].startTime,
+                              2
+                            )} (2 hours)`,
                             value: 2
                           },
                           {
-                            label: "3 hours",
+                            label: `${returnEndTime(
+                              schedule[day].startTime,
+                              3
+                            )} (3 hours)`,
                             value: 3
                           },
                           {
-                            label: "4 hours",
+                            label: `${returnEndTime(
+                              schedule[day].startTime,
+                              4
+                            )} (4 hours)`,
                             value: 4
                           },
                           {
-                            label: "5 hours",
+                            label: `${returnEndTime(
+                              schedule[day].startTime,
+                              5
+                            )} (5 hours)`,
                             value: 5
                           },
                           {
-                            label: "6 hours",
+                            label: `${returnEndTime(
+                              schedule[day].startTime,
+                              6
+                            )} (6 hours)`,
                             value: 6
                           },
                           {
-                            label: "7 hours",
+                            label: `${returnEndTime(
+                              schedule[day].startTime,
+                              7
+                            )} (7 hours)`,
                             value: 7
                           },
                           {
-                            label: "8 hours",
+                            label: `${returnEndTime(
+                              schedule[day].startTime,
+                              8
+                            )} (8 hours)`,
                             value: 8
                           }
                         ]}
