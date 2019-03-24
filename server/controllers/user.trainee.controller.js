@@ -1,6 +1,8 @@
 const User = require("../models/user/user");
+const Clock = require("../models/clock");
 const { validationResult } = require("express-validator/check");
 const bcrypt = require("bcryptjs");
+const differenceInSeconds = require("date-fns/difference_in_seconds");
 
 /**
  * Test route
@@ -52,10 +54,64 @@ function initializeUser(req, res) {
         });
       });
     })
-    .catch(err => res.status(500).json({ message: "Error occurred" }));
+    .catch(err => res.status(500).send(err));
+}
+
+/**
+ * Clock in/out
+ * POST api/users/trainee/clock
+ */
+function userClock(req, res) {
+  User.findById(req.user._id)
+    .then(user => {
+      const newClock = new Clock({
+        type: user.roleData.isClockedIn ? "out" : "in",
+        user: user._id
+      });
+
+      newClock.save((err, clock) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+
+        if (user.roleData.isClockedIn === true) {
+          const lastClockInId =
+            user.roleData.clocks[user.roleData.clocks.length - 1];
+
+          Clock.findById(lastClockInId).then(clock => {
+            const secondsElapsed = differenceInSeconds(new Date(), clock.time);
+
+            user.roleData.timeRendered += secondsElapsed;
+            user.roleData.isClockedIn = !user.roleData.isClockedIn;
+            user.roleData.clocks.push(clock);
+
+            user.save((err, user) => {
+              if (err) {
+                return res.status(500).send(err);
+              }
+
+              res.status(200).json(user);
+            });
+          });
+        } else {
+          user.roleData.isClockedIn = !user.roleData.isClockedIn;
+          user.roleData.clocks.push(clock);
+
+          user.save((err, user) => {
+            if (err) {
+              return res.status(500).send(err);
+            }
+
+            res.status(200).json(user);
+          });
+        }
+      });
+    })
+    .catch(err => res.status(500).send(err));
 }
 
 module.exports = {
   testRoute,
-  initializeUser
+  initializeUser,
+  userClock
 };

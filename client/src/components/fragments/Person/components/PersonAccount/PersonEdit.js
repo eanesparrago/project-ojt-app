@@ -31,7 +31,7 @@ class PersonEdit extends Component {
         isActive: props.data.isActive,
         username: props.data.username,
         email: props.data.email,
-        trainingDuration: props.data.roleData.trainingDuration,
+        trainingDuration: props.data.roleData.trainingDuration / 3600,
         firstName: props.data.firstName,
         middleName: props.data.middleName,
         lastName: props.data.lastName,
@@ -224,7 +224,7 @@ class PersonEdit extends Component {
                 role: ["administrator", "supervisor", "trainee", "employee"]
               },
               {
-                label: "Training Duration",
+                label: "Training Duration (Hours)",
                 name: "trainingDuration",
                 type: "number",
                 id: "training-duration-input",

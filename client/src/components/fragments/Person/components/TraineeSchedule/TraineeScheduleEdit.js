@@ -23,7 +23,7 @@ const days = [
 ];
 
 function returnEndTime(startTime, hours) {
-  let endTime = startTime + hours;
+  let endTime = parseInt(startTime) + parseInt(hours);
   if (endTime > 24) {
     endTime -= 24;
   }

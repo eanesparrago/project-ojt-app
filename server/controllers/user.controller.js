@@ -56,17 +56,6 @@ function createUser(req, res) {
       errors.username = { msg: "Username already exists" };
       return res.status(400).json(errors);
     } else {
-      // const userData = {
-      //   username: req.body.username,
-      //   password: req.body.password,
-      //   firstName: req.body.firstName,
-      //   middleName: req.body.middleName,
-      //   lastName: req.body.lastName,
-      //   gender: req.body.gender,
-      //   contactNumber: req.body.contactNumber,
-      //   email: req.body.email
-      // };
-
       const userData = req.body;
       userData.roleData = {};
 
@@ -83,7 +72,7 @@ function createUser(req, res) {
           break;
 
         case enums.roles.TRAINEE:
-          userData.roleData.trainingDuration = req.body.trainingDuration;
+          userData.roleData.trainingDuration = req.body.trainingDuration * 3600;
           userData.roleData.dateOfBirth = req.body.dateOfBirth;
           userData.roleData.address = req.body.address;
           userData.roleData.contactNumber = req.body.contactNumber;
@@ -145,42 +134,44 @@ function loginUser(req, res) {
   const username = req.body.username;
   const password = req.body.password;
 
-  User.findOne({ username: username }).then(user => {
-    if (!user) {
-      return res.status(404).json({ error: "Invalid login information" });
-    }
-
-    user.set({ dateLastLoggedIn: Date.now() });
-    user.save();
-
-    bcrypt.compare(password, user.password).then(isMatch => {
-      if (isMatch) {
-        const payload = {
-          id: user.id,
-          role: user.role,
-          username: user.username,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          profilePictureUrl: user.profilePictureUrl,
-          roleData: user.roleData
-        };
-
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          { expiresIn: 36000 },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token
-            });
-          }
-        );
-      } else {
-        return res.status(400).json({ error: "Invalid login information" });
+  User.findOne({ username: username })
+    .select("+password")
+    .then(user => {
+      if (!user) {
+        return res.status(404).json({ error: "Invalid login information" });
       }
+
+      user.set({ dateLastLoggedIn: Date.now() });
+      user.save();
+
+      bcrypt.compare(password, user.password).then(isMatch => {
+        if (isMatch) {
+          const payload = {
+            id: user.id,
+            role: user.role,
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            profilePictureUrl: user.profilePictureUrl,
+            roleData: user.roleData
+          };
+
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            { expiresIn: 36000 },
+            (err, token) => {
+              res.json({
+                success: true,
+                token: "Bearer " + token
+              });
+            }
+          );
+        } else {
+          return res.status(400).json({ error: "Invalid login information" });
+        }
+      });
     });
-  });
 }
 
 /**
@@ -197,8 +188,7 @@ function getUsers(req, res) {
   }
 
   User.find(conditions)
-    .select("-password")
-    .populate("roleData.group", "name")
+    .select("-roleData")
     .then(users => {
       if (!users) {
         errors.users = "There are no users";
@@ -272,7 +262,7 @@ function updateUser(req, res) {
 
       user.roleData.school = req.body.school ? req.body.school : "";
       user.roleData.trainingDuration = req.body.trainingDuration
-        ? req.body.trainingDuration
+        ? req.body.trainingDuration * 3600
         : "";
       user.roleData.dateOfBirth = req.body.dateOfBirth
         ? req.body.dateOfBirth

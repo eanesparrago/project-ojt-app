@@ -13,7 +13,7 @@ const UserTrainee = User.discriminator(
         required: true,
         default: 0
       },
-      hoursRendered: {
+      timeRendered: {
         type: Number,
         default: 0,
         required: true
@@ -184,6 +184,16 @@ const UserTrainee = User.discriminator(
       guardianContactNumber: {
         type: String,
         default: ""
+      },
+      clocks: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Clock"
+        }
+      ],
+      isClockedIn: {
+        type: Boolean,
+        default: false
       },
       isInitialized: {
         type: Boolean,

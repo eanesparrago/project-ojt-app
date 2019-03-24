@@ -14,6 +14,7 @@ const enums = require("../enums");
 
 router.route("/test").get(UserTraineeController.testRoute);
 
+// POST --->>> /api/trainee/initialize - initializeUser
 router.route("/initialize").post(
   passport.authenticate("jwt", { session: false }),
   permittedRoles(
@@ -30,5 +31,14 @@ router.route("/initialize").post(
   },
   UserTraineeController.initializeUser
 );
+
+// POST --->>> /api/trainee/clock - userClock
+router
+  .route("/clock")
+  .post(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.TRAINEE),
+    UserTraineeController.userClock
+  );
 
 module.exports = router;
