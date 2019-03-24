@@ -22,7 +22,7 @@ router.route("/initialize").post(
     enums.roles.EMPLOYEE
   ),
   function(req, res, next) {
-    if (req.body.role === enums.roles.TRAINEE) {
+    if (req.user.role === enums.roles.TRAINEE) {
       dynamicValidation(validateInitializeTrainee, req, res, next);
     } else {
       dynamicValidation(validateInitialize, req, res, next);

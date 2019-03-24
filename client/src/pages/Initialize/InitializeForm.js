@@ -196,7 +196,7 @@ export class InitializeForm extends Component {
               </FormGroup>
             </Item>
 
-            {data.role === enums.roles.TRAINEE &&
+            {this.props.auth.user.role === enums.roles.TRAINEE &&
               [
                 {
                   label: "Date of Birth",
