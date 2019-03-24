@@ -1,30 +1,36 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { Item } from "src/components/blocks";
-import { Typography, Button } from "src/components/elements";
+import { Button } from "src/components/elements";
+import TraineeWidget from "./components/TraineeWidget";
+import Clock from "./components/Clock";
 
 import { logoutUser } from "src/services/session/actions/authActionCreators";
+import enums from "src/services/enums";
 
 const StyledHeader = styled.header`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: ${p => p.theme.color.grey.dark};
+  /* justify-content: space-between; */
+  background-color: ${p => p.theme.color.dark};
   color: ${p => p.theme.color.primary.main};
-  padding: var(--size-m);
+  padding: var(--size-m) var(--size-base);
+
+  .item-logout {
+    margin-left: auto;
+  }
 `;
 
-const Header = ({ logoutUser }) => {
+const Header = ({ auth: { user }, logoutUser }) => {
   return (
     <StyledHeader>
-      <Item as={Link} to="/admin">
-        <Typography variant="display-4">Parousía</Typography>
+      <Item>
+        {user.role === enums.roles.TRAINEE ? <TraineeWidget /> : <Clock />}
       </Item>
 
-      <Item>
+      <Item NAME="logout">
         <Button variant="text" onClick={logoutUser}>
           Log out
         </Button>
@@ -34,6 +40,8 @@ const Header = ({ logoutUser }) => {
 };
 
 export default connect(
-  null,
+  state => ({
+    auth: state.auth
+  }),
   { logoutUser: logoutUser }
 )(Header);

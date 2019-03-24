@@ -18,7 +18,7 @@ const StyledApp = styled.div`
   height: 100%;
   display: grid;
   grid-template-areas:
-    "header header"
+    "sidebar header"
     "sidebar main";
   grid-template-rows: auto 1fr;
   grid-template-columns: auto 1fr;

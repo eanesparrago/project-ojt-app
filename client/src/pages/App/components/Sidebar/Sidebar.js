@@ -12,7 +12,7 @@ const StyledSidebar = styled.div`
   height: 100%;
   display: flex;
   flex-flow: column;
-  background-color: ${p => p.theme.color.dark};
+  background-color: ${p => p.theme.color.black};
   overflow-y: auto;
   color: ${p => p.theme.color.light};
   padding: var(--size-base);
@@ -168,7 +168,7 @@ const traineeMenu = [
   // }
 ];
 
-const Sidebar = ({ match, user }) => {
+const Sidebar = ({ match, auth: { user } }) => {
   const menu =
     (user.role === enums.roles.ADMINISTRATOR && adminMenu) ||
     (user.role === enums.roles.SUPERVISOR && supervisorMenu) ||
@@ -178,6 +178,10 @@ const Sidebar = ({ match, user }) => {
   return (
     <StyledSidebar>
       <Container NAME="sidebar-profile" margin="stack-base">
+        <Item as={Link} to="/" margin="stack-l">
+          <Typography variant="display-4">Parousía</Typography>
+        </Item>
+
         <Item NAME="sidebar-profile-picture" margin="stack-m">
           <Photo rounded>
             <img src={user.profilePictureUrl} alt="" />
@@ -188,11 +192,11 @@ const Sidebar = ({ match, user }) => {
           <Typography variant="display-3">{user.username}</Typography>
         </Item>
 
-        <Item>
+        <Item margin="stack-base">
           <Typography>{user.role}</Typography>
         </Item>
 
-        {/* <Divider /> */}
+        <Divider />
       </Container>
 
       <Box NAME="nav" column>
@@ -236,7 +240,7 @@ const Sidebar = ({ match, user }) => {
 
 export default withRouter(
   connect(
-    state => ({ user: state.auth.user }),
+    state => ({ auth: state.auth }),
     null
   )(Sidebar)
 );
