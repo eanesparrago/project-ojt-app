@@ -102,7 +102,7 @@ class PersonEdit extends Component {
           this.setState({ ...state, isLoading: false }, () => {
             closeForms();
             afterEdit();
-            setFlashMessage(`${res.data} was successfully edited.`, "success");
+            setFlashMessage(`${res.data} was edited successfully.`, "success");
           });
         })
         .catch(err => {
@@ -131,7 +131,7 @@ class PersonEdit extends Component {
         .then(res => {
           getPeople();
           getGroups();
-          setFlashMessage(`${res.data} was successfully deleted.`, "success");
+          setFlashMessage(`${res.data} was deleted successfully.`, "success");
           history.go(-1);
         })
         .catch(err => {

@@ -71,7 +71,7 @@ export const editAnnouncement = (id, message) => dispatch => {
         });
 
         dispatch(
-          setFlashMessage("Announcement was successfully edited.", "success")
+          setFlashMessage("Announcement was edited successfully.", "success")
         );
 
         dispatch(getAnnouncement(id));
@@ -112,7 +112,7 @@ export const deleteAnnouncement = id => dispatch => {
         dispatch(getAnnouncements());
 
         dispatch(
-          setFlashMessage("Announcement was successfully deleted.", "success")
+          setFlashMessage("Announcement was deleted successfully.", "success")
         );
 
         resolve();

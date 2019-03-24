@@ -55,7 +55,7 @@ export class SideModalCreateGroup extends Component {
               isLoading: false
             },
             () => {
-              props.setFlashMessage("An error occurred", "error");
+              props.setFlashMessage("An error occurred.", "error");
             }
           );
         });

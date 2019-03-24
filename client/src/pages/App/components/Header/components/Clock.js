@@ -30,7 +30,7 @@ class Clock extends Component {
   render() {
     const { time } = this.state;
 
-    return <Typography>{format(time, "MMM D, YYYY, HH:mm")}</Typography>;
+    return <Typography>{format(time, " MMM D ddd YYYY , HH:mm")}</Typography>;
   }
 }
 

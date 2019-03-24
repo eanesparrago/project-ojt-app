@@ -84,7 +84,7 @@ function userClock(req, res) {
             const secondsElapsed = differenceInSeconds(new Date(), clock.time);
 
             user.roleData.timeRendered += secondsElapsed;
-            user.roleData.isClockedIn = !user.roleData.isClockedIn;
+            user.roleData.isClockedIn = false;
             user.roleData.clocks.push(clock);
 
             user.save((err, user) => {
@@ -107,7 +107,7 @@ function userClock(req, res) {
           });
         } else {
           // >>> Clock in
-          user.roleData.isClockedIn = !user.roleData.isClockedIn;
+          user.roleData.isClockedIn = true;
           user.roleData.lastClockInTime = Date.now();
           user.roleData.clocks.push(clock);
 

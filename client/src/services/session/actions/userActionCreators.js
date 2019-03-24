@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { setFlashMessage } from "./appActionCreators";
+
 export const USER_GET_REQUEST = "USER_GET_REQUEST";
 export const USER_GET_SUCCESS = "USER_GET_SUCCESS";
 export const USER_GET_FAILURE = "USER_GET_FAILURE";
@@ -41,11 +43,15 @@ export const clockTrainee = () => dispatch => {
         type: USER_CLOCK_SUCCESS,
         payload: res.data
       });
+
+      dispatch(setFlashMessage("Clocked successfully.", "success"));
     })
     .catch(err => {
       dispatch({
         type: USER_CLOCK_FAILURE,
         payload: err.response.data
       });
+
+      dispatch(setFlashMessage("An error occurred.", "error"));
     });
 };
