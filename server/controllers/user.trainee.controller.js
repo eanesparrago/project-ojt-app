@@ -63,6 +63,7 @@ function initializeUser(req, res) {
  */
 function userClock(req, res) {
   User.findById(req.user._id)
+    .select("+roleData.clocks")
     .then(user => {
       const newClock = new Clock({
         type: user.roleData.isClockedIn ? "out" : "in",
@@ -75,6 +76,7 @@ function userClock(req, res) {
         }
 
         if (user.roleData.isClockedIn === true) {
+          // >>> Clock out if clocked in
           const lastClockInId =
             user.roleData.clocks[user.roleData.clocks.length - 1];
 
@@ -90,11 +92,23 @@ function userClock(req, res) {
                 return res.status(500).send(err);
               }
 
-              res.status(200).json(user);
+              User.populate(
+                user,
+                { path: "roleData.group", select: "name" },
+                (err, user) => {
+                  if (err) {
+                    return res.status(500).send(err);
+                  }
+
+                  res.status(200).json(user);
+                }
+              );
             });
           });
         } else {
+          // >>> Clock in
           user.roleData.isClockedIn = !user.roleData.isClockedIn;
+          user.roleData.lastClockInTime = Date.now();
           user.roleData.clocks.push(clock);
 
           user.save((err, user) => {
@@ -102,7 +116,17 @@ function userClock(req, res) {
               return res.status(500).send(err);
             }
 
-            res.status(200).json(user);
+            User.populate(
+              user,
+              { path: "roleData.group", select: "name" },
+              (err, user) => {
+                if (err) {
+                  return res.status(500).send(err);
+                }
+
+                res.status(200).json(user);
+              }
+            );
           });
         }
       });

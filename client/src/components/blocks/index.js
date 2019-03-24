@@ -175,17 +175,22 @@ const StyledItem = styled.div`
 
 const AnimatedItem = animated(StyledItem);
 
-const Item = ({ NAME, ...props }) => {
+const Item = ({ NAME, center, ...props }) => {
   return props.animate ? (
     <AnimatedItem
       style={props.animate}
       className={NAME ? `item item-${NAME}` : "item"}
+      center={center ? 1 : 0}
       {...props}
     >
       {props.children}
     </AnimatedItem>
   ) : (
-    <StyledItem className={NAME ? `item item-${NAME}` : "item"} {...props}>
+    <StyledItem
+      className={NAME ? `item item-${NAME}` : "item"}
+      center={center ? 1 : 0}
+      {...props}
+    >
       {props.children}
     </StyledItem>
   );

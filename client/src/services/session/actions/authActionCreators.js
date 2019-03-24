@@ -1,7 +1,8 @@
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import enums from "src/services/enums";
+
+import { getCurrentUser } from "./userActionCreators";
 
 export const AUTH_LOGIN_REQUEST = "AUTH_LOGIN_REQUEST";
 export const AUTH_LOGIN_SUCCESS = "AUTH_LOGIN_SUCCESS";
@@ -18,16 +19,10 @@ export const loginUser = userData => dispatch => {
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
       setAuthToken(token);
+
       const decoded = jwt_decode(token);
       dispatch(setCurrentUser(decoded));
 
-      // if (
-      //   decoded.role === enums.roles.TRAINEE &&
-      //   decoded.roleData.isInitialized === false
-      // ) {
-      //   window.location.href = "/initialize";
-      // } else {
-      // }
       window.location.href = "/app";
     })
     .catch(err => {
@@ -38,11 +33,13 @@ export const loginUser = userData => dispatch => {
     });
 };
 
-export const setCurrentUser = decoded => {
-  return {
+export const setCurrentUser = decoded => dispatch => {
+  dispatch({
     type: AUTH_LOGIN_SUCCESS,
     payload: decoded
-  };
+  });
+
+  dispatch(getCurrentUser());
 };
 
 export const logoutUser = () => dispatch => {

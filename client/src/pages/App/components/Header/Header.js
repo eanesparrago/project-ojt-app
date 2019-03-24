@@ -13,7 +13,6 @@ import enums from "src/services/enums";
 const StyledHeader = styled.header`
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
   background-color: ${p => p.theme.color.dark};
   color: ${p => p.theme.color.primary.main};
   padding: var(--size-m) var(--size-base);

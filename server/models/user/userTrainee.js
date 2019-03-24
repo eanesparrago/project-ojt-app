@@ -185,12 +185,25 @@ const UserTrainee = User.discriminator(
         type: String,
         default: ""
       },
-      clocks: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: "Clock"
-        }
-      ],
+      // clocks: [
+      //   {
+      //     type: Schema.Types.ObjectId,
+      //     ref: "Clock",
+      //     select: false
+      //   }
+      // ],
+      clocks: {
+        type: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "Clock"
+          }
+        ],
+        select: false
+      },
+      lastClockInTime: {
+        type: Date
+      },
       isClockedIn: {
         type: Boolean,
         default: false
