@@ -49,7 +49,10 @@ export default {
       medium: "#9E9E9E",
       dark: "#424242"
     },
-    error: "#F44336"
+    error: "#F44336",
+    warning: "#FFC107",
+    absent: "#9C27B0",
+    out: "#2196F3"
   },
   size: {
     xxs: "0.125rem", // >>> 2

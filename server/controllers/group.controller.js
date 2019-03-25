@@ -52,7 +52,10 @@ function getGroups(req, res) {
 
   Group.find()
     .select(req.query.field)
-    .populate("users", "profilePictureUrl")
+    .populate(
+      "users",
+      "profilePictureUrl roleData.isClockedIn roleData.schedule roleData.lastClockInTime"
+    )
     .then(groups => {
       if (!groups) {
         errors.groups = "There are no groups";
