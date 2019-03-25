@@ -141,7 +141,7 @@ const StyledButtonText = styled(StyledButton)`
 // >>> Photo
 const StyledButtonPhoto = styled(StyledButton)`
   box-shadow: 0 0 0 0 transparent;
-  background-color: ${p => p.theme.color.primary.main};
+  background-color: ${p => p.theme.color.white};
   overflow: hidden;
   width: 100%;
   height: 100%;

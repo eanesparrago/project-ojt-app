@@ -11,6 +11,15 @@ function convertSecondsToElapsedTime(seconds) {
   var minutes = Math.floor((sec_num - hours * 3600) / 60);
   var seconds = sec_num - hours * 3600 - minutes * 60;
 
+  if (hours < 10) {
+    hours = "0" + hours;
+  }
+  if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
+  if (seconds < 10) {
+    seconds = "0" + seconds;
+  }
   return hours + "h " + minutes + "m " + seconds + "s";
 }
 
@@ -41,11 +50,7 @@ class TimeElapsed extends Component {
   render() {
     const { seconds } = this.state;
 
-    return (
-      <Typography>
-        Clocked In: {convertSecondsToElapsedTime(seconds)}
-      </Typography>
-    );
+    return <Typography>Clocked In: {convertSecondsToElapsedTime(seconds)}</Typography>;
   }
 }
 
