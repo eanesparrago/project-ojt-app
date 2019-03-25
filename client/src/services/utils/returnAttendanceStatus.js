@@ -19,11 +19,9 @@ export default (schedule, isClockedIn, lastClockInTime) => {
   const scheduleToday = schedule[daysOfTheWeek[dayToday]];
   const todayStartTime = addHours(startOfToday(), scheduleToday.startTime);
 
-  const x = scheduleToday.startTime + scheduleToday.hours;
-  const todayEndTime = addHours(startOfToday(), x);
+  const endTime = scheduleToday.startTime + scheduleToday.hours;
+  const todayEndTime = addHours(startOfToday(), endTime);
   const today = new Date();
-
-  console.log(todayStartTime, today);
 
   if (isClockedIn) {
     return "in";

@@ -7,17 +7,61 @@ import { Typography, Photo, Divider } from "src/components/elements";
 import { DataGroup } from "src/components/compounds";
 
 import enums from "src/services/enums";
+import returnAttendanceStatus from "src/services/utils/returnAttendanceStatus";
+import returnScheduleToday from "src/services/utils/returnScheduleToday";
 
 const PersonInformation = ({ data }) => {
+  let attendanceStatus;
+  if (data.role === enums.roles.TRAINEE) {
+    attendanceStatus = returnAttendanceStatus(
+      data.roleData.schedule,
+      data.roleData.isClockedIn,
+      data.roleData.lastClockInTime
+    );
+  }
+
   return (
     <Fragment>
+      {data.role === enums.roles.TRAINEE && (
+        <Fragment>
+          <Item margin="stack-l">
+            <DataGroup>
+              <DataGroup.Label title="Attendance Today" />
+
+              <DataGroup.Content>
+                <Typography variant="body">
+                  {(attendanceStatus === "in" && "Clocked in") ||
+                    (attendanceStatus === "out" && "Clocked out") ||
+                    (attendanceStatus === "off" && "Day off") ||
+                    (attendanceStatus === "absent" && "Absent") ||
+                    (attendanceStatus === "late" && "Not clocked in (late)") ||
+                    (attendanceStatus === "later" && "Not clocked in")}
+                </Typography>
+              </DataGroup.Content>
+            </DataGroup>
+          </Item>
+
+          <Item margin="stack-l">
+            <DataGroup>
+              <DataGroup.Label title="Schedule Today" />
+
+              <DataGroup.Content>
+                <Typography variant="body">
+                  {returnScheduleToday(data.roleData.schedule)}
+                </Typography>
+              </DataGroup.Content>
+            </DataGroup>
+          </Item>
+        </Fragment>
+      )}
+
       <Item margin="stack-l">
         <DataGroup>
           <DataGroup.Label title="Profile Picture" />
 
           <DataGroup.Content>
             {data.profilePictureUrl === "" ? (
-              <Typography variant="base">No profile picture</Typography>
+              <Typography variant="body">No profile picture</Typography>
             ) : (
               <Photo>
                 <img src={data.profilePictureUrl} alt="" />

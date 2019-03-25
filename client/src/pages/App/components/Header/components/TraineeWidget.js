@@ -8,6 +8,7 @@ import Clock from "./Clock";
 import TimeElapsed from "./TimeElapsed";
 
 import { clockTrainee } from "src/services/session/actions/userActionCreators";
+import returnScheduleToday from "src/services/utils/returnScheduleToday";
 
 const daysOfTheWeek = [
   "sunday",
@@ -92,21 +93,7 @@ export class TraineeWidget extends Component {
                   .isTrainingDay ? (
                   <Item inline>
                     <Typography variant="base">
-                      {
-                        data.roleData.schedule[daysOfTheWeek[dayToday]]
-                          .startTime
-                      }
-                      :00 -{" "}
-                      {returnEndTime(
-                        data.roleData.schedule[daysOfTheWeek[dayToday]]
-                          .startTime,
-                        data.roleData.schedule[daysOfTheWeek[dayToday]].hours
-                      )}{" "}
-                      ({data.roleData.schedule[daysOfTheWeek[dayToday]].hours}{" "}
-                      hour
-                      {data.roleData.schedule[daysOfTheWeek[dayToday]].hours >
-                        1 && "s"}
-                      )
+                      {returnScheduleToday(data.roleData.schedule)}
                     </Typography>
                   </Item>
                 ) : (
