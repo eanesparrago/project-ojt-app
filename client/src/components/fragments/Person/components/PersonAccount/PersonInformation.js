@@ -91,7 +91,11 @@ const PersonInformation = ({ data }) => {
           property: "Time Rendered",
           value: `${round(data.roleData.timeRendered / 3600, 2)} hour${
             data.roleData.timeRendered / 3600 > 1 ? "s" : ""
-          }`,
+          } (Remaining: ${round(
+            (data.roleData.trainingDuration - data.roleData.timeRendered) /
+              3600,
+            2
+          )})`,
           roles: [enums.roles.TRAINEE]
         },
         {

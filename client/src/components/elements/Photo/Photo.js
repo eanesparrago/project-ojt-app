@@ -5,6 +5,7 @@ const StyledPhoto = styled.div`
   overflow: hidden;
   width: 100%;
   height: 100%;
+  background-color: ${p => p.theme.color.white};
 
   ${p =>
     p.rounded &&
