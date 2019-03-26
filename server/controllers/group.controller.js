@@ -74,7 +74,15 @@ function getGroups(req, res) {
  */
 function getGroup(req, res) {
   Group.findById(req.params.id)
-    .populate("users", "profilePictureUrl firstName lastName username")
+    .populate({
+      path: "announcements",
+      model: "Announcement",
+      populate: { path: "user" }
+    })
+    .populate(
+      "users",
+      "profilePictureUrl firstName lastName username roleData.schedule roleData.lastClockInTime roleData.isClockedIn"
+    )
     .then(group => {
       if (!group) {
         return res.status(404).json({ group: "Group not found" });

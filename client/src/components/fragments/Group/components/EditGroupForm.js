@@ -8,15 +8,13 @@ import { Item, Box } from "src/components/blocks";
 import { Button, Typography } from "src/components/elements";
 import { TextInput } from "src/components/compounds";
 
-// import {
-//   getGroup,
-//   getGroups
-// } from "src/services/session/actions/groupsActionCreators";
+import { getGroups } from "src/services/session/actions/groupsActionCreators";
+import { getGroup } from "src/services/session/actions/groupActionCreators";
 
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
 const StyledEditGroupForm = styled.form`
-  width: 100%;
+  width: 62%;
 
   .item-editGroupForm-input-name {
     width: 38%;
@@ -24,10 +22,6 @@ const StyledEditGroupForm = styled.form`
 
   .item-editGroupForm-input {
     width: 62%;
-  }
-
-  .box-editGroupForm-buttons {
-    /* border: 1px solid magenta; */
   }
 `;
 
@@ -37,9 +31,9 @@ export class EditGroupForm extends Component {
 
     this.state = {
       group: {
-        name: props.group.name,
-        location: props.group.location,
-        phoneNumber: props.group.phoneNumber
+        name: props.groupData.name,
+        location: props.groupData.location,
+        phoneNumber: props.groupData.phoneNumber
       },
       isLoading: false,
       errors: {}
@@ -55,7 +49,7 @@ export class EditGroupForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const {
-      group,
+      groupData,
       handleEditFormToggle,
       getGroup,
       getGroups,
@@ -65,9 +59,9 @@ export class EditGroupForm extends Component {
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
       axios
-        .put(`/api/groups/${group._id}`, state.group)
+        .put(`/api/groups/${groupData._id}`, state.group)
         .then(res => {
-          getGroup(group._id);
+          getGroup(groupData._id);
           getGroups();
           handleEditFormToggle();
           setFlashMessage(
@@ -87,10 +81,10 @@ export class EditGroupForm extends Component {
 
   handleDelete = e => {
     e.preventDefault();
-    const { group, getGroups, history } = this.props;
+    const { groupData, getGroups, history } = this.props;
 
     axios
-      .delete(`/api/groups/${group._id}`)
+      .delete(`/api/groups/${groupData._id}`)
       .then(res => {
         getGroups();
         history.goBack();
@@ -191,9 +185,7 @@ export class EditGroupForm extends Component {
 
 export default withRouter(
   connect(
-    state => ({
-      group: state.groups.group
-    }),
+    null,
     {
       getGroup: getGroup,
       getGroups: getGroups,

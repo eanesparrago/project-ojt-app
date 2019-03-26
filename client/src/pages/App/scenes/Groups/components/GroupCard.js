@@ -82,7 +82,7 @@ const GroupCard = ({ match, data }) => {
             .filter(user => user.role === enums.roles.SUPERVISOR)
             .map(user => (
               <Item margin="wrap-s" key={user._id}>
-                <Avatar src={user.profilePictureUrl} id={user._id} />
+                <Avatar userData={user} />
               </Item>
             ))}
         </Box>
@@ -104,7 +104,7 @@ const GroupCard = ({ match, data }) => {
             .filter(user => user.role === enums.roles.TRAINEE)
             .map(user => (
               <Item margin="wrap-s" key={user._id}>
-                <Avatar src={user.profilePictureUrl} id={user._id} />
+                <Avatar userData={user} />
               </Item>
             ))}
         </Box>
@@ -127,7 +127,7 @@ const GroupCard = ({ match, data }) => {
             .filter(user => user.role === enums.roles.EMPLOYEE)
             .map(user => (
               <Item margin="wrap-s" key={user._id}>
-                <Avatar src={user.profilePictureUrl} id={user._id} />
+                <Avatar userData={user} />
               </Item>
             ))}
         </Box>

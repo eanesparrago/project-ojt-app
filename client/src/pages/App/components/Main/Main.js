@@ -7,7 +7,7 @@ import MainBody from "./components/MainBody";
 import MainSideModal from "./components/MainSideModal";
 import MainFullModal from "./components/MainFullModal";
 
-import { GroupModal } from "src/pages/App/components";
+import { Group } from "src/components/fragments";
 
 import {
   SideModalCreatePerson,
@@ -46,7 +46,7 @@ class Main extends Component {
         {role === enums.roles.ADMINISTRATOR && (
           <Fragment>
             <MainFullModal routePath="/group/:id" routeLevel={2}>
-              <GroupModal />
+              <Group />
             </MainFullModal>
 
             <MainSideModal routePath="/group/:id/person/:id" routeLevel={4}>

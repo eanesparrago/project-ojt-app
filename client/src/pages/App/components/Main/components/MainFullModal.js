@@ -7,6 +7,7 @@ const StyledMainFullModal = animated(styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
+  z-index: 100;
 `);
 
 const MainFullModal = ({
@@ -25,9 +26,9 @@ const MainFullModal = ({
       native
       items={location}
       keys={key}
-      from={{ transform: "translateY(100%)", opacity: "0" }}
-      enter={{ transform: "translateY(0%)", opacity: "1" }}
-      leave={{ transform: "translateY(100%)", opacity: "0" }}
+      from={{ transform: "translateY(100%)" }}
+      enter={{ transform: "translateY(0%)" }}
+      leave={{ transform: "translateY(100%)" }}
     >
       {loc => style => (
         <Switch location={loc}>

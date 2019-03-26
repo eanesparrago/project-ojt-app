@@ -36,27 +36,6 @@ export const getGroups = () => dispatch => {
     });
 };
 
-export const getGroup = groupId => dispatch => {
-  dispatch({
-    type: ADMIN_GROUPS_GET_GROUP_REQUEST
-  });
-
-  axios
-    .get(`/api/groups/group/${groupId}`)
-    .then(res => {
-      dispatch({
-        type: ADMIN_GROUPS_GET_GROUP_SUCCESS,
-        payload: res.data
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: ADMIN_GROUPS_GET_GROUP_FAILURE,
-        payload: err.response.data
-      });
-    });
-};
-
 export const createGroup = groupData => dispatch => {
   dispatch({
     type: ADMIN_GROUPS_GROUP_CREATE_REQUEST

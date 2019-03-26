@@ -1,13 +1,13 @@
-import React from "react";
+// import React from "react";
 
-import { Person } from "src/components/fragments";
+// import { Person } from "src/components/fragments";
 
-const ProfileBody = () => {
-  return (
-    <div>
-      <Person data={data} afterEdit={this.afterEdit} />
-    </div>
-  );
-};
+// const ProfileBody = () => {
+//   return (
+//     <div>
+//       <Person data={data} afterEdit={this.afterEdit} />
+//     </div>
+//   );
+// };
 
-export default ProfileBody;
+// export default ProfileBody;
