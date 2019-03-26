@@ -64,6 +64,7 @@ function initializeUser(req, res) {
  */
 function userClock(req, res) {
   User.findById(req.user._id)
+    .populate("roleData.group")
     .select("+roleData.clocks")
     .then(user => {
       const lastClockId = user.roleData.clocks[user.roleData.clocks.length - 1];
