@@ -60,6 +60,14 @@ class Main extends Component {
             <MainSideModal routePath="/create-person">
               <SideModalCreatePerson />
             </MainSideModal>
+
+            <MainSideModal routePath="/group/:id/create-person">
+              <SideModalCreatePerson />
+            </MainSideModal>
+
+            <MainSideModal routePath="/group/:id/create-announcement">
+              <SideModalCreateAnnouncement />
+            </MainSideModal>
           </Fragment>
         )}
 

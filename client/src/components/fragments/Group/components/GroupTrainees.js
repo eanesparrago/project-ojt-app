@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { withRouter, Link } from "react-router-dom";
 
 import { Button, Typography } from "src/components/elements";
 import { Item, Box, Area } from "src/components/blocks";
@@ -29,7 +30,7 @@ const StyledGroupTrainees = styled.section`
   }
 `;
 
-const GroupTrainees = ({ groupData: { users } }) => {
+const GroupTrainees = ({ groupData: { users }, match }) => {
   const trainees = users.filter(user => user.role === enums.roles.TRAINEE);
   const traineesIn = trainees.filter(
     trainee =>
@@ -90,7 +91,16 @@ const GroupTrainees = ({ groupData: { users } }) => {
         </Item>
 
         <Item>
-          <Button variant="secondary" icon rounded>
+          <Button
+            variant="secondary"
+            as={Link}
+            to={{
+              pathname: `${match.url}/create-person`,
+              state: { role: enums.roles.TRAINEE, group: match.params.id }
+            }}
+            icon
+            rounded
+          >
             <i className="fas fa-plus" />
           </Button>
         </Item>
@@ -189,4 +199,4 @@ const GroupTrainees = ({ groupData: { users } }) => {
   );
 };
 
-export default GroupTrainees;
+export default withRouter(GroupTrainees);

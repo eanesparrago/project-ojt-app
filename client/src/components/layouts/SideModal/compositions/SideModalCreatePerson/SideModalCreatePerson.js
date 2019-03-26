@@ -19,34 +19,38 @@ import { setFlashMessage } from "src/services/session/actions/appActionCreators"
 import enums from "src/services/enums";
 
 export class SideModalCreatePerson extends Component {
-  state = {
-    data: {
-      role: "",
-      group: "",
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      trainingDuration: "",
-      firstName: "",
-      middleName: "",
-      lastName: "",
-      nickname: "",
-      gender: "",
-      dateOfBirth: "",
-      address: "",
-      contactNumber: "",
-      school: "",
-      adviserName: "",
-      adviserContactNumber: "",
-      guardianName: "",
-      guardianContactNumber: "",
-      profilePictureUrl: ""
-    },
-    errors: {},
-    groups: [],
-    isLoading: false
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: {
+        role: props.location.state ? props.location.state.role : "",
+        group: props.location.state ? props.location.state.group : "",
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        trainingDuration: "",
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        nickname: "",
+        gender: "",
+        dateOfBirth: "",
+        address: "",
+        contactNumber: "",
+        school: "",
+        adviserName: "",
+        adviserContactNumber: "",
+        guardianName: "",
+        guardianContactNumber: "",
+        profilePictureUrl: ""
+      },
+      errors: {},
+      groups: [],
+      isLoading: false
+    };
+  }
 
   componentDidMount() {
     this.setState({ ...this.state, isLoading: true }, () => {

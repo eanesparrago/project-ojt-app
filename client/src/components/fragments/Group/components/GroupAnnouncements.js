@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import { withRouter, Link } from "react-router-dom";
 
 import { Button, Typography } from "src/components/elements";
 import { Item, Area } from "src/components/blocks";
 import AnnouncementItem from "./AnnouncementItem";
+
+import enums from "src/services/enums";
 
 const StyledGroupAnnouncements = styled.section`
   display: grid;
@@ -26,7 +29,7 @@ const StyledGroupAnnouncements = styled.section`
   }
 `;
 
-const GroupAnnouncements = ({ groupData: { announcements } }) => {
+const GroupAnnouncements = ({ groupData: { announcements }, match }) => {
   return (
     <StyledGroupAnnouncements>
       <Area NAME="header" margin="stack-m">
@@ -35,15 +38,24 @@ const GroupAnnouncements = ({ groupData: { announcements } }) => {
         </Item>
 
         <Item>
-          <Button variant="secondary" icon rounded>
+          <Button
+            variant="secondary"
+            as={Link}
+            to={{
+              pathname: `${match.url}/create-announcement`,
+              state: { group: match.params.id }
+            }}
+            icon
+            rounded
+          >
             <i className="fas fa-plus" />
           </Button>
         </Item>
       </Area>
 
       <Area NAME="announcements">
-        {announcements.reverse().map(announcement => (
-          <Item margin="stack-base">
+        {announcements.map(announcement => (
+          <Item margin="stack-base" key={announcement._id}>
             <AnnouncementItem announcementData={announcement} />
           </Item>
         ))}
@@ -52,4 +64,4 @@ const GroupAnnouncements = ({ groupData: { announcements } }) => {
   );
 };
 
-export default GroupAnnouncements;
+export default withRouter(GroupAnnouncements);

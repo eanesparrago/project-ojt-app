@@ -18,15 +18,19 @@ import { setFlashMessage } from "src/services/session/actions/appActionCreators"
 import enums from "src/services/enums";
 
 export class SideModalCreateAnnouncement extends Component {
-  state = {
-    announcement: {
-      group: "all",
-      message: ""
-    },
-    isLoading: false,
-    errors: {},
-    groups: null
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      announcement: {
+        group: props.location.state ? props.location.state.group : "all",
+        message: ""
+      },
+      isLoading: false,
+      errors: {},
+      groups: null
+    };
+  }
 
   componentDidMount() {
     const { auth } = this.props;
@@ -110,10 +114,7 @@ export class SideModalCreateAnnouncement extends Component {
                 isLoading: false
               },
               () => {
-                setFlashMessage(
-                  "An error occurred.",
-                  "error"
-                );
+                setFlashMessage("An error occurred.", "error");
               }
             );
           });
