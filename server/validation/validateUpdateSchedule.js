@@ -24,14 +24,17 @@ days.forEach((day, i) => {
     body(`${day}.startTime`)
       .custom((value, { req, loc, path }) => {
         if (req.body[day].isTrainingDay) {
-          const {
-            startTime: previousStartTime,
-            hours: previousHours
-          } = req.body[previousDay];
+          const { startTime, hours } = req.body[previousDay];
 
-          if (parseInt(previousStartTime) + parseInt(previousHours) > 24) {
+          const previousStartTime = parseInt(startTime);
+          const previousHours = parseInt(hours);
+
+          if (previousStartTime + previousHours > 24) {
             if (value < previousStartTime + previousHours - 24) {
-              throw new Error("Conflict");
+              console.log("value:", value);
+              console.log(previousStartTime + previousHours - 24);
+
+              throw new Error("Conflict with previous day.");
             }
           }
         }
