@@ -260,6 +260,7 @@ function updateUser(req, res) {
 
       user.set(req.body);
 
+      user.roleData.isInitialized = req.body.isInitialized;
       user.roleData.school = req.body.school ? req.body.school : "";
       user.roleData.trainingDuration = req.body.trainingDuration
         ? req.body.trainingDuration * 3600

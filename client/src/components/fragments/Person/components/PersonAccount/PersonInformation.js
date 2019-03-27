@@ -165,8 +165,8 @@ const PersonInformation = ({ data }) => {
           ]
         },
         {
-          property: "Account Status",
-          value: data.isActive ? "Active" : "Inactive",
+          property: "Active",
+          value: data.isActive ? "Yes" : "No",
           roles: [
             enums.roles.ADMINISTRATOR,
             enums.roles.SUPERVISOR,
@@ -175,7 +175,7 @@ const PersonInformation = ({ data }) => {
           ]
         },
         {
-          property: "Is Initialized?",
+          property: "Initialized",
           value: data.roleData.isInitialized ? "Yes" : "No",
           roles: [
             enums.roles.SUPERVISOR,

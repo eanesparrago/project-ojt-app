@@ -29,6 +29,7 @@ class PersonEdit extends Component {
           ? props.data.roleData.group._id
           : undefined,
         isActive: props.data.isActive,
+        isInitialized: props.data.roleData.isInitialized,
         username: props.data.username,
         email: props.data.email,
         trainingDuration: props.data.roleData.trainingDuration / 3600,
@@ -87,6 +88,15 @@ class PersonEdit extends Component {
   handleToggleIsActive = () => {
     this.setState({
       data: { ...this.state.data, isActive: !this.state.data.isActive }
+    });
+  };
+
+  handleToggleIsInitialized = () => {
+    this.setState({
+      data: {
+        ...this.state.data,
+        isInitialized: !this.state.data.isInitialized
+      }
     });
   };
 
@@ -192,7 +202,7 @@ class PersonEdit extends Component {
 
             <Item margin="stack-base">
               <FormGroup>
-                <FormGroup.Label title="Is Active?" />
+                <FormGroup.Label title="Active" />
 
                 <FormGroup.Input>
                   <TextInput
@@ -200,6 +210,22 @@ class PersonEdit extends Component {
                     type="checkbox"
                     checked={data.isActive}
                     onChange={this.handleToggleIsActive}
+                    disabled={isLoading}
+                  />
+                </FormGroup.Input>
+              </FormGroup>
+            </Item>
+
+            <Item margin="stack-base">
+              <FormGroup>
+                <FormGroup.Label title="Initialized" />
+
+                <FormGroup.Input>
+                  <TextInput
+                    name="isActive"
+                    type="checkbox"
+                    checked={data.isInitialized}
+                    onChange={this.handleToggleIsInitialized}
                     disabled={isLoading}
                   />
                 </FormGroup.Input>
