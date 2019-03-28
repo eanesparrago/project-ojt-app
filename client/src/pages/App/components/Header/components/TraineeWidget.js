@@ -9,6 +9,7 @@ import TimeElapsed from "./TimeElapsed";
 
 import { clockTrainee } from "src/services/session/actions/userActionCreators";
 import returnScheduleToday from "src/services/utils/returnScheduleToday";
+import returnLastClockInTime from "src/services/utils/returnLastClockInTime";
 
 const daysOfTheWeek = [
   "sunday",
@@ -82,7 +83,7 @@ export class TraineeWidget extends Component {
 
             {data.roleData.isClockedIn && (
               <Item margin="inline-base" center>
-                <TimeElapsed lastClockInTime={data.roleData.lastClockInTime} />
+                <TimeElapsed lastClockInTime={returnLastClockInTime(data.roleData.clocks)} />
               </Item>
             )}
 
