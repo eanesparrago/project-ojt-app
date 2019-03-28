@@ -9,6 +9,7 @@ import { DataGroup } from "src/components/compounds";
 import enums from "src/services/enums";
 import returnAttendanceStatus from "src/services/utils/returnAttendanceStatus";
 import returnScheduleToday from "src/services/utils/returnScheduleToday";
+import returnTimeRendered from "src/services/utils/returnTimeRendered";
 
 const PersonInformation = ({ data }) => {
   let attendanceStatus;
@@ -16,7 +17,7 @@ const PersonInformation = ({ data }) => {
     attendanceStatus = returnAttendanceStatus(
       data.roleData.schedule,
       data.roleData.isClockedIn,
-      data.roleData.lastClockInTime
+      data.roleData.clocks
     );
   }
 
@@ -133,13 +134,7 @@ const PersonInformation = ({ data }) => {
         },
         {
           property: "Time Rendered",
-          value: `${round(data.roleData.timeRendered / 3600, 2)} hour${
-            data.roleData.timeRendered / 3600 > 1 ? "s" : ""
-          } (Remaining: ${round(
-            (data.roleData.trainingDuration - data.roleData.timeRendered) /
-              3600,
-            2
-          )})`,
+          value: returnTimeRendered(data.roleData.clocks),
           roles: [enums.roles.TRAINEE]
         },
         {

@@ -2,14 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const clockSchema = new Schema({
-  type: {
-    type: "String",
-    required: true,
-    enum: ["in", "out"]
-  },
-  time: {
+  in: {
     type: Date,
     default: Date.now
+  },
+  out: {
+    type: Date
   },
   user: {
     type: Schema.Types.ObjectId,

@@ -210,7 +210,10 @@ const UserTrainee = User.discriminator(
       },
       isInitialized: {
         type: Boolean,
-        required: true,
+        default: false
+      },
+      isComplete: {
+        type: Boolean,
         default: false
       },
       group: { type: Schema.Types.ObjectId, ref: "Group", default: null }

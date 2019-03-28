@@ -15,7 +15,7 @@ const daysOfTheWeek = [
 
 const dayToday = new Date().getDay();
 
-export default (schedule, isClockedIn, lastClockInTime) => {
+export default (schedule, isClockedIn, clocks) => {
   const scheduleToday = schedule[daysOfTheWeek[dayToday]];
   const todayStartTime = addHours(startOfToday(), scheduleToday.startTime);
 
@@ -23,11 +23,16 @@ export default (schedule, isClockedIn, lastClockInTime) => {
   const todayEndTime = addHours(startOfToday(), endTime);
   const today = new Date();
 
+  let lastClockInTime;
+  if (clocks.length > 0) {
+    lastClockInTime = clocks[clocks.length - 1].in;
+  }
+
   if (isClockedIn) {
     return "in";
   }
 
-  if (isToday(lastClockInTime)) {
+  if (lastClockInTime && isToday(lastClockInTime)) {
     return "out";
   }
 

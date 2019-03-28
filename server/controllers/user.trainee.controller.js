@@ -62,7 +62,7 @@ function initializeUser(req, res) {
  * Clock in/out
  * POST api/users/trainee/clock
  */
-function userClock(req, res) {
+function userClockOld(req, res) {
   User.findById(req.user._id)
     .populate("roleData.group")
     .select("+roleData.clocks")
@@ -183,6 +183,120 @@ function userClock(req, res) {
       }
     })
     .catch(err => res.status(500).send(err));
+}
+
+function userClock(req, res) {
+  User.findById(req.user._id)
+    .populate("roleData.group")
+    .select("+roleData.clocks")
+    .then(user => {
+      const lastClockId = user.roleData.clocks[user.roleData.clocks.length - 1];
+
+      Clock.findById(lastClockId, (err, clock) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+
+        // >>> If no clocks or not clocked in --> Clock in
+        if (!clock || user.roleData.isClockedIn === false) {
+          const newClock = new Clock({
+            user: user._id
+          });
+
+          newClock.save((err, clock) => {
+            if (err) {
+              return res.status(500).send(err);
+            }
+
+            user.roleData.isClockedIn = true;
+            user.roleData.clocks.push(clock);
+            user.save((err, user) => {
+              if (err) {
+                return res.status(500).send(err);
+              }
+
+              User.populate(
+                user,
+                { path: "roleData.group", select: "name" },
+                (err, user) => {
+                  if (err) {
+                    return res.status(500).send(err);
+                  }
+
+                  res.status(200).json(user);
+                }
+              );
+            });
+          });
+        }
+
+        // >>> If user is clocked in but time clocked out is less than 15 minutes then disregard and delete recent clock
+        else if (
+          user.roleData.isClockedIn &&
+          differenceInMinutes(new Date(), clock.in) < 15
+        ) {
+          clock.remove();
+          clock.save(err => {
+            if (err) {
+              return res.status(500).send(err);
+            }
+
+            user.roleData.clocks.remove(lastClockId);
+            user.roleData.isClockedIn = false;
+            user.save((err, user) => {
+              if (err) {
+                return res.status(500).send(err);
+              }
+
+              User.populate(
+                user,
+                { path: "roleData.group", select: "name" },
+                (err, user) => {
+                  if (err) {
+                    return res.status(500).send(err);
+                  }
+
+                  res.status(200).json(user);
+                }
+              );
+            });
+          });
+        }
+
+        // >>> Last clock is not yet clocked out --> Clock out
+        else if (clock.out !== null) {
+          clock.out = Date.now();
+
+          clock.save(err => {
+            if (err) {
+              return res.status(500).send(err);
+            }
+
+            const secondsElapsed = differenceInSeconds(new Date(), clock.in);
+
+            user.roleData.timeRendered += secondsElapsed;
+            user.roleData.isClockedIn = false;
+            user.save((err, user) => {
+              if (err) {
+                return res.status(500).send(err);
+              }
+
+              User.populate(
+                user,
+                { path: "roleData.group", select: "name" },
+                (err, user) => {
+                  if (err) {
+                    return res.status(500).send(err);
+                  }
+
+                  res.status(200).json(user);
+                }
+              );
+            });
+          });
+        }
+      });
+    });
 }
 
 module.exports = {

@@ -37,7 +37,7 @@ const GroupTrainees = ({ groupData: { users }, match }) => {
       returnAttendanceStatus(
         trainee.roleData.schedule,
         trainee.roleData.isClockedIn,
-        trainee.roleData.lastClockInTime
+        trainee.roleData.clocks
       ) === "in"
   );
   const traineesOut = trainees.filter(
@@ -45,7 +45,7 @@ const GroupTrainees = ({ groupData: { users }, match }) => {
       returnAttendanceStatus(
         trainee.roleData.schedule,
         trainee.roleData.isClockedIn,
-        trainee.roleData.lastClockInTime
+        trainee.roleData.clocks
       ) === "out"
   );
   const traineesLater = trainees.filter(
@@ -53,7 +53,7 @@ const GroupTrainees = ({ groupData: { users }, match }) => {
       returnAttendanceStatus(
         trainee.roleData.schedule,
         trainee.roleData.isClockedIn,
-        trainee.roleData.lastClockInTime
+        trainee.roleData.clocks
       ) === "later"
   );
   const traineesLate = trainees.filter(
@@ -61,7 +61,7 @@ const GroupTrainees = ({ groupData: { users }, match }) => {
       returnAttendanceStatus(
         trainee.roleData.schedule,
         trainee.roleData.isClockedIn,
-        trainee.roleData.lastClockInTime
+        trainee.roleData.clocks
       ) === "late"
   );
   const traineesAbsent = trainees.filter(
@@ -69,7 +69,7 @@ const GroupTrainees = ({ groupData: { users }, match }) => {
       returnAttendanceStatus(
         trainee.roleData.schedule,
         trainee.roleData.isClockedIn,
-        trainee.roleData.lastClockInTime
+        trainee.roleData.clocks
       ) === "absent"
   );
   const traineesOff = trainees.filter(
@@ -77,7 +77,7 @@ const GroupTrainees = ({ groupData: { users }, match }) => {
       returnAttendanceStatus(
         trainee.roleData.schedule,
         trainee.roleData.isClockedIn,
-        trainee.roleData.lastClockInTime
+        trainee.roleData.clocks
       ) === "off"
   );
 

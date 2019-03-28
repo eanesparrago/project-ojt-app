@@ -38,7 +38,7 @@ const Avatar = ({ match, userData }) => {
         returnAttendanceStatus(
           userData.roleData.schedule,
           userData.roleData.isClockedIn,
-          userData.roleData.lastClockInTime
+          userData.roleData.clocks
         )
       }
     >

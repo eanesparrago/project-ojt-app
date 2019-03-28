@@ -208,8 +208,9 @@ function getUsers(req, res) {
  */
 function getUser(req, res) {
   User.findById(req.params.id)
-    .select("-password")
-    .populate("roleData.group", "name")
+    .select("+roleData.clocks")
+    .populate({ path: "roleData.clocks" })
+    .populate({ path: "roleData.group", select: "name" })
     .then(user => {
       if (!user) {
         return res.status(404).json({ user: "User not found" });

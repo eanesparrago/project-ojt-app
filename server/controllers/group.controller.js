@@ -52,10 +52,13 @@ function getGroups(req, res) {
 
   Group.find()
     .select(req.query.field)
-    .populate(
-      "users",
-      "profilePictureUrl roleData.isClockedIn roleData.schedule roleData.lastClockInTime"
-    )
+    .populate({
+      path: "users",
+      select:
+        "profilePictureUrl roleData.isClockedIn roleData.schedule roleData.lastClockInTime roleData.clocks",
+      populate: { path: "roleData.clocks", options: { limit: 1 } },
+      modal: "Users"
+    })
     .then(groups => {
       if (!groups) {
         errors.groups = "There are no groups";
@@ -79,10 +82,13 @@ function getGroup(req, res) {
       model: "Announcement",
       populate: { path: "user" }
     })
-    .populate(
-      "users",
-      "profilePictureUrl firstName lastName username roleData.schedule roleData.lastClockInTime roleData.isClockedIn"
-    )
+    .populate({
+      path: "users",
+      select:
+        "profilePictureUrl roleData.isClockedIn roleData.schedule roleData.lastClockInTime roleData.clocks",
+      populate: { path: "roleData.clocks", options: { limit: 1 } },
+      modal: "Users"
+    })
     .then(group => {
       if (!group) {
         return res.status(404).json({ group: "Group not found" });
