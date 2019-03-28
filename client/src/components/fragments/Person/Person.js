@@ -20,21 +20,15 @@ export class Person extends Component {
           render={() => <PersonAccount data={data} afterEdit={afterEdit} />}
         />
 
-        {data.role === enums.roles.TRAINEE && (
-          <Fragment>
-            <Route
-              path={`${match.url}/schedule`}
-              render={() => (
-                <TraineeSchedule data={data} afterEdit={afterEdit} />
-              )}
-            />
+        <Route
+          path={`${match.url}/schedule`}
+          render={() => <TraineeSchedule data={data} afterEdit={afterEdit} />}
+        />
 
-            <Route
-              path={`${match.url}/daily-time-record`}
-              render={() => <DailyTimeRecord data={data} />}
-            />
-          </Fragment>
-        )}
+        <Route
+          path={`${match.url}/daily-time-record`}
+          render={() => <DailyTimeRecord data={data} />}
+        />
 
         <Redirect to={`${match.url}`} replace />
       </Switch>
