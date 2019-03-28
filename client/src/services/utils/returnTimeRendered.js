@@ -14,7 +14,9 @@ export default clocks => {
   let timeRenderedInSeconds = 0;
 
   clocks.forEach(clock => {
-    timeRenderedInSeconds += differenceInSeconds(clock.out, clock.in);
+    if (clock.out) {
+      timeRenderedInSeconds += differenceInSeconds(clock.out, clock.in);
+    }
   });
 
   const timeRenderedInHours = round(timeRenderedInSeconds / 3600, 2);

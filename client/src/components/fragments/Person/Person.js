@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { withRouter, Switch, Route, Redirect } from "react-router-dom";
 import _ from "lodash";
 
@@ -20,15 +20,19 @@ export class Person extends Component {
           render={() => <PersonAccount data={data} afterEdit={afterEdit} />}
         />
 
-        <Route
-          path={`${match.url}/schedule`}
-          render={() => <TraineeSchedule data={data} afterEdit={afterEdit} />}
-        />
-
-        <Route
-          path={`${match.url}/daily-time-record`}
-          render={() => <DailyTimeRecord data={data} />}
-        />
+        {/* >>> Should be in separate conditional to avoid warning.. ??? */}
+        {data.role === enums.roles.TRAINEE && (
+          <Route
+            path={`${match.url}/schedule`}
+            render={() => <TraineeSchedule data={data} afterEdit={afterEdit} />}
+          />
+        )}
+        {data.role === enums.roles.TRAINEE && (
+          <Route
+            path={`${match.url}/daily-time-record`}
+            render={() => <DailyTimeRecord data={data} />}
+          />
+        )}
 
         <Redirect to={`${match.url}`} replace />
       </Switch>
