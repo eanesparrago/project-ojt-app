@@ -18,17 +18,12 @@ export class DailyTimeRecord extends Component {
 
     return (
       <Fragment>
-<<<<<<< HEAD
         <Item margin="stack-base">
           <Typography variant="display-2">Daily Time Record</Typography>
         </Item>
 
         <Item margin="stack-l">
           <Typography variant="caption">Reminder: Clocks less than 15 minutes are not recorded.</Typography>
-=======
-        <Item margin="stack-l">
-          <Typography variant="display-2">Daily Time Record</Typography>
->>>>>>> 04fc1b21871281f6d5c8d38452bf8d5d7bce8b59
         </Item>
 
         {clocks.length === 0 ? (
