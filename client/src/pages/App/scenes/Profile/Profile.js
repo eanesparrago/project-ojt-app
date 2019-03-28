@@ -27,6 +27,11 @@ const traineeButtons = [
     to: "/schedule"
   },
   {
+    title: "DTR",
+    icon: " far fa-clock",
+    to: "/daily-time-record"
+  },
+  {
     title: "Tasks",
     icon: "far fa-check-circle",
     to: "/tasks"

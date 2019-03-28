@@ -62,129 +62,6 @@ function initializeUser(req, res) {
  * Clock in/out
  * POST api/users/trainee/clock
  */
-function userClockOld(req, res) {
-  User.findById(req.user._id)
-    .populate("roleData.group")
-    .select("+roleData.clocks")
-    .then(user => {
-      const lastClockId = user.roleData.clocks[user.roleData.clocks.length - 1];
-
-      // >>> If time incurred is less than 15 minutes then don't record clock but instead delete recent clock in and revert to previous clock in.
-      if (
-        user.roleData.isClockedIn &&
-        differenceInMinutes(new Date(), user.roleData.lastClockInTime) < 15
-      ) {
-        user.roleData.clocks.remove(lastClockId);
-
-        Clock.findById(lastClockId, (err, clock) => {
-          if (err) {
-            return res.status(500).send(err);
-          }
-
-          if (!clock) {
-            user.roleData.isClockedIn = false;
-            user
-              .save()
-              .then(user => res.status(200).json(user))
-              .catch(err => console.log(err));
-          } else {
-            clock.remove((err, clock) => {
-              if (err) {
-                return res.status(500).send(err);
-              }
-
-              const previousClockIn =
-                user.roleData.clocks[user.roleData.clocks.length - 2];
-
-              Clock.findById(previousClockIn, (err, clock) => {
-                if (err) {
-                  return res.status(500).send(err);
-                }
-
-                if (clock) {
-                  user.roleData.lastClockInTime = clock.time;
-                }
-
-                user.roleData.isClockedIn = false;
-                user
-                  .save()
-                  .then(user => res.status(200).json(user))
-                  .catch(err => console.log(err));
-              });
-            });
-          }
-        });
-      } else {
-        const newClock = new Clock({
-          type: user.roleData.isClockedIn ? "out" : "in",
-          user: user._id
-        });
-
-        newClock.save((err, clock) => {
-          if (err) {
-            return res.status(500).send(err);
-          }
-
-          if (user.roleData.isClockedIn === true) {
-            // >>> Clock out if clocked in
-            Clock.findById(lastClockId).then(clock => {
-              const secondsElapsed = differenceInSeconds(
-                new Date(),
-                clock.time
-              );
-
-              user.roleData.timeRendered += secondsElapsed;
-              user.roleData.isClockedIn = false;
-              user.roleData.clocks.push(clock);
-
-              user.save((err, user) => {
-                if (err) {
-                  return res.status(500).send(err);
-                }
-
-                User.populate(
-                  user,
-                  { path: "roleData.group", select: "name" },
-                  (err, user) => {
-                    if (err) {
-                      return res.status(500).send(err);
-                    }
-
-                    res.status(200).json(user);
-                  }
-                );
-              });
-            });
-          } else {
-            // >>> Clock in
-            user.roleData.isClockedIn = true;
-            user.roleData.lastClockInTime = Date.now();
-            user.roleData.clocks.push(clock);
-
-            user.save((err, user) => {
-              if (err) {
-                return res.status(500).send(err);
-              }
-
-              User.populate(
-                user,
-                { path: "roleData.group", select: "name" },
-                (err, user) => {
-                  if (err) {
-                    return res.status(500).send(err);
-                  }
-
-                  res.status(200).json(user);
-                }
-              );
-            });
-          }
-        });
-      }
-    })
-    .catch(err => res.status(500).send(err));
-}
-
 function userClock(req, res) {
   User.findById(req.user._id)
     .populate("roleData.group")
@@ -217,7 +94,10 @@ function userClock(req, res) {
 
               User.populate(
                 user,
-                { path: "roleData.group", select: "name" },
+                [
+                  { path: "roleData.group", select: "name" },
+                  { path: "roleData.clocks" }
+                ],
                 (err, user) => {
                   if (err) {
                     return res.status(500).send(err);
@@ -250,7 +130,10 @@ function userClock(req, res) {
 
               User.populate(
                 user,
-                { path: "roleData.group", select: "name" },
+                [
+                  { path: "roleData.group", select: "name" },
+                  { path: "roleData.clocks" }
+                ],
                 (err, user) => {
                   if (err) {
                     return res.status(500).send(err);
@@ -283,7 +166,10 @@ function userClock(req, res) {
 
               User.populate(
                 user,
-                { path: "roleData.group", select: "name" },
+                [
+                  { path: "roleData.group", select: "name" },
+                  { path: "roleData.clocks" }
+                ],
                 (err, user) => {
                   if (err) {
                     return res.status(500).send(err);

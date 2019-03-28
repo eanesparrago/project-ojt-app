@@ -85,7 +85,7 @@ function getGroup(req, res) {
     .populate({
       path: "users",
       select:
-        "profilePictureUrl roleData.isClockedIn roleData.schedule roleData.lastClockInTime roleData.clocks",
+        "username profilePictureUrl roleData.isClockedIn roleData.schedule roleData.lastClockInTime roleData.clocks",
       populate: { path: "roleData.clocks", options: { limit: 1 } },
       modal: "Users"
     })
