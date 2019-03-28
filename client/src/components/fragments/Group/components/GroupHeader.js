@@ -9,9 +9,9 @@ import EditGroupForm from "./EditGroupForm";
 const StyledGroupHeader = styled.header`
   display: flex;
   flex-flow: row wrap;
-  align-items: flex-end;
+  align-items: center;
   grid-area: header;
-  margin-bottom: var(--size-l);
+  margin-bottom: 0;
 
   .item-close {
     margin-left: auto;
@@ -44,14 +44,14 @@ export class GroupHeader extends Component {
           />
         ) : (
           <Fragment>
-            <Item margin="inline-base">
+            <Item margin="wrap-base">
               <Typography variant="display-1" as="h1">
                 {groupData.name}
               </Typography>
             </Item>
 
             {groupData.location && (
-              <Item margin="inline-base">
+              <Item margin="wrap-base">
                 <Typography variant="caption">
                   <Item center inline margin="inline-s">
                     <i className="fas fa-map-marker-alt" />
@@ -62,7 +62,7 @@ export class GroupHeader extends Component {
             )}
 
             {groupData.phoneNumber && (
-              <Item margin="inline-base">
+              <Item margin="wrap-base">
                 <Typography variant="caption">
                   <Item center inline margin="inline-s">
                     <i className="fas fa-phone" />
@@ -73,7 +73,7 @@ export class GroupHeader extends Component {
             )}
 
             {!isEditFormOpen && (
-              <Item NAME="group-edit-button" top>
+              <Item NAME="group-edit-button" margin="wrap-base" top>
                 <Button
                   variant="secondary"
                   icon

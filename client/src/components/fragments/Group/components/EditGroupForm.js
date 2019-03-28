@@ -23,6 +23,8 @@ const StyledEditGroupForm = styled.form`
   .item-editGroupForm-input {
     width: 62%;
   }
+
+  margin-bottom: var(--size-base);
 `;
 
 export class EditGroupForm extends Component {
