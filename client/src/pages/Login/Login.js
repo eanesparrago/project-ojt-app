@@ -13,6 +13,36 @@ const StyledLogin = styled.div`
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  background-color: ${p => p.theme.color.light};
+
+  .container-login {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    background-color: ${p => p.theme.color.white};
+    width: ${p => p.theme.increment(18)};
+    border-radius: var(--size-base);
+    box-shadow: ${p => p.theme.shadow[2]};
+    z-index: 1;
+  }
+
+  .item-design-circle-1 {
+    width: ${p => p.theme.increment(18)};
+    height: ${p => p.theme.increment(18)};
+    background-color: ${p => p.theme.color.primary.main};
+    border-radius: 100%;
+    position: absolute;
+    transform: translate(12rem, -6rem);
+  }
+  .item-design-circle-2 {
+    width: ${p => p.theme.increment(8)};
+    height: ${p => p.theme.increment(8)};
+    background-color: ${p => p.theme.color.primary.dark};
+    border-radius: 100%;
+    position: absolute;
+    transform: translate(-12rem, 12rem);
+  }
 `;
 
 export class Login extends Component {
@@ -31,15 +61,20 @@ export class Login extends Component {
   render() {
     return (
       <StyledLogin>
-        <Item margin="stack-l">
-          <Typography as="h1" variant="display-1">
-            Parousía
-          </Typography>
-        </Item>
+        <Container NAME="login" padding="inset-xl">
+          <Item margin="stack-l">
+            <Typography as="h1" variant="display-1">
+              Parousía
+            </Typography>
+          </Item>
 
-        <Container>
-          <LoginForm />
+          <Container>
+            <LoginForm />
+          </Container>
         </Container>
+
+        <Item NAME="design-circle-1" />
+        <Item NAME="design-circle-2" />
       </StyledLogin>
     );
   }
