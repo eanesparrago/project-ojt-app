@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 const enums = require("../enums");
 const permittedRoles = require("../utils/permittedRoles");
+const validateUpdateClock = require("../validation/validateUpdateClock");
 
 const ClockController = require("../controllers/clock.controller");
 
@@ -23,6 +24,16 @@ router
     passport.authenticate("jwt", { session: false }),
     permittedRoles(enums.roles.ADMINISTRATOR),
     ClockController.getClocks
+  );
+
+// --->>> POST /api/clocks/:id - updateClock
+router
+  .route("/:id")
+  .post(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    validateUpdateClock,
+    ClockController.updateClock
   );
 
 module.exports = router;

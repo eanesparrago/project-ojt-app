@@ -111,40 +111,40 @@ function userClock(req, res) {
         }
 
         // >>> If user is clocked in but time clocked out is less than 15 minutes then disregard and delete recent clock
-        else if (
-          user.roleData.isClockedIn &&
-          differenceInMinutes(new Date(), clock.in) < 15
-        ) {
-          clock.remove();
-          clock.save(err => {
-            if (err) {
-              return res.status(500).send(err);
-            }
+        // else if (
+        //   user.roleData.isClockedIn &&
+        //   differenceInMinutes(new Date(), clock.in) < 15
+        // ) {
+        //   clock.remove();
+        //   clock.save(err => {
+        //     if (err) {
+        //       return res.status(500).send(err);
+        //     }
 
-            user.roleData.clocks.remove(lastClockId);
-            user.roleData.isClockedIn = false;
-            user.save((err, user) => {
-              if (err) {
-                return res.status(500).send(err);
-              }
+        //     user.roleData.clocks.remove(lastClockId);
+        //     user.roleData.isClockedIn = false;
+        //     user.save((err, user) => {
+        //       if (err) {
+        //         return res.status(500).send(err);
+        //       }
 
-              User.populate(
-                user,
-                [
-                  { path: "roleData.group", select: "name" },
-                  { path: "roleData.clocks" }
-                ],
-                (err, user) => {
-                  if (err) {
-                    return res.status(500).send(err);
-                  }
+        //       User.populate(
+        //         user,
+        //         [
+        //           { path: "roleData.group", select: "name" },
+        //           { path: "roleData.clocks" }
+        //         ],
+        //         (err, user) => {
+        //           if (err) {
+        //             return res.status(500).send(err);
+        //           }
 
-                  res.status(200).json(user);
-                }
-              );
-            });
-          });
-        }
+        //           res.status(200).json(user);
+        //         }
+        //       );
+        //     });
+        //   });
+        // }
 
         // >>> Last clock is not yet clocked out --> Clock out
         else if (clock.out !== null) {

@@ -5,7 +5,7 @@ import startCase from "lodash/startCase";
 import { Typography } from "src/components/elements";
 
 const StyledDataGroupLabel = styled.div`
-  width: ${p => p.theme.incrementFixed(12)};
+  width: ${p => p.theme.incrementFixed(8)};
   margin-right: var(--size-m);
 `;
 

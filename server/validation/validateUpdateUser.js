@@ -1,4 +1,4 @@
-const { body, check } = require("express-validator/check");
+const { body } = require("express-validator/check");
 const enums = require("../enums");
 const upperFirst = require("lodash/upperFirst");
 

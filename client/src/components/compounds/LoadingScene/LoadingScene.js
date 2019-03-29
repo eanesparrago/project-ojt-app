@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const StyledLoadingScene = styled.div`
   width: 100%;
@@ -9,6 +9,14 @@ const StyledLoadingScene = styled.div`
   justify-content: center;
   align-items: center;
   pointer-events: none;
+
+  ${p => p.absolute && css`
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  `}
 
   .lds-grid {
     display: inline-block;
@@ -80,9 +88,9 @@ const StyledLoadingScene = styled.div`
   }
 `;
 
-const LoadingScene = () => {
+const LoadingScene = ({ absolute }) => {
   return (
-    <StyledLoadingScene>
+    <StyledLoadingScene absolute={absolute}>
       <div className="lds-grid">
         <div />
         <div />

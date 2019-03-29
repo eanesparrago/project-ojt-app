@@ -6,8 +6,6 @@ import { Button, Typography } from "src/components/elements";
 import { Item, Area } from "src/components/blocks";
 import AnnouncementItem from "./AnnouncementItem";
 
-import enums from "src/services/enums";
-
 const StyledGroupAnnouncements = styled.section`
   display: grid;
   grid-area: announcements;
