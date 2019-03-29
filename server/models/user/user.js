@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Announcement = require("../announcement");
+const Clock = require("../clock");
 
 const userSchema = new Schema(
   {
@@ -74,5 +76,14 @@ const userSchema = new Schema(
     discriminatorKey: "role"
   }
 );
+
+// >>> https://stackoverflow.com/questions/14348516/cascade-style-delete-in-mongoose
+userSchema.pre("remove", function(next) {
+  // 'this' is the client being removed. Provide callbacks here if you want
+  // to be notified of the calls' result.
+  Announcement.remove({ user: this._id }).exec();
+  Clock.remove({ user: this._id }).exec();
+  next();
+});
 
 module.exports = User = mongoose.model("User", userSchema);
