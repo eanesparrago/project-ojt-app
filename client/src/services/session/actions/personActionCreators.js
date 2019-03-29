@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setFlashMessage } from "./appActionCreators";
 
 export const PEOPLE_PERSON_GET_REQUEST = "PEOPLE_PERSON_GET_REQUEST";
 export const PEOPLE_PERSON_GET_SUCCESS = "PEOPLE_PERSON_GET_SUCCESS";
@@ -41,6 +42,7 @@ export const editClock = data => dispatch => {
         type: PERSON_CLOCK_EDIT_SUCCESS
       });
 
+      dispatch(setFlashMessage("Updated clock successfully", "success"));
       dispatch(getPerson(data.userId));
     })
     .catch(err => {
@@ -48,6 +50,8 @@ export const editClock = data => dispatch => {
         type: PERSON_CLOCK_EDIT_FAILURE,
         payload: err.response.data
       });
+
+      dispatch(setFlashMessage("An error occurred", "error"));
     });
 };
 
