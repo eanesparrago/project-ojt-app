@@ -22,6 +22,7 @@ const StyledLogin = styled.div`
     justify-content: center;
     background-color: ${p => p.theme.color.white};
     width: ${p => p.theme.increment(18)};
+    height: ${p => p.theme.increment(18)};
     border-radius: var(--size-base);
     box-shadow: ${p => p.theme.shadow[2]};
     z-index: 1;
@@ -61,7 +62,7 @@ export class Login extends Component {
   render() {
     return (
       <StyledLogin>
-        <Container NAME="login" padding="inset-xl">
+        <Container NAME="login">
           <Item margin="stack-l">
             <Typography as="h1" variant="display-1">
               Parousía
