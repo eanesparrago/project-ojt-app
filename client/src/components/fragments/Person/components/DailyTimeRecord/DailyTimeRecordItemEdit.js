@@ -8,6 +8,8 @@ import { Button, Typography } from "src/components/elements";
 import { FormGroup, TextInput } from "src/components/compounds";
 
 import { editClock } from "src/services/session/actions/personActionCreators";
+import { requestClockCorrection } from "src/services/session/actions/userActionCreators";
+import enums from "src/services/enums";
 
 const StyledDailyTimeRecordItemEdit = styled.form``;
 
@@ -29,24 +31,45 @@ export class DailyTimeRecordItemEdit extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    const {
+      clockData,
+      auth,
+      requestClockCorrection,
+      editClock,
+      handleToggleEditOpen
+    } = this.props;
 
-    const data = {
-      clock: {
+    let data;
+
+    if (auth.user.role === enums.roles.ADMINISTRATOR) {
+      data = {
+        clock: {
+          in: this.state.in,
+          out: this.state.out
+        },
+        clockId: clockData._id,
+        userId: clockData.user
+      };
+
+      editClock(data);
+    } else if (auth.user.role === enums.roles.TRAINEE) {
+      data = {
         in: this.state.in,
-        out: this.state.out
-      },
-      clockId: this.props.clockData._id,
-      userId: this.props.clockData.user
-    };
+        out: this.state.out,
+        clockId: clockData._id
+      };
 
-    this.props.editClock(data);
+      requestClockCorrection(data).then(() => {
+        handleToggleEditOpen();
+      });
+    }
   };
 
   render() {
     const { ...state } = this.state;
     const {
       handleToggleEditOpen,
-      person: { errors, isLoading }
+      reducerData: { errors, isLoading }
     } = this.props;
 
     return (
@@ -125,9 +148,12 @@ export class DailyTimeRecordItemEdit extends Component {
 
 export default connect(
   state => ({
-    person: state.person
+    auth: state.auth,
+    reducerData:
+      state.auth.user.role === enums.roles.TRAINEE ? state.user : state.person
   }),
   {
-    editClock: editClock
+    editClock: editClock,
+    requestClockCorrection: requestClockCorrection
   }
 )(DailyTimeRecordItemEdit);

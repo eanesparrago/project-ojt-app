@@ -4,7 +4,10 @@ import {
   USER_GET_FAILURE,
   USER_CLOCK_REQUEST,
   USER_CLOCK_SUCCESS,
-  USER_CLOCK_FAILURE
+  USER_CLOCK_FAILURE,
+  USER_CLOCK_CORRECTION_REQUEST_REQUEST,
+  USER_CLOCK_CORRECTION_REQUEST_SUCCESS,
+  USER_CLOCK_CORRECTION_REQUEST_FAILURE
 } from "../actions/userActionCreators";
 
 const initialState = {
@@ -48,6 +51,24 @@ export default (state = initialState, action) => {
         data: action.payload
       };
     case USER_CLOCK_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        errors: action.payload
+      };
+
+    case USER_CLOCK_CORRECTION_REQUEST_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        errors: initialState.errors
+      };
+    case USER_CLOCK_CORRECTION_REQUEST_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case USER_CLOCK_CORRECTION_REQUEST_FAILURE:
       return {
         ...state,
         isLoading: false,

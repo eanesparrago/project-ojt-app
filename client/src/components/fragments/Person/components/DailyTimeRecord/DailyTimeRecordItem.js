@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import format from "date-fns/format";
 import differenceInSeconds from "date-fns/difference_in_seconds";
 import styled from "styled-components";
+import { connect } from "react-redux";
 
 import { Item } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";
@@ -9,6 +10,7 @@ import { DataGroup } from "src/components/compounds";
 import DailyTimeRecordItemEdit from "./DailyTimeRecordItemEdit";
 
 import returnTimeElapsed from "src/services/utils/returnTimeElapsed";
+import enums from "src/services/enums";
 
 const StyledDailyTimeRecordItem = styled.div``;
 
@@ -22,12 +24,12 @@ export class DailyTimeRecordItem extends Component {
   }
 
   handleToggleEditOpen = e => {
-    e.preventDefault();
+    e && e.preventDefault();
     this.setState({ isEditOpen: !this.state.isEditOpen });
   };
 
   render() {
-    const { clockData } = this.props;
+    const { clockData, isClockCorrectionRequestActive, auth } = this.props;
     const { isEditOpen } = this.state;
 
     return (
@@ -48,15 +50,28 @@ export class DailyTimeRecordItem extends Component {
               </Typography>
             </DataGroup.Content>
 
-            {clockData.out && (
-              <DataGroup.Buttons>
-                <Button variant="secondary" onClick={this.handleToggleEditOpen}>
-                  Edit
-                </Button>
+            {!isClockCorrectionRequestActive &&
+              clockData.out &&
+              auth.user.role !== enums.roles.EMPLOYEE && (
+                <DataGroup.Buttons>
+                  <Button
+                    variant="secondary"
+                    onClick={this.handleToggleEditOpen}
+                  >
+                    {auth.user.role === enums.roles.ADMINISTRATOR ||
+                    auth.user.role === enums.roles.SUPERVISOR
+                      ? "Edit"
+                      : "Request Correction"}
+                  </Button>
 
-                <Button variant="secondary">Delete</Button>
-              </DataGroup.Buttons>
-            )}
+                  <Button variant="secondary">
+                    {auth.user.role === enums.roles.ADMINISTRATOR ||
+                    auth.user.role === enums.roles.SUPERVISOR
+                      ? "Delete"
+                      : "Request Delete"}
+                  </Button>
+                </DataGroup.Buttons>
+              )}
           </DataGroup>
         </Item>
 
@@ -71,4 +86,6 @@ export class DailyTimeRecordItem extends Component {
   }
 }
 
-export default DailyTimeRecordItem;
+export default connect(state => ({
+  auth: state.auth
+}))(DailyTimeRecordItem);

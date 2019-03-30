@@ -20,7 +20,6 @@ const StyledGroupAnnouncements = styled.section`
   }
 
   .area-announcements {
-    display: grid;
     overflow-y: auto;
     padding-top: var(--size-xs);
     padding-right: var(--size-base);

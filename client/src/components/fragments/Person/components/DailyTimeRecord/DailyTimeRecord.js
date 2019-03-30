@@ -1,20 +1,14 @@
 import React, { Component, Fragment } from "react";
-import format from "date-fns/format";
-import differenceInSeconds from "date-fns/difference_in_seconds";
 
-import { Item, Box } from "src/components/blocks";
-import { Typography, Button } from "src/components/elements";
-import { DataGroup } from "src/components/compounds";
+import { Item } from "src/components/blocks";
+import { Typography } from "src/components/elements";
 import DailyTimeRecordItem from "./DailyTimeRecordItem";
-
-import returnTimeElapsed from "src/services/utils/returnTimeElapsed";
+import CorrectionRequest from "./CorrectionRequest";
 
 export class DailyTimeRecord extends Component {
   render() {
     const {
-      data: {
-        roleData: { clocks }
-      }
+      data: { roleData }
     } = this.props;
 
     return (
@@ -29,14 +23,27 @@ export class DailyTimeRecord extends Component {
           </Typography>
         </Item>
 
-        {clocks.length === 0 ? (
+        {roleData.clockCorrectionRequest.isActive && (
+          <Item margin="stack-l">
+            <CorrectionRequest
+              clockCorrectionRequest={roleData.clockCorrectionRequest}
+            />
+          </Item>
+        )}
+
+        {roleData.clocks.length === 0 ? (
           <Item margin="stack-l">
             <Typography variant="base">No records</Typography>
           </Item>
         ) : (
-          clocks.map(clock => (
+          roleData.clocks.map(clock => (
             <Item margin="stack-base" key={clock._id}>
-              <DailyTimeRecordItem clockData={clock} />
+              <DailyTimeRecordItem
+                clockData={clock}
+                isClockCorrectionRequestActive={
+                  roleData.clockCorrectionRequest.isActive
+                }
+              />
             </Item>
           ))
         )}
