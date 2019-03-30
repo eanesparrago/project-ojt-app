@@ -3,6 +3,10 @@ const Clock = require("../models/clock");
 const isBefore = require("date-fns/is_before");
 
 const validateUpdateClock = [
+  body("clockId")
+    .not()
+    .isEmpty(),
+
   body("in")
     .not()
     .isEmpty()
@@ -10,7 +14,7 @@ const validateUpdateClock = [
     .isISO8601()
     .withMessage("Clock out is invalid")
     .custom((value, { req }) => {
-      return Clock.findById(req.params.id).then(clock => {
+      return Clock.findById(req.body.clockId).then(clock => {
         return Clock.find({ user: clock.user }).then(clocks => {
           const currentClockIndex = clocks.findIndex(userClock =>
             userClock._id.equals(clock._id)
@@ -39,7 +43,7 @@ const validateUpdateClock = [
     })
     .withMessage("Clock out most not be before clock in")
     .custom((value, { req }) => {
-      return Clock.findById(req.params.id).then(clock => {
+      return Clock.findById(req.body.clockId).then(clock => {
         return Clock.find({ user: clock.user }).then(clocks => {
           const currentClockIndex = clocks.findIndex(userClock =>
             userClock._id.equals(clock._id)

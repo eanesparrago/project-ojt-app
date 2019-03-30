@@ -185,8 +185,94 @@ function userClock(req, res) {
     });
 }
 
+/**
+ * Submit clock correction request
+ * POST api/users/trainee/clock-correction
+ * @param req.body.in
+ * @param req.body.out
+ * @param req.body.clockId
+ */
+function requestClockCorrection(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json(errors.mapped());
+  }
+
+  User.findById(req.user._id).then(user => {
+    user.roleData.clockCorrectionRequest.isActive = true;
+    user.roleData.clockCorrectionRequest.in = req.body.in;
+    user.roleData.clockCorrectionRequest.out = req.body.out;
+    user.roleData.clockCorrectionRequest.clockId = req.body.clockId;
+
+    user.save((err, user) => {
+      if (err) {
+        res.status(500).send(err);
+      }
+
+      res.status(200).json(user);
+    });
+  });
+}
+
+/**
+ * Cancel clock correction request
+ * POST api/users/trainee/cancel-clock-correction
+ */
+function cancelClockCorrection(req, res) {
+  User.findById(req.user._id).then(user => {
+    user.roleData.clockCorrectionRequest.isActive = false;
+    user.roleData.clockCorrectionRequest.in = null;
+    user.roleData.clockCorrectionRequest.out = null;
+    user.roleData.clockCorrectionRequest.clockId = null;
+
+    user.save((err, user) => {
+      if (err) {
+        res.status(500).send(err);
+      }
+
+      res.status(200).json(user);
+    });
+  });
+}
+
+/**
+ * Approve clock correction request (Administrator)
+ * POST api/users/trainee/approve-clock-correction
+ * @param req.body.userId
+ */
+function approveClockCorrection(req, res) {
+  User.findById(req.body.userId).then(user => {
+    Clock.findById(user.roleData.clockCorrectionRequest.clockId).then(clock => {
+      clock.in = user.roleData.clockCorrectionRequest.in;
+      clock.out = user.roleData.clockCorrectionRequest.out;
+
+      clock.save((err, clock) => {
+        if (err) {
+          res.status(500).send(err);
+        }
+
+        user.roleData.clockCorrectionRequest.isActive = false;
+        user.roleData.clockCorrectionRequest.in = null;
+        user.roleData.clockCorrectionRequest.out = null;
+        user.roleData.clockCorrectionRequest.clockId = null;
+
+        user.save((err, user) => {
+          if (err) {
+            res.status(500).send(err);
+          }
+
+          res.status(200).json(user);
+        });
+      });
+    });
+  });
+}
+
 module.exports = {
   testRoute,
   initializeUser,
-  userClock
+  userClock,
+  requestClockCorrection,
+  cancelClockCorrection,
+  approveClockCorrection
 };

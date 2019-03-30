@@ -4,6 +4,142 @@ const enums = require("../../enums");
 
 const User = require("./user");
 
+const schedule = {
+  monday: {
+    isTrainingDay: {
+      type: Boolean,
+      default: false,
+      required: true
+    },
+    startTime: {
+      type: Number,
+      min: 0,
+      max: 23,
+      default: 0,
+      required: true
+    },
+    hours: {
+      type: Number,
+      default: 1,
+      required: true
+    }
+  },
+  tuesday: {
+    isTrainingDay: {
+      type: Boolean,
+      default: false,
+      required: true
+    },
+    startTime: {
+      type: Number,
+      min: 0,
+      max: 23,
+      default: 0,
+      required: true
+    },
+    hours: {
+      type: Number,
+      default: 1,
+      required: true
+    }
+  },
+  wednesday: {
+    isTrainingDay: {
+      type: Boolean,
+      default: false,
+      required: true
+    },
+    startTime: {
+      type: Number,
+      min: 0,
+      max: 23,
+      default: 0,
+      required: true
+    },
+    hours: {
+      type: Number,
+      default: 1,
+      required: true
+    }
+  },
+  thursday: {
+    isTrainingDay: {
+      type: Boolean,
+      default: false,
+      required: true
+    },
+    startTime: {
+      type: Number,
+      min: 0,
+      max: 23,
+      default: 0,
+      required: true
+    },
+    hours: {
+      type: Number,
+      default: 1,
+      required: true
+    }
+  },
+  friday: {
+    isTrainingDay: {
+      type: Boolean,
+      default: false,
+      required: true
+    },
+    startTime: {
+      type: Number,
+      min: 0,
+      max: 23,
+      default: 0,
+      required: true
+    },
+    hours: {
+      type: Number,
+      default: 1,
+      required: true
+    }
+  },
+  saturday: {
+    isTrainingDay: {
+      type: Boolean,
+      default: false,
+      required: true
+    },
+    startTime: {
+      type: Number,
+      min: 0,
+      max: 23,
+      default: 0,
+      required: true
+    },
+    hours: {
+      type: Number,
+      default: 1,
+      required: true
+    }
+  },
+  sunday: {
+    isTrainingDay: {
+      type: Boolean,
+      default: false,
+      required: true
+    },
+    startTime: {
+      type: Number,
+      min: 0,
+      max: 23,
+      default: 0,
+      required: true
+    },
+    hours: {
+      type: Number,
+      default: 1,
+      required: true
+    }
+  }
+};
+
 const UserTrainee = User.discriminator(
   enums.roles.TRAINEE,
   new Schema({
@@ -18,141 +154,7 @@ const UserTrainee = User.discriminator(
         default: 0,
         required: true
       },
-      schedule: {
-        monday: {
-          isTrainingDay: {
-            type: Boolean,
-            default: false,
-            required: true
-          },
-          startTime: {
-            type: Number,
-            min: 0,
-            max: 23,
-            default: 0,
-            required: true
-          },
-          hours: {
-            type: Number,
-            default: 1,
-            required: true
-          }
-        },
-        tuesday: {
-          isTrainingDay: {
-            type: Boolean,
-            default: false,
-            required: true
-          },
-          startTime: {
-            type: Number,
-            min: 0,
-            max: 23,
-            default: 0,
-            required: true
-          },
-          hours: {
-            type: Number,
-            default: 1,
-            required: true
-          }
-        },
-        wednesday: {
-          isTrainingDay: {
-            type: Boolean,
-            default: false,
-            required: true
-          },
-          startTime: {
-            type: Number,
-            min: 0,
-            max: 23,
-            default: 0,
-            required: true
-          },
-          hours: {
-            type: Number,
-            default: 1,
-            required: true
-          }
-        },
-        thursday: {
-          isTrainingDay: {
-            type: Boolean,
-            default: false,
-            required: true
-          },
-          startTime: {
-            type: Number,
-            min: 0,
-            max: 23,
-            default: 0,
-            required: true
-          },
-          hours: {
-            type: Number,
-            default: 1,
-            required: true
-          }
-        },
-        friday: {
-          isTrainingDay: {
-            type: Boolean,
-            default: false,
-            required: true
-          },
-          startTime: {
-            type: Number,
-            min: 0,
-            max: 23,
-            default: 0,
-            required: true
-          },
-          hours: {
-            type: Number,
-            default: 1,
-            required: true
-          }
-        },
-        saturday: {
-          isTrainingDay: {
-            type: Boolean,
-            default: false,
-            required: true
-          },
-          startTime: {
-            type: Number,
-            min: 0,
-            max: 23,
-            default: 0,
-            required: true
-          },
-          hours: {
-            type: Number,
-            default: 1,
-            required: true
-          }
-        },
-        sunday: {
-          isTrainingDay: {
-            type: Boolean,
-            default: false,
-            required: true
-          },
-          startTime: {
-            type: Number,
-            min: 0,
-            max: 23,
-            default: 0,
-            required: true
-          },
-          hours: {
-            type: Number,
-            default: 1,
-            required: true
-          }
-        }
-      },
+      schedule: schedule,
       dateOfBirth: {
         type: Date,
         default: null
@@ -185,13 +187,6 @@ const UserTrainee = User.discriminator(
         type: String,
         default: ""
       },
-      // clocks: [
-      //   {
-      //     type: Schema.Types.ObjectId,
-      //     ref: "Clock",
-      //     select: false
-      //   }
-      // ],
       clocks: {
         type: [
           {
@@ -200,6 +195,29 @@ const UserTrainee = User.discriminator(
           }
         ],
         select: false
+      },
+      clockCorrectionRequest: {
+        isActive: {
+          type: Boolean,
+          default: false
+        },
+        in: {
+          type: Date
+        },
+        out: {
+          type: Date
+        },
+        clockId: {
+          type: Schema.Types.ObjectId,
+          ref: "Clock"
+        }
+      },
+      scheduleUpdateRequest: {
+        isActive: {
+          type: Boolean,
+          default: false
+        },
+        ...schedule
       },
       lastClockInTime: {
         type: Date
@@ -212,7 +230,7 @@ const UserTrainee = User.discriminator(
         type: Boolean,
         default: false
       },
-      isComplete: {
+      isFinished: {
         type: Boolean,
         default: false
       },

@@ -8,6 +8,7 @@ const {
   validateInitializeTrainee
 } = require("../validation/validateInitialize");
 const dynamicValidation = require("../validation/dynamicValidation");
+const validateRequestClockCorrection = require("../validation/validateRequestClockCorrection");
 const enums = require("../enums");
 
 // >>> /api/trainee
@@ -39,6 +40,35 @@ router
     passport.authenticate("jwt", { session: false }),
     permittedRoles(enums.roles.TRAINEE),
     UserTraineeController.userClock
+  );
+
+// POST --->>> /api/trainee/clock-correction - requestClockCorrection
+router
+  .route("/clock-correction")
+  .post(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.TRAINEE),
+    validateRequestClockCorrection,
+    UserTraineeController.requestClockCorrection
+  );
+
+// POST --->>> /api/trainee/cancel-clock-correction - cancelClockCorrection
+
+router
+  .route("/cancel-clock-correction")
+  .post(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.TRAINEE),
+    UserTraineeController.cancelClockCorrection
+  );
+
+// POST --->>> /api/trainee/approve-clock-correction - approveClockCorrection
+router
+  .route("/approve-clock-correction")
+  .post(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    UserTraineeController.approveClockCorrection
   );
 
 module.exports = router;
