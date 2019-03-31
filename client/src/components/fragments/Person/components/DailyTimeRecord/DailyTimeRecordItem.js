@@ -25,12 +25,18 @@ export class DailyTimeRecordItem extends Component {
 
   handleToggleEditOpen = e => {
     e && e.preventDefault();
-    this.setState({ isEditOpen: !this.state.isEditOpen });
+    const { handleEditToggle, clockData } = this.props;
+
+    handleEditToggle(clockData._id);
   };
 
   render() {
-    const { clockData, isClockCorrectionRequestActive, auth } = this.props;
-    const { isEditOpen } = this.state;
+    const {
+      clockData,
+      isClockCorrectionRequestActive,
+      auth,
+      editId
+    } = this.props;
 
     return (
       <StyledDailyTimeRecordItem>
@@ -75,7 +81,7 @@ export class DailyTimeRecordItem extends Component {
           </DataGroup>
         </Item>
 
-        {isEditOpen && (
+        {editId === clockData._id && (
           <DailyTimeRecordItemEdit
             clockData={clockData}
             handleToggleEditOpen={this.handleToggleEditOpen}

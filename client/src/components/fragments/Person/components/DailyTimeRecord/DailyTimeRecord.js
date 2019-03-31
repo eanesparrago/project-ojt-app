@@ -6,10 +6,29 @@ import DailyTimeRecordItem from "./DailyTimeRecordItem";
 import CorrectionRequest from "./CorrectionRequest";
 
 export class DailyTimeRecord extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      editId: ""
+    };
+  }
+
+  handleEditToggle = id => {
+    const { editId } = this.state;
+
+    if (!id || editId === id) {
+      this.setState({ editId: "" });
+    } else {
+      this.setState({ editId: id });
+    }
+  };
+
   render() {
     const {
       data: { roleData, _id }
     } = this.props;
+    const { editId } = this.state;
 
     return (
       <Fragment>
@@ -44,6 +63,8 @@ export class DailyTimeRecord extends Component {
                 isClockCorrectionRequestActive={
                   roleData.clockCorrectionRequest.isActive
                 }
+                editId={editId}
+                handleEditToggle={this.handleEditToggle}
               />
             </Item>
           ))
