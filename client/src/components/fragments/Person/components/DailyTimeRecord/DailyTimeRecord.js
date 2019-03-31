@@ -8,7 +8,7 @@ import CorrectionRequest from "./CorrectionRequest";
 export class DailyTimeRecord extends Component {
   render() {
     const {
-      data: { roleData }
+      data: { roleData, _id }
     } = this.props;
 
     return (
@@ -27,6 +27,7 @@ export class DailyTimeRecord extends Component {
           <Item margin="stack-l">
             <CorrectionRequest
               clockCorrectionRequest={roleData.clockCorrectionRequest}
+              userId={_id}
             />
           </Item>
         )}

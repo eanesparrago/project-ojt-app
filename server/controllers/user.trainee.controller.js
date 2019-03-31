@@ -268,11 +268,34 @@ function approveClockCorrection(req, res) {
   });
 }
 
+/**
+ * Reject clock correction request (Administrator)
+ * POST api/users/trainee/reject-clock-correction
+ * @param req.body.userId
+ */
+function rejectClockCorrection(req, res) {
+  User.findById(req.body.userId).then(user => {
+    user.roleData.clockCorrectionRequest.isActive = false;
+    user.roleData.clockCorrectionRequest.in = null;
+    user.roleData.clockCorrectionRequest.out = null;
+    user.roleData.clockCorrectionRequest.clockId = null;
+
+    user.save((err, user) => {
+      if (err) {
+        res.status(500).send(err);
+      }
+
+      res.status(200).json(user);
+    });
+  });
+}
+
 module.exports = {
   testRoute,
   initializeUser,
   userClock,
   requestClockCorrection,
   cancelClockCorrection,
-  approveClockCorrection
+  approveClockCorrection,
+  rejectClockCorrection
 };

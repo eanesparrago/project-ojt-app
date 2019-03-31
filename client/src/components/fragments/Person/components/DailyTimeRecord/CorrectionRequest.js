@@ -8,6 +8,11 @@ import { Item } from "src/components/blocks";
 import { DataGroup } from "src/components/compounds";
 import { Typography, Button } from "src/components/elements";
 
+import {
+  approveClockCorrectionRequest,
+  rejectClockCorrectionRequest
+} from "src/services/session/actions/personActionCreators";
+import { cancelClockCorrectionRequest } from "src/services/session/actions/userActionCreators";
 import returnTimeElapsed from "src/services/utils/returnTimeElapsed";
 
 import enums from "src/services/enums";
@@ -19,6 +24,35 @@ const StyledCorrectionRequest = styled.div`
 `;
 
 export class CorrectionRequest extends Component {
+  handleApproveClick = e => {
+    e.preventDefault();
+    const { approveClockCorrectionRequest, userId } = this.props;
+
+    const data = {
+      userId
+    };
+
+    approveClockCorrectionRequest(data);
+  };
+
+  handleRejectClick = e => {
+    e.preventDefault();
+    const { rejectClockCorrectionRequest, userId } = this.props;
+
+    const data = {
+      userId
+    };
+
+    rejectClockCorrectionRequest(data);
+  };
+
+  handleCancelClick = e => {
+    e.preventDefault();
+    const { cancelClockCorrectionRequest } = this.props;
+
+    cancelClockCorrectionRequest();
+  };
+
   render() {
     const {
       clockCorrectionRequest,
@@ -58,12 +92,18 @@ export class CorrectionRequest extends Component {
           <DataGroup.Buttons>
             {(role === enums.roles.ADMINISTRATOR && (
               <Fragment>
-                <Button variant="primary">Approve</Button>
-                <Button variant="secondary">Reject</Button>
+                <Button variant="primary" onClick={this.handleApproveClick}>
+                  Approve
+                </Button>
+                <Button variant="secondary" onClick={this.handleRejectClick}>
+                  Reject
+                </Button>
               </Fragment>
             )) ||
               (role === enums.roles.TRAINEE && (
-                <Button variant="secondary">Cancel</Button>
+                <Button variant="secondary" onClick={this.handleCancelClick}>
+                  Cancel
+                </Button>
               ))}
           </DataGroup.Buttons>
         </DataGroup>
@@ -72,6 +112,13 @@ export class CorrectionRequest extends Component {
   }
 }
 
-export default connect(state => ({
-  auth: state.auth
-}))(CorrectionRequest);
+export default connect(
+  state => ({
+    auth: state.auth
+  }),
+  {
+    approveClockCorrectionRequest: approveClockCorrectionRequest,
+    cancelClockCorrectionRequest: cancelClockCorrectionRequest,
+    rejectClockCorrectionRequest: rejectClockCorrectionRequest
+  }
+)(CorrectionRequest);

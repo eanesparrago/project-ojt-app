@@ -7,7 +7,10 @@ import {
   USER_CLOCK_FAILURE,
   USER_CLOCK_CORRECTION_REQUEST_REQUEST,
   USER_CLOCK_CORRECTION_REQUEST_SUCCESS,
-  USER_CLOCK_CORRECTION_REQUEST_FAILURE
+  USER_CLOCK_CORRECTION_REQUEST_FAILURE,
+  USER_CLOCK_CORRECTION_REQUEST_CANCEL_REQUEST,
+  USER_CLOCK_CORRECTION_REQUEST_CANCEL_SUCCESS,
+  USER_CLOCK_CORRECTION_REQUEST_CANCEL_FAILURE
 } from "../actions/userActionCreators";
 
 const initialState = {
@@ -69,6 +72,24 @@ export default (state = initialState, action) => {
         isLoading: false
       };
     case USER_CLOCK_CORRECTION_REQUEST_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        errors: action.payload
+      };
+
+    case USER_CLOCK_CORRECTION_REQUEST_CANCEL_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        errors: initialState.errors
+      };
+    case USER_CLOCK_CORRECTION_REQUEST_CANCEL_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case USER_CLOCK_CORRECTION_REQUEST_CANCEL_FAILURE:
       return {
         ...state,
         isLoading: false,

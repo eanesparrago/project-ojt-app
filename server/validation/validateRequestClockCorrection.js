@@ -56,6 +56,13 @@ const validateUpdateClock = [
         });
       });
     })
+    .custom(value => {
+      if (isBefore(new Date(), value)) {
+        throw new Error("Clock out must not be in the future!");
+      } else {
+        return value;
+      }
+    })
 ];
 
 module.exports = validateUpdateClock;

@@ -71,4 +71,13 @@ router
     UserTraineeController.approveClockCorrection
   );
 
+// POST --->>> /api/trainee/reject-clock-correction - rejectClockCorrection
+router
+  .route("/reject-clock-correction")
+  .post(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.ADMINISTRATOR),
+    UserTraineeController.rejectClockCorrection
+  );
+
 module.exports = router;

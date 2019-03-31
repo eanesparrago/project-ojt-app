@@ -100,3 +100,38 @@ export const requestClockCorrection = data => dispatch => {
       });
   });
 };
+
+export const USER_CLOCK_CORRECTION_REQUEST_CANCEL_REQUEST =
+  "USER_CLOCK_CORRECTION_REQUEST_CANCEL_REQUEST";
+export const USER_CLOCK_CORRECTION_REQUEST_CANCEL_SUCCESS =
+  "USER_CLOCK_CORRECTION_REQUEST_CANCEL_SUCCESS";
+export const USER_CLOCK_CORRECTION_REQUEST_CANCEL_FAILURE =
+  "USER_CLOCK_CORRECTION_REQUEST_CANCEL_FAILURE";
+
+export const cancelClockCorrectionRequest = () => dispatch => {
+  dispatch({
+    type: USER_CLOCK_CORRECTION_REQUEST_CANCEL_REQUEST
+  });
+
+  axios
+    .post("/api/trainee/cancel-clock-correction")
+    .then(res => {
+      dispatch({
+        type: USER_CLOCK_CORRECTION_REQUEST_CANCEL_SUCCESS
+      });
+
+      dispatch(getCurrentUser());
+
+      dispatch(
+        setFlashMessage("Clock correction canceled successfully", "success")
+      );
+    })
+    .catch(err => {
+      dispatch({
+        type: USER_CLOCK_CORRECTION_REQUEST_CANCEL_FAILURE,
+        payload: err.response.data
+      });
+
+      dispatch(setFlashMessage("An error occurred.", "error"));
+    });
+};
