@@ -70,12 +70,12 @@ export class DailyTimeRecordItem extends Component {
                       : "Request Correction"}
                   </Button>
 
-                  <Button variant="secondary">
+                  {/* <Button variant="secondary">
                     {auth.user.role === enums.roles.ADMINISTRATOR ||
                     auth.user.role === enums.roles.SUPERVISOR
                       ? "Delete"
                       : "Request Delete"}
-                  </Button>
+                  </Button> */}
                 </DataGroup.Buttons>
               )}
           </DataGroup>

@@ -57,7 +57,11 @@ export class TraineeSchedule extends Component {
         </Box>
 
         {isEditOpen ? (
-          <TraineeScheduleEdit data={data} afterEdit={afterEdit} />
+          <TraineeScheduleEdit
+            data={data}
+            afterEdit={afterEdit}
+            toggleEdit={this.toggleEdit}
+          />
         ) : (
           Object.entries(data.roleData.schedule).map(([key, value]) => (
             <Item margin="stack-base" key={key}>

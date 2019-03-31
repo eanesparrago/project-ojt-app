@@ -69,7 +69,7 @@ export class TraineeScheduleEdit extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { data, afterEdit, setFlashMessage } = this.props;
+    const { data, afterEdit, setFlashMessage, toggleEdit } = this.props;
     const { ...state } = this.state;
 
     this.setState({ ...state, isLoading: true, errors: {} }, () => {
@@ -78,6 +78,7 @@ export class TraineeScheduleEdit extends Component {
         .then(res => {
           this.setState({ ...state, isLoading: false }, () => {
             afterEdit();
+            toggleEdit();
             setFlashMessage(`${res.data} was edited successfully.`, "success");
           });
         })

@@ -117,7 +117,11 @@ router
   .route("/:id/schedule")
   .put(
     passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR, enums.roles.SUPERVISOR),
+    permittedRoles(
+      enums.roles.ADMINISTRATOR,
+      enums.roles.SUPERVISOR,
+      enums.roles.TRAINEE
+    ),
     validateUpdateSchedule,
     UserController.updateTraineeSchedule
   );
