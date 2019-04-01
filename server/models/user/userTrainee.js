@@ -219,6 +219,14 @@ const UserTrainee = User.discriminator(
         },
         ...schedule
       },
+      tasks: {
+        type: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "Task"
+          }
+        ]
+      },
       lastClockInTime: {
         type: Date
       },

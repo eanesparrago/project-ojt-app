@@ -11,6 +11,7 @@ const userTrainee = require("./routes/user.trainee.routes");
 const group = require("./routes/group.routes");
 const announcement = require("./routes/announcement.routes");
 const clock = require("./routes/clock.routes");
+const task = require("./routes/task.routes");
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use("/api/trainee", userTrainee);
 app.use("/api/groups", group);
 app.use("/api/announcements", announcement);
 app.use("/api/clocks", clock);
+app.use("/api/tasks", task);
 
 // >>> Serve static in production
 if (process.env.NODE_ENV === "production") {

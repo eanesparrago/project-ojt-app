@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+
 const Announcement = require("../announcement");
 const Clock = require("../clock");
+const Task = require("../task");
 
 const userSchema = new Schema(
   {
@@ -83,6 +85,7 @@ userSchema.pre("remove", function(next) {
   // to be notified of the calls' result.
   Announcement.remove({ user: this._id }).exec();
   Clock.remove({ user: this._id }).exec();
+  Task.remove({ user: this._id }).exec();
   next();
 });
 
