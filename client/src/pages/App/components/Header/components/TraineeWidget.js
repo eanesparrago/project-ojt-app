@@ -4,12 +4,14 @@ import { connect } from "react-redux";
 
 import { Item, Box } from "src/components/blocks";
 import { Button, Typography } from "src/components/elements";
+import { FormGroup, TextInput } from "src/components/compounds";
 import Clock from "./Clock";
 import TimeElapsed from "./TimeElapsed";
 
 import { clockTrainee } from "src/services/session/actions/userActionCreators";
 import returnScheduleToday from "src/services/utils/returnScheduleToday";
 import returnLastClockInTime from "src/services/utils/returnLastClockInTime";
+import checkIfOvertime from "src/services/utils/checkIfOvertime";
 
 const daysOfTheWeek = [
   "sunday",
@@ -21,17 +23,6 @@ const daysOfTheWeek = [
   "saturday"
 ];
 
-function returnEndTime(startTime, hours) {
-  let endTime = startTime + hours;
-  if (endTime > 24) {
-    endTime -= 24;
-
-    return `${endTime}:00 Next day`;
-  }
-
-  return `${endTime}:00`;
-}
-
 const StyledTraineeWidget = styled.div`
   width: 100%;
   height: 100%;
@@ -39,10 +30,42 @@ const StyledTraineeWidget = styled.div`
 `;
 
 export class TraineeWidget extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      overtimeReason: ""
+    };
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(
+      () => this.setState({ time: Date.now() }),
+      1000
+    );
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  handleClockClick = e => {
+    e.preventDefault();
+    const { clockTrainee } = this.props;
+
+    const data = {
+      overtimeReason: this.state.overtimeReason
+    };
+
+    clockTrainee(data);
+  };
+
+  handleOvertimeReasonChange = e => {
+    this.setState({ overtimeReason: e.target.value });
+  };
+
   render() {
     const {
-      user: { data, isLoading },
-      clockTrainee
+      user: { data, isLoading }
     } = this.props;
 
     const dayToday = new Date().getDay();
@@ -59,12 +82,13 @@ export class TraineeWidget extends Component {
           <Typography variant="caption">Error</Typography>
         ) : (
           <Box>
+            {/* >>> Clock button */}
             <Item margin="inline-base">
               {data.roleData.isClockedIn ? (
                 <Button
                   variant="secondary"
                   full
-                  onClick={clockTrainee}
+                  onClick={this.handleClockClick}
                   disabled={isLoading}
                 >
                   Clock Out
@@ -73,7 +97,7 @@ export class TraineeWidget extends Component {
                 <Button
                   variant="primary"
                   full
-                  onClick={clockTrainee}
+                  onClick={this.handleClockClick}
                   disabled={isLoading}
                 >
                   Clock In
@@ -81,12 +105,35 @@ export class TraineeWidget extends Component {
               )}
             </Item>
 
+            {/* >>> Overtime reason */}
+            {data.roleData.isClockedIn &&
+              checkIfOvertime(data.roleData.schedule) && (
+                <Item margin="inline-m">
+                  <FormGroup>
+                    <FormGroup.Input>
+                      <TextInput
+                        placeholder="Overtime reason"
+                        name="overtimeReason"
+                        type="text"
+                        onChange={this.handleOvertimeReasonChange}
+                        disabled={isLoading}
+                        id="overtime-reason-input"
+                      />
+                    </FormGroup.Input>
+                  </FormGroup>
+                </Item>
+              )}
+
+            {/* >>> Time elapsed */}
             {data.roleData.isClockedIn && (
               <Item margin="inline-base" center>
-                <TimeElapsed lastClockInTime={returnLastClockInTime(data.roleData.clocks)} />
+                <TimeElapsed
+                  lastClockInTime={returnLastClockInTime(data.roleData.clocks)}
+                />
               </Item>
             )}
 
+            {/* >>> Schedule today */}
             <Item center>
               <Typography>
                 Schedule Today:{" "}

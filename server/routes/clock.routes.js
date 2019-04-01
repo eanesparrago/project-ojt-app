@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 const enums = require("../enums");
 const permittedRoles = require("../utils/permittedRoles");
-const validateUpdateClock = require("../validation/validateUpdateClock");
+const { validateUpdateClock } = require("../validation/validateClock");
 
 const ClockController = require("../controllers/clock.controller");
 

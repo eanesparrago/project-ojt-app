@@ -56,7 +56,7 @@ export class DailyTimeRecord extends Component {
             <Typography variant="base">No records</Typography>
           </Item>
         ) : (
-          roleData.clocks.map(clock => (
+          roleData.clocks.map((clock, i) => (
             <Item margin="stack-base" key={clock._id}>
               <DailyTimeRecordItem
                 clockData={clock}
@@ -65,6 +65,7 @@ export class DailyTimeRecord extends Component {
                 }
                 editId={editId}
                 handleEditToggle={this.handleEditToggle}
+                previousClock={roleData.clocks[i - 1]}
               />
             </Item>
           ))

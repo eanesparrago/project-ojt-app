@@ -13,6 +13,17 @@ const clockSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true
+  },
+  isOvertime: {
+    type: Boolean,
+    default: false
+  },
+  overtimeReason: {
+    type: String
+  },
+  isInvalid: {
+    type: Boolean,
+    default: false
   }
 });
 

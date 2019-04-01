@@ -4,6 +4,7 @@ const { validationResult } = require("express-validator/check");
 const bcrypt = require("bcryptjs");
 const differenceInSeconds = require("date-fns/difference_in_seconds");
 const differenceInMinutes = require("date-fns/difference_in_minutes");
+const checkIfOvertime = require("../utils/checkIfOvertime");
 
 /**
  * Test route
@@ -148,14 +149,23 @@ function userClock(req, res) {
 
         // >>> Last clock is not yet clocked out --> Clock out
         else if (clock.out !== null) {
+          const secondsElapsed = differenceInSeconds(new Date(), clock.in);
           clock.out = Date.now();
+
+          // >>> If seconds elapsed is greater than 12 hours and 15 minutes, set clock as invalid.
+          if (secondsElapsed > 44100) {
+            clock.isInvalid = true;
+          } else {
+            if (checkIfOvertime(user.roleData.schedule)) {
+              clock.isOvertime = true;
+              clock.overtimeReason = req.body.overtimeReason;
+            }
+          }
 
           clock.save(err => {
             if (err) {
               return res.status(500).send(err);
             }
-
-            const secondsElapsed = differenceInSeconds(new Date(), clock.in);
 
             user.roleData.timeRendered += secondsElapsed;
             user.roleData.isClockedIn = false;

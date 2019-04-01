@@ -33,32 +33,16 @@ function updateClock(req, res) {
       return res.status(400).send("Bad request");
     }
 
-    // >>> Check for conflicts in previous and next clocks
-    Clock.find({ user: clock.user }).then(clocks => {
-      const currentClockIndex = clocks.findIndex(userClock =>
-        userClock._id.equals(clock._id)
-      );
-      const previousClock = clocks[currentClockIndex - 1];
-      const nextClock = clocks[currentClockIndex + 1];
+    clock.in = req.body.in;
+    clock.out = req.body.out;
+    clock.isInvalid = false;
 
-      if (previousClock && isBefore(req.body.in, previousClock.out)) {
-        errors.in = { msg: "Conflict with previous clock" };
+    clock.save((err, clock) => {
+      if (err) {
+        return res.status(500).send(err);
       }
 
-      if (nextClock && isBefore(nextClock.in, req.body.out)) {
-        errors.out = { msg: "Conflict with next clock" };
-      }
-
-      clock.in = req.body.in;
-      clock.out = req.body.out;
-
-      clock.save((err, clock) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-
-        res.status(200).json(clock);
-      });
+      res.status(200).json(clock);
     });
   });
 }

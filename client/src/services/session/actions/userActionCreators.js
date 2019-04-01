@@ -31,13 +31,13 @@ export const USER_CLOCK_REQUEST = "USER_CLOCK_REQUEST";
 export const USER_CLOCK_SUCCESS = "USER_CLOCK_SUCCESS";
 export const USER_CLOCK_FAILURE = "USER_CLOCK_FAILURE";
 
-export const clockTrainee = () => dispatch => {
+export const clockTrainee = data => dispatch => {
   dispatch({
     type: USER_CLOCK_REQUEST
   });
 
   axios
-    .post("/api/trainee/clock")
+    .post("/api/trainee/clock", data)
     .then(res => {
       dispatch({
         type: USER_CLOCK_SUCCESS,
@@ -48,8 +48,8 @@ export const clockTrainee = () => dispatch => {
     })
     .catch(err => {
       dispatch({
-        type: USER_CLOCK_FAILURE,
-        payload: err.response.data
+        type: USER_CLOCK_FAILURE
+        // payload: err.response.data
       });
 
       dispatch(setFlashMessage("An error occurred.", "error"));

@@ -8,7 +8,9 @@ const {
   validateInitializeTrainee
 } = require("../validation/validateInitialize");
 const dynamicValidation = require("../validation/dynamicValidation");
-const validateRequestClockCorrection = require("../validation/validateRequestClockCorrection");
+const {
+  validateRequestClockCorrection
+} = require("../validation/validateClock");
 const enums = require("../enums");
 
 // >>> /api/trainee

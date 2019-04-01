@@ -35,25 +35,56 @@ export class DailyTimeRecordItem extends Component {
       clockData,
       isClockCorrectionRequestActive,
       auth,
-      editId
+      editId,
+      previousClock
     } = this.props;
+
+    let title = "";
+    if (previousClock) {
+      if (
+        format(previousClock.in, "MMM D YYYY") !==
+        format(clockData.in, "MMM D YYYY")
+      ) {
+        title = format(clockData.in, "MMM D YYYY");
+      }
+    } else {
+      title = format(clockData.in, "MMM D YYYY");
+    }
 
     return (
       <StyledDailyTimeRecordItem>
         <Item margin="stack-s">
           <DataGroup>
-            <DataGroup.Label title={format(clockData.in, "MMM D YYYY")} />
+            <DataGroup.Label title={title} />
 
             <DataGroup.Content>
-              <Typography variant="body">
-                {`${format(clockData.in, "HH:mm")} - ${
-                  clockData.out
-                    ? `${format(clockData.out, "HH:mm")} (${returnTimeElapsed(
-                        differenceInSeconds(clockData.out, clockData.in)
-                      )})`
-                    : "Ongoing"
-                }`}
-              </Typography>
+              <Item margin="stack-s">
+                <Typography variant="body">
+                  {`${format(clockData.in, "HH:mm")} - ${
+                    clockData.out
+                      ? `${format(clockData.out, "HH:mm")} (${returnTimeElapsed(
+                          differenceInSeconds(clockData.out, clockData.in)
+                        )})`
+                      : "Ongoing"
+                  }`}
+                </Typography>
+              </Item>
+
+              {clockData.isInvalid && (
+                <Item>
+                  <Typography variant="caption">Missed clock out!</Typography>
+                </Item>
+              )}
+
+              {clockData.isOvertime && (
+                <Item>
+                  <Typography variant="caption">
+                    Overtime{" "}
+                    {clockData.overtimeReason &&
+                      `- ${clockData.overtimeReason}`}
+                  </Typography>
+                </Item>
+              )}
             </DataGroup.Content>
 
             {!isClockCorrectionRequestActive &&
@@ -69,13 +100,6 @@ export class DailyTimeRecordItem extends Component {
                       ? "Edit"
                       : "Request Correction"}
                   </Button>
-
-                  {/* <Button variant="secondary">
-                    {auth.user.role === enums.roles.ADMINISTRATOR ||
-                    auth.user.role === enums.roles.SUPERVISOR
-                      ? "Delete"
-                      : "Request Delete"}
-                  </Button> */}
                 </DataGroup.Buttons>
               )}
           </DataGroup>
