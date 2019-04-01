@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { withRouter, Switch, Route, Redirect } from "react-router-dom";
-import _ from "lodash";
 
 import PersonAccount from "./components/PersonAccount/PersonAccount";
 import TraineeSchedule from "./components/TraineeSchedule/TraineeSchedule";
 import DailyTimeRecord from "./components/DailyTimeRecord/DailyTimeRecord";
+import Tasks from "./components/Tasks/Tasks";
 
 import enums from "src/services/enums";
 
@@ -31,6 +31,12 @@ export class Person extends Component {
           <Route
             path={`${match.url}/daily-time-record`}
             render={() => <DailyTimeRecord data={data} />}
+          />
+        )}
+        {data.role === enums.roles.TRAINEE && (
+          <Route
+            path={`${match.url}/tasks`}
+            render={() => <Tasks data={data} />}
           />
         )}
 

@@ -1,7 +1,7 @@
 // >>> https://stackoverflow.com/questions/6312993/javascript-seconds-to-time-string-with-format-hhmmss
 
-export default seconds => {
-  var sec_num = parseInt(seconds, 10); // don't forget the second param
+export default dataSeconds => {
+  var sec_num = parseInt(dataSeconds, 10); // don't forget the second param
   var hours = Math.floor(sec_num / 3600);
   var minutes = Math.floor((sec_num - hours * 3600) / 60);
   var seconds = sec_num - hours * 3600 - minutes * 60;

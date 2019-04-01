@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Button, Typography } from "src/components/elements";
 import { Item } from "src/components/blocks";

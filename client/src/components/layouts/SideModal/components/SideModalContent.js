@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Spring, animated } from "react-spring/renderprops";
+import { animated } from "react-spring/renderprops";
 
 const StyledSideModalContent = animated(styled.div`
   grid-area: content;

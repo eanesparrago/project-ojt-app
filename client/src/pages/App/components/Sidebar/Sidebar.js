@@ -152,7 +152,7 @@ const traineeMenu = [
 export class Sidebar extends Component {
   render() {
     const {
-      user: { data, isLoading },
+      user: { data },
       match
     } = this.props;
 
@@ -239,75 +239,3 @@ export default withRouter(
     null
   )(Sidebar)
 );
-
-const SidebarContent = ({ match, user: { data } }) => {
-  const menu =
-    (data.role === enums.roles.ADMINISTRATOR && adminMenu) ||
-    (data.role === enums.roles.SUPERVISOR && supervisorMenu) ||
-    (data.role === enums.roles.EMPLOYEE && employeeMenu) ||
-    (data.role === enums.roles.TRAINEE && traineeMenu);
-
-  return (
-    <StyledSidebar>
-      <Item as={Link} to="/" margin="stack-l">
-        <Typography variant="display-4">Parousía</Typography>
-      </Item>
-
-      {/* <Container NAME="sidebar-profile" margin="stack-base">
-      
-
-        <Item NAME="sidebar-profile-picture" margin="stack-m">
-          <Photo rounded>
-            <img src={data.profilePictureUrl} alt="" />
-          </Photo>
-        </Item>
-
-        <Item margin="stack-m">
-          <Typography variant="display-3">{data.username}</Typography>
-        </Item>
-
-        <Item margin="stack-base">
-          <Typography>{data.role}</Typography>
-        </Item>
-
-        <Divider />
-      </Container> */}
-
-      <Box NAME="nav" column>
-        {menu.map(item => (
-          <Item left margin="stack-s" key={item.title}>
-            <Button
-              variant="text"
-              full
-              left
-              as={NavLink}
-              to={`${match.url}${item.to}`}
-              activeClassName="active"
-            >
-              <Item center style={{ width: "2rem" }} margin="inline-s">
-                <i className={item.icon} />
-              </Item>
-              {item.title}
-            </Button>
-          </Item>
-        ))}
-
-        <Item NAME="profile" left margin="stack-s">
-          <Button
-            variant="text"
-            full
-            left
-            as={NavLink}
-            to={`${match.url}/profile`}
-            activeClassName="active"
-          >
-            <Item center style={{ width: "2rem" }} margin="inline-s">
-              <i className="fas fa-user-circle" />
-            </Item>
-            My Profile
-          </Button>
-        </Item>
-      </Box>
-    </StyledSidebar>
-  );
-};

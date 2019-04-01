@@ -32,7 +32,7 @@ export class Initialize extends Component {
   render() {
     const {
       auth: { user },
-      user: { data, isLoading, errors },
+      user: { data, isLoading },
       logoutUser
     } = this.props;
 

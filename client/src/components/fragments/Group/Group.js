@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import { LoadingScene } from "src/components/compounds";
 import GroupHeader from "./components/GroupHeader";
@@ -34,7 +34,7 @@ export class Group extends Component {
 
   render() {
     const {
-      group: { data, isLoading, errors }
+      group: { data, isLoading }
     } = this.props;
 
     return (
@@ -49,7 +49,7 @@ export class Group extends Component {
 
             <GroupPeople groupData={data} />
 
-            <GroupAnnouncements groupData={data}/>
+            <GroupAnnouncements groupData={data} />
           </Fragment>
         ) : null}
       </StyledGroup>

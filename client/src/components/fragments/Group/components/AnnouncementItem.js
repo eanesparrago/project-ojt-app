@@ -3,7 +3,7 @@ import styled from "styled-components";
 import format from "date-fns/format";
 
 import { Item, Container } from "src/components/blocks";
-import { Button, Typography } from "src/components/elements";
+import { Typography } from "src/components/elements";
 import { Avatar } from "src/components/compounds";
 
 const StyledAnnouncementItem = styled.article`

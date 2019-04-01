@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Transition, animated } from "react-spring/renderprops";
+import { animated } from "react-spring/renderprops";
 
 import { LoadingScene } from "src/components/compounds";
 
@@ -15,7 +15,7 @@ const StyledMainBody = styled.div`
 const MainBody = ({ isLoading, children }) => {
   return (
     <StyledMainBody isLoading={isLoading}>
-      <MainBodyLoading isLoading={isLoading} />
+      {isLoading && <MainBodyLoading />}
 
       {children}
     </StyledMainBody>
@@ -35,25 +35,11 @@ const StyledMainBodyLoading = animated(styled.div`
   pointer-events: none;
 `);
 
-const MainBodyLoading = ({ isLoading }) => {
+const MainBodyLoading = () => {
   return (
-    <Transition
-      native
-      items={isLoading}
-      keys={isLoading}
-      from={{ transform: "translateY(100%)", opacity: "0" }}
-      enter={{ transform: "translateY(0%)", opacity: "1" }}
-      leave={{ transform: "translateY(100%)", opacity: "0" }}
-    >
-      {show =>
-        show &&
-        (style => (
-          <StyledMainBodyLoading style={style}>
-            <LoadingScene />
-          </StyledMainBodyLoading>
-        ))
-      }
-    </Transition>
+    <StyledMainBodyLoading>
+      <LoadingScene />
+    </StyledMainBodyLoading>
   );
 };
 

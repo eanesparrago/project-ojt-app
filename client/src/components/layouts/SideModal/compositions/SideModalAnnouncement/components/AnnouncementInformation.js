@@ -3,7 +3,7 @@ import format from "date-fns/format";
 import { connect } from "react-redux";
 
 import { Item, Box } from "src/components/blocks";
-import { Typography, Photo, Divider } from "src/components/elements";
+import { Typography } from "src/components/elements";
 import { ProfilePicture } from "src/components/compounds";
 import { DataGroup } from "src/components/compounds";
 
@@ -45,7 +45,9 @@ const AnnouncementInformation = ({ announcement: { data } }) => {
           <DataGroup.Label title="Group" />
 
           <DataGroup.Content>
-            <Typography variant="display-4">{data.group ? data.group.name : "All"}</Typography>
+            <Typography variant="display-4">
+              {data.group ? data.group.name : "All"}
+            </Typography>
           </DataGroup.Content>
         </DataGroup>
       </Item>

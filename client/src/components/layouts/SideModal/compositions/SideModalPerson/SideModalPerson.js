@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import _ from "lodash";
 import { connect } from "react-redux";
 
 import { SideModal } from "src/components/layouts";

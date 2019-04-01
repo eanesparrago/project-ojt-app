@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Link, withRouter } from "react-router-dom";
-import format from "date-fns/format";
-import { connect } from "react-redux";
 
 import { TableHeader, TableBody } from "./components";
 

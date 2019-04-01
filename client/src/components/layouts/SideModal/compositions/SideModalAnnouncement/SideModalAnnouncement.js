@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import format from "date-fns/format";
 
 import { Item, Box } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";

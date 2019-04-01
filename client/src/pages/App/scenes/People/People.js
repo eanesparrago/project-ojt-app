@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Main } from "src/pages/App/components";
-import PeopleTable from "./components/PeopleTable";
 import { TablePeople } from "src/components/layouts/Table/compositions";
 
 import { getPeople } from "src/services/session/actions/peopleActionCreators";
