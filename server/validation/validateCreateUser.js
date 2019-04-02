@@ -51,21 +51,37 @@ const validateCreateUser = [
   body("firstName")
     .trim()
     .customSanitizer((value, { req }) => upperFirst(value)),
+  body("firstName")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 30 })
+    .withMessage("First name must not be over 30 characters"),
 
   // >>> middleName
   body("middleName")
     .trim()
     .customSanitizer((value, { req }) => upperFirst(value)),
+  body("middleName")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 30 })
+    .withMessage("Middle name must not be over 30 characters"),
 
   // >>> lastName
   body("lastName")
     .trim()
     .customSanitizer((value, { req }) => upperFirst(value)),
+  body("lastName")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 30 })
+    .withMessage("Last name must not be over 30 characters"),
 
   // >>> nickname
   body("nickname")
     .trim()
     .customSanitizer((value, { req }) => upperFirst(value)),
+  body("nickname")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 30 })
+    .withMessage("Nickname must not be over 30 characters"),
 
   // >>> gender
   body("gender")
@@ -76,6 +92,10 @@ const validateCreateUser = [
 
   // >>> contactNumber
   body("contactNumber").trim(),
+  body("contactNumber")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 15 })
+    .withMessage("Contact number must not be over 15 characters"),
 
   // >>> email
   body("email")
@@ -83,6 +103,8 @@ const validateCreateUser = [
     .optional({ checkFalsy: true })
     .isEmail()
     .withMessage("Email is not valid")
+    .isLength({ max: 100 })
+    .withMessage("Email must not be over 100 characters")
 ];
 
 const validateCreateUserTrainee = [
@@ -110,23 +132,51 @@ const validateCreateUserTrainee = [
   body("address")
     .trim()
     .customSanitizer((value, { req }) => upperFirst(value)),
+  body("address")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 100 })
+    .withMessage("Address must not be over 100 characters"),
 
   body("contactNumber").trim(),
-
+  body("contactNumber")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 15 })
+    .withMessage("Contact number must not be over 15 characters"),
   body("school")
     .trim()
-    .customSanitizer((value, { req }) => upperFirst(value)),
+    .customSanitizer(value => upperFirst(value)),
+  body("school")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 30 })
+    .withMessage("School must not be over 30 characters"),
 
   body("adviserName")
     .trim()
-    .customSanitizer((value, { req }) => upperFirst(value)),
+    .customSanitizer(value => upperFirst(value)),
+  body("adviserName")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 60 })
+    .withMessage("Adviser name must not be over 60 characters"),
+
   body("adviserContactNumber").trim(),
+  body("adviserContactNumber")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 15 })
+    .withMessage("Adviser contact number must not be over 15 characters"),
 
   body("guardianName")
     .trim()
-    .customSanitizer((value, { req }) => upperFirst(value)),
+    .customSanitizer(value => upperFirst(value)),
+  body("guardianName")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 60 })
+    .withMessage("Guardian name must not be over 60 characters"),
 
-  body("guardianContactNumber").trim()
+  body("guardianContactNumber").trim(),
+  body("guardianContactNumber")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 15 })
+    .withMessage("Guardian contact number must not be over 15 characters")
 ];
 
 const validateCreateUserSupervisor = [

@@ -10,6 +10,8 @@ const validateCreateAnnouncement = [
     .not()
     .isEmpty()
     .withMessage("Message is required")
+    .isLength({ max: 300 })
+    .withMessage("Message must not be over 300 characters")
 ];
 
 module.exports = validateCreateAnnouncement;

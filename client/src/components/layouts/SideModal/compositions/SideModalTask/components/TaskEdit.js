@@ -86,6 +86,7 @@ export class TaskEdit extends Component {
                 onChange={this.handleInputChange}
                 error={errors.ticketNumber}
                 disabled={isLoading}
+                maxLength="30"
               />
             </FormGroup.Input>
           </FormGroup>

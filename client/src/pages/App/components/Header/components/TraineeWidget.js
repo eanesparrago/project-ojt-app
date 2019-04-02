@@ -118,6 +118,7 @@ export class TraineeWidget extends Component {
                         onChange={this.handleOvertimeReasonChange}
                         disabled={isLoading}
                         id="overtime-reason-input"
+                        maxLength="60"
                       />
                     </FormGroup.Input>
                   </FormGroup>

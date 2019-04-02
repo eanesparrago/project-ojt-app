@@ -141,6 +141,7 @@ export class EditGroupForm extends Component {
                 onChange={this.handleInputChange}
                 error={errors[item.name]}
                 disabled={isLoading}
+                maxLength="50"
               />
             </Item>
           </Box>

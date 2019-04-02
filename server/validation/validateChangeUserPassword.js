@@ -13,7 +13,7 @@ const validateCreateUser = [
     .not()
     .isEmpty()
     .withMessage("Confirm Password is required")
-    .custom((value, { req, loc, path }) => {
+    .custom((value, { req }) => {
       if (value !== req.body.password) {
         throw new Error("Passwords must match");
       } else {

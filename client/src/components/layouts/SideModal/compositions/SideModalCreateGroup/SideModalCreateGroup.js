@@ -105,6 +105,7 @@ export class SideModalCreateGroup extends Component {
                     onChange={this.handleInputChange}
                     error={errors[item.name]}
                     disabled={isLoading}
+                    maxLength="50"
                   />
                 </FormGroup.Input>
               </FormGroup>

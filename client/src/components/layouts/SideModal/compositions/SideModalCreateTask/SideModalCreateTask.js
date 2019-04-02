@@ -74,6 +74,7 @@ export class SideModalCreateTask extends Component {
                   error={errors.content}
                   disabled={isLoading}
                   onChange={this.handleInputChange}
+                  
                 />
               </FormGroup.Input>
             </FormGroup>
@@ -90,11 +91,12 @@ export class SideModalCreateTask extends Component {
                 <TextInput
                   name="ticketNumber"
                   id="ticket-number-input"
-                  type="text"
+                  type="number"
                   value={state.ticketNumber}
                   onChange={this.handleInputChange}
                   error={errors.ticketNumber}
                   disabled={isLoading}
+                  maxLength="30"
                 />
               </FormGroup.Input>
             </FormGroup>

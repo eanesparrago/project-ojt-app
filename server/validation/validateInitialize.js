@@ -7,22 +7,34 @@ const validateInitialize = [
     .not()
     .isEmpty()
     .withMessage("First name is required")
+    .isLength({ max: 30 })
+    .withMessage("First name must not be over 30 characters")
     .customSanitizer((value, { req }) => upperFirst(value)),
 
   body("middleName")
     .trim()
     .customSanitizer((value, { req }) => upperFirst(value)),
+  body("middleName")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 30 })
+    .withMessage("Middle name must not be over 30 characters"),
 
   body("lastName")
     .trim()
     .not()
     .isEmpty()
     .withMessage("Last name is required")
+    .isLength({ max: 30 })
+    .withMessage("Last name must not be over 30 characters")
     .customSanitizer((value, { req }) => upperFirst(value)),
 
   body("nickname")
     .trim()
     .customSanitizer((value, { req }) => upperFirst(value)),
+  body("nickname")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 30 })
+    .withMessage("Nickname must not be over 30 characters"),
 
   body("gender")
     .trim()
@@ -36,7 +48,9 @@ const validateInitialize = [
     .withMessage("Email is not valid")
     .not()
     .isEmpty()
-    .withMessage("Email is required"),
+    .withMessage("Email is required")
+    .isLength({ max: 100 })
+    .withMessage("Email must not be over 100 characters"),
 
   body("password")
     .trim()
@@ -65,7 +79,9 @@ const validateInitializeTrainee = [
     .trim()
     .not()
     .isEmpty()
-    .withMessage("School is required"),
+    .withMessage("School is required")
+    .isLength({ max: 30 })
+    .withMessage("School must not be over 30 characters"),
 
   body("dateOfBirth")
     .trim()
@@ -78,32 +94,42 @@ const validateInitializeTrainee = [
     .not()
     .isEmpty()
     .withMessage("Address is required")
+    .isLength({ max: 100 })
+    .withMessage("Address must not be over 100 characters")
     .customSanitizer((value, { req }) => upperFirst(value)),
 
   body("contactNumber")
     .trim()
     .not()
     .isEmpty()
-    .withMessage("Contact number is required"),
+    .withMessage("Contact number is required")
+    .isLength({ max: 15 })
+    .withMessage("Contact number must not be over 15 characters"),
 
   body("adviserName")
     .trim()
     .not()
     .isEmpty()
     .withMessage("Adviser name is required")
+    .isLength({ max: 60 })
+    .withMessage("Adviser name must not be over 60 characters")
     .customSanitizer((value, { req }) => upperFirst(value)),
 
   body("adviserContactNumber")
     .trim()
     .not()
     .isEmpty()
-    .withMessage("Adviser contact number is required"),
+    .withMessage("Adviser contact number is required")
+    .isLength({ max: 15 })
+    .withMessage("Adviser contact number must not be over 15 characters"),
 
   body("guardianName")
     .trim()
     .not()
     .isEmpty()
     .withMessage("Guardian name is required")
+    .isLength({ max: 60 })
+    .withMessage("Guardian name must not be over 60 characters")
     .customSanitizer((value, { req }) => upperFirst(value)),
 
   body("guardianContactNumber")
@@ -111,6 +137,8 @@ const validateInitializeTrainee = [
     .not()
     .isEmpty()
     .withMessage("Guardian contact number is required")
+    .isLength({ max: 15 })
+    .withMessage("Guardian contact number must not be over 15 characters")
 ];
 
 module.exports = { validateInitialize, validateInitializeTrainee };

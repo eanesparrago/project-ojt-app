@@ -204,7 +204,8 @@ export class SideModalCreatePerson extends Component {
                   type: "text",
                   id: "username-input",
                   role: ["administrator", "supervisor", "trainee", "employee"],
-                  autoFocus: data.role === enums.roles.ADMINISTRATOR
+                  autoFocus: data.role === enums.roles.ADMINISTRATOR,
+                  maxLength: "50"
                 },
                 {
                   label: "Password",
@@ -310,6 +311,7 @@ export class SideModalCreatePerson extends Component {
                           onChange={this.handleInputChange}
                           error={errors[item.name]}
                           disabled={isLoading}
+                          maxLength="50"
                           {...item}
                         />
                       </FormGroup.Input>
@@ -355,21 +357,24 @@ export class SideModalCreatePerson extends Component {
                   name: "address",
                   type: "text",
                   id: "address-input",
-                  role: ["trainee"]
+                  role: ["trainee"],
+                  maxLength: "100"
                 },
                 {
                   label: "Contact Number",
                   name: "contactNumber",
                   type: "text",
                   id: "contact-number-input",
-                  role: ["trainee"]
+                  role: ["trainee"],
+                  maxLength: "50"
                 },
                 {
                   label: "E-mail Address",
                   name: "email",
                   type: "email",
                   id: "email-input",
-                  role: ["administrator", "supervisor", "trainee", "employee"]
+                  role: ["administrator", "supervisor", "trainee", "employee"],
+                  maxLength: "100"
                 },
 
                 {
@@ -377,35 +382,40 @@ export class SideModalCreatePerson extends Component {
                   name: "school",
                   type: "text",
                   id: "school-input",
-                  role: ["trainee"]
+                  role: ["trainee"],
+                  maxLength: "50"
                 },
                 {
                   label: "Adviser Name",
                   name: "adviserName",
                   type: "text",
                   id: "adviser-name-input",
-                  role: ["trainee"]
+                  role: ["trainee"],
+                  maxLength: "50"
                 },
                 {
                   label: "Adviser Contact Number",
                   name: "adviserContactNumber",
                   type: "text",
                   id: "adviser-contact-number-input",
-                  role: ["trainee"]
+                  role: ["trainee"],
+                  maxLength: "50"
                 },
                 {
                   label: "Guardian Name",
                   name: "guardianName",
                   type: "text",
                   id: "guardian-name-input",
-                  role: ["trainee"]
+                  role: ["trainee"],
+                  maxLength: "50"
                 },
                 {
                   label: "Guardian Contact Number",
                   name: "guardianContactNumber",
                   type: "text",
                   id: "guardian-contact-number-input",
-                  role: ["trainee"]
+                  role: ["trainee"],
+                  maxLength: "50"
                 }
               ]
                 .filter(item => item.role.includes(data.role))
