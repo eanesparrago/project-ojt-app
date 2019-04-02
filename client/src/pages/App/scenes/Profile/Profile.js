@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
-import { Item } from "src/components/blocks";
+import { Area } from "src/components/blocks";
 import { NavMenu } from "src/components/compounds";
 import { Person } from "src/components/fragments";
 
@@ -39,9 +39,19 @@ const traineeButtons = [
 ];
 
 const StyledProfileBody = styled.div`
-  padding: var(--size-base);
   background-color: ${p => p.theme.color.white};
-  min-height: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  .area-menu {
+    background-color: ${p => p.theme.color.grey.light};
+    padding-bottom: 0;
+  }
+
+  .area-person {
+    overflow-y: auto;
+  }
 `;
 
 export class Profile extends Component {
@@ -67,7 +77,7 @@ export class Profile extends Component {
         <Main.Body isLoading={isLoading}>
           {data && (
             <StyledProfileBody>
-              <Item margin="stack-base">
+              <Area NAME="menu" padding="squish-base">
                 <NavMenu
                   buttons={
                     data.role === enums.roles.TRAINEE
@@ -75,9 +85,11 @@ export class Profile extends Component {
                       : buttons
                   }
                 />
-              </Item>
+              </Area>
 
-              <Person data={data} afterEdit={this.afterEdit} />
+              <Area NAME="person" padding="inset-base">
+                <Person data={data} afterEdit={this.afterEdit} />
+              </Area>
             </StyledProfileBody>
           )}
         </Main.Body>

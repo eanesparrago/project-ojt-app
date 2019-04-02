@@ -99,11 +99,11 @@ const spacingProperties = ({
   const inlineXlMobile = `0 ${sizeMobile.xl} 0 0`;
 
   return css`
-    padding: ${(padding === "inset-base" && insetL) ||
+    padding: ${(padding === "inset-base" && insetBase) ||
       (padding === "inset-xs" && insetXs) ||
       (padding === "inset-s" && insetS) ||
       (padding === "inset-m" && insetM) ||
-      (padding === "inset-l" && insetBase) ||
+      (padding === "inset-l" && insetL) ||
       (padding === "inset-xl" && insetXl) ||
       (padding === "squish-s" && squishS) ||
       (padding === "squish-m" && squishM) ||

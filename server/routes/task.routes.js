@@ -32,7 +32,11 @@ router
   .route("/")
   .get(
     passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR),
+    permittedRoles(
+      enums.roles.ADMINISTRATOR,
+      enums.roles.SUPERVISOR,
+      enums.roles.EMPLOYEE
+    ),
     TaskController.getTasks
   );
 
