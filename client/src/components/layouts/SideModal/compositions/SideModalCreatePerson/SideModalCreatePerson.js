@@ -463,16 +463,14 @@ export class SideModalCreatePerson extends Component {
                 <FormGroup.Label />
                 <FormGroup>
                   <FormGroup.Input>
-                    <Item>
-                      <Button
-                        type="submit"
-                        variant="primary"
-                        onClick={this.handleSubmit}
-                        disabled={isLoading}
-                      >
-                        Submit
-                      </Button>
-                    </Item>
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      onClick={this.handleSubmit}
+                      disabled={isLoading}
+                    >
+                      Submit
+                    </Button>
                   </FormGroup.Input>
                 </FormGroup>
               </Item>

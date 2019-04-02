@@ -14,7 +14,8 @@ import {
   SideModalCreateGroup,
   SideModalPerson,
   SideModalCreateAnnouncement,
-  SideModalAnnouncement
+  SideModalAnnouncement,
+  SideModalCreateTask
 } from "src/components/layouts/SideModal/compositions";
 
 import enums from "src/services/enums";
@@ -69,6 +70,12 @@ class Main extends Component {
               <SideModalCreateAnnouncement />
             </MainSideModal>
           </Fragment>
+        )}
+
+        {role === enums.roles.TRAINEE && (
+          <MainSideModal routePath="/create-task">
+            <SideModalCreateTask />
+          </MainSideModal>
         )}
 
         <MainSideModal routePath="/create-announcement">

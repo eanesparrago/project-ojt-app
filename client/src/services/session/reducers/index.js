@@ -8,6 +8,7 @@ import userReducer from "./userReducer";
 import announcementsReducer from "./announcementsReducer";
 import groupReducer from "./groupReducer";
 import personReducer from "./personReducer";
+import taskReducer from "./taskReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -17,5 +18,6 @@ export default combineReducers({
   user: userReducer,
   announcements: announcementsReducer,
   group: groupReducer,
-  person: personReducer
+  person: personReducer,
+  task: taskReducer
 });
