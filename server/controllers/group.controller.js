@@ -1,7 +1,6 @@
 const Group = require("../models/group");
 const Announcement = require("../models/announcement");
 const { validationResult } = require("express-validator/check");
-const enums = require("../enums");
 
 function testRoute(req, res) {
   res.status(200).json({ message: "Groups test" });

@@ -33,7 +33,7 @@ router
   .get(
     passport.authenticate("jwt", { session: false }),
     permittedRoles(enums.roles.ADMINISTRATOR),
-    TaskController.getAllTasks
+    TaskController.getTasks
   );
 
 // --->>> GET /api/tasks/own - getOwnTasks
@@ -43,6 +43,15 @@ router
     passport.authenticate("jwt", { session: false }),
     permittedRoles(enums.roles.TRAINEE),
     TaskController.getOwnTasks
+  );
+
+// --->>> GET /api/tasks/task/:id - getTaskById
+router
+  .route("/task/:id")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.TRAINEE),
+    TaskController.getTaskById
   );
 
 // --->>> POST /api/tasks/task/:id - updateTask

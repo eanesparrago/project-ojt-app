@@ -2,12 +2,23 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Main } from "src/pages/App/components";
+import { TableTasks } from "src/components/layouts/Table/compositions";
 
-import { getAnnouncements } from "src/services/session/actions/announcementsActionCreators";
+import { getOwnTasks } from "src/services/session/actions/tasksActionCreators";
 import enums from "src/services/enums";
 
 export class Tasks extends Component {
+  componentDidMount() {
+    const { getOwnTasks } = this.props;
+
+    getOwnTasks();
+  }
+
   render() {
+    const {
+      tasks: { data, isLoading }
+    } = this.props;
+
     return (
       <Main>
         <Main.Header
@@ -16,10 +27,20 @@ export class Tasks extends Component {
           buttonPath="/create-task"
           buttonPermissions={[enums.roles.TRAINEE]}
         />
-        <Main.Body>Tasks</Main.Body>
+
+        <Main.Body isLoading={isLoading}>
+          {data && <TableTasks tasksData={data} />}
+        </Main.Body>
       </Main>
     );
   }
 }
 
-export default Tasks;
+export default connect(
+  state => ({
+    tasks: state.tasks
+  }),
+  {
+    getOwnTasks: getOwnTasks
+  }
+)(Tasks);

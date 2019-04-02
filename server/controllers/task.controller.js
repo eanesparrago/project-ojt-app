@@ -59,12 +59,31 @@ function getOwnTasks(req, res) {
  * Get all tasks
  * @route   GET /api/tasks
  */
-function getAllTasks(req, res) {
-  Task.find().then(tasks => {
+function getTasks(req, res) {
+  Task.find(req.query).then(tasks => {
     if (!tasks) {
       res.status(404).send("No tasks found");
     }
     res.status(200).json(tasks);
+  });
+}
+
+/**
+ * Get task by id
+ * @route   GET /api/tasks/task/:id
+ * @param   req.params.id
+ */
+function getTaskById(req, res) {
+  Task.findById(req.params.id).then(task => {
+    if (!task.user.equals(req.user._id)) {
+      return res.status(403).send("Forbidden");
+    }
+
+    if (!task) {
+      res.status(404).send("Task not found");
+    }
+
+    res.status(200).send(task);
   });
 }
 
@@ -135,8 +154,9 @@ function deleteTask(req, res) {
 module.exports = {
   testRoute,
   createTask,
-  getAllTasks,
+  getTasks,
   getOwnTasks,
+  getTaskById,
   updateTask,
   deleteTask
 };

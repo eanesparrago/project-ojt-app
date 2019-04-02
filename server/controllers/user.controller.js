@@ -332,8 +332,7 @@ function updateUser(req, res) {
  * @param  req.params.id (required)
  * @param  req.body.password (required)
  * @param  req.body.confirmPassword (required)
- * @param  res
-  */
+ */
 function updatePassword(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -367,7 +366,7 @@ function updatePassword(req, res) {
  * PUT api/users/:id/schedule
  * @param  req.params.id (required)
  * @param  req.body (required)
-  */
+ */
 function updateTraineeSchedule(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

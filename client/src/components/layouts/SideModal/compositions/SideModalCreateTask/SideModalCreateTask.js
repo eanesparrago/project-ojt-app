@@ -61,21 +61,22 @@ export class SideModalCreateTask extends Component {
 
         <SideModal.Body as="form">
           <Item margin="stack-base">
-            <FormGroup.Label title="Content" htmlFor="content-input" />
-
-            <FormGroup.Input>
-              <TextAreaInput
-                autoFocus
-                id="content-input"
-                value={state.content}
-                name="content"
-                cols="30"
-                rows="10"
-                error={errors.content}
-                disabled={isLoading}
-                onChange={this.handleInputChange}
-              />
-            </FormGroup.Input>
+            <FormGroup>
+              <FormGroup.Label title="Content" htmlFor="content-input" />
+              <FormGroup.Input>
+                <TextAreaInput
+                  autoFocus
+                  id="content-input"
+                  value={state.content}
+                  name="content"
+                  cols="30"
+                  rows="10"
+                  error={errors.content}
+                  disabled={isLoading}
+                  onChange={this.handleInputChange}
+                />
+              </FormGroup.Input>
+            </FormGroup>
           </Item>
 
           <Item margin="stack-base">
