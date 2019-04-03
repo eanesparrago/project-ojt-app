@@ -166,8 +166,15 @@ function userClock(req, res) {
             if (err) {
               return res.status(500).send(err);
             }
-
             user.roleData.timeRendered += secondsElapsed;
+
+            // >>> Check if finished or not
+            if (user.roleData.timeRendered >= user.roleData.trainingDuration) {
+              user.roleData.isFinished = true;
+            } else {
+              user.roleData.isFinished = false;
+            }
+
             user.roleData.isClockedIn = false;
             user.save((err, user) => {
               if (err) {

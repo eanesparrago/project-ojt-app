@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import { Item, Box } from "src/components/blocks";
-import { Button } from "src/components/elements";
+import { Button, Typography } from "src/components/elements";
 import { SideModal } from "src/components/layouts";
 import TaskInformation from "./components/TaskInformation";
 import TaskEdit from "./components/TaskEdit";
@@ -74,13 +74,15 @@ export class SideModalTask extends Component {
             )}
           </Box>
 
-          {data &&
-            !isLoading &&
-            (state.isEditOpen ? (
+          {data ? (
+            state.isEditOpen ? (
               <TaskEdit handleToggleEdit={this.handleToggleEdit} />
             ) : (
               <TaskInformation taskData={data} />
-            ))}
+            )
+          ) : (
+            <Typography variant="base">An error occurred</Typography>
+          )}
         </SideModal.Body>
       </SideModal>
     );

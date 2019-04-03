@@ -101,7 +101,8 @@ export class App extends Component {
               permittedRoles={[
                 enums.roles.ADMINISTRATOR,
                 enums.roles.SUPERVISOR,
-                enums.roles.EMPLOYEE
+                enums.roles.EMPLOYEE,
+                enums.roles.TRAINEE
               ]}
             />
 

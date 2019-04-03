@@ -41,63 +41,64 @@ export class SideModalAnnouncement extends Component {
     });
   };
 
-  render() {
+  renderError = () => {
+    return <Typography variant="base">An error occurred</Typography>;
+  };
+
+  renderContent = () => {
     const {
-      announcement: { data, isLoading },
+      announcement: { data },
       auth
     } = this.props;
     const { isEditOpen } = this.state;
+
+    return (
+      <Fragment>
+        {auth.user.role === enums.roles.ADMINISTRATOR ||
+        auth.user.id === data.user._id ? (
+          <Box margin="stack-l">
+            {isEditOpen ? (
+              <Button variant="secondary" icon onClick={this.handleToggleEdit}>
+                <i className="fas fa-arrow-left" />
+                <span id="hidden">Back</span>
+              </Button>
+            ) : (
+              <Fragment>
+                <Item margin="inline-base">
+                  <Button variant="secondary" onClick={this.handleToggleEdit}>
+                    Edit Announcement
+                  </Button>
+                </Item>
+                <Item>
+                  <Button variant="secondary" onClick={this.handleDelete}>
+                    Delete Announcement
+                  </Button>
+                </Item>
+              </Fragment>
+            )}
+          </Box>
+        ) : null}
+
+        {isEditOpen ? (
+          <AnnouncementEdit handleToggleEdit={this.handleToggleEdit} />
+        ) : (
+          <AnnouncementInformation />
+        )}
+      </Fragment>
+    );
+  };
+
+  render() {
+    const {
+      announcement: { data, isLoading }
+    } = this.props;
 
     return (
       <SideModal>
         <SideModal.Header title="Announcement" />
 
         <SideModal.Body isLoading={isLoading}>
-          {data ? (
-            <Fragment>
-              {auth.user.role === enums.roles.ADMINISTRATOR ||
-              auth.user.id === data.user._id ? (
-                <Box margin="stack-l">
-                  {isEditOpen ? (
-                    <Button
-                      variant="secondary"
-                      icon
-                      onClick={this.handleToggleEdit}
-                    >
-                      <i className="fas fa-arrow-left" />
-                      <span id="hidden">Back</span>
-                    </Button>
-                  ) : (
-                    <Fragment>
-                      <Item margin="inline-base">
-                        <Button
-                          variant="secondary"
-                          onClick={this.handleToggleEdit}
-                        >
-                          Edit Announcement
-                        </Button>
-                      </Item>
-                      <Item>
-                        <Button variant="secondary" onClick={this.handleDelete}>
-                          Delete Announcement
-                        </Button>
-                      </Item>
-                    </Fragment>
-                  )}
-                </Box>
-              ) : null}
-
-              {isEditOpen ? (
-                <AnnouncementEdit handleToggleEdit={this.handleToggleEdit} />
-              ) : (
-                <AnnouncementInformation />
-              )}
-            </Fragment>
-          ) : (
-            <Item>
-              <Typography variant="base">Announcement not found.</Typography>
-            </Item>
-          )}
+          {data ? this.renderContent() : this.renderError()}
         </SideModal.Body>
       </SideModal>
     );

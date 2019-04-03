@@ -14,8 +14,7 @@ const StyledSideModalBody = styled.div`
 const SideModalBody = ({ isLoading = false, children, ...props }) => {
   return (
     <StyledSideModalBody {...props}>
-      {isLoading && <LoadingScene absolute/>}
-      {children}
+      {isLoading ? <LoadingScene absolute /> : children}
     </StyledSideModalBody>
   );
 };

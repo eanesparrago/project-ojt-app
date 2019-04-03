@@ -31,7 +31,12 @@ router
   .route("/")
   .get(
     passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR, enums.roles.SUPERVISOR),
+    permittedRoles(
+      enums.roles.ADMINISTRATOR,
+      enums.roles.SUPERVISOR,
+      enums.roles.TRAINEE,
+      enums.roles.EMPLOYEE
+    ),
     AnnouncementController.getAnnouncements
   );
 
@@ -40,7 +45,12 @@ router
   .route("/:id")
   .get(
     passport.authenticate("jwt", { session: false }),
-    permittedRoles(enums.roles.ADMINISTRATOR, enums.roles.SUPERVISOR),
+    permittedRoles(
+      enums.roles.ADMINISTRATOR,
+      enums.roles.SUPERVISOR,
+      enums.roles.TRAINEE,
+      enums.roles.EMPLOYEE
+    ),
     AnnouncementController.getAnnouncement
   );
 

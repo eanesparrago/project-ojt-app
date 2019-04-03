@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 
-import { Item, Box } from "src/components/blocks";
-import { Typography, Button } from "src/components/elements";
-import { DataGroup } from "src/components/compounds";
+import { Item } from "src/components/blocks";
+import { Typography } from "src/components/elements";
 import TaskItem from "./TaskItem";
 
 import enums from "src/services/enums";
@@ -26,7 +25,7 @@ export class Tasks extends Component {
 
   render() {
     const {
-      tasks: { data, errors, isLoading }
+      tasks: { data, isLoading }
     } = this.props;
 
     return (
@@ -35,13 +34,22 @@ export class Tasks extends Component {
           <Typography variant="display-2">Tasks</Typography>
         </Item>
 
-        {(isLoading && <Typography variant="base">Loading</Typography>) ||
-          (data &&
-            data.map((task, i) => (
+        {(() => {
+          if (isLoading) {
+            return <Typography variant="base">Loading</Typography>;
+          }
+          if (!data) {
+            return <Typography variant="base">An error occurred</Typography>;
+          }
+          if (data.length > 0) {
+            return data.map((task, i) => (
               <Item margin="stack-base" key={task._id}>
                 <TaskItem taskData={task} previousTask={data[i - 1]} />
               </Item>
-            ))) || <Typography variant="base">Error</Typography>}
+            ));
+          }
+          return <Typography variant="base">No tasks</Typography>;
+        })()}
       </Fragment>
     );
   }
