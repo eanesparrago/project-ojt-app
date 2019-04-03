@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import format from "date-fns/format";
+import { withRouter } from "react-router-dom";
+import styled from "styled-components";
+
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 
 import { Main } from "src/pages/App/components";
-import { TableAnnouncements } from "src/components/layouts/Table/compositions";
 
 import { getAnnouncements } from "src/services/session/actions/announcementsActionCreators";
 import enums from "src/services/enums";
@@ -14,8 +19,38 @@ export class Announcements extends Component {
 
   render() {
     const {
-      announcements: { isLoading }
+      announcements: { announcements, isLoading },
+      history,
+      match
     } = this.props;
+
+    const columns = [
+      {
+        id: "username",
+        Header: "Username",
+        accessor: d => d.user.username,
+        filterable: true
+      },
+      {
+        id: "role",
+        Header: "Role",
+        accessor: d => d.user.role
+      },
+      {
+        Header: "Date Created",
+        accessor: "dateCreated",
+        Cell: props => format(props.value, "MM-DD-YYYY")
+      },
+      {
+        id: "group",
+        Header: "Group",
+        accessor: d => (d.group ? d.group.name : "All")
+      },
+      {
+        Header: "Message",
+        accessor: "message"
+      }
+    ];
 
     return (
       <Main>
@@ -30,16 +65,43 @@ export class Announcements extends Component {
         />
 
         <Main.Body isLoading={isLoading}>
-          <TableAnnouncements />
+          {announcements && (
+            <StyledTable>
+              <ReactTable
+                data={announcements}
+                showPageSizeOptions={false}
+                resizable={false}
+                defaultPageSize={15}
+                columns={columns}
+                className="-highlight"
+                getTrProps={(state, rowInfo, column, instance) => {
+                  return {
+                    onClick: () => {
+                      history.push(
+                        `${match.url}/announcement/${rowInfo.original._id}`
+                      );
+                    }
+                  };
+                }}
+              />
+            </StyledTable>
+          )}
         </Main.Body>
       </Main>
     );
   }
 }
 
-export default connect(
-  state => ({
-    announcements: state.announcements
-  }),
-  { getAnnouncements: getAnnouncements }
-)(Announcements);
+const StyledTable = styled.div`
+  margin: var(--size-base);
+  background-color: ${p => p.theme.color.white};
+`;
+
+export default withRouter(
+  connect(
+    state => ({
+      announcements: state.announcements
+    }),
+    { getAnnouncements: getAnnouncements }
+  )(Announcements)
+);

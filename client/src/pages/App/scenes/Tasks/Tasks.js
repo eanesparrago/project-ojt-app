@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import format from "date-fns/format";
+import { withRouter } from "react-router-dom";
+import styled from "styled-components";
+
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 
 import { Main } from "src/pages/App/components";
-import { TableTasks } from "src/components/layouts/Table/compositions";
 
 import { getOwnTasks } from "src/services/session/actions/tasksActionCreators";
 import enums from "src/services/enums";
@@ -16,8 +21,28 @@ export class Tasks extends Component {
 
   render() {
     const {
-      tasks: { data, isLoading }
+      tasks: { data, isLoading },
+      history,
+      match
     } = this.props;
+
+    const columns = [
+      {
+        Header: "Content",
+        accessor: "content"
+      },
+      {
+        Header: "Ticket Number",
+        accessor: "ticketNumber",
+        Cell: props => (props.value ? props.value : "N/A"),
+        filterable: true
+      },
+      {
+        Header: "Date Created",
+        accessor: "dateCreated",
+        Cell: props => format(props.value, "MM-DD-YYYY")
+      }
+    ];
 
     return (
       <Main>
@@ -29,18 +54,43 @@ export class Tasks extends Component {
         />
 
         <Main.Body isLoading={isLoading}>
-          {data && <TableTasks tasksData={data} />}
+          {data && (
+            <StyledTable>
+              <ReactTable
+                data={data}
+                showPageSizeOptions={false}
+                resizable={false}
+                defaultPageSize={15}
+                columns={columns}
+                className="-highlight"
+                getTrProps={(state, rowInfo, column, instance) => {
+                  return {
+                    onClick: () => {
+                      history.push(`${match.url}/task/${rowInfo.original._id}`);
+                    }
+                  };
+                }}
+              />
+            </StyledTable>
+          )}
         </Main.Body>
       </Main>
     );
   }
 }
 
-export default connect(
-  state => ({
-    tasks: state.tasks
-  }),
-  {
-    getOwnTasks: getOwnTasks
-  }
-)(Tasks);
+const StyledTable = styled.div`
+  margin: var(--size-base);
+  background-color: ${p => p.theme.color.white};
+`;
+
+export default withRouter(
+  connect(
+    state => ({
+      tasks: state.tasks
+    }),
+    {
+      getOwnTasks: getOwnTasks
+    }
+  )(Tasks)
+);

@@ -188,7 +188,6 @@ function getUsers(req, res) {
   }
 
   User.find(conditions)
-    .select("-roleData")
     .then(users => {
       if (!users) {
         errors.users = "There are no users";

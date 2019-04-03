@@ -42,7 +42,7 @@ const AnnouncementItem = ({ announcementData }) => {
 
           <Item NAME="announcementItem-date">
             <Typography variant="caption">
-              {format(announcementData.dateCreated, "MMMM D DDD, H:mm")}
+              {format(announcementData.dateCreated, "MMMM D YYYY, H:mm")}
             </Typography>
           </Item>
         </Container>

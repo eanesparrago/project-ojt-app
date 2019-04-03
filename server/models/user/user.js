@@ -43,21 +43,14 @@ const userSchema = new Schema(
     },
     dateCreated: {
       type: Date,
-      required: true,
       default: Date.now
     },
     dateLastLoggedIn: {
       type: Date,
       default: null
     },
-    isLoggedIn: {
-      type: Boolean,
-      required: true,
-      default: false
-    },
     isActive: {
       type: Boolean,
-      required: true,
       default: true
     },
     creatorId: {

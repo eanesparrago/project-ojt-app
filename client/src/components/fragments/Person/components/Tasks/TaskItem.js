@@ -4,7 +4,7 @@ import isSameDay from "date-fns/is_same_day";
 import format from "date-fns/format";
 
 import { Item } from "src/components/blocks";
-import { Typography, Button, Divider } from "src/components/elements";
+import { Typography, Divider } from "src/components/elements";
 import { DataGroup } from "src/components/compounds";
 
 const StyledTaskItem = styled.div``;
