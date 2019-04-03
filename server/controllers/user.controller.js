@@ -188,6 +188,7 @@ function getUsers(req, res) {
   }
 
   User.find(conditions)
+    .populate({ path: "roleData.group", select: "name" })
     .then(users => {
       if (!users) {
         errors.users = "There are no users";

@@ -11,24 +11,11 @@ const StyledMainBody = styled.div`
   height: 100%;
   overflow-y: ${p => (p.isLoading ? "hidden" : "auto")};
   background-color: ${p => p.theme.color.grey.light};
-  overflow-x: hidden;
-
-  .mainBody-children {
-    height: 100%;
-    position: relative;
-    z-index: 1;
-  }
-
-  .item-design-circle {
-    width: ${p => p.theme.increment(36)};
-    height: ${p => p.theme.increment(36)};
-    border-radius: 1000rem;
-    background-color: ${p => p.theme.color.primary.light};
-    position: fixed;
-    right: ${p => p.theme.increment(-12)};
-    bottom: ${p => p.theme.increment(-12)};
-    z-index: 0;
-  }
+  background-image: linear-gradient(
+    to top,
+    ${p => p.theme.color.primary.light},
+    ${p => p.theme.color.light} 40%
+  );
 `;
 
 const MainBody = ({ isLoading, children }) => {
@@ -36,9 +23,7 @@ const MainBody = ({ isLoading, children }) => {
     <StyledMainBody isLoading={isLoading}>
       {isLoading && <MainBodyLoading />}
 
-      <div className="mainBody-children">{children}</div>
-
-      <Item NAME="design-circle" />
+      {children}
     </StyledMainBody>
   );
 };

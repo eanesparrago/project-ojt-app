@@ -3,10 +3,13 @@ import { connect } from "react-redux";
 import format from "date-fns/format";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
+import round from "lodash/round";
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 
+import { Item } from "src/components/blocks";
+import { SelectInput } from "src/components/compounds";
 import { Main } from "src/pages/App/components";
 
 import { getPeople } from "src/services/session/actions/peopleActionCreators";
@@ -14,9 +17,21 @@ import { getPeople } from "src/services/session/actions/peopleActionCreators";
 import enums from "src/services/enums";
 
 export class People extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      role: "all"
+    };
+  }
+
   componentDidMount() {
     this.props.getPeople();
   }
+
+  handleRoleChange = e => {
+    this.setState({ role: e.target.value });
+  };
 
   render() {
     const {
@@ -24,8 +39,14 @@ export class People extends Component {
       history,
       match
     } = this.props;
+    const { ...state } = this.state;
 
-    const columns = [
+    let filteredData = data;
+    if (state.role !== "all") {
+      filteredData = data.filter(person => person.role === state.role);
+    }
+
+    let columns = [
       {
         Header: "Username",
         accessor: "username",
@@ -49,6 +70,28 @@ export class People extends Component {
       }
     ];
 
+    let traineeColumns = [
+      {
+        id: "groupName",
+        Header: "Group",
+        accessor: d => d.roleData.group.name
+      },
+      {
+        id: "trainingDuration",
+        Header: "Training Duration (Hours)",
+        accessor: d => d.roleData.trainingDuration / 3600
+      },
+      {
+        id: "timeRendered",
+        Header: "Time Rendered (Hours)",
+        accessor: d => round(d.roleData.timeRendered / 3600)
+      }
+    ];
+
+    if (state.role === "trainee") {
+      columns = columns.concat(traineeColumns);
+    }
+
     return (
       <Main>
         <Main.Header
@@ -61,8 +104,25 @@ export class People extends Component {
         <Main.Body isLoading={isLoading}>
           {data && (
             <StyledTable>
+              <Item NAME="people-role" margin="stack-m">
+                <SelectInput
+                  value={state.role}
+                  onChange={this.handleRoleChange}
+                  options={[
+                    {
+                      label: "All roles",
+                      value: "all"
+                    },
+                    { label: "Administrator", value: "administrator" },
+                    { label: "Supervisor", value: "supervisor" },
+                    { label: "Trainee", value: "trainee" },
+                    { label: "Employee", value: "employee" }
+                  ]}
+                />
+              </Item>
+
               <ReactTable
-                data={data}
+                data={filteredData}
                 showPageSizeOptions={false}
                 resizable={false}
                 defaultPageSize={15}
@@ -89,6 +149,10 @@ export class People extends Component {
 const StyledTable = styled.div`
   margin: var(--size-base);
   background-color: ${p => p.theme.color.white};
+
+  .item-people-role {
+    width: 50%;
+  }
 `;
 
 export default withRouter(
