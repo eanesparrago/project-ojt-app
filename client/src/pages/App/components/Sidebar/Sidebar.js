@@ -18,6 +18,8 @@ const StyledSidebar = styled.div`
   color: ${p => p.theme.color.light};
   padding: var(--size-base);
   flex-shrink: 0;
+  position: relative;
+  z-index: 100;
 
   .container-sidebar-profile {
     flex-shrink: 0;
