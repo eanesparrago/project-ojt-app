@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import format from "date-fns/format";
+import round from "lodash/round";
 
 import { Item } from "src/components/blocks";
 import { Typography, Photo, Divider } from "src/components/elements";
@@ -133,7 +134,9 @@ const PersonInformation = ({ data }) => {
         },
         {
           property: "Time Rendered",
-          value: returnTimeRendered(data.roleData.clocks),
+          value: `${round(data.roleData.timeRendered / 3600)} hour${
+            data.roleData.timeRendered / 3600 > 1 ? "s" : ""
+          }`,
           roles: [enums.roles.TRAINEE]
         },
         {
