@@ -258,31 +258,33 @@ function cancelClockCorrection(req, res) {
  * @param req.body.userId
  */
 function approveClockCorrection(req, res) {
-  User.findById(req.body.userId).then(user => {
-    Clock.findById(user.roleData.clockCorrectionRequest.clockId).then(clock => {
-      clock.in = user.roleData.clockCorrectionRequest.in;
-      clock.out = user.roleData.clockCorrectionRequest.out;
+  let globalUser;
 
-      clock.save((err, clock) => {
-        if (err) {
-          res.status(500).send(err);
-        }
+  User.findById(req.body.userId)
+    .then(user => {
+      globalUser = user;
+      return Clock.findById(user.roleData.clockCorrectionRequest.clockId);
+    })
+    .then(clock => {
+      clock.in = globalUser.roleData.clockCorrectionRequest.in;
+      clock.out = globalUser.roleData.clockCorrectionRequest.out;
 
-        user.roleData.clockCorrectionRequest.isActive = false;
-        user.roleData.clockCorrectionRequest.in = null;
-        user.roleData.clockCorrectionRequest.out = null;
-        user.roleData.clockCorrectionRequest.clockId = null;
+      globalUser.roleData.clockCorrectionRequest.isActive = false;
+      globalUser.roleData.clockCorrectionRequest.in = null;
+      globalUser.roleData.clockCorrectionRequest.out = null;
+      globalUser.roleData.clockCorrectionRequest.clockId = null;
 
-        user.save((err, user) => {
-          if (err) {
-            res.status(500).send(err);
-          }
-
-          res.status(200).json(user);
-        });
-      });
+      return Promise.all([clock.save(), globalUser.save()]);
+    })
+    .then(([clock, user]) => {
+      res
+        .status(200)
+        .send({ message: "Approve clock correction success", clock, user });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err);
     });
-  });
 }
 
 /**
