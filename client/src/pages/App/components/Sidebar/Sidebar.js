@@ -46,6 +46,11 @@ const StyledSidebar = styled.div`
 
 const adminMenu = [
   {
+    title: "Requests",
+    icon: "fas fa-bell",
+    to: "/requests"
+  },
+  {
     title: "Groups",
     icon: "fas fa-briefcase",
     to: "/groups"
@@ -54,11 +59,6 @@ const adminMenu = [
     title: "People",
     icon: "fas fa-users",
     to: "/people"
-  },
-  {
-    title: "Notifications",
-    icon: "fas fa-bell",
-    to: "/notifications"
   },
   {
     title: "Announcements",
@@ -82,12 +82,7 @@ const supervisorMenu = [
     title: "People",
     icon: "fas fa-users",
     to: "/people"
-  },
-  {
-    title: "Notifications",
-    icon: "fas fa-bell",
-    to: "/notifications"
-  },
+  }, 
   {
     title: "Announcements",
     icon: "fas fa-bullhorn",
@@ -110,12 +105,7 @@ const employeeMenu = [
     title: "People",
     icon: "fas fa-users",
     to: "/people"
-  },
-  {
-    title: "Notifications",
-    icon: "fas fa-bell",
-    to: "/notifications"
-  },
+  }, 
   {
     title: "Announcements",
     icon: "fas fa-bullhorn",
@@ -133,12 +123,7 @@ const traineeMenu = [
     title: "My Group",
     icon: "fas fa-briefcase",
     to: "/group"
-  },
-  {
-    title: "Notifications",
-    icon: "fas fa-bell",
-    to: "/notifications"
-  },
+  }, 
   {
     title: "Announcements",
     icon: "fas fa-bullhorn",

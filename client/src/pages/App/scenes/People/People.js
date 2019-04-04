@@ -125,7 +125,7 @@ export class People extends Component {
                 data={filteredData}
                 showPageSizeOptions={false}
                 resizable={false}
-                defaultPageSize={15}
+                defaultPageSize={14}
                 columns={columns}
                 className="-highlight"
                 getTrProps={(state, rowInfo, column, instance) => {
@@ -149,6 +149,9 @@ export class People extends Component {
 const StyledTable = styled.div`
   margin: var(--size-base);
   background-color: ${p => p.theme.color.white};
+  box-shadow: ${p => p.theme.shadow[1]};
+  padding: var(--size-base);
+  border-radius: var(--size-base);
 
   .item-people-role {
     width: 50%;

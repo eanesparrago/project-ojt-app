@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import format from "date-fns/format";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 
@@ -9,66 +8,60 @@ import "react-table/react-table.css";
 
 import { Main } from "src/pages/App/components";
 
-import { getAnnouncements } from "src/services/session/actions/announcementsActionCreators";
+import { getPeople } from "src/services/session/actions/peopleActionCreators";
+
 import enums from "src/services/enums";
 
-export class Announcements extends Component {
+export class Requests extends Component {
   componentDidMount() {
-    this.props.getAnnouncements();
+    const { getPeople } = this.props;
+
+    getPeople();
   }
 
   render() {
     const {
-      announcements: { announcements, isLoading },
+      people: { data, isLoading },
       history,
       match
     } = this.props;
 
+    let filteredData = [];
+
+    if (data) {
+      filteredData = data.filter(
+        person =>
+          person.role === "trainee" &&
+          person.roleData.clockCorrectionRequest.isActive === true
+      );
+    }
+
     const columns = [
       {
-        id: "username",
         Header: "Username",
-        accessor: d => d.user.username,
+        accessor: "username",
         filterable: true
       },
       {
-        id: "role",
-        Header: "Role",
-        accessor: d => d.user.role
-      },
-      {
-        Header: "Date Created",
-        accessor: "dateCreated",
-        Cell: props => format(props.value, "MM-DD-YYYY")
-      },
-      {
-        id: "group",
+        id: "groupName",
         Header: "Group",
-        accessor: d => (d.group ? d.group.name : "All")
+        accessor: d => d.roleData.group.name
       },
       {
-        Header: "Message",
-        accessor: "message"
+        Header: "Request",
+        Cell: props => "Clock Correction"
       }
     ];
 
     return (
       <Main>
-        <Main.Header
-          title="Announcements"
-          buttonText="Create Announcement"
-          buttonPath="/create-announcement"
-          buttonPermissions={[
-            enums.roles.ADMINISTRATOR,
-            enums.roles.SUPERVISOR
-          ]}
-        />
+        <Main.Header title="Requests" />
 
         <Main.Body isLoading={isLoading}>
-          {announcements && (
+          {data && (
             <StyledTable>
               <ReactTable
-                data={announcements}
+                data={filteredData}
                 showPageSizeOptions={false}
                 resizable={false}
                 defaultPageSize={14}
@@ -78,7 +71,9 @@ export class Announcements extends Component {
                   return {
                     onClick: () => {
                       history.push(
-                        `${match.url}/announcement/${rowInfo.original._id}`
+                        `${match.url}/person/${
+                          rowInfo.original._id
+                        }/daily-time-record`
                       );
                     }
                   };
@@ -98,13 +93,16 @@ const StyledTable = styled.div`
   box-shadow: ${p => p.theme.shadow[1]};
   padding: var(--size-base);
   border-radius: var(--size-base);
-`;
 
+  .item-people-role {
+    width: 50%;
+  }
+`;
 export default withRouter(
   connect(
     state => ({
-      announcements: state.announcements
+      people: state.people
     }),
-    { getAnnouncements: getAnnouncements }
-  )(Announcements)
+    { getPeople: getPeople }
+  )(Requests)
 );
