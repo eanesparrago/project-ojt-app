@@ -27,7 +27,7 @@ const groupSchema = new Schema({
       ref: "User"
     }
   ],
-  activities: [
+  activity: [
     {
       type: Schema.Types.ObjectId,
       ref: "Activity"

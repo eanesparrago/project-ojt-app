@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const Announcement = require("../announcement");
 const Clock = require("../clock");
 const Task = require("../task");
+const Activity = require("../activity");
 
 const userSchema = new Schema(
   {
@@ -60,7 +61,7 @@ const userSchema = new Schema(
     profilePictureUrl: {
       type: String
     },
-    activities: [
+    activity: [
       {
         type: Schema.Types.ObjectId,
         ref: "Activity"
@@ -79,6 +80,7 @@ userSchema.pre("remove", function(next) {
   Announcement.remove({ user: this._id }).exec();
   Clock.remove({ user: this._id }).exec();
   Task.remove({ user: this._id }).exec();
+  Activity.remove({ user: this.id }).exec();
   next();
 });
 

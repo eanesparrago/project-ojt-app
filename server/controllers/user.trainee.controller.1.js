@@ -6,8 +6,6 @@ const differenceInSeconds = require("date-fns/difference_in_seconds");
 const differenceInMinutes = require("date-fns/difference_in_minutes");
 const checkIfOvertime = require("../utils/checkIfOvertime");
 
-const ActivityUtils = require("./utils/activity");
-
 /**
  * Test route
  * GET api/users/trainee/test
@@ -16,7 +14,7 @@ const ActivityUtils = require("./utils/activity");
  * @private
  */
 function testRoute(req, res) {
-  res.status(200).json({ message: "Users Trainee test." });
+  res.status(200).json({ message: "Users Trainee test" });
 }
 
 function initializeUser(req, res) {
@@ -24,8 +22,6 @@ function initializeUser(req, res) {
   if (!errors.isEmpty()) {
     return res.status(422).json(errors.mapped());
   }
-
-  let globalUser;
 
   User.findById(req.user._id)
     .then(user => {
@@ -55,16 +51,7 @@ function initializeUser(req, res) {
           user.password = hash;
           user
             .save()
-            .then(user => {
-              globalUser = user;
-
-              return ActivityUtils.logActivity(user._id, "initialize");
-            })
-            .then(() => {
-              res
-                .status(200)
-                .json({ message: "Initialized successfully.", globalUser });
-            })
+            .then(user => res.status(200).json(user))
             .catch(err => console.log(err));
         });
       });
@@ -77,130 +64,141 @@ function initializeUser(req, res) {
  * POST api/users/trainee/clock
  */
 function userClock(req, res) {
-  let lastClockId;
-  let globalUser;
-  let globalClock;
-
   User.findById(req.user._id)
     .populate("roleData.group")
     .select("+roleData.clocks")
     .then(user => {
-      globalUser = user;
-      lastClockId = user.roleData.clocks[user.roleData.clocks.length - 1];
+      const lastClockId = user.roleData.clocks[user.roleData.clocks.length - 1];
 
-      return Clock.findById(lastClockId);
-    })
-    .then(clock => {
-      globalClock = clock;
-
-      // >>> If no clocks or not clocked in --> Clock in
-      if (!clock || globalUser.roleData.isClockedIn === false) {
-        const newClock = new Clock({
-          user: globalUser._id
-        });
-
-        newClock
-          .save()
-          .then(clock => {
-            globalClock = clock;
-
-            globalUser.roleData.isClockedIn = true;
-            globalUser.roleData.clocks.push(clock);
-
-            return globalUser.save();
-          })
-          .then(user => {
-            globalUser = user;
-
-            return ActivityUtils.logActivity(user._id, "clockIn", globalClock);
-          })
-          .then(() => {
-            res
-              .status(200)
-              .json({ message: "Clocked in successfully.", user: globalUser });
-          })
-          .catch(err => {
-            console.log(err);
-            res.status(500).send({ message: "An error occurred.", err });
-          });
-      }
-
-      // >>> If user is clocked in but time clocked out is less than 15 minutes then disregard and delete recent clock
-      else if (
-        globalUser.roleData.isClockedIn &&
-        differenceInMinutes(new Date(), clock.in) < 15
-      ) {
-        clock.remove();
-        clock
-          .save()
-          .then(clock => {
-            globalUser.roleData.clocks.remove(lastClockId);
-            globalUser.roleData.isClockedIn = false;
-            return globalUser.save();
-          })
-          .then(user => {
-            globalUser = user;
-
-            return ActivityUtils.deleteActivityByClockId(globalClock._id);
-          })
-          .then(() => {
-            res.status(200).json({
-              message:
-                "Clocked out. Clocks less than 15 minutes are discarded.",
-              user: globalUser
-            });
-          })
-          .catch(err => {
-            console.log(err);
-            res.status(500).send({ message: "An error occurred.", err });
-          });
-      }
-
-      // >>> Last clock is not yet clocked out --> Clock out
-      else if (clock.out !== null) {
-        const secondsElapsed = differenceInSeconds(new Date(), clock.in);
-        clock.out = Date.now();
-
-        // >>> If seconds elapsed is greater than 12 hours and 15 minutes, set clock as invalid.
-        if (secondsElapsed > 44100) {
-          clock.isInvalid = true;
-        } else if (checkIfOvertime(globalUser.roleData.schedule)) {
-          clock.isOvertime = true;
-          clock.overtimeReason = req.body.overtimeReason;
+      Clock.findById(lastClockId, (err, clock) => {
+        if (err) {
+          return res.status(500).send(err);
         }
 
-        clock
-          .save()
-          .then(clock => {
-            globalUser.roleData.timeRendered += secondsElapsed;
+        // >>> If no clocks or not clocked in --> Clock in
+        if (!clock || user.roleData.isClockedIn === false) {
+          const newClock = new Clock({
+            user: user._id
+          });
 
-            // >>> Check if finished or not
-            if (
-              globalUser.roleData.timeRendered >=
-              globalUser.roleData.trainingDuration
-            ) {
-              globalUser.roleData.isFinished = true;
-            } else {
-              globalUser.roleData.isFinished = false;
+          newClock.save((err, clock) => {
+            if (err) {
+              return res.status(500).send(err);
             }
 
-            globalUser.roleData.isClockedIn = false;
-            return globalUser.save();
-          })
-          .then(user => {
-            res
-              .status(200)
-              .json({ message: "Clocked out successfully.", user });
-          })
-          .catch(err => {
-            console.log(err);
-            res.status(500).send({ message: "An error occurred.", err });
+            user.roleData.isClockedIn = true;
+            user.roleData.clocks.push(clock);
+            user.save((err, user) => {
+              if (err) {
+                return res.status(500).send(err);
+              }
+
+              User.populate(
+                user,
+                [
+                  { path: "roleData.group", select: "name" },
+                  { path: "roleData.clocks" }
+                ],
+                (err, user) => {
+                  if (err) {
+                    return res.status(500).send(err);
+                  }
+
+                  res.status(200).json(user);
+                }
+              );
+            });
           });
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).send({ message: "An error occurred.", err });
+        }
+
+        // >>> If user is clocked in but time clocked out is less than 15 minutes then disregard and delete recent clock
+        else if (
+          user.roleData.isClockedIn &&
+          differenceInMinutes(new Date(), clock.in) < 15
+        ) {
+          clock.remove();
+          clock.save(err => {
+            if (err) {
+              return res.status(500).send(err);
+            }
+
+            user.roleData.clocks.remove(lastClockId);
+            user.roleData.isClockedIn = false;
+            user.save((err, user) => {
+              if (err) {
+                return res.status(500).send(err);
+              }
+
+              User.populate(
+                user,
+                [
+                  { path: "roleData.group", select: "name" },
+                  { path: "roleData.clocks" }
+                ],
+                (err, user) => {
+                  if (err) {
+                    return res.status(500).send(err);
+                  }
+
+                  res.status(200).json(user);
+                }
+              );
+            });
+          });
+        }
+
+        // >>> Last clock is not yet clocked out --> Clock out
+        else if (clock.out !== null) {
+          const secondsElapsed = differenceInSeconds(new Date(), clock.in);
+          clock.out = Date.now();
+
+          // >>> If seconds elapsed is greater than 12 hours and 15 minutes, set clock as invalid.
+          if (secondsElapsed > 44100) {
+            clock.isInvalid = true;
+          } else {
+            if (checkIfOvertime(user.roleData.schedule)) {
+              clock.isOvertime = true;
+              clock.overtimeReason = req.body.overtimeReason;
+            }
+          }
+
+          clock.save(err => {
+            if (err) {
+              return res.status(500).send(err);
+            }
+            user.roleData.timeRendered += secondsElapsed;
+
+            // >>> Check if finished or not
+            if (user.roleData.timeRendered >= user.roleData.trainingDuration) {
+              user.roleData.isFinished = true;
+            } else {
+              user.roleData.isFinished = false;
+            }
+
+            user.roleData.isClockedIn = false;
+            user.save((err, user) => {
+              if (err) {
+                return res.status(500).send(err);
+              }
+
+              User.populate(
+                user,
+                [
+                  { path: "roleData.group", select: "name" },
+                  { path: "roleData.clocks" }
+                ],
+                (err, user) => {
+                  if (err) {
+                    return res.status(500).send(err);
+                  }
+
+                  res.status(200).json(user);
+                }
+              );
+            });
+          });
+        }
+      });
     });
 }
 
@@ -270,7 +268,6 @@ function approveClockCorrection(req, res) {
     .then(clock => {
       clock.in = globalUser.roleData.clockCorrectionRequest.in;
       clock.out = globalUser.roleData.clockCorrectionRequest.out;
-      clock.isInvalid = false;
 
       globalUser.roleData.clockCorrectionRequest.isActive = false;
       globalUser.roleData.clockCorrectionRequest.in = null;
@@ -282,7 +279,7 @@ function approveClockCorrection(req, res) {
     .then(([clock, user]) => {
       res
         .status(200)
-        .send({ message: "Approve clock correction success.", clock, user });
+        .send({ message: "Approve clock correction success", clock, user });
     })
     .catch(err => {
       console.log(err);

@@ -14,9 +14,14 @@ const activitySchema = new Schema({
       "clockOut",
       "finish",
       "scheduleUpdate",
-      "clockCorrection"
+      "clockCorrection",
+      "initialize"
     ],
     required: true
+  },
+  clock: {
+    type: Schema.Types.ObjectId,
+    ref: "Clock"
   },
   dateCreated: {
     type: Date,
