@@ -61,12 +61,15 @@ const userSchema = new Schema(
     profilePictureUrl: {
       type: String
     },
-    activity: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Activity"
-      }
-    ]
+    activity: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Activity"
+        }
+      ],
+      select: false
+    }
   },
   {
     discriminatorKey: "role"

@@ -25,7 +25,6 @@ const activitySchema = new Schema({
   },
   typeModel: {
     type: String,
-    required: true,
     enum: ["Clock", "User"]
   },
   dateCreated: {

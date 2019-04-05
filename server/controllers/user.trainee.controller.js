@@ -7,6 +7,7 @@ const differenceInMinutes = require("date-fns/difference_in_minutes");
 const checkIfOvertime = require("../utils/checkIfOvertime");
 
 const ActivityUtils = require("./utils/activity");
+const UserUtils = require("./utils/user");
 
 /**
  * Test route
@@ -82,7 +83,6 @@ function userClock(req, res) {
   let globalClock;
 
   User.findById(req.user._id)
-    .populate("roleData.group")
     .select("+roleData.clocks")
     .then(user => {
       globalUser = user;
@@ -115,9 +115,10 @@ function userClock(req, res) {
             return ActivityUtils.logActivity(user._id, "clockIn", globalClock);
           })
           .then(() => {
-            res
-              .status(200)
-              .json({ message: "Clocked in successfully.", user: globalUser });
+            return UserUtils.returnTrainee(globalUser._id);
+          })
+          .then(user => {
+            res.status(200).json({ message: "Clocked in successfully.", user });
           })
           .catch(err => {
             console.log(err);
@@ -133,6 +134,8 @@ function userClock(req, res) {
         clock
           .remove()
           .then(clock => {
+            globalClock = clock;
+
             globalUser.roleData.clocks.remove(lastClockId);
             globalUser.roleData.isClockedIn = false;
             return globalUser.save();
@@ -143,10 +146,13 @@ function userClock(req, res) {
             return ActivityUtils.deleteActivityByClockId(globalClock._id);
           })
           .then(() => {
+            return UserUtils.returnTrainee(globalUser._id);
+          })
+          .then(user => {
             res.status(200).json({
               message:
                 "Clocked out. Clocks less than 15 minutes are discarded.",
-              user: globalUser
+              user
             });
           })
           .catch(err => {
@@ -198,9 +204,12 @@ function userClock(req, res) {
             );
           })
           .then(() => {
+            return UserUtils.returnTrainee(globalUser._id);
+          })
+          .then(user => {
             res
               .status(200)
-              .json({ message: "Clocked out successfully.", globalUser });
+              .json({ message: "Clocked out successfully.", user });
           })
           .catch(err => {
             console.log(err);

@@ -111,11 +111,11 @@ function createUser(req, res) {
                   group.users.push(user._id);
                   group.save(err => {
                     if (err) return res.send(err);
-                    return res.status(200).send(user.username);
+                    return res.status(200).send(user);
                   });
                 });
               } else {
-                return res.status(200).send(user.username);
+                return res.status(200).send(user);
               }
             })
             .catch(err => res.status(500).send("Error"));

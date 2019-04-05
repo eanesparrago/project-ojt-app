@@ -56,7 +56,7 @@ function getOwnTasks(req, res) {
 }
 
 /**
- * Get all tasks
+ * Get tasks
  * @route   GET /api/tasks
  */
 function getTasks(req, res) {
