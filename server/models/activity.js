@@ -19,9 +19,14 @@ const activitySchema = new Schema({
     ],
     required: true
   },
-  clock: {
+  typeId: {
     type: Schema.Types.ObjectId,
-    ref: "Clock"
+    refPath: "typeModel"
+  },
+  typeModel: {
+    type: String,
+    required: true,
+    enum: ["Clock", "User"]
   },
   dateCreated: {
     type: Date,

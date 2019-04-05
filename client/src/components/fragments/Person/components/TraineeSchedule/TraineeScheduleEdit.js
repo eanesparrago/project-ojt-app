@@ -79,7 +79,7 @@ export class TraineeScheduleEdit extends Component {
           this.setState({ ...state, isLoading: false }, () => {
             afterEdit();
             toggleEdit();
-            setFlashMessage(`${res.data} was edited successfully.`, "success");
+            setFlashMessage(`Schedule was updated successfully.`, "success");
           });
         })
         .catch(err => {

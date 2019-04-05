@@ -1,15 +1,17 @@
+const bcrypt = require("bcryptjs");
+const keys = require("../config/keys");
+const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator/check");
+const _ = require("lodash");
+
 const Group = require("../models/group");
 const User = require("../models/user/user");
 const UserAdministrator = require("../models/user/userAdministrator");
 const UserSupervisor = require("../models/user/userSupervisor");
 const UserEmployee = require("../models/user/userEmployee");
 const UserTrainee = require("../models/user/userTrainee");
-const bcrypt = require("bcryptjs");
-const keys = require("../config/keys");
-const jwt = require("jsonwebtoken");
-const { validationResult } = require("express-validator/check");
-const _ = require("lodash");
 const enums = require("../enums");
+const ActivityUtils = require("./utils/activity");
 
 /**
  * Test route
@@ -373,25 +375,41 @@ function updateTraineeSchedule(req, res) {
     return res.status(422).json(errors.mapped());
   }
 
+  let globalUser;
+
   User.findById(req.params.id)
     .then(user => {
       if (!user) {
-        errors.message = "User not found";
+        errors.message = "User not found.";
         return res.status(404).json(errors);
       }
 
       if (user.role !== enums.roles.TRAINEE) {
-        errors.message = "Role must be trainee";
+        errors.message = "Role must be trainee.";
         return res.status(422).json(errors);
       }
 
       user.roleData.schedule = req.body;
-      user
-        .save()
-        .then(user => res.status(200).send(user.username))
-        .catch(err => res.status(500).send(err));
+
+      return user.save();
     })
-    .catch(err => res.status(500).json({ message: "Error occurred" }));
+    .then(user => {
+      globalUser = user;
+      return ActivityUtils.logActivity(
+        req.user._id,
+        "scheduleUpdate",
+        user._id
+      );
+    })
+    .then(() => {
+      return res
+        .status(200)
+        .json({ message: "Schedule changed successfully.", user: globalUser });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "An error occurred." });
+    });
 }
 
 /**
