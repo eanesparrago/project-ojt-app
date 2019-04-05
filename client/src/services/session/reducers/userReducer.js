@@ -50,8 +50,7 @@ export default (state = initialState, action) => {
     case USER_CLOCK_SUCCESS:
       return {
         ...state,
-        isLoading: false,
-        data: action.payload
+        isLoading: false
       };
     case USER_CLOCK_FAILURE:
       return {

@@ -40,16 +40,15 @@ export const clockTrainee = data => dispatch => {
     .post("/api/trainee/clock", data)
     .then(res => {
       dispatch({
-        type: USER_CLOCK_SUCCESS,
-        payload: res.data
+        type: USER_CLOCK_SUCCESS
       });
 
+      dispatch(getCurrentUser());
       dispatch(setFlashMessage("Clocked successfully.", "success"));
     })
     .catch(err => {
       dispatch({
         type: USER_CLOCK_FAILURE
-        // payload: err.response.data
       });
 
       dispatch(setFlashMessage("An error occurred.", "error"));

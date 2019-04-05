@@ -41,7 +41,7 @@ export class InitializeForm extends Component {
         address: props.data.roleData.address,
         contactNumber: props.data.roleData.contactNumber,
         adviserName: props.data.roleData.adviserName,
-        adviserContactNumber: props.data.adviserContactNumber,
+        adviserContactNumber: props.data.roleData.adviserContactNumber,
         guardianName: props.data.roleData.guardianName,
         guardianContactNumber: props.data.roleData.guardianContactNumber,
         password: "",
