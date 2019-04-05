@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import axios from "axios";
 
 import { Item } from "src/components/blocks";
 import { Button, Typography, Photo, Divider } from "src/components/elements";
@@ -14,8 +13,8 @@ import {
 } from "src/components/compounds";
 import { SideModal } from "src/components/layouts";
 
-import { getPeople } from "src/services/session/actions/peopleActionCreators";
-import { setFlashMessage } from "src/services/session/actions/appActionCreators";
+import { createPerson } from "src/services/session/actions/personActionCreators";
+import { getGroups } from "src/services/session/actions/groupsActionCreators";
 import enums from "src/services/enums";
 
 export class SideModalCreatePerson extends Component {
@@ -23,105 +22,72 @@ export class SideModalCreatePerson extends Component {
     super(props);
 
     this.state = {
-      data: {
-        role: props.location.state ? props.location.state.role : "",
-        group: props.location.state ? props.location.state.group : "",
-        username: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        trainingDuration: "",
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        nickname: "",
-        gender: "",
-        dateOfBirth: "",
-        address: "",
-        contactNumber: "",
-        school: "",
-        adviserName: "",
-        adviserContactNumber: "",
-        guardianName: "",
-        guardianContactNumber: "",
-        profilePictureUrl: ""
-      },
-      errors: {},
-      groups: [],
-      isLoading: false
+      role: props.location.state ? props.location.state.role : "",
+      group: props.location.state ? props.location.state.group : "",
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      trainingDuration: "",
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      nickname: "",
+      gender: "",
+      dateOfBirth: "",
+      address: "",
+      contactNumber: "",
+      school: "",
+      adviserName: "",
+      adviserContactNumber: "",
+      guardianName: "",
+      guardianContactNumber: "",
+      profilePictureUrl: ""
     };
   }
 
   componentDidMount() {
-    this.setState({ ...this.state, isLoading: true }, () => {
-      axios
-        .get("/api/groups?field=name")
-        .then(res => {
-          this.setState({ ...this.state, groups: res.data, isLoading: false });
-        })
-        .catch(err => {
-          this.setState({
-            ...this.state,
-            errors: err.response.data,
-            isLoading: false
-          });
-        });
-    });
+    const { getGroups } = this.props;
+
+    getGroups();
   }
 
   handleInputChange = e => {
     this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value }
+      ...this.state,
+      [e.target.name]: e.target.value
     });
   };
 
   handleProfilePictureUpload = photoUrl => {
     this.setState({
-      data: { ...this.state.data, profilePictureUrl: photoUrl }
+      ...this.state,
+      profilePictureUrl: photoUrl
     });
   };
 
   handleSubmit = e => {
     e.preventDefault();
+    const { createPerson, history } = this.props;
     const { ...state } = this.state;
-    const { ...props } = this.props;
 
-    this.setState({ ...state, isLoading: true, errors: {} }, () => {
-      axios
-        .post("/api/users/register", state.data)
-        .then(res => {
-          this.setState({ ...state, data: res.data, isLoading: false }, () => {
-            props.getPeople();
-            props.history.goBack();
-            props.setFlashMessage(
-              `${res.data} was created successfully.`,
-              "success"
-            );
-          });
-        })
-        .catch(err => {
-          this.setState(
-            {
-              ...state,
-              errors: err.response.data,
-              isLoading: false
-            },
-            () => {
-              props.setFlashMessage("An error occurred.", "error");
-            }
-          );
-        });
+    createPerson(state).then(() => {
+      history.goBack();
     });
   };
 
   render() {
-    const { isLoading, data, groups, errors } = this.state;
+    const {
+      person: { isLoading, errors },
+      groups: { data: groupsData, isLoading: groupsIsLoading }
+    } = this.props;
+    const { ...state } = this.state;
 
     return (
       <SideModal>
         <SideModal.Header title="Create Person" />
 
-        <SideModal.Body isLoading={isLoading}>
+        <SideModal.Body isLoading={isLoading || groupsIsLoading}>
           <Item margin="stack-base">
             <FormGroup>
               <FormGroup.Label title="Role" />
@@ -152,18 +118,18 @@ export class SideModalCreatePerson extends Component {
                   ]}
                   onChange={this.handleInputChange}
                   name="role"
-                  value={data.role}
+                  value={state.role}
                 />
               </FormGroup.Input>
             </FormGroup>
           </Item>
 
           {/* >>> Role must be filled */}
-          {data.role && (
+          {state.role && (
             <Fragment>
               {/* >>> GROUP */}
               {/* >>> Group is not for administrators */}
-              {data.role !== "administrator" && (
+              {state.role !== "administrator" && (
                 <Item margin="stack-base">
                   <FormGroup>
                     <FormGroup.Label title="Group" htmlFor="group-input" />
@@ -172,10 +138,10 @@ export class SideModalCreatePerson extends Component {
                       <SelectInput
                         autoFocus
                         id="group-input"
-                        value={data.group}
+                        value={state.group}
                         onChange={this.handleInputChange}
                         name="group"
-                        options={groups.map(group => ({
+                        options={groupsData.map(group => ({
                           label: group.name,
                           value: group._id
                         }))}
@@ -204,7 +170,7 @@ export class SideModalCreatePerson extends Component {
                   type: "text",
                   id: "username-input",
                   role: ["administrator", "supervisor", "trainee", "employee"],
-                  autoFocus: data.role === enums.roles.ADMINISTRATOR,
+                  autoFocus: state.role === enums.roles.ADMINISTRATOR,
                   maxLength: "50"
                 },
                 {
@@ -231,7 +197,7 @@ export class SideModalCreatePerson extends Component {
                   max: "999"
                 }
               ]
-                .filter(item => item.role.includes(data.role))
+                .filter(item => item.role.includes(state.role))
                 .map(item => (
                   <Item margin="stack-base" key={item.id}>
                     <FormGroup>
@@ -243,7 +209,7 @@ export class SideModalCreatePerson extends Component {
                           name={item.name}
                           id={item.id}
                           type={item.type}
-                          value={data[item.name]}
+                          value={state[item.name]}
                           onChange={this.handleInputChange}
                           error={errors[item.name]}
                           disabled={isLoading}
@@ -295,7 +261,7 @@ export class SideModalCreatePerson extends Component {
                   role: ["administrator", "supervisor", "trainee", "employee"]
                 }
               ]
-                .filter(item => item.role.includes(data.role))
+                .filter(item => item.role.includes(state.role))
                 .map(item => (
                   <Item margin="stack-base" key={item.id}>
                     <FormGroup>
@@ -307,7 +273,7 @@ export class SideModalCreatePerson extends Component {
                           name={item.name}
                           id={item.id}
                           type={item.type}
-                          value={data[item.name]}
+                          value={state[item.name]}
                           onChange={this.handleInputChange}
                           error={errors[item.name]}
                           disabled={isLoading}
@@ -418,7 +384,7 @@ export class SideModalCreatePerson extends Component {
                   maxLength: "50"
                 }
               ]
-                .filter(item => item.role.includes(data.role))
+                .filter(item => item.role.includes(state.role))
                 .map(item => (
                   <Item margin="stack-base" key={item.id}>
                     <FormGroup>
@@ -430,7 +396,7 @@ export class SideModalCreatePerson extends Component {
                           name={item.name}
                           id={item.id}
                           type={item.type}
-                          value={data[item.name]}
+                          value={state[item.name]}
                           onChange={this.handleInputChange}
                           error={errors[item.name]}
                           disabled={isLoading}
@@ -455,13 +421,13 @@ export class SideModalCreatePerson extends Component {
                     </Item>
 
                     <Item>
-                      {data.profilePictureUrl === "" ? (
+                      {state.profilePictureUrl === "" ? (
                         <Typography variant="base">
                           No profile picture
                         </Typography>
                       ) : (
                         <Photo>
-                          <img src={data.profilePictureUrl} alt="" />
+                          <img src={state.profilePictureUrl} alt="" />
                         </Photo>
                       )}
                     </Item>
@@ -494,7 +460,13 @@ export class SideModalCreatePerson extends Component {
 
 export default withRouter(
   connect(
-    null,
-    { getPeople: getPeople, setFlashMessage: setFlashMessage }
+    state => ({
+      person: state.person,
+      groups: state.groups
+    }),
+    {
+      createPerson: createPerson,
+      getGroups: getGroups
+    }
   )(SideModalCreatePerson)
 );

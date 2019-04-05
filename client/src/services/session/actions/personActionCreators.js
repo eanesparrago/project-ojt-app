@@ -1,29 +1,64 @@
 import axios from "axios";
 import { setFlashMessage } from "./appActionCreators";
 
-export const PEOPLE_PERSON_GET_REQUEST = "PEOPLE_PERSON_GET_REQUEST";
-export const PEOPLE_PERSON_GET_SUCCESS = "PEOPLE_PERSON_GET_SUCCESS";
-export const PEOPLE_PERSON_GET_FAILURE = "PEOPLE_PERSON_GET_FAILURE";
+export const PERSON_GET_REQUEST = "PERSON_GET_REQUEST";
+export const PERSON_GET_SUCCESS = "PERSON_GET_SUCCESS";
+export const PERSON_GET_FAILURE = "PERSON_GET_FAILURE";
 
 export const getPerson = id => dispatch => {
   dispatch({
-    type: PEOPLE_PERSON_GET_REQUEST
+    type: PERSON_GET_REQUEST
   });
 
   axios
     .get(`/api/users/user/${id}`)
     .then(res => {
       dispatch({
-        type: PEOPLE_PERSON_GET_SUCCESS,
+        type: PERSON_GET_SUCCESS,
         payload: res.data
       });
     })
     .catch(err => {
       dispatch({
-        type: PEOPLE_PERSON_GET_FAILURE,
+        type: PERSON_GET_FAILURE,
         payload: err.response.data
       });
     });
+};
+
+export const PERSON_CREATE_REQUEST = "PERSON_CREATE_REQUEST";
+export const PERSON_CREATE_SUCCESS = "PERSON_CREATE_SUCCESS";
+export const PERSON_CREATE_FAILURE = "PERSON_CREATE_FAILURE";
+
+export const createPerson = data => dispatch => {
+  return new Promise((resolve, reject) => {
+    dispatch({
+      type: PERSON_CREATE_REQUEST
+    });
+
+    axios
+      .post("/api/users/register", data)
+      .then(res => {
+        dispatch({
+          type: PERSON_CREATE_SUCCESS,
+          payload: res.data
+        });
+
+        dispatch(setFlashMessage("User created successfully.", "success"));
+
+        resolve();
+      })
+      .catch(err => {
+        dispatch({
+          type: PERSON_CREATE_FAILURE,
+          payload: err.response.data
+        });
+
+        dispatch(setFlashMessage("An error occurred.", "error"));
+
+        reject();
+      });
+  });
 };
 
 export const PERSON_CLOCK_EDIT_REQUEST = "PERSON_CLOCK_EDIT_REQUEST";

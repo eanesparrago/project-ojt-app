@@ -1,8 +1,10 @@
 import {
-  ADMIN_PEOPLE_GET_REQUEST,
-  ADMIN_PEOPLE_GET_SUCCESS,
-  ADMIN_PEOPLE_GET_FAILURE
+  PEOPLE_GET_REQUEST,
+  PEOPLE_GET_SUCCESS,
+  PEOPLE_GET_FAILURE
 } from "../actions/peopleActionCreators";
+
+import { PERSON_CREATE_SUCCESS } from "../actions/personActionCreators";
 
 const initialState = {
   data: null,
@@ -12,12 +14,18 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ADMIN_PEOPLE_GET_REQUEST:
+    case PEOPLE_GET_REQUEST:
       return { ...state, isLoading: true, data: initialState.data };
-    case ADMIN_PEOPLE_GET_SUCCESS:
+    case PEOPLE_GET_SUCCESS:
       return { ...state, data: action.payload, isLoading: false };
-    case ADMIN_PEOPLE_GET_FAILURE:
+    case PEOPLE_GET_FAILURE:
       return { ...state, isLoading: false, errors: action.payload };
+
+    case PERSON_CREATE_SUCCESS:
+      return {
+        ...state,
+        data: [...state.data, action.payload]
+      };
 
     default:
       return state;

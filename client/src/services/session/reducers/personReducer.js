@@ -1,7 +1,10 @@
 import {
-  PEOPLE_PERSON_GET_REQUEST,
-  PEOPLE_PERSON_GET_SUCCESS,
-  PEOPLE_PERSON_GET_FAILURE,
+  PERSON_GET_REQUEST,
+  PERSON_GET_SUCCESS,
+  PERSON_GET_FAILURE,
+  PERSON_CREATE_REQUEST,
+  PERSON_CREATE_SUCCESS,
+  PERSON_CREATE_FAILURE,
   PERSON_CLOCK_EDIT_REQUEST,
   PERSON_CLOCK_EDIT_SUCCESS,
   PERSON_CLOCK_EDIT_FAILURE,
@@ -21,20 +24,38 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case PEOPLE_PERSON_GET_REQUEST:
+    case PERSON_GET_REQUEST:
       return {
         ...state,
         isLoading: true,
         errors: initialState.errors,
         data: initialState.data
       };
-    case PEOPLE_PERSON_GET_SUCCESS:
+    case PERSON_GET_SUCCESS:
       return {
         ...state,
         isLoading: false,
         data: action.payload
       };
-    case PEOPLE_PERSON_GET_FAILURE:
+    case PERSON_GET_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        errors: action.payload
+      };
+
+    case PERSON_CREATE_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        errors: initialState.errors
+      };
+    case PERSON_CREATE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case PERSON_CREATE_FAILURE:
       return {
         ...state,
         isLoading: false,
