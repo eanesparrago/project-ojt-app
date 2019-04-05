@@ -130,9 +130,8 @@ function userClock(req, res) {
         globalUser.roleData.isClockedIn &&
         differenceInMinutes(new Date(), clock.in) < 15
       ) {
-        clock.remove();
         clock
-          .save()
+          .remove()
           .then(clock => {
             globalUser.roleData.clocks.remove(lastClockId);
             globalUser.roleData.isClockedIn = false;
@@ -172,6 +171,8 @@ function userClock(req, res) {
         clock
           .save()
           .then(clock => {
+            globalClock = clock;
+
             globalUser.roleData.timeRendered += secondsElapsed;
 
             // >>> Check if finished or not
@@ -188,9 +189,18 @@ function userClock(req, res) {
             return globalUser.save();
           })
           .then(user => {
+            globalUser = user;
+
+            return ActivityUtils.logActivity(
+              user._id,
+              "clockOut",
+              globalClock._id
+            );
+          })
+          .then(() => {
             res
               .status(200)
-              .json({ message: "Clocked out successfully.", user });
+              .json({ message: "Clocked out successfully.", globalUser });
           })
           .catch(err => {
             console.log(err);

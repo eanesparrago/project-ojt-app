@@ -10,7 +10,7 @@ function logActivity(userId, type, clockId) {
       type: type
     });
 
-    if (type === "clockIn" || type === " clockOut") {
+    if (type === "clockIn" || type === "clockOut") {
       newActivity.clock = clockId;
     }
 

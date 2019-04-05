@@ -116,8 +116,7 @@ function userClock(req, res) {
           user.roleData.isClockedIn &&
           differenceInMinutes(new Date(), clock.in) < 15
         ) {
-          clock.remove();
-          clock.save(err => {
+          clock.remove(err => {
             if (err) {
               return res.status(500).send(err);
             }
