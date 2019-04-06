@@ -13,7 +13,7 @@ import {
 } from "src/components/compounds";
 import { SideModal } from "src/components/layouts";
 
-import { createPerson } from "src/services/session/actions/personActionCreators";
+import { createPerson } from "src/services/session/actions/peopleActionCreators";
 import { getGroups } from "src/services/session/actions/groupsActionCreators";
 import enums from "src/services/enums";
 
@@ -78,8 +78,9 @@ export class SideModalCreatePerson extends Component {
 
   render() {
     const {
-      person: { isLoading, errors },
-      groups: { data: groupsData, isLoading: groupsIsLoading }
+      people: { isLoading },
+      groups: { data: groupsData, isLoading: groupsIsLoading },
+      errors
     } = this.props;
     const { ...state } = this.state;
 
@@ -461,8 +462,9 @@ export class SideModalCreatePerson extends Component {
 export default withRouter(
   connect(
     state => ({
-      person: state.person,
-      groups: state.groups
+      people: state.people,
+      groups: state.groups,
+      errors: state.errors
     }),
     {
       createPerson: createPerson,

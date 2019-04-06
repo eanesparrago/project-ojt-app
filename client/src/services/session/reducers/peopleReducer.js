@@ -1,36 +1,56 @@
 import {
-  PEOPLE_GET_REQUEST,
-  PEOPLE_GET_SUCCESS,
-  PEOPLE_GET_FAILURE
+  PEOPLE_LOADING_SET,
+  PEOPLE_LOADING_UNSET,
+  PEOPLE_GET,
+  PEOPLE_CREATE,
+  PEOPLE_DELETE
 } from "../actions/peopleActionCreators";
 
-import {
-  PERSON_CREATE_SUCCESS,
-  PERSON_EDIT_SUCCESS
-} from "../actions/personActionCreators";
+import { PERSON_EDIT } from "../actions/personActionCreators";
 
 const initialState = {
   data: null,
-  isLoading: false,
-  errors: {}
+  isLoading: false
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case PEOPLE_GET_REQUEST:
-      return { ...state, isLoading: true, data: initialState.data };
-    case PEOPLE_GET_SUCCESS:
-      return { ...state, data: action.payload, isLoading: false };
-    case PEOPLE_GET_FAILURE:
-      return { ...state, isLoading: false, errors: action.payload };
-
-    case PERSON_CREATE_SUCCESS:
+    // >>> PEOPLE
+    case PEOPLE_LOADING_SET:
       return {
         ...state,
+        isLoading: true
+      };
+
+    case PEOPLE_LOADING_UNSET:
+      return {
+        ...state,
+        isLoading: false
+      };
+
+    case PEOPLE_GET:
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload
+      };
+
+    case PEOPLE_CREATE:
+      return {
+        ...state,
+        isLoading: false,
         data: [...state.data, action.payload]
       };
 
-    case PERSON_EDIT_SUCCESS:
+    case PEOPLE_DELETE:
+      return {
+        ...state,
+        isLoading: false,
+        data: state.data.filter(person => person._id !== action.payload._id)
+      };
+
+    // >>> PERSON
+    case PERSON_EDIT:
       return {
         ...state,
         data: state.data.map(person =>

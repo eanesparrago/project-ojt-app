@@ -12,6 +12,7 @@ import {
   FormGroup
 } from "src/components/compounds";
 
+import { deletePerson } from "src/services/session/actions/peopleActionCreators";
 import { editPerson } from "src/services/session/actions/personActionCreators";
 import { getGroups } from "src/services/session/actions/groupsActionCreators";
 
@@ -103,39 +104,24 @@ class PersonEdit extends Component {
     });
   };
 
-  // handleDeletePerson = e => {
-  //   e.preventDefault();
-  //   const { ...state } = this.state;
-  //   const { getPeople, setFlashMessage, data, history, getGroups } = this.props;
+  handleDeletePerson = e => {
+    e.preventDefault();
+    const {
+      deletePerson,
+      person: { data },
+      history
+    } = this.props;
 
-  //   this.setState({ ...state, isLoading: true, errors: {} }, () => {
-  //     axios
-  //       .delete(`/api/users/${data._id}`)
-  //       .then(res => {
-  //         getPeople();
-  //         getGroups();
-  //         setFlashMessage(`${res.data} was deleted successfully.`, "success");
-  //         history.go(-1);
-  //       })
-  //       .catch(err => {
-  //         this.setState(
-  //           {
-  //             ...state,
-  //             errors: err.response.data,
-  //             isLoading: false
-  //           },
-  //           () => {
-  //             setFlashMessage(`An error occurred.`, "error");
-  //           }
-  //         );
-  //       });
-  //   });
-  // };
+    deletePerson(data._id).then(() => {
+      history.go(-1);
+    });
+  };
 
   render() {
     const {
       groups: { data: groupsData },
-      person: { isLoading: personIsLoading, errors: personErrors }
+      person: { isLoading: personIsLoading },
+      errors
     } = this.props;
     const { ...state } = this.state;
 
@@ -166,7 +152,7 @@ class PersonEdit extends Component {
                         label: group.name,
                         value: group._id
                       }))}
-                      error={personErrors.group}
+                      error={errors.group}
                       disabled={personIsLoading}
                       withPlaceholder
                     />
@@ -248,7 +234,7 @@ class PersonEdit extends Component {
                         type={item.type}
                         value={state[item.name]}
                         onChange={this.handleInputChange}
-                        error={personErrors[item.name]}
+                        error={errors[item.name]}
                         disabled={personIsLoading}
                         {...item}
                       />
@@ -310,7 +296,7 @@ class PersonEdit extends Component {
                         type={item.type}
                         value={state[item.name]}
                         onChange={this.handleInputChange}
-                        error={personErrors[item.name]}
+                        error={errors[item.name]}
                         disabled={personIsLoading}
                         {...item}
                       />
@@ -424,7 +410,7 @@ class PersonEdit extends Component {
                         type={item.type}
                         value={state[item.name]}
                         onChange={this.handleInputChange}
-                        error={personErrors[item.name]}
+                        error={errors[item.name]}
                         disabled={personIsLoading}
                         {...item}
                       />
@@ -504,11 +490,13 @@ export default withRouter(
   connect(
     state => ({
       person: state.person,
-      groups: state.groups
+      groups: state.groups,
+      errors: state.errors
     }),
     {
       getGroups: getGroups,
-      editPerson: editPerson
+      editPerson: editPerson,
+      deletePerson: deletePerson
     }
   )(PersonEdit)
 );

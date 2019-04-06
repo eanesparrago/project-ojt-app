@@ -471,7 +471,7 @@ function deleteUser(req, res) {
   User.findById(req.params.id)
     .then(user => {
       user.remove((err, user) => {
-        res.send(user.username);
+        res.send(user);
       });
     })
     .catch(err => res.status(500).json({ message: "Error occurred" }));

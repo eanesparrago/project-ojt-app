@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { Area } from "src/components/blocks";
-
 import { SideModalContent, SideModalHeader, SideModalBody } from "./components";
+
+import { clearErrors } from "src/services/session/actions/errorsActionCreators";
 
 const StyledSideModal = styled.div`
   position: relative;
@@ -34,6 +36,11 @@ export class SideModal extends Component {
   static Header = SideModalHeader;
   static Body = SideModalBody;
 
+  componentDidMount() {
+    const { clearErrors } = this.props;
+    clearErrors();
+  }
+
   render() {
     const { children, history } = this.props;
 
@@ -52,4 +59,11 @@ export class SideModal extends Component {
   }
 }
 
-export default withRouter(SideModal);
+export default withRouter(
+  connect(
+    null,
+    {
+      clearErrors: clearErrors
+    }
+  )(SideModal)
+);

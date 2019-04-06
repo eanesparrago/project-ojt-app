@@ -1,81 +1,71 @@
 import axios from "axios";
-import { setFlashMessage } from "./appActionCreators";
 
-export const PERSON_GET_REQUEST = "PERSON_GET_REQUEST";
-export const PERSON_GET_SUCCESS = "PERSON_GET_SUCCESS";
-export const PERSON_GET_FAILURE = "PERSON_GET_FAILURE";
+import { setFlashMessage } from "./appActionCreators";
+import { ERRORS_SET } from "./errorsActionCreators";
+
+export const PERSON_LOADING_SET = "PERSON_LOADING_SET";
+export const PERSON_LOADING_UNSET = "PERSON_LOADING_UNSET";
+export const PERSON_DATA_CLEAR = "PERSON_DATA_CLEAR";
+
+export const PERSON_GET = "PERSON_GET";
+export const PERSON_CREATE = "PERSON_CREATE";
+export const PERSON_EDIT = "PERSON_EDIT";
+export const PERSON_DELETE = "PERSON_DELETE";
+
+export const setPersonLoading = () => {
+  return {
+    type: PERSON_LOADING_SET
+  };
+};
+
+export const unsetPersonLoading = () => {
+  return {
+    type: PERSON_LOADING_UNSET
+  };
+};
+
+export const clearPersonData = () => {
+  return {
+    type: PERSON_DATA_CLEAR
+  };
+};
+
+const handleError = err => dispatch => {
+  dispatch({
+    type: ERRORS_SET,
+    payload: err.response.data
+  });
+
+  dispatch(unsetPersonLoading());
+  dispatch(setFlashMessage("An error occurred.", "error"));
+};
 
 export const getPerson = id => dispatch => {
-  dispatch({
-    type: PERSON_GET_REQUEST
-  });
+  dispatch(setPersonLoading());
+  dispatch(clearPersonData());
 
   axios
     .get(`/api/users/user/${id}`)
     .then(res => {
       dispatch({
-        type: PERSON_GET_SUCCESS,
+        type: PERSON_GET,
         payload: res.data
       });
     })
     .catch(err => {
-      dispatch({
-        type: PERSON_GET_FAILURE,
-        payload: err.response.data
-      });
+      handleError(err);
     });
 };
-
-export const PERSON_CREATE_REQUEST = "PERSON_CREATE_REQUEST";
-export const PERSON_CREATE_SUCCESS = "PERSON_CREATE_SUCCESS";
-export const PERSON_CREATE_FAILURE = "PERSON_CREATE_FAILURE";
-
-export const createPerson = data => dispatch => {
-  return new Promise((resolve, reject) => {
-    dispatch({
-      type: PERSON_CREATE_REQUEST
-    });
-
-    axios
-      .post("/api/users/register", data)
-      .then(res => {
-        dispatch({
-          type: PERSON_CREATE_SUCCESS,
-          payload: res.data.user
-        });
-
-        dispatch(setFlashMessage("User created successfully.", "success"));
-
-        resolve();
-      })
-      .catch(err => {
-        dispatch({
-          type: PERSON_CREATE_FAILURE,
-          payload: err.response.data
-        });
-
-        dispatch(setFlashMessage("An error occurred.", "error"));
-
-        reject();
-      });
-  });
-};
-
-export const PERSON_EDIT_REQUEST = "PERSON_EDIT_REQUEST";
-export const PERSON_EDIT_SUCCESS = "PERSON_EDIT_SUCCESS";
-export const PERSON_EDIT_FAILURE = "PERSON_EDIT_FAILURE";
 
 export const editPerson = data => dispatch => {
-  return new Promise((resolve, reject) => {
-    dispatch({
-      type: PERSON_EDIT_REQUEST
-    });
+  return new Promise(resolve => {
+    dispatch(setPersonLoading());
 
     axios
       .put(`/api/users/${data.id}`, data)
       .then(res => {
         dispatch({
-          type: PERSON_EDIT_SUCCESS,
+          type: PERSON_EDIT,
           payload: res.data.user
         });
 
@@ -84,14 +74,7 @@ export const editPerson = data => dispatch => {
         resolve();
       })
       .catch(err => {
-        dispatch({
-          type: PERSON_EDIT_FAILURE,
-          payload: err.response.data
-        });
-
-        dispatch(setFlashMessage("An error occurred,", "error"));
-
-        reject();
+        dispatch(handleError(err));
       });
   });
 };
