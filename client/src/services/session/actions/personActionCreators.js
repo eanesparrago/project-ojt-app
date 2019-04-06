@@ -41,7 +41,7 @@ export const createPerson = data => dispatch => {
       .then(res => {
         dispatch({
           type: PERSON_CREATE_SUCCESS,
-          payload: res.data
+          payload: res.data.user
         });
 
         dispatch(setFlashMessage("User created successfully.", "success"));
@@ -61,6 +61,41 @@ export const createPerson = data => dispatch => {
   });
 };
 
+export const PERSON_EDIT_REQUEST = "PERSON_EDIT_REQUEST";
+export const PERSON_EDIT_SUCCESS = "PERSON_EDIT_SUCCESS";
+export const PERSON_EDIT_FAILURE = "PERSON_EDIT_FAILURE";
+
+export const editPerson = data => dispatch => {
+  return new Promise((resolve, reject) => {
+    dispatch({
+      type: PERSON_EDIT_REQUEST
+    });
+
+    axios
+      .put(`/api/users/${data.id}`, data)
+      .then(res => {
+        dispatch({
+          type: PERSON_EDIT_SUCCESS,
+          payload: res.data.user
+        });
+
+        dispatch(setFlashMessage("User edited successfully.", "success"));
+
+        resolve();
+      })
+      .catch(err => {
+        dispatch({
+          type: PERSON_EDIT_FAILURE,
+          payload: err.response.data
+        });
+
+        dispatch(setFlashMessage("An error occurred,", "error"));
+
+        reject();
+      });
+  });
+};
+
 export const PERSON_CLOCK_EDIT_REQUEST = "PERSON_CLOCK_EDIT_REQUEST";
 export const PERSON_CLOCK_EDIT_SUCCESS = "PERSON_CLOCK_EDIT_SUCCESS";
 export const PERSON_CLOCK_EDIT_FAILURE = "PERSON_CLOCK_EDIT_FAILURE";
@@ -74,7 +109,8 @@ export const editClock = data => dispatch => {
     .post(`/api/clocks/${data.clockId}`, data.clock)
     .then(res => {
       dispatch({
-        type: PERSON_CLOCK_EDIT_SUCCESS
+        type: PERSON_CLOCK_EDIT_SUCCESS,
+        payload: res.data.user
       });
 
       dispatch(setFlashMessage("Updated clock successfully", "success"));

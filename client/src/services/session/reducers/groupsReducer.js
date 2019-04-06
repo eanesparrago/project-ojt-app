@@ -8,11 +8,8 @@ import {
 } from "../actions/groupsActionCreators";
 
 const initialState = {
-  data: null,
+  data: [],
   isLoading: false,
-  group: {
-    users: []
-  },
   errors: {}
 };
 

@@ -44,19 +44,6 @@ export class SideModalPerson extends Component {
     getPerson(match.params.id);
   }
 
-  afterEdit = () => {
-    const {
-      person: { data },
-      getPerson,
-      getPeople,
-      getGroups
-    } = this.props;
-
-    getPerson(data._id);
-    getPeople();
-    getGroups();
-  };
-
   render() {
     const {
       person: { data, isLoading }
@@ -78,7 +65,7 @@ export class SideModalPerson extends Component {
         )}
 
         <SideModal.Body isLoading={isLoading}>
-          {data && <Person data={data} afterEdit={this.afterEdit} />}
+          {data && <Person />}
         </SideModal.Body>
       </SideModal>
     );

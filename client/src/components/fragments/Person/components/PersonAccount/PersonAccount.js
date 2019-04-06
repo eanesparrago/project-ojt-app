@@ -30,7 +30,6 @@ export class PersonAccount extends Component {
   render() {
     const {
       data,
-      afterEdit,
       auth: {
         user: { role }
       }
@@ -70,13 +69,7 @@ export class PersonAccount extends Component {
           ) : null}
         </Box>
 
-        {(isEditOpen && (
-          <PersonEdit
-            data={data}
-            afterEdit={afterEdit}
-            closeForms={this.closeForms}
-          />
-        )) ||
+        {(isEditOpen && <PersonEdit closeForms={this.closeForms} />) ||
           (isChangePasswordOpen && (
             <PersonChangePassword data={data} closeForms={this.closeForms} />
           )) || <PersonInformation data={data} />}

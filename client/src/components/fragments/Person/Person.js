@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { withRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import PersonAccount from "./components/PersonAccount/PersonAccount";
@@ -10,34 +11,30 @@ import enums from "src/services/enums";
 
 export class Person extends Component {
   render() {
-    const { data, match, afterEdit } = this.props;
+    const {
+      match,
+      person: { data }
+    } = this.props;
 
     return (
       <Switch>
-        <Route
-          path={`${match.url}`}
-          exact
-          render={() => <PersonAccount data={data} afterEdit={afterEdit} />}
-        />
+        <Route path={`${match.url}`} exact render={() => <PersonAccount />} />
 
         {/* >>> Should be in separate conditional to avoid warning.. ??? */}
         {data.role === enums.roles.TRAINEE && (
           <Route
             path={`${match.url}/schedule`}
-            render={() => <TraineeSchedule data={data} afterEdit={afterEdit} />}
+            render={() => <TraineeSchedule />}
           />
         )}
         {data.role === enums.roles.TRAINEE && (
           <Route
             path={`${match.url}/daily-time-record`}
-            render={() => <DailyTimeRecord data={data} />}
+            render={() => <DailyTimeRecord />}
           />
         )}
         {data.role === enums.roles.TRAINEE && (
-          <Route
-            path={`${match.url}/tasks`}
-            render={() => <Tasks data={data} />}
-          />
+          <Route path={`${match.url}/tasks`} render={() => <Tasks />} />
         )}
 
         <Redirect to={`${match.url}`} replace />
@@ -46,4 +43,8 @@ export class Person extends Component {
   }
 }
 
-export default withRouter(Person);
+export default withRouter(
+  connect(state => ({
+    person: state.person
+  }))(Person)
+);

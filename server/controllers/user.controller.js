@@ -12,6 +12,7 @@ const UserEmployee = require("../models/user/userEmployee");
 const UserTrainee = require("../models/user/userTrainee");
 const enums = require("../enums");
 const ActivityUtils = require("./utils/activity");
+const UserUtils = require("./utils/user");
 
 /**
  * Test route
@@ -52,6 +53,8 @@ function createUser(req, res) {
   if (!errors.isEmpty()) {
     return res.status(422).json(errors.mapped());
   }
+
+  let globalUser;
 
   User.findOne({ username: req.body.username }).then(user => {
     if (user) {
@@ -105,20 +108,30 @@ function createUser(req, res) {
           newUser
             .save()
             .then(user => {
+              globalUser = user;
+
               if (user.role !== enums.roles.ADMINISTRATOR) {
-                Group.findById(user.roleData.group, (err, group) => {
-                  if (err) return res.send(err);
-                  group.users.push(user._id);
-                  group.save(err => {
-                    if (err) return res.send(err);
-                    return res.status(200).send(user);
-                  });
-                });
+                Group.findById(user.roleData.group)
+                  .then(group => {
+                    group.users.push(user._id);
+                    return group.save();
+                  })
+                  .then(() => {
+                    return UserUtils.returnUser(globalUser._id);
+                  })
+                  .then(user => {
+                    res
+                      .status(200)
+                      .send({ message: "User created successfully.", user });
+                  })
+                  .catch(err => res.status(500).json(err));
               } else {
-                return res.status(200).send(user);
+                return res
+                  .status(200)
+                  .send({ message: "User created successfully.", user });
               }
             })
-            .catch(err => res.status(500).send("Error"));
+            .catch(err => res.status(500).json(err));
         });
       });
     }
@@ -254,6 +267,8 @@ function updateUser(req, res) {
     return res.status(422).json(errors.mapped());
   }
 
+  let globalUser;
+
   User.findById(req.params.id)
     .then(user => {
       let oldGroupId;
@@ -292,6 +307,8 @@ function updateUser(req, res) {
       req.body.group && (user.roleData.group = req.body.group);
 
       user.save((err, user) => {
+        globalUser = user;
+
         if (err) {
           if (err.code === 11000) {
             errors.username = { msg: "Username already exists" };
@@ -303,29 +320,62 @@ function updateUser(req, res) {
               if (group) {
                 group.users.remove(user._id);
                 group.save().then(() => {
-                  Group.findById(user.roleData.group._id).then(group => {
-                    group.users.remove(user._id);
-                    group.users.push(user._id);
-                    group.save();
-                    return res.status(200).send(user.username);
-                  });
+                  Group.findById(user.roleData.group._id)
+                    .then(group => {
+                      group.users.remove(user._id);
+                      group.users.push(user._id);
+                      return group.save();
+                    })
+                    .then(() => {
+                      return UserUtils.returnUser(globalUser._id);
+                    })
+                    .then(user => {
+                      return res
+                        .status(200)
+                        .send({ message: "User edited successfully.", user });
+                    })
+                    .catch(err => {
+                      console.log(err);
+                      res.status(500).json({ message: "An error occurred." });
+                    });
                 });
               } else {
-                Group.findById(user.roleData.group._id).then(group => {
-                  group.users.remove(user._id);
-                  group.users.push(user._id);
-                  group.save();
-                  return res.status(200).send(user.username);
-                });
+                Group.findById(user.roleData.group._id)
+                  .then(group => {
+                    group.users.remove(user._id);
+                    group.users.push(user._id);
+                    return group.save();
+                  })
+                  .then(() => {
+                    return UserUtils.returnUser(globalUser._id);
+                  })
+                  .then(user => {
+                    return res
+                      .status(200)
+                      .send({ message: "User edited successfully.", user });
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    res.status(500).json({ message: "An error occurred." });
+                  });
               }
             });
           } else {
-            return res.status(200).send(user.username);
+            UserUtils.returnUser(globalUser._id)
+              .then(user => {
+                return res
+                  .status(200)
+                  .send({ message: "User edited successfully.", user });
+              })
+              .catch(err => {
+                console.log(err);
+                res.status(500).json({ message: "An error occurred." });
+              });
           }
         }
       });
     })
-    .catch(err => res.status(500).json({ message: err }));
+    .catch(err => res.status(500).json({ message: "An error occurred." }));
 }
 
 /**

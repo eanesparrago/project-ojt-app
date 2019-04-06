@@ -4,7 +4,7 @@ const User = require("../../models/user/user");
  * Return the user trainee with populated fields
  * @param {ObjectId} userId
  */
-function returnTrainee(userId) {
+function returnUser(userId) {
   return User.findById(userId)
     .populate({
       path: "roleData.group",
@@ -14,4 +14,4 @@ function returnTrainee(userId) {
     .populate({ path: "roleData.clocks" });
 }
 
-module.exports = { returnTrainee };
+module.exports = { returnUser };

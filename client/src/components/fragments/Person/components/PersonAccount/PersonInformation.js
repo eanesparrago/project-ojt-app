@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import format from "date-fns/format";
 import round from "lodash/round";
+import { connect } from "react-redux";
 
 import { Item } from "src/components/blocks";
 import { Typography, Photo, Divider } from "src/components/elements";
@@ -11,7 +12,7 @@ import returnAttendanceStatus from "src/services/utils/returnAttendanceStatus";
 import returnScheduleToday from "src/services/utils/returnScheduleToday";
 import returnTimeRendered from "src/services/utils/returnTimeRendered";
 
-const PersonInformation = ({ data }) => {
+const PersonInformation = ({ person: { data } }) => {
   let attendanceStatus;
   if (data.role === enums.roles.TRAINEE) {
     attendanceStatus = returnAttendanceStatus(
@@ -320,4 +321,6 @@ const PersonInformation = ({ data }) => {
   );
 };
 
-export default PersonInformation;
+export default connect(state => ({
+  person: state.person
+}))(PersonInformation);

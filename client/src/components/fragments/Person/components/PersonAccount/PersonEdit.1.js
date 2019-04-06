@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import format from "date-fns/format";
+import axios from "axios";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -8,149 +9,173 @@ import { Button, Typography, Photo, Divider } from "src/components/elements";
 import {
   TextInput,
   SelectInput,
+  LoadingScene,
   CloudinaryUploadWidget,
   FormGroup
 } from "src/components/compounds";
 
-import { editPerson } from "src/services/session/actions/personActionCreators";
+import { setFlashMessage } from "src/services/session/actions/appActionCreators";
+import { getPeople } from "src/services/session/actions/peopleActionCreators";
 import { getGroups } from "src/services/session/actions/groupsActionCreators";
 
 class PersonEdit extends Component {
   constructor(props) {
     super(props);
 
-    const {
-      person: { data }
-    } = props;
-
     this.state = {
-      role: data.role,
-      group: data.roleData.group ? data.roleData.group._id : undefined,
-      isActive: data.isActive,
-      isInitialized: data.roleData.isInitialized,
-      username: data.username,
-      email: data.email,
-      trainingDuration: data.roleData.trainingDuration / 3600,
-      firstName: data.firstName,
-      middleName: data.middleName,
-      lastName: data.lastName,
-      nickname: data.nickname,
-      gender: data.gender,
-      dateOfBirth: data.roleData.dateOfBirth
-        ? format(data.roleData.dateOfBirth, "YYYY-MM-DD")
-        : "",
-      address: data.roleData.address,
-      contactNumber: data.roleData.contactNumber,
-      school: data.roleData.school,
-      adviserName: data.roleData.adviserName,
-      adviserContactNumber: data.roleData.adviserContactNumber,
-      guardianName: data.roleData.guardianName,
-      guardianContactNumber: data.roleData.guardianContactNumber,
-      profilePictureUrl: data.profilePictureUrl
+      data: {
+        role: props.data.role,
+        group: props.data.roleData.group
+          ? props.data.roleData.group._id
+          : undefined,
+        isActive: props.data.isActive,
+        isInitialized: props.data.roleData.isInitialized,
+        username: props.data.username,
+        email: props.data.email,
+        trainingDuration: props.data.roleData.trainingDuration / 3600,
+        firstName: props.data.firstName,
+        middleName: props.data.middleName,
+        lastName: props.data.lastName,
+        nickname: props.data.nickname,
+        gender: props.data.gender,
+        dateOfBirth: props.data.roleData.dateOfBirth
+          ? format(props.data.roleData.dateOfBirth, "YYYY-MM-DD")
+          : "",
+        address: props.data.roleData.address,
+        contactNumber: props.data.roleData.contactNumber,
+        school: props.data.roleData.school,
+        adviserName: props.data.roleData.adviserName,
+        adviserContactNumber: props.data.roleData.adviserContactNumber,
+        guardianName: props.data.roleData.guardianName,
+        guardianContactNumber: props.data.roleData.guardianContactNumber,
+        profilePictureUrl: props.data.profilePictureUrl
+      },
+      isLoading: false,
+      errors: {},
+      groups: []
     };
   }
 
   componentDidMount() {
-    const { getGroups } = this.props;
-
-    getGroups();
+    this.setState({ ...this.state, isLoading: true }, () => {
+      axios
+        .get("/api/groups?field=name")
+        .then(res => {
+          this.setState({ ...this.state, groups: res.data, isLoading: false });
+        })
+        .catch(err => {
+          this.setState({
+            ...this.state,
+            errors: err.response.data,
+            isLoading: false
+          });
+        });
+    });
   }
 
   handleInputChange = e => {
     this.setState({
-      ...this.state,
-      [e.target.name]: e.target.value
+      data: { ...this.state.data, [e.target.name]: e.target.value }
     });
   };
 
   handleProfilePictureUpload = photoUrl => {
     this.setState({
-      ...this.state,
-      profilePictureUrl: photoUrl
+      data: { ...this.state.data, profilePictureUrl: photoUrl }
     });
   };
 
   handleToggleIsActive = () => {
     this.setState({
-      ...this.state,
-      isActive: !this.state.isActive
+      data: { ...this.state.data, isActive: !this.state.data.isActive }
     });
   };
 
   handleToggleIsInitialized = () => {
     this.setState({
-      ...this.state,
-      isInitialized: !this.state.isInitialized
+      data: {
+        ...this.state.data,
+        isInitialized: !this.state.data.isInitialized
+      }
     });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    const {
-      person: { data },
-      editPerson,
-      closeForms
-    } = this.props;
+    const { data, setFlashMessage, afterEdit, closeForms } = this.props;
     const { ...state } = this.state;
 
-    const editData = {
-      ...state,
-      id: data._id
-    };
-
-    editPerson(editData).then(() => {
-      closeForms();
+    this.setState({ ...state, isLoading: true, errors: {} }, () => {
+      axios
+        .put(`/api/users/${data._id}`, state.data)
+        .then(res => {
+          this.setState({ ...state, isLoading: false }, () => {
+            closeForms();
+            afterEdit();
+            setFlashMessage(`${res.data} was edited successfully.`, "success");
+          });
+        })
+        .catch(err => {
+          this.setState(
+            {
+              ...state,
+              errors: err.response.data,
+              isLoading: false
+            },
+            () => {
+              setFlashMessage(`An error occurred.`, "error");
+            }
+          );
+        });
     });
   };
 
-  // handleDeletePerson = e => {
-  //   e.preventDefault();
-  //   const { ...state } = this.state;
-  //   const { getPeople, setFlashMessage, data, history, getGroups } = this.props;
+  handleDeletePerson = e => {
+    e.preventDefault();
+    const { ...state } = this.state;
+    const { getPeople, setFlashMessage, data, history, getGroups } = this.props;
 
-  //   this.setState({ ...state, isLoading: true, errors: {} }, () => {
-  //     axios
-  //       .delete(`/api/users/${data._id}`)
-  //       .then(res => {
-  //         getPeople();
-  //         getGroups();
-  //         setFlashMessage(`${res.data} was deleted successfully.`, "success");
-  //         history.go(-1);
-  //       })
-  //       .catch(err => {
-  //         this.setState(
-  //           {
-  //             ...state,
-  //             errors: err.response.data,
-  //             isLoading: false
-  //           },
-  //           () => {
-  //             setFlashMessage(`An error occurred.`, "error");
-  //           }
-  //         );
-  //       });
-  //   });
-  // };
+    this.setState({ ...state, isLoading: true, errors: {} }, () => {
+      axios
+        .delete(`/api/users/${data._id}`)
+        .then(res => {
+          getPeople();
+          getGroups();
+          setFlashMessage(`${res.data} was deleted successfully.`, "success");
+          history.go(-1);
+        })
+        .catch(err => {
+          this.setState(
+            {
+              ...state,
+              errors: err.response.data,
+              isLoading: false
+            },
+            () => {
+              setFlashMessage(`An error occurred.`, "error");
+            }
+          );
+        });
+    });
+  };
 
   render() {
-    const {
-      groups: { data: groupsData },
-      person: { isLoading: personIsLoading, errors: personErrors }
-    } = this.props;
-    const { ...state } = this.state;
+    const { data, errors, isLoading, groups } = this.state;
 
-    return (
+    return isLoading ? (
+      <LoadingScene />
+    ) : (
       <Container as="form">
         <Item margin="stack-l">
           <Typography variant="display-3">Edit Person</Typography>
         </Item>
 
         {/* >>> Role must be filled */}
-        {state.role && (
+        {data.role && (
           <Fragment>
             {/* >>> GROUP */}
             {/* >>> Group is not for administrators */}
-            {state.role !== "administrator" && (
+            {data.role !== "administrator" && (
               <Item margin="stack-base">
                 <FormGroup>
                   <FormGroup.Label title="Group" htmlFor="group-input" />
@@ -159,15 +184,15 @@ class PersonEdit extends Component {
                     <SelectInput
                       autoFocus
                       id="group-input"
-                      value={state.group}
+                      value={data.group}
                       onChange={this.handleInputChange}
                       name="group"
-                      options={groupsData.map(group => ({
+                      options={groups.map(group => ({
                         label: group.name,
                         value: group._id
                       }))}
-                      error={personErrors.group}
-                      disabled={personIsLoading}
+                      error={errors.group}
+                      disabled={isLoading}
                       withPlaceholder
                     />
                   </FormGroup.Input>
@@ -183,9 +208,9 @@ class PersonEdit extends Component {
                   <TextInput
                     name="isActive"
                     type="checkbox"
-                    checked={state.isActive}
+                    checked={data.isActive}
                     onChange={this.handleToggleIsActive}
-                    disabled={personIsLoading}
+                    disabled={isLoading}
                   />
                 </FormGroup.Input>
               </FormGroup>
@@ -199,9 +224,9 @@ class PersonEdit extends Component {
                   <TextInput
                     name="isActive"
                     type="checkbox"
-                    checked={state.isInitialized}
+                    checked={data.isInitialized}
                     onChange={this.handleToggleIsInitialized}
-                    disabled={personIsLoading}
+                    disabled={isLoading}
                   />
                 </FormGroup.Input>
               </FormGroup>
@@ -234,7 +259,7 @@ class PersonEdit extends Component {
                 max: "999"
               }
             ]
-              .filter(item => item.role.includes(state.role))
+              .filter(item => item.role.includes(data.role))
               .map(item => (
                 <Item margin="stack-base" key={item.id}>
                   <FormGroup>
@@ -246,10 +271,10 @@ class PersonEdit extends Component {
                         name={item.name}
                         id={item.id}
                         type={item.type}
-                        value={state[item.name]}
+                        value={data[item.name]}
                         onChange={this.handleInputChange}
-                        error={personErrors[item.name]}
-                        disabled={personIsLoading}
+                        error={errors[item.name]}
+                        disabled={isLoading}
                         {...item}
                       />
                     </FormGroup.Input>
@@ -296,7 +321,7 @@ class PersonEdit extends Component {
                 role: ["administrator", "supervisor", "trainee", "employee"]
               }
             ]
-              .filter(item => item.role.includes(state.role))
+              .filter(item => item.role.includes(data.role))
               .map(item => (
                 <Item margin="stack-base" key={item.id}>
                   <FormGroup>
@@ -308,10 +333,10 @@ class PersonEdit extends Component {
                         name={item.name}
                         id={item.id}
                         type={item.type}
-                        value={state[item.name]}
+                        value={data[item.name]}
                         onChange={this.handleInputChange}
-                        error={personErrors[item.name]}
-                        disabled={personIsLoading}
+                        error={errors[item.name]}
+                        disabled={isLoading}
                         {...item}
                       />
                     </FormGroup.Input>
@@ -328,7 +353,7 @@ class PersonEdit extends Component {
                     id="gender-input"
                     onChange={this.handleInputChange}
                     name="gender"
-                    value={state.gender}
+                    value={data.gender}
                     withPlaceholder
                     options={[
                       {
@@ -410,7 +435,7 @@ class PersonEdit extends Component {
                 role: ["trainee"]
               }
             ]
-              .filter(item => item.role.includes(state.role))
+              .filter(item => item.role.includes(data.role))
               .map(item => (
                 <Item margin="stack-base" key={item.id}>
                   <FormGroup>
@@ -422,10 +447,10 @@ class PersonEdit extends Component {
                         name={item.name}
                         id={item.id}
                         type={item.type}
-                        value={state[item.name]}
+                        value={data[item.name]}
                         onChange={this.handleInputChange}
-                        error={personErrors[item.name]}
-                        disabled={personIsLoading}
+                        error={errors[item.name]}
+                        disabled={isLoading}
                         {...item}
                       />
                     </FormGroup.Input>
@@ -447,11 +472,11 @@ class PersonEdit extends Component {
                   </Item>
 
                   <Item>
-                    {state.profilePictureUrl === "" ? (
+                    {data.profilePictureUrl === "" ? (
                       <Typography variant="base">No profile picture</Typography>
                     ) : (
                       <Photo>
-                        <img src={state.profilePictureUrl} alt="" />
+                        <img src={data.profilePictureUrl} alt="" />
                       </Photo>
                     )}
                   </Item>
@@ -468,7 +493,7 @@ class PersonEdit extends Component {
                       type="submit"
                       variant="primary"
                       onClick={this.handleSubmit}
-                      disabled={personIsLoading}
+                      disabled={isLoading}
                     >
                       Save
                     </Button>
@@ -485,7 +510,7 @@ class PersonEdit extends Component {
                     <Button
                       variant="secondary"
                       onClick={this.handleDeletePerson}
-                      disabled={personIsLoading}
+                      disabled={isLoading}
                     >
                       Delete User
                     </Button>
@@ -502,13 +527,11 @@ class PersonEdit extends Component {
 
 export default withRouter(
   connect(
-    state => ({
-      person: state.person,
-      groups: state.groups
-    }),
+    null,
     {
-      getGroups: getGroups,
-      editPerson: editPerson
+      setFlashMessage: setFlashMessage,
+      getPeople: getPeople,
+      getGroups: getGroups
     }
   )(PersonEdit)
 );

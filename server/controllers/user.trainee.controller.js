@@ -115,7 +115,7 @@ function userClock(req, res) {
             return ActivityUtils.logActivity(user._id, "clockIn", globalClock);
           })
           .then(() => {
-            return UserUtils.returnTrainee(globalUser._id);
+            return UserUtils.returnUser(globalUser._id);
           })
           .then(user => {
             res.status(200).json({ message: "Clocked in successfully.", user });
@@ -146,7 +146,7 @@ function userClock(req, res) {
             return ActivityUtils.deleteActivityByClockId(globalClock._id);
           })
           .then(() => {
-            return UserUtils.returnTrainee(globalUser._id);
+            return UserUtils.returnUser(globalUser._id);
           })
           .then(user => {
             res.status(200).json({
@@ -204,7 +204,7 @@ function userClock(req, res) {
             );
           })
           .then(() => {
-            return UserUtils.returnTrainee(globalUser._id);
+            return UserUtils.returnUser(globalUser._id);
           })
           .then(user => {
             res

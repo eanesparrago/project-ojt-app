@@ -5,6 +5,9 @@ import {
   PERSON_CREATE_REQUEST,
   PERSON_CREATE_SUCCESS,
   PERSON_CREATE_FAILURE,
+  PERSON_EDIT_REQUEST,
+  PERSON_EDIT_SUCCESS,
+  PERSON_EDIT_FAILURE,
   PERSON_CLOCK_EDIT_REQUEST,
   PERSON_CLOCK_EDIT_SUCCESS,
   PERSON_CLOCK_EDIT_FAILURE,
@@ -56,6 +59,25 @@ export default (state = initialState, action) => {
         isLoading: false
       };
     case PERSON_CREATE_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        errors: action.payload
+      };
+
+    case PERSON_EDIT_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        errors: initialState.errors
+      };
+    case PERSON_EDIT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload
+      };
+    case PERSON_EDIT_FAILURE:
       return {
         ...state,
         isLoading: false,

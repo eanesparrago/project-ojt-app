@@ -46,7 +46,6 @@ export default function(state = initialState, action) {
         errors: action.payload
       };
 
-    // >>>
     case ANNOUNCEMENT_GET_REQUEST:
       return {
         ...state,
@@ -74,7 +73,6 @@ export default function(state = initialState, action) {
         }
       };
 
-    // >>>
     case ANNOUNCEMENT_EDIT_REQUEST:
       return {
         ...state,
@@ -103,7 +101,6 @@ export default function(state = initialState, action) {
         }
       };
 
-    // >>>
     case ANNOUNCEMENT_DELETE_REQUEST:
       return {
         ...state,
