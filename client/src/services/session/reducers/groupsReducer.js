@@ -12,6 +12,8 @@ import {
 
 import { GROUP_EDIT_SUCCESS } from "../actions/groupActionCreators";
 
+import { PEOPLE_CREATE } from "../actions/peopleActionCreators";
+
 const initialState = {
   data: [],
   isLoading: false,

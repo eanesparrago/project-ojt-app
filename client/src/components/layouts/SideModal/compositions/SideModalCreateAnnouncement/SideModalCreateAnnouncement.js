@@ -12,6 +12,7 @@ import {
 } from "src/components/compounds";
 import { SideModal } from "src/components/layouts";
 
+import { getGroup } from "src/services/session/actions/groupActionCreators";
 import { getAnnouncements } from "src/services/session/actions/announcementsActionCreators";
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
@@ -79,7 +80,7 @@ export class SideModalCreateAnnouncement extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { getAnnouncements, setFlashMessage, history } = this.props;
+    const { getAnnouncements, setFlashMessage, getGroup, history } = this.props;
 
     this.setState(
       {
@@ -102,6 +103,11 @@ export class SideModalCreateAnnouncement extends Component {
                   "success"
                 );
                 getAnnouncements();
+                
+                if (res.data.announcement.isGlobal === false) {
+                  getGroup(res.data.announcement.group);
+                }
+
                 history.goBack();
               })
             );
@@ -210,6 +216,10 @@ export default withRouter(
     state => ({
       auth: state.auth
     }),
-    { setFlashMessage: setFlashMessage, getAnnouncements: getAnnouncements }
+    {
+      setFlashMessage,
+      getAnnouncements,
+      getGroup
+    }
   )(SideModalCreateAnnouncement)
 );

@@ -106,8 +106,8 @@ export const deleteAnnouncement = id => dispatch => {
       .delete(`/api/announcements/${id}`)
       .then(res => {
         dispatch({
-          type: ANNOUNCEMENT_DELETE_SUCCESS,
-         });
+          type: ANNOUNCEMENT_DELETE_SUCCESS
+        });
 
         dispatch(getAnnouncements());
 

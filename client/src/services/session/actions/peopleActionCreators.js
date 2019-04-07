@@ -2,6 +2,10 @@ import axios from "axios";
 
 import { ERRORS_SET } from "./errorsActionCreators";
 import { setFlashMessage } from "./appActionCreators";
+import { getGroups } from "./groupsActionCreators";
+import { getGroup } from "./groupActionCreators";
+
+import enums from "src/services/enums";
 
 export const PEOPLE_LOADING_SET = "PEOPLE_LOADING_SET";
 export const PEOPLE_LOADING_UNSET = "PEOPLE_LOADING_UNSET";
@@ -63,6 +67,13 @@ export const createPerson = data => dispatch => {
 
           dispatch(setFlashMessage("User created successfully.", "success"));
 
+          dispatch(getPeople());
+
+          if (res.data.user.role !== enums.roles.ADMINISTRATOR) {
+            dispatch(getGroups());
+            dispatch(getGroup(res.data.user.roleData.group._id));
+          }
+
           resolve();
         })
         .catch(err => {
@@ -83,6 +94,13 @@ export const deletePerson = userId => dispatch => {
           type: PEOPLE_DELETE,
           payload: res.data
         });
+
+        dispatch(getPeople());
+
+        if (res.data.user.role !== enums.roles.ADMINISTRATOR) {
+          dispatch(getGroups());
+          dispatch(getGroup(res.data.user.roleData.group));
+        }
 
         resolve();
       })

@@ -474,10 +474,15 @@ function deleteUser(req, res) {
   User.findById(req.params.id)
     .then(user => {
       user.remove((err, user) => {
-        res.send(user);
+        if (err) throw err;
+
+        res.send({ message: "Deleted user successfully.", user });
       });
     })
-    .catch(err => res.status(500).json({ message: "Error occurred" }));
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "An error occurred." });
+    });
 }
 
 module.exports = {

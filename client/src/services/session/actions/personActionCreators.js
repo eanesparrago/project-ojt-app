@@ -2,6 +2,11 @@ import axios from "axios";
 
 import { setFlashMessage } from "./appActionCreators";
 import { clearErrors } from "./errorsActionCreators";
+import { getGroups } from "./groupsActionCreators";
+import { getGroup } from "./groupActionCreators";
+import { getPeople } from "./peopleActionCreators";
+
+import enums from "src/services/enums";
 
 import { ERRORS_SET } from "./errorsActionCreators";
 
@@ -78,6 +83,12 @@ export const editPerson = data => dispatch => {
         });
 
         dispatch(setFlashMessage("User edited successfully.", "success"));
+        dispatch(getPeople());
+
+        if (res.data.user.role !== enums.roles.ADMINISTRATOR) {
+          dispatch(getGroups());
+          dispatch(getGroup(res.data.user.roleData.group._id));
+        }
 
         resolve();
       })
@@ -102,6 +113,11 @@ export const editSchedule = (personId, data) => dispatch => {
         dispatch(
           setFlashMessage("User schedule edited successfully.", "success")
         );
+
+        if (res.data.user.role !== enums.roles.ADMINISTRATOR) {
+          dispatch(getGroups());
+          dispatch(getGroup(res.data.user.roleData.group._id));
+        }
 
         resolve();
       })
