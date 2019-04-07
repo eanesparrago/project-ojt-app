@@ -51,7 +51,9 @@ export class DailyTimeRecordItemEdit extends Component {
         userId: clockData.user
       };
 
-      editClock(data);
+      editClock(data).then(() => {
+        handleToggleEditOpen();
+      });
     } else if (auth.user.role === enums.roles.TRAINEE) {
       data = {
         in: this.state.in,
@@ -69,7 +71,8 @@ export class DailyTimeRecordItemEdit extends Component {
     const { ...state } = this.state;
     const {
       handleToggleEditOpen,
-      reducerData: { errors, isLoading }
+      person: { isLoading },
+      errors
     } = this.props;
 
     return (
@@ -149,8 +152,7 @@ export class DailyTimeRecordItemEdit extends Component {
 export default connect(
   state => ({
     auth: state.auth,
-    reducerData:
-      state.auth.user.role === enums.roles.TRAINEE ? state.user : state.person
+    errors: state.errors
   }),
   {
     editClock: editClock,

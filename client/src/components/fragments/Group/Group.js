@@ -39,9 +39,9 @@ export class Group extends Component {
 
     return (
       <StyledGroup isLoading={isLoading}>
-        {isLoading ? (
-          <LoadingScene />
-        ) : data ? (
+        {isLoading && <LoadingScene absolute />}
+
+        {data && (
           <Fragment>
             <GroupHeader groupData={data} />
 
@@ -51,7 +51,7 @@ export class Group extends Component {
 
             <GroupAnnouncements groupData={data} />
           </Fragment>
-        ) : null}
+        )}
       </StyledGroup>
     );
   }

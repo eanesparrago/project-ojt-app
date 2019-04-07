@@ -8,10 +8,8 @@ import { SideModal } from "src/components/layouts";
 import TaskInformation from "./components/TaskInformation";
 import TaskEdit from "./components/TaskEdit";
 
-import {
-  getTask,
-  deleteTask
-} from "src/services/session/actions/taskActionCreators";
+import { getTask } from "src/services/session/actions/taskActionCreators";
+import { deleteTask } from "src/services/session/actions/tasksActionCreators";
 
 export class SideModalTask extends Component {
   constructor(props) {
@@ -74,15 +72,20 @@ export class SideModalTask extends Component {
             )}
           </Box>
 
-          {data ? (
-            state.isEditOpen ? (
-              <TaskEdit handleToggleEdit={this.handleToggleEdit} />
-            ) : (
-              <TaskInformation taskData={data} />
-            )
-          ) : (
-            <Typography variant="base">An error occurred</Typography>
-          )}
+          {(() => {
+            if (isLoading) {
+              return <Typography variant="base">Loading</Typography>;
+            }
+            if (!data) {
+              return <Typography variant="base">An error occurred</Typography>;
+            }
+            if (state.isEditOpen) {
+              return <TaskEdit handleToggleEdit={this.handleToggleEdit} />;
+            }
+            if (data) {
+              return <TaskInformation taskData={data} />;
+            }
+          })()}
         </SideModal.Body>
       </SideModal>
     );

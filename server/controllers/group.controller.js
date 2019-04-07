@@ -1,6 +1,7 @@
 const Group = require("../models/group");
 const Announcement = require("../models/announcement");
 const { validationResult } = require("express-validator/check");
+const GroupUtils = require("./utils/group");
 
 function testRoute(req, res) {
   res.status(200).json({ message: "Groups test" });
@@ -51,13 +52,7 @@ function getGroups(req, res) {
 
   Group.find()
     .select(req.query.field)
-    .populate({
-      path: "users",
-      select:
-        "username profilePictureUrl roleData.isClockedIn roleData.schedule roleData.lastClockInTime roleData.clocks",
-      populate: { path: "roleData.clocks", options: { limit: 1 } },
-      modal: "Users"
-    })
+    .populate(GroupUtils.usersPopulate)
     .then(groups => {
       if (!groups) {
         errors.groups = "There are no groups";
@@ -66,35 +61,29 @@ function getGroups(req, res) {
 
       res.json(groups);
     })
-    .catch(err => res.status(500).json({ message: "Error occurred" }));
+    .catch(err => {
+      console.log(err);
+      return res.status(500).json({ message: "An error occurred." });
+    });
 }
 
 /**
  * Get a group by id
- * @route   GET api/groups?name
- * @access  private (role: administrator)
+ * @route   GET api/groups/group/:id
+ * @param   {String} req.param.id
  */
 function getGroup(req, res) {
-  Group.findById(req.params.id)
-    .populate({
-      path: "announcements",
-      model: "Announcement",
-      populate: { path: "user" }
-    })
-    .populate({
-      path: "users",
-      select:
-        "username profilePictureUrl roleData.isClockedIn roleData.schedule roleData.lastClockInTime roleData.clocks",
-      populate: { path: "roleData.clocks", options: { limit: 1 } },
-      modal: "Users"
-    })
+  GroupUtils.returnGroup(req.params.id)
     .then(group => {
       if (!group) {
-        return res.status(404).json({ group: "Group not found" });
+        return res.status(404).json({ message: "Group not found." });
       }
-      return res.json(group);
+      return res.json({ message: "Group found successfully.", group });
     })
-    .catch(err => res.status(500).json({ message: "Error occurred" }));
+    .catch(err => {
+      console.log(err);
+      return res.status(500).json({ message: "An error occurred." });
+    });
 }
 
 /**
@@ -119,7 +108,6 @@ function getOwnGroup(req, res) {
  * @param   res.body.name
  * @param   res.body.location
  * @param   res.body.phoneNumber
- * @access  private (role: administrator)
  */
 function editGroup(req, res) {
   const errors = validationResult(req);
@@ -127,24 +115,44 @@ function editGroup(req, res) {
     return res.status(422).json(errors.mapped());
   }
 
+  let globalGroup;
   Group.findById(req.params.id)
     .then(group => {
-      Group.findOne({ name: req.body.name }).then(duplicate => {
-        if (duplicate && group.name !== req.body.name) {
-          errors.name = { msg: "Group name already exists" };
-          return res.status(400).json(errors);
-        } else {
-          group.name = req.body.name;
-          group.location = req.body.location;
-          group.phoneNumber = req.body.phoneNumber;
-
-          group.save((err, group) => {
-            res.send(group);
-          });
-        }
-      });
+      globalGroup = group;
+      return Group.findOne({ name: req.body.name });
     })
-    .catch(err => res.status(500).json({ message: "Error occurred" }));
+    .then(duplicate => {
+      if (duplicate && globalGroup.name !== req.body.name) {
+        errors.name = { msg: "Group name already exists." };
+        return res.status(400).json(errors);
+      } else {
+        globalGroup.name = req.body.name;
+        globalGroup.location = req.body.location;
+        globalGroup.phoneNumber = req.body.phoneNumber;
+
+        globalGroup.save((err, group) => {
+          if (err) {
+            console.log(err);
+            return res.status(500).send({ message: "An error occurred." });
+          }
+
+          GroupUtils.returnGroup(group._id)
+            .then(group => {
+              return res
+                .status(200)
+                .json({ message: "Group edited successfully.", group });
+            })
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({ message: "An error occurred" });
+            });
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "An error occurred" });
+    });
 }
 
 /**
@@ -160,16 +168,21 @@ function deleteGroup(req, res) {
           return res.status(500).send("Error");
         }
 
-        group.remove((err, user) => {
+        group.remove((err, group) => {
           if (err) {
             return res.status(500).send("Error");
           }
 
-          res.send({ data: user });
+          res
+            .status(200)
+            .json({ message: "Group deleted successfully.", group });
         });
       });
     })
-    .catch(err => res.status(500).json({ message: "Error occurred" }));
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "An error occurred" });
+    });
 }
 
 module.exports = {

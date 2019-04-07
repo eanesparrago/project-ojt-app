@@ -29,7 +29,7 @@ export class PersonAccount extends Component {
 
   render() {
     const {
-      data,
+      person,
       auth: {
         user: { role }
       }
@@ -69,10 +69,15 @@ export class PersonAccount extends Component {
           ) : null}
         </Box>
 
-        {(isEditOpen && <PersonEdit closeForms={this.closeForms} />) ||
+        {(isEditOpen && (
+          <PersonEdit person={person} closeForms={this.closeForms} />
+        )) ||
           (isChangePasswordOpen && (
-            <PersonChangePassword data={data} closeForms={this.closeForms} />
-          )) || <PersonInformation data={data} />}
+            <PersonChangePassword
+              person={person}
+              closeForms={this.closeForms}
+            />
+          )) || <PersonInformation person={person} />}
       </Fragment>
     );
   }

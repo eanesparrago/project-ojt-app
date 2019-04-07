@@ -8,8 +8,11 @@ import { Item, Box } from "src/components/blocks";
 import { Button, Typography } from "src/components/elements";
 import { TextInput } from "src/components/compounds";
 
-import { getGroups } from "src/services/session/actions/groupsActionCreators";
-import { getGroup } from "src/services/session/actions/groupActionCreators";
+import { deleteGroup } from "src/services/session/actions/groupsActionCreators";
+import {
+  getGroup,
+  editGroup
+} from "src/services/session/actions/groupActionCreators";
 
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
@@ -32,74 +35,44 @@ export class EditGroupForm extends Component {
     super(props);
 
     this.state = {
-      group: {
-        name: props.groupData.name,
-        location: props.groupData.location,
-        phoneNumber: props.groupData.phoneNumber
-      },
-      isLoading: false,
-      errors: {}
+      name: props.groupData.name,
+      location: props.groupData.location,
+      phoneNumber: props.groupData.phoneNumber
     };
   }
 
   handleInputChange = e => {
     this.setState({
-      group: { ...this.state.group, [e.target.name]: e.target.value }
+      ...this.state,
+      [e.target.name]: e.target.value
     });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    const {
-      groupData,
-      handleEditFormToggle,
-      getGroup,
-      getGroups,
-      setFlashMessage
-    } = this.props;
+    const { editGroup, groupData, handleEditFormToggle } = this.props;
     const { ...state } = this.state;
 
-    this.setState({ ...state, isLoading: true, errors: {} }, () => {
-      axios
-        .put(`/api/groups/${groupData._id}`, state.group)
-        .then(res => {
-          getGroup(groupData._id);
-          getGroups();
-          handleEditFormToggle();
-          setFlashMessage(
-            `${res.data.name} was edited successfully.`,
-            "success"
-          );
-        })
-        .catch(err => {
-          this.setState({
-            ...state,
-            errors: err.response.data,
-            isLoading: false
-          });
-        });
+    editGroup(groupData._id, state).then(() => {
+      handleEditFormToggle();
     });
   };
 
   handleDelete = e => {
     e.preventDefault();
-    const { groupData, getGroups, history } = this.props;
+    const { groupData, deleteGroup, history } = this.props;
 
-    axios
-      .delete(`/api/groups/${groupData._id}`)
-      .then(res => {
-        getGroups();
-        history.goBack();
-      })
-      .catch(err => {
-        getGroups();
-        history.goBack();
-      });
+    deleteGroup(groupData._id).then(() => {
+      history.goBack();
+    });
   };
 
   render() {
-    const { handleEditFormToggle } = this.props;
-    const { group, isLoading, errors } = this.state;
+    const {
+      group: { errors, isLoading },
+      handleEditFormToggle
+    } = this.props;
+    const { ...state } = this.state;
 
     return (
       <StyledEditGroupForm>
@@ -137,7 +110,7 @@ export class EditGroupForm extends Component {
                 name={item.name}
                 id={item.id}
                 type={item.type}
-                value={group[item.name]}
+                value={state[item.name]}
                 onChange={this.handleInputChange}
                 error={errors[item.name]}
                 disabled={isLoading}
@@ -188,11 +161,14 @@ export class EditGroupForm extends Component {
 
 export default withRouter(
   connect(
-    null,
+    state => ({
+      group: state.group
+    }),
     {
       getGroup: getGroup,
-      getGroups: getGroups,
-      setFlashMessage: setFlashMessage
+      setFlashMessage: setFlashMessage,
+      deleteGroup: deleteGroup,
+      editGroup: editGroup
     }
   )(EditGroupForm)
 );

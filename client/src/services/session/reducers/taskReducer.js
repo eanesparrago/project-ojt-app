@@ -1,17 +1,11 @@
 import {
-  TASK_CREATE_REQUEST,
-  TASK_CREATE_SUCCESS,
-  TASK_CREATE_FAILURE,
-  TASK_GET_REQUEST,
-  TASK_GET_SUCCESS,
-  TASK_GET_FAILURE,
-  TASK_EDIT_REQUEST,
-  TASK_EDIT_SUCCESS,
-  TASK_EDIT_FAILURE,
-  TASK_DELETE_REQUEST,
-  TASK_DELETE_SUCCESS,
-  TASK_DELETE_FAILURE,
-  TASK_ERRORS_CLEAR
+  TASK_LOADING_SET,
+  TASK_LOADING_UNSET,
+  TASK_DATA_CLEAR,
+  TASK_ERRORS_SET,
+  TASK_ERRORS_CLEAR,
+  TASK_GET,
+  TASK_EDIT
 } from "../actions/taskActionCreators";
 
 const initialState = {
@@ -22,76 +16,27 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case TASK_CREATE_REQUEST:
+    case TASK_LOADING_SET:
       return {
         ...state,
-        isLoading: true,
-        errors: initialState.errors
+        isLoading: true
       };
-    case TASK_CREATE_SUCCESS:
+
+    case TASK_LOADING_UNSET:
       return {
         ...state,
         isLoading: false
       };
-    case TASK_CREATE_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        errors: action.payload
-      };
 
-    case TASK_GET_REQUEST:
+    case TASK_DATA_CLEAR:
       return {
         ...state,
-        isLoading: true,
-        errors: initialState.errors
-      };
-    case TASK_GET_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        data: action.payload
-      };
-    case TASK_GET_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
         data: initialState.data
       };
 
-    case TASK_EDIT_REQUEST:
+    case TASK_ERRORS_SET:
       return {
         ...state,
-        isLoading: true,
-        errors: initialState.errors
-      };
-    case TASK_EDIT_SUCCESS:
-      return {
-        ...state,
-        isLoading: false
-      };
-    case TASK_EDIT_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        errors: action.payload
-      };
-
-    case TASK_DELETE_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-        errors: initialState.errors
-      };
-    case TASK_DELETE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false
-      };
-    case TASK_DELETE_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
         errors: action.payload
       };
 
@@ -99,6 +44,18 @@ export default function(state = initialState, action) {
       return {
         ...state,
         errors: initialState.errors
+      };
+
+    case TASK_GET:
+      return {
+        ...state,
+        data: action.payload
+      };
+
+    case TASK_EDIT:
+      return {
+        ...state,
+        data: action.payload
       };
 
     default:

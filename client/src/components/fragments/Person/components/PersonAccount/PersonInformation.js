@@ -321,6 +321,4 @@ const PersonInformation = ({ person: { data } }) => {
   );
 };
 
-export default connect(state => ({
-  person: state.person
-}))(PersonInformation);
+export default PersonInformation;

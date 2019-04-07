@@ -9,61 +9,38 @@ import { Button } from "src/components/elements";
 import { TextInput, FormGroup } from "src/components/compounds";
 import { SideModal } from "src/components/layouts";
 
-import { getGroups } from "src/services/session/actions/groupsActionCreators";
+import { createGroup } from "src/services/session/actions/groupsActionCreators";
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
 export class SideModalCreateGroup extends Component {
   state = {
-    data: {
-      name: "",
-      location: "",
-      phoneNumber: ""
-    },
-    isLoading: false,
-    errors: {}
+    name: "",
+    location: "",
+    phoneNumber: ""
   };
 
   handleInputChange = e => {
     this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value }
+      ...this.state,
+      [e.target.name]: e.target.value
     });
   };
 
   handleSubmit = e => {
     e.preventDefault();
     const { ...state } = this.state;
-    const { ...props } = this.props;
+    const { createGroup, history } = this.props;
 
-    this.setState({ ...state, isLoading: true, errors: {} }, () => {
-      axios
-        .post("/api/groups", state.data)
-        .then(res => {
-          this.setState({ ...state, data: res.data }, () => {
-            props.getGroups();
-            props.history.goBack();
-            props.setFlashMessage(
-              `${res.data.name} was created successfully.`,
-              "success"
-            );
-          });
-        })
-        .catch(err => {
-          this.setState(
-            {
-              ...state,
-              errors: err.response.data,
-              isLoading: false
-            },
-            () => {
-              props.setFlashMessage("An error occurred.", "error");
-            }
-          );
-        });
+    createGroup(state).then(() => {
+      history.goBack();
     });
   };
 
   render() {
-    const { isLoading, data, errors } = this.state;
+    const {
+      groups: { isLoading, errors }
+    } = this.props;
+    const { ...state } = this.state;
 
     return (
       <SideModal>
@@ -101,7 +78,7 @@ export class SideModalCreateGroup extends Component {
                     name={item.name}
                     id={item.id}
                     type={item.type}
-                    value={data[item.name]}
+                    value={state[item.name]}
                     onChange={this.handleInputChange}
                     error={errors[item.name]}
                     disabled={isLoading}
@@ -136,9 +113,11 @@ export class SideModalCreateGroup extends Component {
 
 export default withRouter(
   connect(
-    null,
+    state => ({
+      groups: state.groups
+    }),
     {
-      getGroups: getGroups,
+      createGroup: createGroup,
       setFlashMessage: setFlashMessage
     }
   )(SideModalCreateGroup)

@@ -75,6 +75,10 @@ function getTasks(req, res) {
  */
 function getTaskById(req, res) {
   Task.findById(req.params.id).then(task => {
+    if (!task) {
+      return res.status(404).send("Not found");
+    }
+
     if (!task.user.equals(req.user._id)) {
       return res.status(403).send("Forbidden");
     }

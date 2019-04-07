@@ -25,9 +25,7 @@ export class DailyTimeRecord extends Component {
   };
 
   render() {
-    const {
-      data: { roleData, _id }
-    } = this.props;
+    const { person } = this.props;
     const { editId } = this.state;
 
     return (
@@ -42,30 +40,33 @@ export class DailyTimeRecord extends Component {
           </Typography>
         </Item>
 
-        {roleData.clockCorrectionRequest.isActive && (
+        {person.data.roleData.clockCorrectionRequest.isActive && (
           <Item margin="stack-l">
             <CorrectionRequest
-              clockCorrectionRequest={roleData.clockCorrectionRequest}
-              userId={_id}
+              clockCorrectionRequest={
+                person.data.roleData.clockCorrectionRequest
+              }
+              userId={person.data._id}
             />
           </Item>
         )}
 
-        {roleData.clocks.length === 0 ? (
+        {person.data.roleData.clocks.length === 0 ? (
           <Item margin="stack-l">
             <Typography variant="base">No records</Typography>
           </Item>
         ) : (
-          roleData.clocks.map((clock, i) => (
+          person.data.roleData.clocks.map((clock, i) => (
             <Item margin="stack-base" key={clock._id}>
               <DailyTimeRecordItem
+                person={person}
                 clockData={clock}
                 isClockCorrectionRequestActive={
-                  roleData.clockCorrectionRequest.isActive
+                  person.data.roleData.clockCorrectionRequest.isActive
                 }
                 editId={editId}
                 handleEditToggle={this.handleEditToggle}
-                previousClock={roleData.clocks[i - 1]}
+                previousClock={person.data.roleData.clocks[i - 1]}
               />
             </Item>
           ))

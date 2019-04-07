@@ -452,9 +452,12 @@ function updateTraineeSchedule(req, res) {
       );
     })
     .then(() => {
+      return UserUtils.returnUser(globalUser._id);
+    })
+    .then(user => {
       return res
         .status(200)
-        .json({ message: "Schedule changed successfully.", user: globalUser });
+        .json({ message: "Schedule changed successfully.", user });
     })
     .catch(err => {
       console.log(err);

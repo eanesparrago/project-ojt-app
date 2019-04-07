@@ -489,7 +489,6 @@ class PersonEdit extends Component {
 export default withRouter(
   connect(
     state => ({
-      person: state.person,
       groups: state.groups,
       errors: state.errors
     }),

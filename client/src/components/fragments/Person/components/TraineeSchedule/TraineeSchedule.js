@@ -34,7 +34,9 @@ export class TraineeSchedule extends Component {
   };
 
   render() {
-    const { data, afterEdit } = this.props;
+    const {
+      person 
+    } = this.props;
     const { isEditOpen } = this.state;
 
     return (
@@ -57,13 +59,9 @@ export class TraineeSchedule extends Component {
         </Box>
 
         {isEditOpen ? (
-          <TraineeScheduleEdit
-            data={data}
-            afterEdit={afterEdit}
-            toggleEdit={this.toggleEdit}
-          />
+          <TraineeScheduleEdit person={person} toggleEdit={this.toggleEdit} />
         ) : (
-          Object.entries(data.roleData.schedule).map(([key, value]) => (
+          Object.entries(person.data.roleData.schedule).map(([key, value]) => (
             <Item margin="stack-base" key={key}>
               <DataGroup>
                 <DataGroup.Label title={key} />

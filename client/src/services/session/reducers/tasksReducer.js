@@ -1,11 +1,14 @@
 import {
-  TASKS_OWN_GET_REQUEST,
-  TASKS_OWN_GET_SUCCESS,
-  TASKS_OWN_GET_FAILURE,
-  TASKS_USER_GET_REQUEST,
-  TASKS_USER_GET_SUCCESS,
-  TASKS_USER_GET_FAILURE
+  TASKS_LOADING_SET,
+  TASKS_LOADING_UNSET,
+  TASKS_ERRORS_SET,
+  TASKS_ERRORS_CLEAR,
+  TASKS_GET,
+  TASKS_CREATE,
+  TASKS_DELETE
 } from "../actions/tasksActionCreators";
+
+import { TASK_EDIT } from "../actions/taskActionCreators";
 
 const initialState = {
   data: null,
@@ -15,42 +18,55 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case TASKS_OWN_GET_REQUEST:
+    case TASKS_LOADING_SET:
       return {
         ...state,
-        isLoading: true,
-        errors: initialState.errors
+        isLoading: true
       };
-    case TASKS_OWN_GET_SUCCESS:
+
+    case TASKS_LOADING_UNSET:
       return {
         ...state,
-        isLoading: false,
-        data: action.payload
+        isLoading: false
       };
-    case TASKS_OWN_GET_FAILURE:
+
+    case TASKS_ERRORS_SET:
       return {
         ...state,
-        data: initialState.data,
         errors: action.payload
       };
 
-    case TASKS_USER_GET_REQUEST:
+    case TASKS_ERRORS_CLEAR:
       return {
         ...state,
-        isLoading: true,
         errors: initialState.errors
       };
-    case TASKS_USER_GET_SUCCESS:
+
+    case TASKS_GET:
       return {
         ...state,
-        isLoading: false,
         data: action.payload
       };
-    case TASKS_USER_GET_FAILURE:
+
+    case TASKS_CREATE:
       return {
         ...state,
-        data: initialState.data,
-        errors: action.payload
+        data: [...state.data, action.payload]
+      };
+
+    case TASKS_DELETE:
+      return {
+        ...state,
+        data: state.data.filter(task => task._id !== action.payload._id)
+      };
+
+    // >>> TASK
+    case TASK_EDIT:
+      return {
+        ...state,
+        data: state.data.map(task =>
+          task._id === action.payload._id ? action.payload : task
+        )
       };
 
     default:

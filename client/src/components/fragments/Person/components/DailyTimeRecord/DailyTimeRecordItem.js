@@ -36,7 +36,8 @@ export class DailyTimeRecordItem extends Component {
       isClockCorrectionRequestActive,
       auth,
       editId,
-      previousClock
+      previousClock,
+      person
     } = this.props;
 
     let title = "";
@@ -108,6 +109,7 @@ export class DailyTimeRecordItem extends Component {
         {editId === clockData._id && (
           <DailyTimeRecordItemEdit
             clockData={clockData}
+            person={person}
             handleToggleEditOpen={this.handleToggleEditOpen}
           />
         )}

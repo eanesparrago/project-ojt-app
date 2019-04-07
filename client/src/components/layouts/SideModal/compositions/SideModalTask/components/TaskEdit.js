@@ -5,10 +5,7 @@ import { Item } from "src/components/blocks";
 import { Button } from "src/components/elements";
 import { FormGroup, TextAreaInput, TextInput } from "src/components/compounds";
 
-import {
-  editTask,
-  clearErrors
-} from "src/services/session/actions/taskActionCreators";
+import { editTask } from "src/services/session/actions/taskActionCreators";
 
 export class TaskEdit extends Component {
   constructor(props) {
@@ -18,10 +15,6 @@ export class TaskEdit extends Component {
       content: props.task.data.content,
       ticketNumber: props.task.data.ticketNumber || ""
     };
-  }
-
-  componentDidMount() {
-    clearErrors();
   }
 
   handleInputChange = e => {

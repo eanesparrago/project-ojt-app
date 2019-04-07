@@ -1,6 +1,8 @@
 import axios from "axios";
 
 import { setFlashMessage } from "./appActionCreators";
+import { clearErrors } from "./errorsActionCreators";
+
 import { ERRORS_SET } from "./errorsActionCreators";
 
 export const PERSON_LOADING_SET = "PERSON_LOADING_SET";
@@ -8,26 +10,32 @@ export const PERSON_LOADING_UNSET = "PERSON_LOADING_UNSET";
 export const PERSON_DATA_CLEAR = "PERSON_DATA_CLEAR";
 
 export const PERSON_GET = "PERSON_GET";
-export const PERSON_CREATE = "PERSON_CREATE";
 export const PERSON_EDIT = "PERSON_EDIT";
-export const PERSON_DELETE = "PERSON_DELETE";
+export const PERSON_SCHEDULE_EDIT = "PERSON_SCHEDULE_EDIT";
+export const PERSON_PASSWORD_CHANGE = "PERSON_PASSWORD_CHANGE";
+export const PERSON_CLOCK_EDIT = "PERSON_CLOCK_EDIT";
 
-export const setPersonLoading = () => {
+const setPersonLoading = () => {
   return {
     type: PERSON_LOADING_SET
   };
 };
 
-export const unsetPersonLoading = () => {
+const unsetPersonLoading = () => {
   return {
     type: PERSON_LOADING_UNSET
   };
 };
 
-export const clearPersonData = () => {
+const clearPersonData = () => {
   return {
     type: PERSON_DATA_CLEAR
   };
+};
+
+const handleRequest = () => dispatch => {
+  dispatch(clearErrors());
+  dispatch(setPersonLoading());
 };
 
 const handleError = err => dispatch => {
@@ -41,7 +49,7 @@ const handleError = err => dispatch => {
 };
 
 export const getPerson = id => dispatch => {
-  dispatch(setPersonLoading());
+  dispatch(handleRequest());
   dispatch(clearPersonData());
 
   axios
@@ -59,7 +67,7 @@ export const getPerson = id => dispatch => {
 
 export const editPerson = data => dispatch => {
   return new Promise(resolve => {
-    dispatch(setPersonLoading());
+    dispatch(handleRequest());
 
     axios
       .put(`/api/users/${data.id}`, data)
@@ -79,34 +87,72 @@ export const editPerson = data => dispatch => {
   });
 };
 
-export const PERSON_CLOCK_EDIT_REQUEST = "PERSON_CLOCK_EDIT_REQUEST";
-export const PERSON_CLOCK_EDIT_SUCCESS = "PERSON_CLOCK_EDIT_SUCCESS";
-export const PERSON_CLOCK_EDIT_FAILURE = "PERSON_CLOCK_EDIT_FAILURE";
+export const editSchedule = (personId, data) => dispatch => {
+  return new Promise(resolve => {
+    dispatch(handleRequest());
+
+    axios
+      .put(`/api/users/${personId}/schedule`, data)
+      .then(res => {
+        dispatch({
+          type: PERSON_SCHEDULE_EDIT,
+          payload: res.data.user
+        });
+
+        dispatch(
+          setFlashMessage("User schedule edited successfully.", "success")
+        );
+
+        resolve();
+      })
+      .catch(err => {
+        dispatch(handleError(err));
+      });
+  });
+};
+
+export const changePassword = (personId, data) => dispatch => {
+  return new Promise(resolve => {
+    dispatch(handleRequest());
+
+    axios
+      .put(`/api/users/${personId}/change-password`, data)
+      .then(res => {
+        dispatch({
+          type: PERSON_PASSWORD_CHANGE
+        });
+
+        dispatch(
+          setFlashMessage("User password changed successfully.", "success")
+        );
+
+        resolve();
+      })
+      .catch(err => {
+        dispatch(handleError(err));
+      });
+  });
+};
 
 export const editClock = data => dispatch => {
-  dispatch({
-    type: PERSON_CLOCK_EDIT_REQUEST
+  return new Promise(resolve => {
+    dispatch(handleRequest());
+
+    axios
+      .post(`/api/clocks/${data.clockId}`, data.clock)
+      .then(res => {
+        dispatch({
+          type: PERSON_CLOCK_EDIT,
+          payload: res.data.user
+        });
+
+        dispatch(setFlashMessage("Updated clock successfully", "success"));
+        resolve();
+      })
+      .catch(err => {
+        dispatch(handleError(err));
+      });
   });
-
-  axios
-    .post(`/api/clocks/${data.clockId}`, data.clock)
-    .then(res => {
-      dispatch({
-        type: PERSON_CLOCK_EDIT_SUCCESS,
-        payload: res.data.user
-      });
-
-      dispatch(setFlashMessage("Updated clock successfully", "success"));
-      dispatch(getPerson(data.userId));
-    })
-    .catch(err => {
-      dispatch({
-        type: PERSON_CLOCK_EDIT_FAILURE,
-        payload: err.response.data
-      });
-
-      dispatch(setFlashMessage("An error occurred", "error"));
-    });
 };
 
 export const PERSON_CLOCK_CORRECTION_REQUEST_APPROVE_REQUEST =

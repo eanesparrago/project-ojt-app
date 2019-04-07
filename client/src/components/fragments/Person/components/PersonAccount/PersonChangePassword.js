@@ -2,67 +2,45 @@ import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 
-import { Item,  Container } from "src/components/blocks";
+import { Item, Container } from "src/components/blocks";
 import { Button, Typography } from "src/components/elements";
 import { TextInput, FormGroup } from "src/components/compounds";
 
-import { setFlashMessage } from "src/services/session/actions/appActionCreators";
+import { changePassword } from "src/services/session/actions/personActionCreators";
 
 class PersonChangePassword extends Component {
   state = {
-    data: {
-      password: "",
-      confirmPassword: ""
-    },
-    isLoading: false,
-    errors: {}
+    password: "",
+    confirmPassword: ""
   };
 
   handleInputChange = e => {
     this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value }
+      ...this.state,
+      [e.target.name]: e.target.value
     });
   };
 
   handleSubmit = e => {
     e.preventDefault();
+    const {
+      person: { data },
+      changePassword,
+      closeForms
+    } = this.props;
     const { ...state } = this.state;
-    const { data, setFlashMessage, closeForms } = this.props;
 
-    this.setState({ ...state, isLoading: true, errors: {} }, () => {
-      axios
-        .put(`/api/users/${data._id}/change-password`, state.data)
-        .then(res => {
-          this.setState(
-            {
-              ...state,
-              isLoading: false,
-              errors: {},
-              data: { password: "", confirmPassword: "" }
-            },
-            () => {
-              closeForms();
-              setFlashMessage("Password was changed successfully.", "success");
-            }
-          );
-        })
-        .catch(err => {
-          this.setState(
-            {
-              ...state,
-              errors: err.response.data,
-              isLoading: false
-            },
-            () => {
-              setFlashMessage("An error occurred.", "error");
-            }
-          );
-        });
+    changePassword(data._id, state).then(() => {
+      closeForms();
     });
   };
 
   render() {
-    const { data, isLoading, errors } = this.state;
+    const {
+      person: { isLoading },
+      errors
+    } = this.props;
+    const { ...state } = this.state;
 
     return (
       <Container as="form">
@@ -95,7 +73,7 @@ class PersonChangePassword extends Component {
                   name={item.name}
                   id={item.id}
                   type={item.type}
-                  value={data[item.name]}
+                  value={state[item.name]}
                   onChange={this.handleInputChange}
                   error={errors[item.name]}
                   disabled={isLoading}
@@ -129,8 +107,10 @@ class PersonChangePassword extends Component {
 }
 
 export default connect(
-  null,
+  state => ({
+    errors: state.errors
+  }),
   {
-    setFlashMessage: setFlashMessage
+    changePassword: changePassword
   }
 )(PersonChangePassword);

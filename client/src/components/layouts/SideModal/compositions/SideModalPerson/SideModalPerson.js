@@ -45,17 +45,15 @@ export class SideModalPerson extends Component {
   }
 
   render() {
-    const {
-      person: { data, isLoading }
-    } = this.props;
+    const { person } = this.props;
 
     return (
       <SideModal>
-        {data ? (
+        {person.data ? (
           <SideModal.Header
-            title={data.username}
+            title={person.data.username}
             buttons={
-              data.role === enums.roles.TRAINEE
+              person.data.role === enums.roles.TRAINEE
                 ? buttons.concat(traineeButtons)
                 : buttons
             }
@@ -64,8 +62,8 @@ export class SideModalPerson extends Component {
           <SideModal.Header />
         )}
 
-        <SideModal.Body isLoading={isLoading}>
-          {data && <Person />}
+        <SideModal.Body isLoading={person.isLoading}>
+          {person.data && <Person person={person} />}
         </SideModal.Body>
       </SideModal>
     );

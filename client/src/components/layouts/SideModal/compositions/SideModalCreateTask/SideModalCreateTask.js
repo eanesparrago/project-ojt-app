@@ -10,7 +10,7 @@ import { SideModal } from "src/components/layouts";
 import {
   createTask,
   clearErrors
-} from "src/services/session/actions/taskActionCreators";
+} from "src/services/session/actions/tasksActionCreators";
 
 export class SideModalCreateTask extends Component {
   constructor(props) {
@@ -23,9 +23,7 @@ export class SideModalCreateTask extends Component {
   }
 
   componentDidMount() {
-    const { clearErrors } = this.props;
-
-    clearErrors();
+    this.props.clearErrors();
   }
 
   handleInputChange = e => {
@@ -51,7 +49,7 @@ export class SideModalCreateTask extends Component {
 
   render() {
     const {
-      task: { errors, isLoading }
+      tasks: { errors, isLoading }
     } = this.props;
     const { ...state } = this.state;
 
@@ -74,7 +72,6 @@ export class SideModalCreateTask extends Component {
                   error={errors.content}
                   disabled={isLoading}
                   onChange={this.handleInputChange}
-                  
                 />
               </FormGroup.Input>
             </FormGroup>
@@ -126,7 +123,7 @@ export class SideModalCreateTask extends Component {
 export default withRouter(
   connect(
     state => ({
-      task: state.task
+      tasks: state.tasks
     }),
     { createTask: createTask, clearErrors: clearErrors }
   )(SideModalCreateTask)

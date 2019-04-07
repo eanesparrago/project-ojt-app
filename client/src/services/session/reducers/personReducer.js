@@ -4,6 +4,9 @@ import {
   PERSON_DATA_CLEAR,
   PERSON_GET,
   PERSON_EDIT,
+  PERSON_SCHEDULE_EDIT,
+  PERSON_PASSWORD_CHANGE,
+  PERSON_CLOCK_EDIT,
   PERSON_CLOCK_EDIT_REQUEST,
   PERSON_CLOCK_EDIT_SUCCESS,
   PERSON_CLOCK_EDIT_FAILURE,
@@ -54,23 +57,24 @@ export default (state = initialState, action) => {
         data: action.payload
       };
 
-    case PERSON_CLOCK_EDIT_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-        errors: initialState.errors
-      };
-    case PERSON_CLOCK_EDIT_SUCCESS:
+    case PERSON_SCHEDULE_EDIT:
       return {
         ...state,
         isLoading: false,
-        errors: initialState.errors
+        data: action.payload
       };
-    case PERSON_CLOCK_EDIT_FAILURE:
+
+    case PERSON_PASSWORD_CHANGE:
+      return {
+        ...state,
+        isLoading: false
+      };
+
+    case PERSON_CLOCK_EDIT:
       return {
         ...state,
         isLoading: false,
-        errors: action.payload
+        data: action.payload
       };
 
     case PERSON_CLOCK_CORRECTION_REQUEST_APPROVE_REQUEST:

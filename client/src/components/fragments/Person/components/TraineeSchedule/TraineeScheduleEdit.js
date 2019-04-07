@@ -8,6 +8,7 @@ import { Item, Container } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";
 import { FormGroup, SelectInput, TextInput } from "src/components/compounds";
 
+import { editSchedule } from "src/services/session/actions/personActionCreators";
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
 const StyledTraineeScheduleEdit = styled.div``;
@@ -35,70 +36,48 @@ export class TraineeScheduleEdit extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      schedule: props.data.roleData.schedule,
-      isLoading: false,
-      errors: {}
-    };
+    this.state = props.person.data.roleData.schedule;
   }
 
   handleInputChange = (e, day) => {
     this.setState({
       ...this.state,
-      schedule: {
-        ...this.state.schedule,
-        [day]: {
-          ...this.state.schedule[day],
-          [e.target.name]: e.target.value
-        }
+      [day]: {
+        ...this.state[day],
+        [e.target.name]: e.target.value
       }
     });
   };
 
   handleInputToggle = day => {
     this.setState({
-      schedule: {
-        ...this.state.schedule,
-        [day]: {
-          ...this.state.schedule[day],
-          isTrainingDay: !this.state.schedule[day].isTrainingDay
-        }
+      [day]: {
+        ...this.state[day],
+        isTrainingDay: !this.state[day].isTrainingDay
       }
     });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    const { data, afterEdit, setFlashMessage, toggleEdit } = this.props;
+    const {
+      person: { data },
+      editSchedule,
+      toggleEdit
+    } = this.props;
     const { ...state } = this.state;
 
-    this.setState({ ...state, isLoading: true, errors: {} }, () => {
-      axios
-        .put(`/api/users/${data._id}/schedule`, state.schedule)
-        .then(res => {
-          this.setState({ ...state, isLoading: false }, () => {
-            afterEdit();
-            toggleEdit();
-            setFlashMessage(`Schedule was updated successfully.`, "success");
-          });
-        })
-        .catch(err => {
-          this.setState(
-            {
-              ...state,
-              errors: err.response.data,
-              isLoading: false
-            },
-            () => {
-              setFlashMessage(`An error occurred.`, "error");
-            }
-          );
-        });
+    editSchedule(data._id, state).then(() => {
+      toggleEdit();
     });
   };
 
   render() {
-    const { schedule, isLoading, errors } = this.state;
+    const {
+      person: { isLoading },
+      errors
+    } = this.props;
+    const { ...state } = this.state;
 
     return (
       <StyledTraineeScheduleEdit>
@@ -115,7 +94,7 @@ export class TraineeScheduleEdit extends Component {
                 <FormGroup.Input>
                   <TextInput
                     type="checkbox"
-                    checked={schedule[day].isTrainingDay}
+                    checked={state[day].isTrainingDay}
                     disabled={isLoading}
                     onChange={() => this.handleInputToggle(day)}
                   />
@@ -123,7 +102,7 @@ export class TraineeScheduleEdit extends Component {
               </FormGroup>
             </Item>
 
-            {schedule[day].isTrainingDay ? (
+            {state[day].isTrainingDay ? (
               <Fragment>
                 <Item margin="stack-base">
                   <FormGroup>
@@ -132,7 +111,7 @@ export class TraineeScheduleEdit extends Component {
                     <FormGroup.Input>
                       <SelectInput
                         name="startTime"
-                        value={schedule[day].startTime}
+                        value={state[day].startTime}
                         onChange={e => this.handleInputChange(e, day)}
                         disabled={isLoading}
                         error={errors[`${day}.startTime`]}
@@ -246,62 +225,62 @@ export class TraineeScheduleEdit extends Component {
                     <FormGroup.Input>
                       <SelectInput
                         name="hours"
-                        value={schedule[day].hours}
+                        value={state[day].hours}
                         onChange={e => this.handleInputChange(e, day)}
                         disabled={isLoading}
                         options={[
                           {
                             label: `${returnEndTime(
-                              schedule[day].startTime,
+                              state[day].startTime,
                               1
                             )} (1 hour)`,
                             value: 1
                           },
                           {
                             label: `${returnEndTime(
-                              schedule[day].startTime,
+                              state[day].startTime,
                               2
                             )} (2 hours)`,
                             value: 2
                           },
                           {
                             label: `${returnEndTime(
-                              schedule[day].startTime,
+                              state[day].startTime,
                               3
                             )} (3 hours)`,
                             value: 3
                           },
                           {
                             label: `${returnEndTime(
-                              schedule[day].startTime,
+                              state[day].startTime,
                               4
                             )} (4 hours)`,
                             value: 4
                           },
                           {
                             label: `${returnEndTime(
-                              schedule[day].startTime,
+                              state[day].startTime,
                               5
                             )} (5 hours)`,
                             value: 5
                           },
                           {
                             label: `${returnEndTime(
-                              schedule[day].startTime,
+                              state[day].startTime,
                               6
                             )} (6 hours)`,
                             value: 6
                           },
                           {
                             label: `${returnEndTime(
-                              schedule[day].startTime,
+                              state[day].startTime,
                               7
                             )} (7 hours)`,
                             value: 7
                           },
                           {
                             label: `${returnEndTime(
-                              schedule[day].startTime,
+                              state[day].startTime,
                               8
                             )} (8 hours)`,
                             value: 8
@@ -337,8 +316,10 @@ export class TraineeScheduleEdit extends Component {
 }
 
 export default connect(
-  null,
+  state => ({
+    errors: state.errors
+  }),
   {
-    setFlashMessage: setFlashMessage
+    editSchedule: editSchedule
   }
 )(TraineeScheduleEdit);

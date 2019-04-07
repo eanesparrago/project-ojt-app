@@ -11,29 +11,30 @@ import enums from "src/services/enums";
 
 export class Person extends Component {
   render() {
-    const {
-      match,
-      person: { data }
-    } = this.props;
+    const { match, person } = this.props;
 
     return (
       <Switch>
-        <Route path={`${match.url}`} exact render={() => <PersonAccount />} />
+        <Route
+          path={`${match.url}`}
+          exact
+          render={() => <PersonAccount person={person} />}
+        />
 
         {/* >>> Should be in separate conditional to avoid warning.. ??? */}
-        {data.role === enums.roles.TRAINEE && (
+        {person.data.role === enums.roles.TRAINEE && (
           <Route
             path={`${match.url}/schedule`}
-            render={() => <TraineeSchedule />}
+            render={() => <TraineeSchedule person={person} />}
           />
         )}
-        {data.role === enums.roles.TRAINEE && (
+        {person.data.role === enums.roles.TRAINEE && (
           <Route
             path={`${match.url}/daily-time-record`}
-            render={() => <DailyTimeRecord />}
+            render={() => <DailyTimeRecord person={person} />}
           />
         )}
-        {data.role === enums.roles.TRAINEE && (
+        {person.data.role === enums.roles.TRAINEE && (
           <Route path={`${match.url}/tasks`} render={() => <Tasks />} />
         )}
 
@@ -43,8 +44,4 @@ export class Person extends Component {
   }
 }
 
-export default withRouter(
-  connect(state => ({
-    person: state.person
-  }))(Person)
-);
+export default withRouter(Person);
