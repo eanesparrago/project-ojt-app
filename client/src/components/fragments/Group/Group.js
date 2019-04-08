@@ -10,12 +10,14 @@ import GroupPeople from "./components/GroupPeople";
 import GroupAnnouncements from "./components/GroupAnnouncements";
 
 import { getGroup } from "src/services/session/actions/groupActionCreators";
+import { getOwnGroup } from "src/services/session/actions/groupActionCreators";
+import enums from "src/services/enums";
 
 const StyledGroup = styled.section`
   width: 100%;
   height: 100%;
   background-color: ${p => p.theme.color.white};
-  display: ${p => (p.isLoading ? "block" : "grid")};
+  display: grid;
   grid-template-areas:
     "header header header"
     "trainees people announcements";
@@ -23,13 +25,18 @@ const StyledGroup = styled.section`
   grid-template-columns: 3fr 2fr 2fr;
   grid-column-gap: var(--size-base);
   padding: var(--size-base);
+  position: relative;
 `;
 
 export class Group extends Component {
   componentDidMount() {
-    const { getGroup, match } = this.props;
+    const { getGroup, getOwnGroup, match, auth } = this.props;
 
-    getGroup(match.params.id);
+    if (auth.user.role === enums.roles.ADMINISTRATOR) {
+      getGroup(match.params.id);
+    } else {
+      getOwnGroup();
+    }
   }
 
   render() {
@@ -38,7 +45,7 @@ export class Group extends Component {
     } = this.props;
 
     return (
-      <StyledGroup isLoading={isLoading}>
+      <StyledGroup>
         {isLoading && <LoadingScene absolute />}
 
         {data && (
@@ -59,8 +66,9 @@ export class Group extends Component {
 export default withRouter(
   connect(
     state => ({
+      auth: state.auth,
       group: state.group
     }),
-    { getGroup: getGroup }
+    { getGroup, getOwnGroup }
   )(Group)
 );

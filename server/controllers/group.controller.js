@@ -91,15 +91,17 @@ function getGroup(req, res) {
  * @route   GET api/groups/own
  */
 function getOwnGroup(req, res) {
-  Group.findById(req.user.roleData.group._id)
-    .populate("users", "profilePictureUrl firstName lastName username")
+  GroupUtils.returnGroup(req.user.roleData.group._id)
     .then(group => {
       if (!group) {
-        return res.status(404).json({ group: "Group not found" });
+        return res.status(404).json({ message: "Group not found." });
       }
-      return res.json(group);
+      return res.json({ message: "Group found successfully.", group });
     })
-    .catch(err => res.status(500).json({ message: "Error occurred" }));
+    .catch(err => {
+      console.log(err);
+      return res.status(500).json({ message: "An error occurred." });
+    });
 }
 
 /**

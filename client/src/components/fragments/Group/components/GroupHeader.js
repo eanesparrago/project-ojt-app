@@ -1,10 +1,13 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { Button, Typography } from "src/components/elements";
 import { Item } from "src/components/blocks";
 import EditGroupForm from "./EditGroupForm";
+
+import enums from "src/services/enums";
 
 const StyledGroupHeader = styled.header`
   display: flex;
@@ -32,7 +35,7 @@ export class GroupHeader extends Component {
   };
 
   render() {
-    const { groupData } = this.props;
+    const { groupData, auth } = this.props;
     const { isEditFormOpen } = this.state;
 
     return (
@@ -72,7 +75,7 @@ export class GroupHeader extends Component {
               </Item>
             )}
 
-            {!isEditFormOpen && (
+            {!isEditFormOpen && auth.user.role === enums.roles.ADMINISTRATOR && (
               <Item NAME="group-edit-button" margin="wrap-base" top>
                 <Button
                   variant="secondary"
@@ -97,4 +100,6 @@ export class GroupHeader extends Component {
   }
 }
 
-export default GroupHeader;
+export default connect(state => ({
+  auth: state.auth
+}))(GroupHeader);

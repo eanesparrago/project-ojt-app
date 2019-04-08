@@ -51,7 +51,7 @@ const GroupAnnouncements = ({ groupData: { announcements }, match }) => {
       </Area>
 
       <Area NAME="announcements">
-        {announcements.map(announcement => (
+        {announcements.reverse().map(announcement => (
           <Item margin="stack-base" key={announcement._id}>
             <AnnouncementItem announcementData={announcement} />
           </Item>

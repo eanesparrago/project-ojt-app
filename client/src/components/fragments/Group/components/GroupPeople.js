@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { Button, Typography } from "src/components/elements";
 import { Item, Box } from "src/components/blocks";
@@ -14,7 +15,7 @@ const StyledGroupPeople = styled.section`
   border-right: 2px solid ${p => p.theme.color.primary.light};
 `;
 
-const GroupPeople = ({ groupData: { users }, match }) => {
+const GroupPeople = ({ groupData: { users }, match, auth }) => {
   const supervisors = users.filter(
     user => user.role === enums.roles.SUPERVISOR
   );
@@ -29,20 +30,22 @@ const GroupPeople = ({ groupData: { users }, match }) => {
           </Typography>
         </Item>
 
-        <Item>
-          <Button
-            variant="secondary"
-            as={Link}
-            to={{
-              pathname: `${match.url}/create-person`,
-              state: { role: enums.roles.SUPERVISOR, group: match.params.id }
-            }}
-            icon
-            rounded
-          >
-            <i className="fas fa-plus" />
-          </Button>
-        </Item>
+        {auth.user.role === enums.roles.ADMINISTRATOR && (
+          <Item>
+            <Button
+              variant="secondary"
+              as={Link}
+              to={{
+                pathname: `${match.url}/create-person`,
+                state: { role: enums.roles.SUPERVISOR, group: match.params.id }
+              }}
+              icon
+              rounded
+            >
+              <i className="fas fa-plus" />
+            </Button>
+          </Item>
+        )}
       </Box>
 
       <Box column margin="stack-m">
@@ -60,20 +63,22 @@ const GroupPeople = ({ groupData: { users }, match }) => {
           </Typography>
         </Item>
 
-        <Item>
-          <Button
-            variant="secondary"
-            as={Link}
-            to={{
-              pathname: `${match.url}/create-person`,
-              state: { role: enums.roles.EMPLOYEE, group: match.params.id }
-            }}
-            icon
-            rounded
-          >
-            <i className="fas fa-plus" />
-          </Button>
-        </Item>
+        {auth.user.role === enums.roles.ADMINISTRATOR && (
+          <Item>
+            <Button
+              variant="secondary"
+              as={Link}
+              to={{
+                pathname: `${match.url}/create-person`,
+                state: { role: enums.roles.EMPLOYEE, group: match.params.id }
+              }}
+              icon
+              rounded
+            >
+              <i className="fas fa-plus" />
+            </Button>
+          </Item>
+        )}
       </Box>
 
       <Box column margin="stack-m">
@@ -87,4 +92,8 @@ const GroupPeople = ({ groupData: { users }, match }) => {
   );
 };
 
-export default withRouter(GroupPeople);
+export default withRouter(
+  connect(state => ({
+    auth: state.auth
+  }))(GroupPeople)
+);

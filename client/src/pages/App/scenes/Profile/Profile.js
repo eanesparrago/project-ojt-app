@@ -66,21 +66,19 @@ export class Profile extends Component {
   };
 
   render() {
-    const {
-      user: { data, isLoading }
-    } = this.props;
+    const { user } = this.props;
 
     return (
       <Main>
         <Main.Header title="My Profile" />
 
-        <Main.Body isLoading={isLoading}>
-          {data && (
+        <Main.Body isLoading={user.isLoading}>
+          {user.data && (
             <StyledProfileBody>
               <Area NAME="menu" padding="squish-base">
                 <NavMenu
                   buttons={
-                    data.role === enums.roles.TRAINEE
+                    user.data.role === enums.roles.TRAINEE
                       ? buttons.concat(traineeButtons)
                       : buttons
                   }
@@ -88,7 +86,9 @@ export class Profile extends Component {
               </Area>
 
               <Area NAME="person" padding="inset-base">
-                <Person data={data} afterEdit={this.afterEdit} />
+                {user.data && (
+                  <Person person={user} afterEdit={this.afterEdit} />
+                )}
               </Area>
             </StyledProfileBody>
           )}

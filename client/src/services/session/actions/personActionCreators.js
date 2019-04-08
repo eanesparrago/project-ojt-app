@@ -5,6 +5,7 @@ import { clearErrors } from "./errorsActionCreators";
 import { getGroups } from "./groupsActionCreators";
 import { getGroup } from "./groupActionCreators";
 import { getPeople } from "./peopleActionCreators";
+import { getCurrentUser } from "./userActionCreators";
 
 import enums from "src/services/enums";
 
@@ -90,6 +91,8 @@ export const editPerson = data => dispatch => {
           dispatch(getGroup(res.data.user.roleData.group._id));
         }
 
+        dispatch(getCurrentUser());
+
         resolve();
       })
       .catch(err => {
@@ -98,7 +101,7 @@ export const editPerson = data => dispatch => {
   });
 };
 
-export const editSchedule = (personId, data) => dispatch => {
+export const editSchedule = (personId, data) => (dispatch, getState) => {
   return new Promise(resolve => {
     dispatch(handleRequest());
 
@@ -118,6 +121,8 @@ export const editSchedule = (personId, data) => dispatch => {
           dispatch(getGroups());
           dispatch(getGroup(res.data.user.roleData.group._id));
         }
+
+        dispatch(getCurrentUser());
 
         resolve();
       })
@@ -192,6 +197,7 @@ export const approveClockCorrectionRequest = data => dispatch => {
       });
 
       dispatch(getPerson(data.userId));
+      dispatch(getPeople());
       dispatch(
         setFlashMessage("Clock request approved successfully", "success")
       );
@@ -225,6 +231,8 @@ export const rejectClockCorrectionRequest = data => dispatch => {
       });
 
       dispatch(getPerson(data.userId));
+      dispatch(getPeople());
+
       dispatch(
         setFlashMessage("Clock request rejected successfully", "success")
       );

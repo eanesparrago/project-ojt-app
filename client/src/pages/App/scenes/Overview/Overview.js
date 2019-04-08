@@ -2,25 +2,22 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Main } from "src/pages/App/components";
+import { Group } from "src/components/fragments";
 
 import { getOwnGroup } from "src/services/session/actions/groupActionCreators";
 
 export class Overview extends Component {
-  componentDidMount() {
-    this.props.getOwnGroup();
-  }
-
   render() {
     const {
-      group: { data, isLoading, errors }
+      group: { isLoading }
     } = this.props;
 
     return (
       <Main>
-        <Main.Header title="Technical Support Group" />
+        <Main.Header title="Overview" />
 
         <Main.Body isLoading={isLoading}>
-          
+          <Group />
         </Main.Body>
       </Main>
     );

@@ -16,7 +16,7 @@ export const getOwnGroup = () => dispatch => {
     .then(res => {
       dispatch({
         type: GROUP_OWN_GET_SUCCESS,
-        payload: res.data
+        payload: res.data.group
       });
     })
     .catch(err => {

@@ -7,6 +7,7 @@ import { Item, Box, Container } from "src/components/blocks";
 import { Photo, Typography, Button, Divider } from "src/components/elements";
 import { LoadingScene } from "src/components/compounds";
 
+import profilePhotoPlaceholder from "src/assets/images/profile-photo-placeholder.png";
 import enums from "src/services/enums";
 
 const StyledSidebar = styled.div`
@@ -46,14 +47,14 @@ const StyledSidebar = styled.div`
 
 const adminMenu = [
   {
-    title: "Requests",
-    icon: "fas fa-bell",
-    to: "/requests"
-  },
-  {
     title: "Groups",
     icon: "fas fa-briefcase",
     to: "/groups"
+  },
+  {
+    title: "Requests",
+    icon: "fas fa-bell",
+    to: "/requests"
   },
   {
     title: "People",
@@ -64,11 +65,6 @@ const adminMenu = [
     title: "Announcements",
     icon: "fas fa-bullhorn",
     to: "/announcements"
-  },
-  {
-    title: "Activities",
-    icon: "fas fa-list-ul",
-    to: "/activities"
   }
 ];
 
@@ -82,16 +78,11 @@ const supervisorMenu = [
     title: "People",
     icon: "fas fa-users",
     to: "/people"
-  }, 
+  },
   {
     title: "Announcements",
     icon: "fas fa-bullhorn",
     to: "/announcements"
-  },
-  {
-    title: "Activities",
-    icon: "fas fa-list-ul",
-    to: "/activities"
   }
 ];
 
@@ -105,16 +96,11 @@ const employeeMenu = [
     title: "People",
     icon: "fas fa-users",
     to: "/people"
-  }, 
+  },
   {
     title: "Announcements",
     icon: "fas fa-bullhorn",
     to: "/announcements"
-  },
-  {
-    title: "Activities",
-    icon: "fas fa-list-ul",
-    to: "/activities"
   }
 ];
 
@@ -123,7 +109,7 @@ const traineeMenu = [
     title: "My Group",
     icon: "fas fa-briefcase",
     to: "/group"
-  }, 
+  },
   {
     title: "Announcements",
     icon: "fas fa-bullhorn",
@@ -161,7 +147,10 @@ export class Sidebar extends Component {
             <Container NAME="sidebar-profile" margin="stack-base">
               <Item NAME="sidebar-profile-picture" margin="stack-m">
                 <Photo rounded>
-                  <img src={data.profilePictureUrl} alt="" />
+                  <img
+                    src={data.profilePictureUrl || profilePhotoPlaceholder}
+                    alt=""
+                  />
                 </Photo>
               </Item>
 

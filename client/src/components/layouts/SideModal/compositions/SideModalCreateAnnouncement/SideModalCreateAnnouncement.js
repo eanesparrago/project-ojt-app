@@ -12,7 +12,10 @@ import {
 } from "src/components/compounds";
 import { SideModal } from "src/components/layouts";
 
-import { getGroup } from "src/services/session/actions/groupActionCreators";
+import {
+  getGroup,
+  getOwnGroup
+} from "src/services/session/actions/groupActionCreators";
 import { getAnnouncements } from "src/services/session/actions/announcementsActionCreators";
 import { setFlashMessage } from "src/services/session/actions/appActionCreators";
 
@@ -80,7 +83,14 @@ export class SideModalCreateAnnouncement extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { getAnnouncements, setFlashMessage, getGroup, history } = this.props;
+    const {
+      getAnnouncements,
+      setFlashMessage,
+      getGroup,
+      getOwnGroup,
+      history,
+      auth
+    } = this.props;
 
     this.setState(
       {
@@ -102,10 +112,15 @@ export class SideModalCreateAnnouncement extends Component {
                   "Announcement was created successfully.",
                   "success"
                 );
-                getAnnouncements();
-                
-                if (res.data.announcement.isGlobal === false) {
-                  getGroup(res.data.announcement.group);
+
+                if (auth.user.roles === enums.roles.ADMINISTRATOR) {
+                  getAnnouncements();
+
+                  if (res.data.announcement.isGlobal === false) {
+                    getGroup(res.data.announcement.group);
+                  }
+                } else {
+                  getOwnGroup();
                 }
 
                 history.goBack();
@@ -219,7 +234,8 @@ export default withRouter(
     {
       setFlashMessage,
       getAnnouncements,
-      getGroup
+      getGroup,
+      getOwnGroup
     }
   )(SideModalCreateAnnouncement)
 );

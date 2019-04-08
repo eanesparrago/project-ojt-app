@@ -98,7 +98,9 @@ export class SideModalAnnouncement extends Component {
         <SideModal.Header title="Announcement" />
 
         <SideModal.Body isLoading={isLoading}>
-          {data ? this.renderContent() : this.renderError()}
+          {data && this.renderContent()}
+
+          {!data && !isLoading && this.renderError()}
         </SideModal.Body>
       </SideModal>
     );
