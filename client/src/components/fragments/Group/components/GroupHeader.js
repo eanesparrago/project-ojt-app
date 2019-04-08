@@ -88,11 +88,19 @@ export class GroupHeader extends Component {
               </Item>
             )}
 
-            <Item NAME="close" margin="stack-base">
-              <Button variant="primary" icon rounded as={Link} to="/app/groups">
-                <i className="fas fa-times" />
-              </Button>
-            </Item>
+            {auth.user.role === enums.roles.ADMINISTRATOR && (
+              <Item NAME="close" margin="stack-base">
+                <Button
+                  variant="primary"
+                  icon
+                  rounded
+                  as={Link}
+                  to="/app/groups"
+                >
+                  <i className="fas fa-times" />
+                </Button>
+              </Item>
+            )}
           </Fragment>
         )}
       </StyledGroupHeader>
