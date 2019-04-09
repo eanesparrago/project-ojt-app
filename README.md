@@ -15,7 +15,10 @@ https://ljesp-project-ojt-app.herokuapp.com/
 
 ## Random thoughts about this project
 #### Building UI from scratch
-The biggest challenge of this app is building the user interface from scratch. I can't say that all the solutions I've come up with are the best ones. Some are alright and some are built hastily. There's some parts that could be refactored. I ended up not adding responsive support below tablet sizes. 
+A big challenge of this project is building the user interface from scratch. I can't say that all the solutions I've come up with are the best ones. Some are alright and some are built hastily. There's some parts that merits refactoring. I ended up not adding responsive support below tablet sizes. 
+
+#### Multiple user roles
+This app has four types of users (Administrator, Supervisor, Trainee, and Employee) with different functions and permissions. I'm not convinced that the techniques I used in this project are the most efficient. You'll find lots of conditional rendering in the client's code.
 
 #### Backend is hard
 Since this is only my second full-stack app I still struggle writing the backend. It goes without saying that this project isn't suitable for production use. I didn't want to work on this project any further so that I can relearn the techs I used better.
