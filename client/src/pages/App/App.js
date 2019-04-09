@@ -115,7 +115,7 @@ export class App extends Component {
             />
 
             <PrivateRoute
-              path={`${match.url}/overview`}
+              path={`${match.url}/group`}
               component={Overview}
               permittedRoles={[enums.roles.SUPERVISOR, enums.roles.EMPLOYEE, enums.roles.TRAINEE]}
             />
@@ -146,7 +146,7 @@ export class App extends Component {
             {auth.user.role === enums.roles.ADMINISTRATOR ? (
               <Redirect to={`${match.url}/groups`} />
             ) : (
-              <Redirect to={`${match.url}/overview`} />
+              <Redirect to={`${match.url}/group`} />
             )}
           </Switch>
         </Area>

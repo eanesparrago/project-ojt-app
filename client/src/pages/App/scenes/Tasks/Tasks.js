@@ -38,6 +38,7 @@ export class Tasks extends Component {
         filterable: true
       },
       {
+        id: "dateCreated",
         Header: "Date Created",
         accessor: "dateCreated",
         Cell: props => format(props.value, "MM-DD-YYYY")
@@ -63,6 +64,12 @@ export class Tasks extends Component {
                 defaultPageSize={15}
                 columns={columns}
                 className="-highlight"
+                sorted={[
+                  {
+                    id: "dateCreated",
+                    desc: true
+                  }
+                ]}
                 getTrProps={(state, rowInfo, column, instance) => {
                   return {
                     onClick: () => {

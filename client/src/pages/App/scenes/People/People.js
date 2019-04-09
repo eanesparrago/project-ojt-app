@@ -57,6 +57,7 @@ export class People extends Component {
         accessor: "role"
       },
       {
+        id: "dateCreated",
         Header: "Date Created",
         accessor: "dateCreated",
         Cell: props => format(props.value, "MM-DD-YYYY")
@@ -130,6 +131,12 @@ export class People extends Component {
                 defaultPageSize={14}
                 columns={columns}
                 className="-highlight"
+                sorted={[
+                  {
+                    id: "dateCreated",
+                    desc: true
+                  }
+                ]}
                 getTrProps={(state, rowInfo, column, instance) => {
                   return {
                     onClick: () => {

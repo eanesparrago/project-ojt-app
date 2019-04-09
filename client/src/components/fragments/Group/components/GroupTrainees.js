@@ -27,7 +27,7 @@ const StyledGroupTrainees = styled.section`
     display: grid;
     grid-template-columns: 1fr 1fr;
     overflow-y: auto;
-    padding-top: var(--size-xs);
+    padding-top: var(--size-base);
   }
 `;
 

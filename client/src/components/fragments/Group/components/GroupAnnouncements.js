@@ -1,10 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { Button, Typography } from "src/components/elements";
 import { Item, Area } from "src/components/blocks";
 import AnnouncementItem from "./AnnouncementItem";
+
+import enums from "src/services/enums";
 
 const StyledGroupAnnouncements = styled.section`
   display: grid;
@@ -26,7 +29,9 @@ const StyledGroupAnnouncements = styled.section`
   }
 `;
 
-const GroupAnnouncements = ({ groupData: { announcements }, match }) => {
+const GroupAnnouncements = ({ groupData: { announcements }, match, auth }) => {
+  const newAnnouncements = announcements.slice(0).reverse();
+
   return (
     <StyledGroupAnnouncements>
       <Area NAME="header" margin="stack-m">
@@ -34,24 +39,27 @@ const GroupAnnouncements = ({ groupData: { announcements }, match }) => {
           <Typography variant="display-3">Announcements</Typography>
         </Item>
 
-        <Item>
-          <Button
-            variant="secondary"
-            as={Link}
-            to={{
-              pathname: `${match.url}/create-announcement`,
-              state: { group: match.params.id }
-            }}
-            icon
-            rounded
-          >
-            <i className="fas fa-plus" />
-          </Button>
-        </Item>
+        {(auth.user.role === enums.roles.ADMINISTRATOR ||
+          auth.user.role === enums.roles.SUPERVISOR) && (
+          <Item>
+            <Button
+              variant="secondary"
+              as={Link}
+              to={{
+                pathname: `${match.url}/create-announcement`,
+                state: { group: match.params.id }
+              }}
+              icon
+              rounded
+            >
+              <i className="fas fa-plus" />
+            </Button>
+          </Item>
+        )}
       </Area>
 
       <Area NAME="announcements">
-        {announcements.reverse().map(announcement => (
+        {newAnnouncements.map(announcement => (
           <Item margin="stack-base" key={announcement._id}>
             <AnnouncementItem announcementData={announcement} />
           </Item>
@@ -61,4 +69,8 @@ const GroupAnnouncements = ({ groupData: { announcements }, match }) => {
   );
 };
 
-export default withRouter(GroupAnnouncements);
+export default withRouter(
+  connect(state => ({
+    auth: state.auth
+  }))(GroupAnnouncements)
+);

@@ -14,7 +14,7 @@ export class Overview extends Component {
 
     return (
       <Main>
-        <Main.Header title="Overview" />
+        <Main.Header title="My Group" />
 
         <Main.Body isLoading={isLoading}>
           <Group />

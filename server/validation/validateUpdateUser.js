@@ -127,8 +127,8 @@ const validateUpdateUserTrainee = [
     .customSanitizer(value => upperFirst(value)),
   body("school")
     .optional({ checkFalsy: true })
-    .isLength({ max: 30 })
-    .withMessage("School must not be over 30 characters"),
+    .isLength({ max: 100 })
+    .withMessage("School must not be over 100 characters"),
 
   body("adviserName")
     .trim()

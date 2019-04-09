@@ -70,9 +70,9 @@ const adminMenu = [
 
 const supervisorMenu = [
   {
-    title: "Overview",
+    title: "My Group",
     icon: "fas fa-eye",
-    to: "/overview"
+    to: "/group"
   },
   {
     title: "People",
@@ -88,9 +88,9 @@ const supervisorMenu = [
 
 const employeeMenu = [
   {
-    title: "Overview",
+    title: "My Group",
     icon: "fas fa-eye",
-    to: "/overview"
+    to: "/group"
   },
   {
     title: "People",

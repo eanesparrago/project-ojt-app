@@ -23,7 +23,7 @@ const GroupPeople = ({ groupData: { users }, match, auth }) => {
 
   return (
     <StyledGroupPeople>
-      <Box margin="stack-m">
+      <Box margin="stack-l">
         <Item center margin="inline-base">
           <Typography variant="display-3">
             Supervisors ({supervisors.length})
@@ -48,7 +48,7 @@ const GroupPeople = ({ groupData: { users }, match, auth }) => {
         )}
       </Box>
 
-      <Box column margin="stack-m">
+      <Box column margin="stack-l">
         {supervisors.map(supervisor => (
           <Item margin="stack-base" key={supervisor._id}>
             <UserItem user={supervisor} />

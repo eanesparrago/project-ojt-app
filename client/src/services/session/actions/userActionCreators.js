@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { setFlashMessage } from "./appActionCreators";
+import { getOwnGroup } from "./groupActionCreators";
 
 export const USER_GET_REQUEST = "USER_GET_REQUEST";
 export const USER_GET_SUCCESS = "USER_GET_SUCCESS";
@@ -44,6 +45,7 @@ export const clockTrainee = data => dispatch => {
       });
 
       dispatch(getCurrentUser());
+      dispatch(getOwnGroup());
       dispatch(setFlashMessage("Clocked successfully.", "success"));
     })
     .catch(err => {

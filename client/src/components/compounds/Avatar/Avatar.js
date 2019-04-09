@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { Item } from "src/components/blocks";
 import { Button, Typography } from "src/components/elements";
@@ -53,7 +54,7 @@ export class Avatar extends Component {
   };
 
   render() {
-    const { match, userData } = this.props;
+    const { match, userData, auth } = this.props;
     const { ...state } = this.state;
 
     return (
@@ -80,7 +81,7 @@ export class Avatar extends Component {
         <Button
           variant="photo"
           rounded
-          as={Link}
+          as={auth.user.role === enums.roles.TRAINEE ? "button" : Link}
           to={`${match.url}/person/${userData._id}`}
           onMouseOver={this.handleHoverToggle}
           onMouseOut={this.handleHoverToggle}
@@ -100,42 +101,8 @@ export class Avatar extends Component {
   }
 }
 
-export default withRouter(Avatar);
-
-// const Avatar = ({ match, userData }) => {
-//   return (
-//     <StyledAvatar
-//       attendanceStatus={
-//         userData.role === enums.roles.TRAINEE &&
-//         returnAttendanceStatus(
-//           userData.roleData.schedule,
-//           userData.roleData.isClockedIn,
-//           userData.roleData.clocks
-//         )
-//       }
-//     >
-//       <Item NAME="avatar-name" padding="squish-base" margin="stack-s">
-//         <Typography variant="base">{userData.username}</Typography>
-//       </Item>
-
-//       <Button
-//         variant="photo"
-//         rounded
-//         as={Link}
-//         to={`${match.url}/person/${userData._id}`}
-//       >
-//         {userData.profilePictureUrl ? (
-//           <img src={userData.profilePictureUrl} alt="" />
-//         ) : (
-//           <img src={profilePhotoPlaceholder} alt="" />
-//         )}
-//       </Button>
-
-//       {userData.role === enums.roles.TRAINEE && (
-//         <div className="attendance-status" />
-//       )}
-//     </StyledAvatar>
-//   );
-// };
-
-// export default withRouter(Avatar);
+export default withRouter(
+  connect(state => ({
+    auth: state.auth
+  }))(Avatar)
+);

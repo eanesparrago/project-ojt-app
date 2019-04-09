@@ -10,8 +10,7 @@ import { DataGroup } from "src/components/compounds";
 import enums from "src/services/enums";
 import returnAttendanceStatus from "src/services/utils/returnAttendanceStatus";
 import returnScheduleToday from "src/services/utils/returnScheduleToday";
-import returnTimeRendered from "src/services/utils/returnTimeRendered";
-
+ 
 const PersonInformation = ({ person: { data } }) => {
   let attendanceStatus;
   if (data.role === enums.roles.TRAINEE) {
@@ -78,7 +77,7 @@ const PersonInformation = ({ person: { data } }) => {
           <DataGroup.Label title="Role" />
 
           <DataGroup.Content>
-            <Typography variant="display-4">{data.role}</Typography>
+            <Typography variant="display-4">{enums.roles.properties[data.role].label}</Typography>
           </DataGroup.Content>
         </DataGroup>
       </Item>
