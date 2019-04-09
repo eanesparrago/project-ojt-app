@@ -4,10 +4,11 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 
 import { Item, Area } from "src/components/blocks";
+import { Button } from "src/components/elements";
 import { FlashMessage } from "src/components/compounds";
 import PrivateRoute from "src/components/utils/PrivateRoute";
 
-import { Header, Sidebar } from "./components";
+import { Header, Sidebar, SidebarMobile } from "./components";
 
 import {
   Groups,
@@ -31,6 +32,15 @@ const StyledApp = styled.div`
   grid-template-rows: auto 1fr;
   grid-template-columns: auto 1fr;
 
+  @media (max-width: ${p => p.theme.breakpoint.desktopM}) {
+    grid-template-areas:
+      "header"
+      "main";
+
+    grid-template-rows: auto 1fr;
+    grid-template-columns: auto;
+  }
+
   .area-app-header {
     grid-area: header;
   }
@@ -38,6 +48,19 @@ const StyledApp = styled.div`
   .area-app-sidebar {
     grid-area: sidebar;
     overflow-y: auto;
+
+    @media (max-width: ${p => p.theme.breakpoint.desktopM}) {
+      display: none;
+    }
+  }
+
+  .area-app-sidebar-mobile {
+    display: none;
+
+    @media (max-width: ${p => p.theme.breakpoint.desktopM}) {
+      display: block;
+      grid-area: main;
+    }
   }
 
   .area-app-main {
@@ -52,9 +75,29 @@ const StyledApp = styled.div`
     width: ${p => p.theme.incrementFixed(24)};
     z-index: 200;
   }
+
+  .item-app-menu-button {
+    display: none;
+    position: fixed;
+    bottom: ${p => p.theme.size.xl};
+    right: ${p => p.theme.size.base};
+    z-index: 1000;
+
+    @media (max-width: ${p => p.theme.breakpoint.desktopM}) {
+      display: block;
+    }
+  }
 `;
 
 export class App extends Component {
+  state = {
+    isMobileMenuOpen: false
+  };
+
+  handleMobileMenuToggle = e => {
+    this.setState({ isMobileMenuOpen: !this.state.isMobileMenuOpen });
+  };
+
   componentDidMount() {
     const {
       auth: { user },
@@ -71,6 +114,7 @@ export class App extends Component {
 
   render() {
     const { match, auth } = this.props;
+    const { ...state } = this.state;
 
     return (
       <StyledApp>
@@ -82,6 +126,13 @@ export class App extends Component {
         {/* >>> Sidebar */}
         <Area NAME="app-sidebar">
           <Sidebar />
+        </Area>
+
+        <Area NAME="app-sidebar-mobile">
+          <SidebarMobile
+            isMobileMenuOpen={state.isMobileMenuOpen}
+            handleMobileMenuToggle={this.handleMobileMenuToggle}
+          />
         </Area>
 
         {/* >>> Main */}
@@ -117,7 +168,11 @@ export class App extends Component {
             <PrivateRoute
               path={`${match.url}/group`}
               component={Overview}
-              permittedRoles={[enums.roles.SUPERVISOR, enums.roles.EMPLOYEE, enums.roles.TRAINEE]}
+              permittedRoles={[
+                enums.roles.SUPERVISOR,
+                enums.roles.EMPLOYEE,
+                enums.roles.TRAINEE
+              ]}
             />
 
             <PrivateRoute
@@ -153,6 +208,12 @@ export class App extends Component {
 
         <Item NAME="app-flashMessage">
           <FlashMessage />
+        </Item>
+
+        <Item NAME="app-menu-button">
+          <Button variant="primary" icon onClick={this.handleMobileMenuToggle}>
+            <i className="fas fa-bars" />
+          </Button>
         </Item>
       </StyledApp>
     );

@@ -8,7 +8,7 @@ import { Item, Box } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";
 
 const StyledMainHeader = styled.header`
-  background-color: ${p => p.theme.color.white};
+  background-color: ${p => p.theme.color.light};
   border-bottom: 2px solid ${p => p.theme.color.primary.accent};
   padding: var(--size-base);
   padding-bottom: 0;

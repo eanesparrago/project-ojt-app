@@ -26,6 +26,18 @@ const StyledGroup = styled.section`
   grid-column-gap: var(--size-base);
   padding: var(--size-base);
   position: relative;
+
+  @media (max-width: ${p => p.theme.breakpoint.desktopM}) {
+    min-height: 100%;
+    height: unset;
+    grid-template-areas:
+      "header header"
+      "trainees people"
+      "announcements announcements";
+
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto 1fr 1fr;
+  }
 `;
 
 export class Group extends Component {

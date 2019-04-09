@@ -12,7 +12,7 @@ import enums from "src/services/enums";
 
 const StyledSidebar = styled.div`
   height: 100%;
-  display: flex;
+  display: ${p => (p.isMobileMenuOpen ? "flex" : "none")};
   flex-flow: column;
   background-color: ${p => p.theme.color.black};
   overflow-y: auto;
@@ -20,7 +20,7 @@ const StyledSidebar = styled.div`
   padding: var(--size-base);
   flex-shrink: 0;
   position: relative;
-  z-index: 100;
+  z-index: 500;
 /* 
   @media (max-width: ${p => p.theme.breakpoint.desktopM}) {
     flex-flow: row;
@@ -129,7 +129,10 @@ export class Sidebar extends Component {
   render() {
     const {
       user: { data },
-      match
+      match,
+      isMobileMenuOpen,
+      handleMobileMenuToggle,
+      history
     } = this.props;
 
     const menu =
@@ -140,7 +143,7 @@ export class Sidebar extends Component {
         (data.role === enums.roles.TRAINEE && traineeMenu));
 
     return (
-      <StyledSidebar>
+      <StyledSidebar isMobileMenuOpen={isMobileMenuOpen}>
         <Item as={Link} to="/" margin="stack-l" center>
           <Typography variant="display-4">Parousía</Typography>
         </Item>
@@ -180,6 +183,10 @@ export class Sidebar extends Component {
                     as={NavLink}
                     to={`${match.url}${item.to}`}
                     activeClassName="active"
+                    onClick={() => {
+                      handleMobileMenuToggle();
+                      history.push(`${match.url}/${item.to}`);
+                    }}
                   >
                     <Item center style={{ width: "2rem" }} margin="inline-s">
                       <i className={item.icon} />
@@ -197,6 +204,10 @@ export class Sidebar extends Component {
                   as={NavLink}
                   to={`${match.url}/profile`}
                   activeClassName="active"
+                  onClick={() => {
+                    handleMobileMenuToggle();
+                    history.push(`${match.url}/profile`);
+                  }}
                 >
                   <Item center style={{ width: "2rem" }} margin="inline-s">
                     <i className="fas fa-user-circle" />

@@ -15,6 +15,11 @@ const StyledSideModal = styled.div`
   grid-template-areas: "content back";
   grid-template-columns: 3fr 1fr;
 
+  @media (max-width: ${p => p.theme.breakpoint.desktopM}) {
+    grid-template-areas: "content";
+    grid-template-columns: auto;
+  }
+
   > * {
     z-index: 100;
   }
@@ -29,6 +34,10 @@ const StyledSideModal = styled.div`
     );
     opacity: 0.8;
     z-index: 99;
+
+    @media (max-width: ${p => p.theme.breakpoint.desktopM}) {
+      display: none;
+    }
   }
 `;
 
