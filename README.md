@@ -2,7 +2,7 @@
 OJT attendance web application — 𝗥𝗲𝗮𝗰𝘁, 𝗡𝗼𝗱𝗲.𝗷𝘀, 𝗘𝘅𝗽𝗿𝗲𝘀𝘀.𝗷𝘀, 𝗠𝗼𝗻𝗴𝗼𝗗𝗕,
 
 ## What is this?
-This is an app I built with the MERN stack for educational purposes. Much of the basic setup and techniques used in this app are based on Brad Traversy's devconnector project which I learned from one of his courses. This project isn't perfect — lots of mistakes here and there but it was a good learning experience.
+This is an app I built with the MERN stack for educational purposes. Much of the basic setup and techniques used in this app are based from Brad Traversy's devconnector project which I learned from one of his courses. This project isn't perfect — lots of mistakes here and there but it was a good learning experience.
 
 ## Demo Link
 https://ljesp-project-ojt-app.herokuapp.com/
