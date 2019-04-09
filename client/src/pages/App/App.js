@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, withRouter } from "react-router-dom";
+import { Switch, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
@@ -70,7 +70,7 @@ export class App extends Component {
   }
 
   render() {
-    const { match } = this.props;
+    const { match, auth } = this.props;
 
     return (
       <StyledApp>
@@ -117,7 +117,7 @@ export class App extends Component {
             <PrivateRoute
               path={`${match.url}/overview`}
               component={Overview}
-              permittedRoles={[enums.roles.SUPERVISOR, enums.roles.EMPLOYEE]}
+              permittedRoles={[enums.roles.SUPERVISOR, enums.roles.EMPLOYEE, enums.roles.TRAINEE]}
             />
 
             <PrivateRoute
@@ -142,6 +142,12 @@ export class App extends Component {
               component={Requests}
               permittedRoles={[enums.roles.ADMINISTRATOR]}
             />
+
+            {auth.user.role === enums.roles.ADMINISTRATOR ? (
+              <Redirect to={`${match.url}/groups`} />
+            ) : (
+              <Redirect to={`${match.url}/overview`} />
+            )}
           </Switch>
         </Area>
 

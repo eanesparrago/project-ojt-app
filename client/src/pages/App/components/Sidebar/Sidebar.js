@@ -159,7 +159,9 @@ export class Sidebar extends Component {
               </Item>
 
               <Item margin="stack-base">
-                <Typography>{data.role}</Typography>
+                <Typography variant="caption">
+                  {enums.roles.properties[data.role].label}
+                </Typography>
               </Item>
 
               <Divider />

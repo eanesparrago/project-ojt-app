@@ -12,12 +12,12 @@ import { getCurrentUser } from "src/services/session/actions/userActionCreators"
 import enums from "src/services/enums";
 
 const buttons = [
-  { title: "Account", icon: "fas fa-user-circle", to: "" },
-  {
-    title: "Activity",
-    icon: "fas fa-list-ul",
-    to: "/activity"
-  }
+  { title: "Account", icon: "fas fa-user-circle", to: "" }
+  // {
+  //   title: "Activity",
+  //   icon: "fas fa-list-ul",
+  //   to: "/activity"
+  // }
 ];
 
 const traineeButtons = [

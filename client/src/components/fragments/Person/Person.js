@@ -6,6 +6,7 @@ import PersonAccount from "./components/PersonAccount/PersonAccount";
 import TraineeSchedule from "./components/TraineeSchedule/TraineeSchedule";
 import DailyTimeRecord from "./components/DailyTimeRecord/DailyTimeRecord";
 import Tasks from "./components/Tasks/Tasks";
+import Activity from "./components/Activity/Activity";
 
 import enums from "src/services/enums";
 

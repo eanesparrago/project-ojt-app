@@ -3,7 +3,7 @@ import axios from "axios";
 import { setFlashMessage } from "./appActionCreators";
 import { clearErrors } from "./errorsActionCreators";
 import { getGroups } from "./groupsActionCreators";
-import { getGroup } from "./groupActionCreators";
+import { getGroup, getOwnGroup } from "./groupActionCreators";
 import { getPeople } from "./peopleActionCreators";
 import { getCurrentUser } from "./userActionCreators";
 
@@ -102,6 +102,8 @@ export const editPerson = data => dispatch => {
 };
 
 export const editSchedule = (personId, data) => (dispatch, getState) => {
+  const { user } = getState().auth;
+
   return new Promise(resolve => {
     dispatch(handleRequest());
 
@@ -117,9 +119,13 @@ export const editSchedule = (personId, data) => (dispatch, getState) => {
           setFlashMessage("User schedule edited successfully.", "success")
         );
 
-        if (res.data.user.role !== enums.roles.ADMINISTRATOR) {
-          dispatch(getGroups());
-          dispatch(getGroup(res.data.user.roleData.group._id));
+        if (user.role === enums.roles.ADMINISTRATOR) {
+          if (res.data.user.role !== enums.roles.ADMINISTRATOR) {
+            dispatch(getGroups());
+            dispatch(getGroup(res.data.user.roleData.group._id));
+          }
+        } else {
+          dispatch(getOwnGroup());
         }
 
         dispatch(getCurrentUser());

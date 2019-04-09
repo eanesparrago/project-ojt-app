@@ -13,12 +13,12 @@ const StyledGroupCard = styled.div`
   background-color: ${p => p.theme.color.white};
   box-shadow: ${p => p.theme.shadow[1]};
   border-radius: ${p => p.theme.size.base};
-  overflow: hidden;
   transition-duration: 100ms;
   transition-property: box-shadow;
   transition-timing-function: ease-out;
   display: flex;
   flex-flow: column;
+  /* overflow: hidden; */
 
   &:hover {
     box-shadow: ${p => p.theme.shadow[2]};

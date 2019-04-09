@@ -1,6 +1,11 @@
 import React, { Component, Fragment } from "react";
 import jwt_decode from "jwt-decode";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./services/session/store";
 import { ThemeProvider } from "styled-components";
@@ -77,7 +82,9 @@ class Main extends Component {
                   ]}
                 />
 
-                <Route render={() => <h1>Not found</h1>} />
+                <Redirect to="/"/>
+
+                {/* <Route render={() => <h1>Not found</h1>} /> */}
               </Switch>
             </Fragment>
           </Router>

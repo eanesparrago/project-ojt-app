@@ -3,7 +3,7 @@ const Group = require("../../models/group");
 const usersPopulate = {
   path: "users",
   select:
-    "username profilePictureUrl roleData.isClockedIn roleData.schedule roleData.lastClockInTime roleData.clocks",
+    "username firstName lastName profilePictureUrl roleData.isClockedIn roleData.schedule roleData.lastClockInTime roleData.clocks",
   populate: { path: "roleData.clocks", options: { limit: 1 } },
   modal: "Users"
 };

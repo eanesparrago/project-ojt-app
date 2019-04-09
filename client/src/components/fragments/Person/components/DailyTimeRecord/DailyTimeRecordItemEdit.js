@@ -152,7 +152,10 @@ export class DailyTimeRecordItemEdit extends Component {
 export default connect(
   state => ({
     auth: state.auth,
-    errors: state.errors
+    errors:
+      state.auth.user.role === enums.roles.ADMINISTRATOR
+        ? state.errors
+        : state.user.errors
   }),
   {
     editClock: editClock,

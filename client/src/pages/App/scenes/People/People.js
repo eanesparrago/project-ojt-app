@@ -74,7 +74,8 @@ export class People extends Component {
       {
         id: "groupName",
         Header: "Group",
-        accessor: d => d.roleData.group.name
+        accessor: d => d.roleData.group.name,
+        filterable: true
       },
       {
         id: "trainingDuration",
@@ -82,9 +83,10 @@ export class People extends Component {
         accessor: d => d.roleData.trainingDuration / 3600
       },
       {
-        id: "timeRendered",
-        Header: "Time Rendered (Hours)",
-        accessor: d => round(d.roleData.timeRendered / 3600)
+        id: "timeRemaining",
+        Header: "Time Remaining (Hours)",
+        accessor: d =>
+          round((d.roleData.trainingDuration - d.roleData.timeRendered) / 3600)
       }
     ];
 

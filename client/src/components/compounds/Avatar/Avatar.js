@@ -1,7 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { withRouter, Link } from "react-router-dom";
-import { Button } from "src/components/elements";
+
+import { Item } from "src/components/blocks";
+import { Button, Typography } from "src/components/elements";
 
 import profilePhotoPlaceholder from "src/assets/images/profile-photo-placeholder.png";
 
@@ -28,38 +30,112 @@ const StyledAvatar = styled.div`
     right: 0;
     bottom: 0;
   }
+
+  .item-avatar-name {
+    position: absolute;
+    bottom: 100%;
+    background-color: ${p => p.theme.color.dark};
+    color: ${p => p.theme.color.light};
+    border-radius: var(--size-s);
+    border-bottom-left-radius: 0;
+    white-space: nowrap;
+    box-shadow: ${p => p.theme.shadow[0]};
+  }
 `;
 
-const Avatar = ({ match, userData }) => {
-  return (
-    <StyledAvatar
-      attendanceStatus={
-        userData.role === enums.roles.TRAINEE &&
-        returnAttendanceStatus(
-          userData.roleData.schedule,
-          userData.roleData.isClockedIn,
-          userData.roleData.clocks
-        )
-      }
-    >
-      <Button
-        variant="photo"
-        rounded
-        as={Link}
-        to={`${match.url}/person/${userData._id}`}
-      >
-        {userData.profilePictureUrl ? (
-          <img src={userData.profilePictureUrl} alt="" />
-        ) : (
-          <img src={profilePhotoPlaceholder} alt="" />
-        )}
-      </Button>
+export class Avatar extends Component {
+  state = {
+    isHovered: false
+  };
 
-      {userData.role === enums.roles.TRAINEE && (
-        <div className="attendance-status" />
-      )}
-    </StyledAvatar>
-  );
-};
+  handleHoverToggle = e => {
+    this.setState({ isHovered: !this.state.isHovered });
+  };
+
+  render() {
+    const { match, userData } = this.props;
+    const { ...state } = this.state;
+
+    return (
+      <StyledAvatar
+        attendanceStatus={
+          userData.role === enums.roles.TRAINEE &&
+          returnAttendanceStatus(
+            userData.roleData.schedule,
+            userData.roleData.isClockedIn,
+            userData.roleData.clocks
+          )
+        }
+      >
+        {state.isHovered && (
+          <Item NAME="avatar-name" padding="squish-base" margin="stack-s">
+            <Typography variant="base">
+              {userData.firstName
+                ? `${userData.firstName} ${userData.lastName}`
+                : userData.username}
+            </Typography>
+          </Item>
+        )}
+
+        <Button
+          variant="photo"
+          rounded
+          as={Link}
+          to={`${match.url}/person/${userData._id}`}
+          onMouseOver={this.handleHoverToggle}
+          onMouseOut={this.handleHoverToggle}
+        >
+          {userData.profilePictureUrl ? (
+            <img src={userData.profilePictureUrl} alt="" />
+          ) : (
+            <img src={profilePhotoPlaceholder} alt="" />
+          )}
+        </Button>
+
+        {userData.role === enums.roles.TRAINEE && (
+          <div className="attendance-status" />
+        )}
+      </StyledAvatar>
+    );
+  }
+}
 
 export default withRouter(Avatar);
+
+// const Avatar = ({ match, userData }) => {
+//   return (
+//     <StyledAvatar
+//       attendanceStatus={
+//         userData.role === enums.roles.TRAINEE &&
+//         returnAttendanceStatus(
+//           userData.roleData.schedule,
+//           userData.roleData.isClockedIn,
+//           userData.roleData.clocks
+//         )
+//       }
+//     >
+//       <Item NAME="avatar-name" padding="squish-base" margin="stack-s">
+//         <Typography variant="base">{userData.username}</Typography>
+//       </Item>
+
+//       <Button
+//         variant="photo"
+//         rounded
+//         as={Link}
+//         to={`${match.url}/person/${userData._id}`}
+//       >
+//         {userData.profilePictureUrl ? (
+//           <img src={userData.profilePictureUrl} alt="" />
+//         ) : (
+//           <img src={profilePhotoPlaceholder} alt="" />
+//         )}
+//       </Button>
+
+//       {userData.role === enums.roles.TRAINEE && (
+//         <div className="attendance-status" />
+//       )}
+//     </StyledAvatar>
+//   );
+// };
+
+// export default withRouter(Avatar);
