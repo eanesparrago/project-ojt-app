@@ -336,7 +336,7 @@ function rejectClockCorrection(req, res) {
   });
 }
 
-const fields = [
+const dtrFields = [
   {
     label: "Date",
     value: row => format(row.in, "MM/DD/YYYY")
@@ -348,6 +348,10 @@ const fields = [
   {
     label: "Time Out",
     value: row => row.out && format(row.out, "HH:mm")
+  },
+  {
+    label: "Total Hours",
+    value: row => differenceInMinutes(row.out, row.in) / 60
   },
   {
     label: "With Overtime",
@@ -372,7 +376,7 @@ function downloadDailyTimeRecord(req, res) {
       let csv;
 
       try {
-        csv = json2csv(user.roleData.clocks, { fields });
+        csv = json2csv(user.roleData.clocks, { fields: dtrFields });
       } catch (err) {
         console.log(err);
 
@@ -383,7 +387,59 @@ function downloadDailyTimeRecord(req, res) {
         __dirname,
         "..",
         "export",
-        "csv-" + dateTime + ".csv"
+        "dtr-csv-" + dateTime + ".csv"
+      );
+      fs.writeFile(filePath, csv, err => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json(err);
+        } else {
+          setTimeout(function() {
+            fs.unlinkSync(filePath); // delete this file after 30 seconds
+          }, 30000);
+          res.download(filePath);
+        }
+      });
+    });
+}
+
+const tasksFields = [
+  {
+    label: "Date Created",
+    value: row => format(row.dateCreated, "MM/DD/YYYY HH:mm")
+  },
+  {
+    label: "Task",
+    value: "content"
+  },
+  {
+    label: "Ticket Number",
+    value: row => row.ticketNumber && row.ticketNumber
+  }
+];
+
+function downloadTasks(req, res) {
+  User.findById(req.params.id)
+    .lean()
+    .select("+roleData.tasks")
+    .populate({ path: "roleData.tasks" })
+    .then(user => {
+      let csv;
+
+      try {
+        csv = json2csv(user.roleData.tasks, { fields: tasksFields });
+      } catch (err) {
+        console.log(err);
+
+        return res.status(500).json({ err });
+      }
+
+      const dateTime = format(new Date(), "YYYYMMDDhhmmss");
+      const filePath = path.join(
+        __dirname,
+        "..",
+        "export",
+        "tasks-csv-" + dateTime + ".csv"
       );
       fs.writeFile(filePath, csv, err => {
         if (err) {
@@ -407,5 +463,6 @@ module.exports = {
   cancelClockCorrection,
   approveClockCorrection,
   rejectClockCorrection,
-  downloadDailyTimeRecord
+  downloadDailyTimeRecord,
+  downloadTasks
 };

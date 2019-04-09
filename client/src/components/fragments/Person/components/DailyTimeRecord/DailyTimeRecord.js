@@ -53,7 +53,7 @@ export class DailyTimeRecord extends Component {
               variant="secondary"
               onClick={this.handleDownloadDailyTimeRecord}
             >
-              Download CSV
+              Download DTR (CSV)
             </Button>
           </Item>
         </Box>

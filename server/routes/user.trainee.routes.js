@@ -95,4 +95,17 @@ router
     UserTraineeController.downloadDailyTimeRecord
   );
 
+// GET --->>> /api/trainee/download-tasks/:id - downloadTasks
+router
+  .route("/download-tasks/:id")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(
+      enums.roles.ADMINISTRATOR,
+      enums.roles.SUPERVISOR,
+      enums.roles.TRAINEE
+    ),
+    UserTraineeController.downloadTasks
+  );
+
 module.exports = router;

@@ -1,8 +1,10 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import axios from "axios";
+import fileDownload from "js-file-download";
 
-import { Item } from "src/components/blocks";
-import { Typography } from "src/components/elements";
+import { Item, Box } from "src/components/blocks";
+import { Typography, Button } from "src/components/elements";
 import TaskItem from "./TaskItem";
 
 import enums from "src/services/enums";
@@ -23,6 +25,15 @@ export class Tasks extends Component {
     }
   }
 
+  handleDownload = e => {
+    e.preventDefault();
+    const { person } = this.props;
+
+    axios.get(`/api/trainee/download-tasks/${person.data._id}`).then(res => {
+      fileDownload(res.data, "tasks.csv");
+    });
+  };
+
   render() {
     const {
       tasks: { data, isLoading }
@@ -30,9 +41,17 @@ export class Tasks extends Component {
 
     return (
       <Fragment>
-        <Item margin="stack-l">
-          <Typography variant="display-2">Tasks</Typography>
-        </Item>
+        <Box margin="stack-l">
+          <Item center margin="inline-base">
+            <Typography variant="display-2">Tasks</Typography>
+          </Item>
+
+          <Item margin="inline-base" onClick={this.toggleEdit}>
+            <Button variant="secondary" onClick={this.handleDownload}>
+              Download Tasks (CSV)
+            </Button>
+          </Item>
+        </Box>
 
         {(() => {
           if (isLoading) {
@@ -59,7 +78,10 @@ export default connect(
   state => ({
     auth: state.auth,
     tasks: state.tasks,
-    person: state.person
+    person:
+      state.auth.user.role === enums.roles.ADMINISTRATOR
+        ? state.person
+        : state.user
   }),
   {
     getOwnTasks: getOwnTasks,
