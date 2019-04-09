@@ -82,4 +82,17 @@ router
     UserTraineeController.rejectClockCorrection
   );
 
+// GET --->>> /api/trainee/download-daily-time-record/:id - downloadDailyTimeRecord
+router
+  .route("/download-daily-time-record/:id")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(
+      enums.roles.ADMINISTRATOR,
+      enums.roles.SUPERVISOR,
+      enums.roles.TRAINEE
+    ),
+    UserTraineeController.downloadDailyTimeRecord
+  );
+
 module.exports = router;

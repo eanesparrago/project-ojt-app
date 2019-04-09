@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from "react";
+import axios from "axios";
+import fileDownload from "js-file-download";
 
-import { Item } from "src/components/blocks";
-import { Typography } from "src/components/elements";
+import { Item, Box } from "src/components/blocks";
+import { Typography, Button } from "src/components/elements";
 import DailyTimeRecordItem from "./DailyTimeRecordItem";
 import CorrectionRequest from "./CorrectionRequest";
 
@@ -24,15 +26,37 @@ export class DailyTimeRecord extends Component {
     }
   };
 
+  handleDownloadDailyTimeRecord = e => {
+    e.preventDefault();
+    const { person } = this.props;
+
+    axios
+      .get(`/api/trainee/download-daily-time-record/${person.data._id}`)
+      .then(res => {
+        fileDownload(res.data, "dtr.csv");
+      });
+  };
+
   render() {
     const { person } = this.props;
     const { editId } = this.state;
 
     return (
       <Fragment>
-        <Item margin="stack-base">
-          <Typography variant="display-2">Daily Time Record</Typography>
-        </Item>
+        <Box margin="stack-l">
+          <Item center margin="inline-base">
+            <Typography variant="display-2">Daily Time Record</Typography>
+          </Item>
+
+          <Item margin="inline-base" onClick={this.toggleEdit}>
+            <Button
+              variant="secondary"
+              onClick={this.handleDownloadDailyTimeRecord}
+            >
+              Download CSV
+            </Button>
+          </Item>
+        </Box>
 
         <Item margin="stack-l">
           <Typography variant="caption">

@@ -1,10 +1,15 @@
-const User = require("../models/user/user");
-const Clock = require("../models/clock");
 const { validationResult } = require("express-validator/check");
 const bcrypt = require("bcryptjs");
 const differenceInSeconds = require("date-fns/difference_in_seconds");
 const differenceInMinutes = require("date-fns/difference_in_minutes");
 const checkIfOvertime = require("../utils/checkIfOvertime");
+const json2csv = require("json2csv").parse;
+const fs = require("fs");
+const path = require("path");
+const format = require("date-fns/format");
+
+const User = require("../models/user/user");
+const Clock = require("../models/clock");
 
 const ActivityUtils = require("./utils/activity");
 const UserUtils = require("./utils/user");
@@ -331,6 +336,69 @@ function rejectClockCorrection(req, res) {
   });
 }
 
+const fields = [
+  {
+    label: "Date",
+    value: row => format(row.in, "MM/DD/YYYY")
+  },
+  {
+    label: "Time In",
+    value: row => format(row.in, "HH:mm")
+  },
+  {
+    label: "Time Out",
+    value: row => row.out && format(row.out, "HH:mm")
+  },
+  {
+    label: "With Overtime",
+    value: row => (row.isOvertime ? "Yes" : "No")
+  },
+  {
+    label: "Overtime Reason",
+    value: row => row.overtimeReason
+  },
+  {
+    label: "Is Invalid?",
+    value: row => (row.isInvalid ? "Yes" : "No")
+  }
+];
+
+function downloadDailyTimeRecord(req, res) {
+  User.findById(req.params.id)
+    .lean()
+    .select("+roleData.clocks")
+    .populate({ path: "roleData.clocks" })
+    .then(user => {
+      let csv;
+
+      try {
+        csv = json2csv(user.roleData.clocks, { fields });
+      } catch (err) {
+        console.log(err);
+
+        return res.status(500).json({ err });
+      }
+      const dateTime = format(new Date(), "YYYYMMDDhhmmss");
+      const filePath = path.join(
+        __dirname,
+        "..",
+        "export",
+        "csv-" + dateTime + ".csv"
+      );
+      fs.writeFile(filePath, csv, err => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json(err);
+        } else {
+          setTimeout(function() {
+            fs.unlinkSync(filePath); // delete this file after 30 seconds
+          }, 30000);
+          res.download(filePath);
+        }
+      });
+    });
+}
+
 module.exports = {
   testRoute,
   initializeUser,
@@ -338,5 +406,6 @@ module.exports = {
   requestClockCorrection,
   cancelClockCorrection,
   approveClockCorrection,
-  rejectClockCorrection
+  rejectClockCorrection,
+  downloadDailyTimeRecord
 };

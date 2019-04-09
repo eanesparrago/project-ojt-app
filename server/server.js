@@ -38,6 +38,8 @@ app.use("/api/announcements", announcement);
 app.use("/api/clocks", clock);
 app.use("/api/tasks", task);
 
+app.use(express.static("export"));
+
 // >>> Serve static in production
 if (process.env.NODE_ENV === "production") {
   //set static folder
