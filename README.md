@@ -17,6 +17,13 @@ https://ljesp-project-ojt-app.herokuapp.com/
 * MongoDB, MongoDB Atlas
 * Heroku
 
+## Features
+1. Users Management
+2. Groups Management
+3. Announcements Management
+4. Clock in and clock out
+5. Tasks Management
+
 ## Random thoughts about this project
 #### Building UI from scratch
 A big challenge of this project is building the user interface from scratch. I can't say that all the solutions I've come up with are the best ones. Some are alright and some are built hastily. There's some parts that merits refactoring. I ended up not adding responsive support below tablet sizes. 
@@ -35,14 +42,6 @@ The app and folder structure changed a lot throughout this project. I ended up w
 
 #### Zero tests
 There is not a single test file in this project. It's something that I will learn soon..
-
-## Features
-1. Users Management
-2. Groups Management
-3. Announcements Management
-4. Clock in and clock out
-5. Tasks Management
-
 
 ## If you want to install
 Run install in the root folder and in the client folder.
