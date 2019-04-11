@@ -171,9 +171,12 @@ function userClock(req, res) {
         const secondsElapsed = differenceInSeconds(new Date(), clock.in);
         clock.out = Date.now();
 
+        let isClockValid = true;
+
         // >>> If seconds elapsed is greater than 12 hours and 15 minutes, set clock as invalid.
         if (secondsElapsed > 44100) {
           clock.isInvalid = true;
+          isClockValid = false;
         } else if (checkIfOvertime(globalUser.roleData.schedule)) {
           clock.isOvertime = true;
           clock.overtimeReason = req.body.overtimeReason;
@@ -184,7 +187,9 @@ function userClock(req, res) {
           .then(clock => {
             globalClock = clock;
 
-            globalUser.roleData.timeRendered += secondsElapsed;
+            if (isClockValid === true) {
+              globalUser.roleData.timeRendered += secondsElapsed;
+            }
 
             // >>> Check if finished or not
             if (
@@ -289,9 +294,17 @@ function approveClockCorrection(req, res) {
   User.findById(req.body.userId)
     .then(user => {
       globalUser = user;
+
       return Clock.findById(user.roleData.clockCorrectionRequest.clockId);
     })
     .then(clock => {
+      if (clock.isInvalid === true) {
+        globalUser.roleData.timeRendered += differenceInSeconds(
+          clockCorrectionRequest.out,
+          clockCorrectionRequest.in
+        );
+      }
+
       clock.in = globalUser.roleData.clockCorrectionRequest.in;
       clock.out = globalUser.roleData.clockCorrectionRequest.out;
       clock.isInvalid = false;
