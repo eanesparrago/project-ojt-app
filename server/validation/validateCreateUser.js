@@ -25,7 +25,9 @@ const validateCreateUser = [
     .isEmpty()
     .withMessage("Username is required")
     .isLength({ min: 2, max: 30 })
-    .withMessage("Username must be between 2 to 30 characters long"),
+    .withMessage("Username must be between 2 to 30 characters long")
+    .custom(value => !/\s/.test(value))
+    .withMessage("Spaces are not allowed."),
 
   // >>> password
   body("password")
