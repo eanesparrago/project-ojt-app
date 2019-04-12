@@ -300,8 +300,8 @@ function approveClockCorrection(req, res) {
     .then(clock => {
       if (clock.isInvalid === true) {
         globalUser.roleData.timeRendered += differenceInSeconds(
-          clockCorrectionRequest.out,
-          clockCorrectionRequest.in
+          globalUser.roleData.clockCorrectionRequest.out,
+          globalUser.roleData.clockCorrectionRequest.in
         );
       }
 
