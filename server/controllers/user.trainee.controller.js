@@ -303,6 +303,15 @@ function approveClockCorrection(req, res) {
           globalUser.roleData.clockCorrectionRequest.out,
           globalUser.roleData.clockCorrectionRequest.in
         );
+      } else {
+        const oldClockSeconds = differenceInSeconds(clock.out, clock.in);
+        const newClockSeconds = differenceInSeconds(
+          globalUser.roleData.clockCorrectionRequest.out,
+          globalUser.roleData.clockCorrectionRequest.in
+        );
+
+        globalUser.roleData.timeRendered -= oldClockSeconds;
+        globalUser.roleData.timeRendered += newClockSeconds;
       }
 
       clock.in = globalUser.roleData.clockCorrectionRequest.in;
