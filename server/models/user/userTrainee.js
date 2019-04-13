@@ -227,6 +227,22 @@ const UserTrainee = User.discriminator(
           }
         ]
       },
+      calendar: {
+        type: [
+          {
+            date: {
+              type: Date,
+              default: Date.now
+            },
+            status: {
+              type: String,
+              enum: ["present", "absent", "off"],
+              required: true
+            }
+          }
+        ],
+        select: false
+      },
       lastClockInTime: {
         type: Date
       },

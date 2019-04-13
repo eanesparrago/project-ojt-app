@@ -13,6 +13,8 @@ const announcement = require("./routes/announcement.routes");
 const clock = require("./routes/clock.routes");
 const task = require("./routes/task.routes");
 
+const calendarer = require("./utils/calendarer");
+
 const app = express();
 
 // >>> body-parser middleware
@@ -54,4 +56,8 @@ if (process.env.NODE_ENV === "production") {
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+
+  calendarer();
+});

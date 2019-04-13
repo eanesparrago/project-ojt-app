@@ -28,7 +28,6 @@ const validateUpdateUser = [
     .custom(value => !/\s/.test(value))
     .withMessage("Spaces are not allowed."),
 
-  ,
   // >>> firstName
   body("firstName")
     .trim()
