@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-import axios from "axios";
 import { connect } from "react-redux";
 
 import { Item, Box } from "src/components/blocks";
@@ -62,9 +61,15 @@ export class EditGroupForm extends Component {
     e.preventDefault();
     const { groupData, deleteGroup, history } = this.props;
 
-    deleteGroup(groupData._id).then(() => {
-      history.goBack();
-    });
+    if (
+      window.confirm(
+        "This action is irreversible. Are you sure you want to delete this group?"
+      )
+    ) {
+      deleteGroup(groupData._id).then(() => {
+        history.goBack();
+      });
+    }
   };
 
   render() {

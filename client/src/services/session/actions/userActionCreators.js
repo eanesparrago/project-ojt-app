@@ -33,28 +33,30 @@ export const USER_CLOCK_SUCCESS = "USER_CLOCK_SUCCESS";
 export const USER_CLOCK_FAILURE = "USER_CLOCK_FAILURE";
 
 export const clockTrainee = data => dispatch => {
-  dispatch({
-    type: USER_CLOCK_REQUEST
-  });
-
-  axios
-    .post("/api/trainee/clock", data)
-    .then(res => {
-      dispatch({
-        type: USER_CLOCK_SUCCESS
-      });
-
-      dispatch(getCurrentUser());
-      dispatch(getOwnGroup());
-      dispatch(setFlashMessage("Clocked successfully.", "success"));
-    })
-    .catch(err => {
-      dispatch({
-        type: USER_CLOCK_FAILURE
-      });
-
-      dispatch(setFlashMessage("An error occurred.", "error"));
+  if (window.confirm("Confirm clock?")) {
+    dispatch({
+      type: USER_CLOCK_REQUEST
     });
+
+    axios
+      .post("/api/trainee/clock", data)
+      .then(res => {
+        dispatch({
+          type: USER_CLOCK_SUCCESS
+        });
+
+        dispatch(getCurrentUser());
+        dispatch(getOwnGroup());
+        dispatch(setFlashMessage("Clocked successfully.", "success"));
+      })
+      .catch(err => {
+        dispatch({
+          type: USER_CLOCK_FAILURE
+        });
+
+        dispatch(setFlashMessage("An error occurred.", "error"));
+      });
+  }
 };
 
 export const USER_CLOCK_CORRECTION_REQUEST_REQUEST =

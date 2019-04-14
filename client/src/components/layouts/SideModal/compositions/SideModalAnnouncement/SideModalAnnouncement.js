@@ -36,9 +36,11 @@ export class SideModalAnnouncement extends Component {
     e.preventDefault();
     const { deleteAnnouncement, history, match } = this.props;
 
-    deleteAnnouncement(match.params.id).then(() => {
-      history.goBack();
-    });
+    if (window.confirm("Are you sure you want to delete this announcement?")) {
+      deleteAnnouncement(match.params.id).then(() => {
+        history.goBack();
+      });
+    }
   };
 
   renderError = () => {

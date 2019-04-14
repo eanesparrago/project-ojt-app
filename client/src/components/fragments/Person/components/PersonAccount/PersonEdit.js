@@ -112,9 +112,15 @@ class PersonEdit extends Component {
       history
     } = this.props;
 
-    deletePerson(data._id).then(() => {
-      history.go(-1);
-    });
+    if (
+      window.confirm(
+        "This action is irreversible. Are you sure you want to delete this person?"
+      )
+    ) {
+      deletePerson(data._id).then(() => {
+        history.go(-1);
+      });
+    }
   };
 
   render() {

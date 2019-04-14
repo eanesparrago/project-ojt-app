@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 import format from "date-fns/format";
 import round from "lodash/round";
-import { connect } from "react-redux";
 
 import { Item } from "src/components/blocks";
 import { Typography, Photo, Divider } from "src/components/elements";

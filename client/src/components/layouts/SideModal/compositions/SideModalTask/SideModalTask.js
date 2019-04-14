@@ -34,9 +34,11 @@ export class SideModalTask extends Component {
     e.preventDefault();
     const { deleteTask, match, history } = this.props;
 
-    deleteTask(match.params.id).then(() => {
-      history.goBack();
-    });
+    if (window.confirm("Are you sure you want to delete this task?")) {
+      deleteTask(match.params.id).then(() => {
+        history.goBack();
+      });
+    }
   };
 
   render() {
