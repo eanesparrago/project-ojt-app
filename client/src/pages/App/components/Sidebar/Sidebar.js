@@ -21,13 +21,6 @@ const StyledSidebar = styled.div`
   flex-shrink: 0;
   position: relative;
   z-index: 100;
-/* 
-  @media (max-width: ${p => p.theme.breakpoint.desktopM}) {
-    flex-flow: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-  } */
 
   .container-sidebar-profile {
     flex-shrink: 0;
@@ -76,6 +69,11 @@ const supervisorMenu = [
     title: "My Group",
     icon: "fas fa-eye",
     to: "/group"
+  },
+  {
+    title: "Requests",
+    icon: "fas fa-bell",
+    to: "/supervisor-requests"
   },
   {
     title: "People",

@@ -477,6 +477,112 @@ function downloadTasks(req, res) {
     });
 }
 
+/**
+ * Submit schedule update request
+ * PUT api/users/trainee/schedule-update-request
+ * @param req.body
+ */
+function requestScheduleUpdate(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json(errors.mapped());
+  }
+
+  User.findById(req.user._id).then(user => {
+    user.roleData.scheduleUpdateRequest.isActive = true;
+    user.roleData.scheduleUpdateRequest.schedule = req.body;
+
+    user.save((err, user) => {
+      if (err) {
+        res.status(500).send(err);
+      }
+
+      res.status(200).json(user);
+    });
+  });
+}
+
+/**
+ * Cancel schedule update request
+ * PUT api/users/trainee/cancel-schedule-update-request
+ */
+function cancelScheduleUpdateRequest(req, res) {
+  User.findById(req.user._id)
+    .then(user => {
+      user.roleData.scheduleUpdateRequest.isActive = false;
+
+      return user.save();
+    })
+    .then(user => {
+      res.status(200).json({
+        message: "Cancelled schedule update request successfully.",
+        user
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "An error occurred." });
+    });
+}
+
+/**
+ * Approve schedule correction request
+ * PUT api/users/trainee/approve-schedule-update-request
+ * @param req.body.userId
+ */
+function approveScheduleUpdateRequest(req, res) {
+  User.findById(req.body.userId)
+    .then(userTrainee => {
+      if (!userTrainee) {
+        return res.status(400).json({ message: "User not found." });
+      }
+
+      userTrainee.roleData.schedule =
+        userTrainee.roleData.scheduleUpdateRequest.schedule;
+      userTrainee.roleData.scheduleUpdateRequest.isActive = false;
+
+      return userTrainee.save();
+    })
+    .then(userTrainee =>
+      res.status(200).json({
+        message: "Approved schedule update successfully.",
+        user: userTrainee
+      })
+    )
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "An error occurred." });
+    });
+}
+
+/**
+ * Reject schedule correction request
+ * PUT api/users/trainee/reject-schedule-update-request
+ * @param req.body.userId
+ */
+function rejectClockCorrectionRequest(req, res) {
+  User.findById(req.body.userId)
+    .then(userTrainee => {
+      if (!userTrainee) {
+        return res.status(400).json({ message: "User not found." });
+      }
+
+      userTrainee.roleData.scheduleUpdateRequest.isActive = false;
+
+      return userTrainee.save();
+    })
+    .then(userTrainee =>
+      res.status(200).json({
+        message: "Rejected schedule update successfully.",
+        user: userTrainee
+      })
+    )
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "An error occurred." });
+    });
+}
+
 module.exports = {
   testRoute,
   initializeUser,
@@ -486,5 +592,9 @@ module.exports = {
   approveClockCorrection,
   rejectClockCorrection,
   downloadDailyTimeRecord,
-  downloadTasks
+  downloadTasks,
+  requestScheduleUpdate,
+  cancelScheduleUpdateRequest,
+  approveScheduleUpdateRequest,
+  rejectClockCorrectionRequest
 };

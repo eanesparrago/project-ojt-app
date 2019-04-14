@@ -10,6 +10,8 @@ import { Main } from "src/pages/App/components";
 
 import { getPeople } from "src/services/session/actions/peopleActionCreators";
 
+import enums from "src/services/enums";
+
 export class Requests extends Component {
   componentDidMount() {
     const { getPeople } = this.props;
@@ -24,13 +26,13 @@ export class Requests extends Component {
       match
     } = this.props;
 
-    let filteredData = [];
+    let scheduleUpdate = [];
 
     if (data) {
-      filteredData = data.filter(
+      scheduleUpdate = data.filter(
         person =>
           person.role === "trainee" &&
-          person.roleData.clockCorrectionRequest.isActive === true
+          person.roleData.scheduleUpdateRequest.isActive === true
       );
     }
 
@@ -47,7 +49,7 @@ export class Requests extends Component {
       },
       {
         Header: "Request",
-        Cell: props => "Clock Correction"
+        Cell: props => "Schedule Update"
       }
     ];
 
@@ -59,7 +61,7 @@ export class Requests extends Component {
           {data && (
             <StyledTable>
               <ReactTable
-                data={filteredData}
+                data={scheduleUpdate}
                 showPageSizeOptions={false}
                 resizable={false}
                 defaultPageSize={14}
@@ -71,7 +73,7 @@ export class Requests extends Component {
                       history.push(
                         `${match.url}/person/${
                           rowInfo.original._id
-                        }/daily-time-record`
+                        }/schedule`
                       );
                     }
                   };

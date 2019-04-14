@@ -252,3 +252,77 @@ export const rejectClockCorrectionRequest = data => dispatch => {
       dispatch(setFlashMessage("An error occurred", "error"));
     });
 };
+
+export const PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_REQUEST =
+  "PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_REQUEST";
+export const PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_SUCCESS =
+  "PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_SUCCESS";
+export const PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_FAILURE =
+  "PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_FAILURE";
+
+export const approveScheduleUpdateRequest = userId => dispatch => {
+  dispatch({
+    type: PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_REQUEST
+  });
+
+  axios
+    .put("/api/trainee/approve-schedule-update-request", { userId })
+    .then(res => {
+      dispatch({
+        type: PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_SUCCESS
+      });
+
+      dispatch(getPerson(userId));
+      dispatch(getPeople());
+      dispatch(
+        setFlashMessage(
+          "Schedule update request approved successfully.",
+          "success"
+        )
+      );
+    })
+    .catch(err => {
+      dispatch({
+        type: PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_FAILURE
+      });
+
+      dispatch(setFlashMessage("An error occurred.", "error"));
+    });
+};
+
+export const PERSON_SCHEDULE_UPDATE_REQUEST_REJECT_REQUEST =
+  "PERSON_SCHEDULE_UPDATE_REQUEST_REJECT_REQUEST";
+export const PERSON_SCHEDULE_UPDATE_REQUEST_REJECT_SUCCESS =
+  "PERSON_SCHEDULE_UPDATE_REQUEST_REJECT_SUCCESS";
+export const PERSON_SCHEDULE_UPDATE_REQUEST_REJECT_FAILURE =
+  "PERSON_SCHEDULE_UPDATE_REQUEST_REJECT_FAILURE";
+
+export const rejectScheduleUpdateRequest = userId => dispatch => {
+  dispatch({
+    type: PERSON_SCHEDULE_UPDATE_REQUEST_REJECT_REQUEST
+  });
+
+  axios
+    .put("/api/trainee/reject-schedule-update-request", { userId })
+    .then(res => {
+      dispatch({
+        type: PERSON_SCHEDULE_UPDATE_REQUEST_REJECT_SUCCESS
+      });
+
+      dispatch(getPerson(userId));
+      dispatch(getPeople());
+      dispatch(
+        setFlashMessage(
+          "Schedule update request rejected successfully.",
+          "success"
+        )
+      );
+    })
+    .catch(err => {
+      dispatch({
+        type: PERSON_SCHEDULE_UPDATE_REQUEST_REJECT_FAILURE
+      });
+
+      dispatch(setFlashMessage("An error occurred.", "error"));
+    });
+};

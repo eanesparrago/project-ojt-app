@@ -66,7 +66,7 @@ export const USER_CLOCK_CORRECTION_REQUEST_FAILURE =
 
 // >>> data: { in, out, clockId }
 export const requestClockCorrection = data => dispatch => {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     dispatch({
       type: USER_CLOCK_CORRECTION_REQUEST_REQUEST
     });
@@ -96,8 +96,6 @@ export const requestClockCorrection = data => dispatch => {
         });
 
         dispatch(setFlashMessage("An error occurred.", "error"));
-
-        reject();
       });
   });
 };
@@ -131,6 +129,86 @@ export const cancelClockCorrectionRequest = () => dispatch => {
       dispatch({
         type: USER_CLOCK_CORRECTION_REQUEST_CANCEL_FAILURE,
         payload: err.response.data
+      });
+
+      dispatch(setFlashMessage("An error occurred.", "error"));
+    });
+};
+
+export const USER_SCHEDULE_UPDATE_REQUEST_REQUEST =
+  "USER_SCHEDULE_UPDATE_REQUEST_REQUEST";
+export const USER_SCHEDULE_UPDATE_REQUEST_SUCCESS =
+  "USER_SCHEDULE_UPDATE_REQUEST_SUCCESS";
+export const USER_SCHEDULE_UPDATE_REQUEST_FAILURE =
+  "USER_SCHEDULE_UPDATE_REQUEST_FAILURE";
+
+// >>> data
+export const requestScheduleUpdate = data => dispatch => {
+  return new Promise(resolve => {
+    dispatch({
+      type: USER_SCHEDULE_UPDATE_REQUEST_REQUEST
+    });
+
+    axios
+      .put("/api/trainee/schedule-update-request", data)
+      .then(res => {
+        dispatch({
+          type: USER_SCHEDULE_UPDATE_REQUEST_SUCCESS
+        });
+
+        dispatch(getCurrentUser());
+
+        dispatch(
+          setFlashMessage(
+            "Schedule update request submitted successfully",
+            "success"
+          )
+        );
+
+        resolve();
+      })
+      .catch(err => {
+        dispatch({
+          type: USER_SCHEDULE_UPDATE_REQUEST_FAILURE,
+          payload: err.response.data
+        });
+
+        dispatch(setFlashMessage("An error occurred", "error"));
+      });
+  });
+};
+
+export const USER_SCHEDULE_UPDATE_REQUEST_CANCEL_REQUEST =
+  "USER_SCHEDULE_UPDATE_REQUEST_CANCEL_REQUEST";
+export const USER_SCHEDULE_UPDATE_REQUEST_CANCEL_SUCCESS =
+  "USER_SCHEDULE_UPDATE_REQUEST_CANCEL_SUCCESS";
+export const USER_SCHEDULE_UPDATE_REQUEST_CANCEL_FAILURE =
+  "USER_SCHEDULE_UPDATE_REQUEST_CANCEL_FAILURE";
+
+export const cancelScheduleUpdateRequest = () => dispatch => {
+  dispatch({
+    type: USER_SCHEDULE_UPDATE_REQUEST_CANCEL_REQUEST
+  });
+
+  axios
+    .put("/api/trainee/cancel-schedule-update-request")
+    .then(res => {
+      dispatch({
+        type: USER_SCHEDULE_UPDATE_REQUEST_CANCEL_SUCCESS
+      });
+
+      dispatch(getCurrentUser());
+
+      dispatch(
+        setFlashMessage(
+          "Schedule update request cancelled successfully.",
+          "success"
+        )
+      );
+    })
+    .catch(err => {
+      dispatch({
+        type: USER_SCHEDULE_UPDATE_REQUEST_CANCEL_FAILURE
       });
 
       dispatch(setFlashMessage("An error occurred.", "error"));

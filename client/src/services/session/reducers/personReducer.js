@@ -15,7 +15,10 @@ import {
   PERSON_CLOCK_CORRECTION_REQUEST_APPROVE_FAILURE,
   PERSON_CLOCK_CORRECTION_REQUEST_REJECT_REQUEST,
   PERSON_CLOCK_CORRECTION_REQUEST_REJECT_SUCCESS,
-  PERSON_CLOCK_CORRECTION_REQUEST_REJECT_FAILURE
+  PERSON_CLOCK_CORRECTION_REQUEST_REJECT_FAILURE,
+  PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_REQUEST,
+  PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_SUCCESS,
+  PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_FAILURE
 } from "../actions/personActionCreators";
 
 const initialState = {
@@ -111,6 +114,22 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: false,
         errors: action.payload
+      };
+
+    case PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_FAILURE:
+      return {
+        ...state,
+        isLoading: false
       };
 
     default:

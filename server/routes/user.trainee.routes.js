@@ -11,6 +11,7 @@ const dynamicValidation = require("../validation/dynamicValidation");
 const {
   validateRequestClockCorrection
 } = require("../validation/validateClock");
+const validateUpdateSchedule = require("../validation/validateUpdateSchedule");
 const enums = require("../enums");
 
 // >>> /api/trainee
@@ -106,6 +107,43 @@ router
       enums.roles.TRAINEE
     ),
     UserTraineeController.downloadTasks
+  );
+
+// PUT --->>> /api/trainee/schedule-update-request - requestScheduleUpdate
+router
+  .route("/schedule-update-request")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.TRAINEE),
+    validateUpdateSchedule,
+    UserTraineeController.requestScheduleUpdate
+  );
+
+// PUT --->>> /api/trainee/cancel-schedule-update-request - cancelScheduleUpdateRequest
+router
+  .route("/cancel-schedule-update-request")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.TRAINEE),
+    UserTraineeController.cancelScheduleUpdateRequest
+  );
+
+// PUT --->>> /api/trainee/approve-schedule-update-request - approveScheduleUpdateRequest
+router
+  .route("/approve-schedule-update-request")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.SUPERVISOR),
+    UserTraineeController.approveScheduleUpdateRequest
+  );
+
+// PUT --->>> /api/trainee/reject-schedule-update-request - rejectClockCorrectionRequest
+router
+  .route("/reject-schedule-update-request")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.SUPERVISOR),
+    UserTraineeController.rejectClockCorrectionRequest
   );
 
 module.exports = router;

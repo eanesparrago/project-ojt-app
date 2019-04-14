@@ -17,7 +17,8 @@ import {
   Overview,
   Profile,
   Tasks,
-  Requests
+  Requests,
+  SupervisorRequests
 } from "./scenes";
 
 import enums from "src/services/enums";
@@ -196,6 +197,12 @@ export class App extends Component {
               path={`${match.url}/requests`}
               component={Requests}
               permittedRoles={[enums.roles.ADMINISTRATOR]}
+            />
+
+            <PrivateRoute
+              path={`${match.url}/supervisor-requests`}
+              component={SupervisorRequests}
+              permittedRoles={[enums.roles.SUPERVISOR]}
             />
 
             {auth.user.role === enums.roles.ADMINISTRATOR ? (

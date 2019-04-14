@@ -217,7 +217,7 @@ const UserTrainee = User.discriminator(
           type: Boolean,
           default: false
         },
-        ...schedule
+        schedule: schedule
       },
       tasks: {
         type: [
@@ -240,7 +240,7 @@ const UserTrainee = User.discriminator(
               required: true
             }
           }
-        ],
+        ]
         // select: false
       },
       lastClockInTime: {

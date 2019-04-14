@@ -2,14 +2,14 @@ import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import startCase from "lodash/startCase";
 import { connect } from "react-redux";
-import axios from "axios";
 
 import { Item, Container } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";
 import { FormGroup, SelectInput, TextInput } from "src/components/compounds";
 
 import { editSchedule } from "src/services/session/actions/personActionCreators";
-import { setFlashMessage } from "src/services/session/actions/appActionCreators";
+import { requestScheduleUpdate } from "src/services/session/actions/userActionCreators";
+import enums from "src/services/enums";
 
 const StyledTraineeScheduleEdit = styled.div``;
 
@@ -63,19 +63,28 @@ export class TraineeScheduleEdit extends Component {
     const {
       person: { data },
       editSchedule,
-      toggleEdit
+      toggleEdit,
+      requestScheduleUpdate,
+      auth
     } = this.props;
     const { ...state } = this.state;
 
-    editSchedule(data._id, state).then(() => {
-      toggleEdit();
-    });
+    if (auth.user.role === enums.roles.TRAINEE) {
+      requestScheduleUpdate(state).then(() => {
+        toggleEdit();
+      });
+    } else {
+      editSchedule(data._id, state).then(() => {
+        toggleEdit();
+      });
+    }
   };
 
   render() {
     const {
       person: { isLoading },
-      errors
+      errors,
+      auth
     } = this.props;
     const { ...state } = this.state;
 
@@ -305,7 +314,7 @@ export class TraineeScheduleEdit extends Component {
                 onClick={this.handleSubmit}
                 disabled={isLoading}
               >
-                Save
+                {auth.user.role === enums.roles.TRAINEE ? "Submit " : "Save"}
               </Button>
             </FormGroup.Input>
           </FormGroup>
@@ -317,9 +326,11 @@ export class TraineeScheduleEdit extends Component {
 
 export default connect(
   state => ({
+    auth: state.auth,
     errors: state.errors
   }),
   {
-    editSchedule: editSchedule
+    editSchedule: editSchedule,
+    requestScheduleUpdate: requestScheduleUpdate
   }
 )(TraineeScheduleEdit);

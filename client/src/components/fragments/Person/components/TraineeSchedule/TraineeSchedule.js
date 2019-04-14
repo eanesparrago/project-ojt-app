@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 
 import { Item, Box } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";
 import { DataGroup } from "src/components/compounds";
-
+import UpdateRequest from "./UpdateRequest";
 import TraineeScheduleEdit from "./TraineeScheduleEdit";
+
+import enums from "src/services/enums";
 
 const StyledTraineeSchedule = styled.div``;
 
@@ -34,9 +37,7 @@ export class TraineeSchedule extends Component {
   };
 
   render() {
-    const {
-      person 
-    } = this.props;
+    const { person, auth } = this.props;
     const { isEditOpen } = this.state;
 
     return (
@@ -53,10 +54,20 @@ export class TraineeSchedule extends Component {
             </Button>
           ) : (
             <Item margin="inline-base" onClick={this.toggleEdit}>
-              <Button variant="secondary">Edit Schedule</Button>
+              <Button variant="secondary">
+                {auth.user.role === enums.roles.TRAINEE
+                  ? "Request Schedule Update"
+                  : "Edit Schedule"}
+              </Button>
             </Item>
           )}
         </Box>
+
+        {person.data.roleData.scheduleUpdateRequest.isActive && (
+          <Item margin="stack-l">
+            <UpdateRequest person={person} />
+          </Item>
+        )}
 
         {isEditOpen ? (
           <TraineeScheduleEdit person={person} toggleEdit={this.toggleEdit} />
@@ -88,4 +99,6 @@ export class TraineeSchedule extends Component {
   }
 }
 
-export default TraineeSchedule;
+export default connect(state => ({
+  auth: state.auth
+}))(TraineeSchedule);
