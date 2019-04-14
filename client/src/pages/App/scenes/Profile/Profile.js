@@ -11,29 +11,27 @@ import { Person } from "src/components/fragments";
 import { getCurrentUser } from "src/services/session/actions/userActionCreators";
 import enums from "src/services/enums";
 
-const buttons = [
-  { title: "Account", icon: "fas fa-user-circle", to: "" }
-  // {
-  //   title: "Activity",
-  //   icon: "fas fa-list-ul",
-  //   to: "/activity"
-  // }
-];
+const buttons = [{ title: "Account", icon: "fas fa-user-circle", to: "" }];
 
 const traineeButtons = [
   {
     title: "Schedule",
-    icon: "far fa-calendar-alt",
+    icon: "far fa-calendar-check",
     to: "/schedule"
   },
   {
     title: "DTR",
-    icon: " far fa-clock",
+    icon: "far fa-clock",
     to: "/daily-time-record"
   },
   {
+    title: "Calendar",
+    icon: "far fa-calendar-alt",
+    to: "/calendar"
+  },
+  {
     title: "Tasks",
-    icon: "far fa-check-circle",
+    icon: "fas fa-check",
     to: "/tasks"
   }
 ];

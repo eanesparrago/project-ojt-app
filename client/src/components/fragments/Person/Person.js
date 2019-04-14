@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { withRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import PersonAccount from "./components/PersonAccount/PersonAccount";
 import TraineeSchedule from "./components/TraineeSchedule/TraineeSchedule";
 import DailyTimeRecord from "./components/DailyTimeRecord/DailyTimeRecord";
 import Tasks from "./components/Tasks/Tasks";
-import Activity from "./components/Activity/Activity";
+import Calendar from "./components/Calendar/Calendar";
 
 import enums from "src/services/enums";
 
@@ -37,6 +36,12 @@ export class Person extends Component {
         )}
         {person.data.role === enums.roles.TRAINEE && (
           <Route path={`${match.url}/tasks`} render={() => <Tasks />} />
+        )}
+        {person.data.role === enums.roles.TRAINEE && (
+          <Route
+            path={`${match.url}/calendar`}
+            render={() => <Calendar person={person} />}
+          />
         )}
 
         <Redirect to={`${match.url}`} replace />

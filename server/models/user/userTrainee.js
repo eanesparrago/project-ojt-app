@@ -241,7 +241,7 @@ const UserTrainee = User.discriminator(
             }
           }
         ],
-        select: false
+        // select: false
       },
       lastClockInTime: {
         type: Date
