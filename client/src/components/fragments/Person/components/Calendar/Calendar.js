@@ -31,7 +31,7 @@ const Calendar = ({ person }) => {
   return (
     <StyledCalendar>
       <Item margin="stack-base">
-        <Typography variant="display-2">Calendar</Typography>
+        <Typography variant="display-2">Attendance</Typography>
       </Item>
 
       <Container NAME="calendar">

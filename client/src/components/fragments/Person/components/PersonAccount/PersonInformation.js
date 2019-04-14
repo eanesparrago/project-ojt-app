@@ -9,7 +9,7 @@ import { DataGroup } from "src/components/compounds";
 import enums from "src/services/enums";
 import returnAttendanceStatus from "src/services/utils/returnAttendanceStatus";
 import returnScheduleToday from "src/services/utils/returnScheduleToday";
- 
+
 const PersonInformation = ({ person: { data } }) => {
   let attendanceStatus;
   if (data.role === enums.roles.TRAINEE) {
@@ -76,7 +76,9 @@ const PersonInformation = ({ person: { data } }) => {
           <DataGroup.Label title="Role" />
 
           <DataGroup.Content>
-            <Typography variant="display-4">{enums.roles.properties[data.role].label}</Typography>
+            <Typography variant="display-4">
+              {enums.roles.properties[data.role].label}
+            </Typography>
           </DataGroup.Content>
         </DataGroup>
       </Item>
@@ -178,6 +180,11 @@ const PersonInformation = ({ person: { data } }) => {
             enums.roles.TRAINEE,
             enums.roles.EMPLOYEE
           ]
+        },
+        {
+          property: "Finished",
+          value: data.roleData.isFinished ? "Yes" : "No",
+          roles: [enums.roles.TRAINEE]
         }
       ]
         .filter(item => item.roles.includes(data.role))

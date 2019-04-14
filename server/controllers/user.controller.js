@@ -156,6 +156,10 @@ function loginUser(req, res) {
         return res.status(404).json({ error: "Invalid login information" });
       }
 
+      if (user.isActive === false) {
+        return res.status(404).json({ error: "Invalid login information" });
+      }
+
       user.set({ dateLastLoggedIn: Date.now() });
       user.save();
 

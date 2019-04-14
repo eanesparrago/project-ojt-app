@@ -39,7 +39,7 @@ export class Person extends Component {
         )}
         {person.data.role === enums.roles.TRAINEE && (
           <Route
-            path={`${match.url}/calendar`}
+            path={`${match.url}/attendance`}
             render={() => <Calendar person={person} />}
           />
         )}

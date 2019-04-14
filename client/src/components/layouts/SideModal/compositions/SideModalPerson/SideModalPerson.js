@@ -26,9 +26,9 @@ const traineeButtons = [
     to: "/daily-time-record"
   },
   {
-    title: "Calendar",
+    title: "Attendance",
     icon: "far fa-calendar-alt",
-    to: "/calendar"
+    to: "/attendance"
   },
   {
     title: "Tasks",

@@ -63,11 +63,9 @@ export class People extends Component {
         Cell: props => format(props.value, "MM-DD-YYYY")
       },
       {
-        Header: "Date Last Logged In",
-        accessor: "dateLastLoggedIn",
-        Cell: props =>
-          props.value ? format(props.value, "MM-DD-YYYY") : "N/A",
-        filterable: false
+        id: "isActive",
+        Header: "Is Active",
+        accessor: d => (d.isActive ? "Yes" : "No")
       }
     ];
 
@@ -87,7 +85,16 @@ export class People extends Component {
         id: "timeRemaining",
         Header: "Time Remaining (Hours)",
         accessor: d =>
-          round((d.roleData.trainingDuration - d.roleData.timeRendered) / 3600)
+          d.roleData.trainingDuration - d.roleData.timeRendered < 0
+            ? 0
+            : round(
+                (d.roleData.trainingDuration - d.roleData.timeRendered) / 3600
+              )
+      },
+      {
+        id: "isFinished",
+        Header: "Is Finished",
+        accessor: d => (d.roleData.isFinished ? "Yes" : "No")
       }
     ];
 
