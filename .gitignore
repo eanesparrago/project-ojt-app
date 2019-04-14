@@ -1,6 +1,5 @@
 /node_modules
 /server/config/keys_dev.js
-/server/export
 
 package-lock.json
 
