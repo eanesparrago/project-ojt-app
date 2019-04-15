@@ -243,6 +243,19 @@ const UserTrainee = User.discriminator(
         ]
         // select: false
       },
+      leaves: {
+        type: [
+          {
+            date: {
+              type: Date,
+              required: true
+            },
+            reason: {
+              type: String
+            }
+          }
+        ]
+      },
       lastClockInTime: {
         type: Date
       },
