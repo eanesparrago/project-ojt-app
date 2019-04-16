@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import format from "date-fns/format";
 import { connect } from "react-redux";
 import sortBy from "lodash/sortBy";
+import isAfter from "date-fns/is_after";
 
 import { Item, Box } from "src/components/blocks";
 import { Typography, Button } from "src/components/elements";
@@ -90,18 +91,19 @@ export class Leaves extends Component {
                     <Typography variant="body">{leave.reason}</Typography>
                   </DataGroup.Content>
 
-                  {auth.user.role === enums.roles.TRAINEE && (
-                    <DataGroup.Buttons>
-                      <Button
-                        variant="secondary"
-                        onClick={() => {
-                          this.handleCancel(leave._id);
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                    </DataGroup.Buttons>
-                  )}
+                  {auth.user.role === enums.roles.TRAINEE &&
+                    !isAfter(new Date(), leave.date) && (
+                      <DataGroup.Buttons>
+                        <Button
+                          variant="secondary"
+                          onClick={() => {
+                            this.handleCancel(leave._id);
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </DataGroup.Buttons>
+                    )}
                 </DataGroup>
               </Item>
             ))}
