@@ -1,4 +1,5 @@
 const schedule = require("node-schedule");
+const isSameDay = require("date-fns/is_same_day");
 
 const User = require("../models/user/user");
 const enums = require("../enums");
@@ -22,16 +23,26 @@ const calendarer = () => {
             roleData: { schedule, isClockedIn, clocks }
           } = trainee;
 
-          const attendanceToday = returnAttendanceStatus(
+          let attendanceToday = returnAttendanceStatus(
             schedule,
             isClockedIn,
             clocks
           );
 
+          // >>> Check if on leave today
+          if (
+            trainee.roleData.leaves.find(leave =>
+              isSameDay(leave.date, new Date())
+            )
+          ) {
+            attendanceToday = "leave";
+          }
+
           const newDay = {
             status:
               (attendanceToday === "absent" && "absent") ||
               (attendanceToday === "off" && "off") ||
+              (attendanceToday === "leave" && "leave") ||
               "present"
           };
 

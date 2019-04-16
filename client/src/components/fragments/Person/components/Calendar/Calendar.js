@@ -26,8 +26,6 @@ const Calendar = ({ person }) => {
     }
   } = person;
 
-  console.log(calendar);
-
   return (
     <StyledCalendar>
       <Item margin="stack-base">
@@ -53,6 +51,10 @@ const Calendar = ({ person }) => {
 
             if (event.status === "absent") {
               newStyle.backgroundColor = "#9C27B0";
+            }
+
+            if (event.status === "leave") {
+              newStyle.backgroundColor = "#2196F3";
             }
 
             return {

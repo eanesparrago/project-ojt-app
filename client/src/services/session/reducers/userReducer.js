@@ -16,7 +16,16 @@ import {
   USER_SCHEDULE_UPDATE_REQUEST_FAILURE,
   USER_SCHEDULE_UPDATE_REQUEST_CANCEL_REQUEST,
   USER_SCHEDULE_UPDATE_REQUEST_CANCEL_SUCCESS,
-  USER_SCHEDULE_UPDATE_REQUEST_CANCEL_FAILURE
+  USER_SCHEDULE_UPDATE_REQUEST_CANCEL_FAILURE,
+  USER_LEAVE_REQUEST_REQUEST,
+  USER_LEAVE_REQUEST_SUCCESS,
+  USER_LEAVE_REQUEST_FAILURE,
+  USER_LEAVE_REQUEST_CANCEL_REQUEST,
+  USER_LEAVE_REQUEST_CANCEL_SUCCESS,
+  USER_LEAVE_REQUEST_CANCEL_FAILURE,
+  USER_LEAVE_CANCEL_REQUEST,
+  USER_LEAVE_CANCEL_SUCCESS,
+  USER_LEAVE_CANCEL_FAILURE
 } from "../actions/userActionCreators";
 
 const initialState = {
@@ -123,14 +132,62 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: true
       };
-
     case USER_SCHEDULE_UPDATE_REQUEST_CANCEL_SUCCESS:
       return {
         ...state,
         isLoading: false
       };
-
     case USER_SCHEDULE_UPDATE_REQUEST_CANCEL_FAILURE:
+      return {
+        ...state,
+        isLoading: false
+      };
+
+    case USER_LEAVE_REQUEST_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        errors: initialState.errors
+      };
+    case USER_LEAVE_REQUEST_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case USER_LEAVE_REQUEST_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        errors: action.payload
+      };
+
+    case USER_LEAVE_REQUEST_CANCEL_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case USER_LEAVE_REQUEST_CANCEL_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case USER_LEAVE_REQUEST_CANCEL_FAILURE:
+      return {
+        ...state,
+        isLoading: false
+      };
+
+    case USER_LEAVE_CANCEL_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case USER_LEAVE_CANCEL_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case USER_LEAVE_CANCEL_FAILURE:
       return {
         ...state,
         isLoading: false

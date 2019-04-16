@@ -20,15 +20,23 @@ const validateLeaveRequest = [
       return User.findById(req.user._id)
         .lean()
         .then(userTrainee => {
-          const duplicates = userTrainee.roleData.leaveRequests.filter(
+          const duplicateRequestDates = userTrainee.roleData.leaveRequests.filter(
             leaveRequest => isSameDay(leaveRequest.date, value)
           );
 
-          if (duplicates.length > 0) {
+          const duplicateLeaveDates = userTrainee.roleData.leaves.filter(
+            leaveRequest => isSameDay(leaveRequest.date, value)
+          );
+
+          if (duplicateLeaveDates.length > 0) {
             return Promise.reject("A leave on that day already exists");
-          } else {
-            return value;
           }
+
+          if (duplicateRequestDates.length > 0) {
+            return Promise.reject("A leave request on that day already exists");
+          }
+
+          return value;
         });
     }),
 

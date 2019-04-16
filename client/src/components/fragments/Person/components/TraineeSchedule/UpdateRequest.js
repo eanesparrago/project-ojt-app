@@ -55,7 +55,11 @@ export class UpdateRequest extends Component {
       person: { data }
     } = this.props;
 
-    rejectScheduleUpdateRequest(data._id);
+    if (
+      window.confirm("Are you sure you want to reject this schedule update?")
+    ) {
+      rejectScheduleUpdateRequest(data._id);
+    }
   };
 
   render() {

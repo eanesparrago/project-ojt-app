@@ -240,7 +240,7 @@ const UserTrainee = User.discriminator(
             },
             status: {
               type: String,
-              enum: ["present", "absent", "off"],
+              enum: ["present", "absent", "off", "leave"],
               required: true
             }
           }

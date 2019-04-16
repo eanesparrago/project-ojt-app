@@ -711,6 +711,32 @@ function rejectLeaveRequest(req, res) {
     });
 }
 
+/**
+ * Cancel leave
+ * PUT api/trainee/cancel-leave
+ * @param req.body.leaveId
+ */
+function cancelLeave(req, res) {
+  User.findById(req.user._id)
+    .then(userTrainee => {
+      userTrainee.roleData.leaves.remove(req.body.leaveId);
+
+      return userTrainee.save();
+    })
+    .then(userTrainee => {
+      return res.status(200).json({
+        message: "Leave cancelled successfully.",
+        user: userTrainee
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      return res
+        .status(500)
+        .json({ message: "An error occurred.", error: err.message });
+    });
+}
+
 module.exports = {
   testRoute,
   initializeUser,
@@ -728,5 +754,6 @@ module.exports = {
   requestLeave,
   cancelLeaveRequest,
   approveLeaveRequest,
-  rejectLeaveRequest
+  rejectLeaveRequest,
+  cancelLeave
 };

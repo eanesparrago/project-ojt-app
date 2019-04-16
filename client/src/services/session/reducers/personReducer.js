@@ -18,7 +18,13 @@ import {
   PERSON_CLOCK_CORRECTION_REQUEST_REJECT_FAILURE,
   PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_REQUEST,
   PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_SUCCESS,
-  PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_FAILURE
+  PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_FAILURE,
+  PERSON_LEAVE_REQUEST_APPROVE_REQUEST,
+  PERSON_LEAVE_REQUEST_APPROVE_SUCCESS,
+  PERSON_LEAVE_REQUEST_APPROVE_FAILURE,
+  PERSON_LEAVE_REQUEST_REJECT_REQUEST,
+  PERSON_LEAVE_REQUEST_REJECT_SUCCESS,
+  PERSON_LEAVE_REQUEST_REJECT_FAILURE
 } from "../actions/personActionCreators";
 
 const initialState = {
@@ -127,6 +133,38 @@ export default (state = initialState, action) => {
         isLoading: false
       };
     case PERSON_SCHEDULE_UPDATE_REQUEST_APPROVE_FAILURE:
+      return {
+        ...state,
+        isLoading: false
+      };
+
+    case PERSON_LEAVE_REQUEST_APPROVE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case PERSON_LEAVE_REQUEST_APPROVE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case PERSON_LEAVE_REQUEST_APPROVE_FAILURE:
+      return {
+        ...state,
+        isLoading: false
+      };
+
+    case PERSON_LEAVE_REQUEST_REJECT_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case PERSON_LEAVE_REQUEST_REJECT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case PERSON_LEAVE_REQUEST_REJECT_FAILURE:
       return {
         ...state,
         isLoading: false

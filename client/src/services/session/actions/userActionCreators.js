@@ -216,3 +216,92 @@ export const cancelScheduleUpdateRequest = () => dispatch => {
       dispatch(setFlashMessage("An error occurred.", "error"));
     });
 };
+
+export const USER_LEAVE_REQUEST_REQUEST = "USER_LEAVE_REQUEST_REQUEST";
+export const USER_LEAVE_REQUEST_SUCCESS = "USER_LEAVE_REQUEST_SUCCESS";
+export const USER_LEAVE_REQUEST_FAILURE = "USER_LEAVE_REQUEST_FAILURE";
+
+export const requestLeave = data => dispatch => {
+  return new Promise(resolve => {
+    dispatch({
+      type: USER_LEAVE_REQUEST_REQUEST
+    });
+
+    axios
+      .put("/api/trainee/request-leave", data)
+      .then(res => {
+        dispatch({
+          type: USER_LEAVE_REQUEST_SUCCESS
+        });
+
+        dispatch(getCurrentUser());
+
+        dispatch(
+          setFlashMessage("Leave request submitted successfully.", "success")
+        );
+
+        resolve();
+      })
+      .catch(err => {
+        dispatch({
+          type: USER_LEAVE_REQUEST_FAILURE,
+          payload: err.response.data
+        });
+
+        dispatch(setFlashMessage("An error occurred.", "error"));
+      });
+  });
+};
+
+export const USER_LEAVE_REQUEST_CANCEL_REQUEST =
+  "USER_LEAVE_REQUEST_CANCEL_REQUEST";
+export const USER_LEAVE_REQUEST_CANCEL_SUCCESS =
+  "USER_LEAVE_REQUEST_CANCEL_SUCCESS";
+export const USER_LEAVE_REQUEST_CANCEL_FAILURE =
+  "USER_LEAVE_REQUEST_CANCEL_FAILURE";
+
+export const cancelLeaveRequest = leaveRequestId => dispatch => {
+  dispatch({
+    type: USER_LEAVE_REQUEST_CANCEL_REQUEST
+  });
+
+  axios
+    .put("/api/trainee/cancel-leave-request", { leaveRequestId })
+    .then(res => {
+      dispatch({ type: USER_LEAVE_REQUEST_CANCEL_SUCCESS });
+      dispatch(getCurrentUser());
+      dispatch(
+        setFlashMessage("Leave request cancelled successfully.", "success")
+      );
+    })
+    .catch(err => {
+      dispatch({
+        type: USER_LEAVE_REQUEST_CANCEL_FAILURE
+      });
+      dispatch(setFlashMessage("An error occurred.", "error"));
+    });
+};
+
+export const USER_LEAVE_CANCEL_REQUEST = "USER_LEAVE_CANCEL_REQUEST";
+export const USER_LEAVE_CANCEL_SUCCESS = "USER_LEAVE_CANCEL_SUCCESS";
+export const USER_LEAVE_CANCEL_FAILURE = "USER_LEAVE_CANCEL_FAILURE";
+
+export const cancelLeave = leaveId => dispatch => {
+  dispatch({
+    type: USER_LEAVE_CANCEL_REQUEST
+  });
+
+  axios
+    .put("/api/trainee/cancel-leave", { leaveId })
+    .then(res => {
+      dispatch({ type: USER_LEAVE_CANCEL_SUCCESS });
+      dispatch(getCurrentUser());
+      dispatch(setFlashMessage("Leave cancelled successfully.", "success"));
+    })
+    .catch(err => {
+      dispatch({
+        type: USER_LEAVE_CANCEL_FAILURE
+      });
+      dispatch(setFlashMessage("An error occurred.", "error"));
+    });
+};

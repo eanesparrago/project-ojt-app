@@ -326,3 +326,69 @@ export const rejectScheduleUpdateRequest = userId => dispatch => {
       dispatch(setFlashMessage("An error occurred.", "error"));
     });
 };
+
+export const PERSON_LEAVE_REQUEST_APPROVE_REQUEST =
+  "PERSON_LEAVE_REQUEST_APPROVE_REQUEST";
+export const PERSON_LEAVE_REQUEST_APPROVE_SUCCESS =
+  "PERSON_LEAVE_REQUEST_APPROVE_SUCCESS";
+export const PERSON_LEAVE_REQUEST_APPROVE_FAILURE =
+  "PERSON_LEAVE_REQUEST_APPROVE_FAILURE";
+
+export const approveLeaveRequest = data => dispatch => {
+  dispatch({
+    type: PERSON_LEAVE_REQUEST_APPROVE_REQUEST
+  });
+
+  axios
+    .put("/api/trainee/approve-leave-request", data)
+    .then(res => {
+      dispatch({
+        type: PERSON_LEAVE_REQUEST_APPROVE_SUCCESS
+      });
+
+      dispatch(getPerson(data.userId));
+      dispatch(
+        setFlashMessage("Leave request approved successfully.", "success")
+      );
+    })
+    .catch(err => {
+      dispatch({
+        type: PERSON_LEAVE_REQUEST_APPROVE_FAILURE
+      });
+
+      dispatch(setFlashMessage("An error occurred.", "error"));
+    });
+};
+
+export const PERSON_LEAVE_REQUEST_REJECT_REQUEST =
+  "PERSON_LEAVE_REQUEST_REJECT_REQUEST";
+export const PERSON_LEAVE_REQUEST_REJECT_SUCCESS =
+  "PERSON_LEAVE_REQUEST_REJECT_SUCCESS";
+export const PERSON_LEAVE_REQUEST_REJECT_FAILURE =
+  "PERSON_LEAVE_REQUEST_REJECT_FAILURE";
+
+export const rejectLeaveRequest = data => dispatch => {
+  dispatch({
+    type: PERSON_LEAVE_REQUEST_REJECT_REQUEST
+  });
+
+  axios
+    .put("/api/trainee/reject-leave-request", data)
+    .then(res => {
+      dispatch({
+        type: PERSON_LEAVE_REQUEST_REJECT_SUCCESS
+      });
+
+      dispatch(getPerson(data.userId));
+      dispatch(
+        setFlashMessage("Leave request rejected successfully.", "success")
+      );
+    })
+    .catch(err => {
+      dispatch({
+        type: PERSON_LEAVE_REQUEST_REJECT_FAILURE
+      });
+
+      dispatch(setFlashMessage("An error occurred.", "error"));
+    });
+};

@@ -30,6 +30,11 @@ const traineeButtons = [
     to: "/attendance"
   },
   {
+    title: "Leaves",
+    icon: "fas fa-door-open",
+    to: "/leaves"
+  },
+  {
     title: "Tasks",
     icon: "fas fa-check",
     to: "/tasks"

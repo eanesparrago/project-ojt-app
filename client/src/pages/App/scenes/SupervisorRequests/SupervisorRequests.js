@@ -26,13 +26,26 @@ export class Requests extends Component {
       match
     } = this.props;
 
-    let scheduleUpdate = [];
+    let scheduleUpdates = [];
+    let leaveRequests = [];
 
     if (data) {
-      scheduleUpdate = data.filter(
+      scheduleUpdates = JSON.parse(JSON.stringify(data)).filter(
         person =>
-          person.role === "trainee" &&
+          person.role === enums.roles.TRAINEE &&
           person.roleData.scheduleUpdateRequest.isActive === true
+      );
+      scheduleUpdates.forEach(
+        scheduleUpdate => (scheduleUpdate.type = "scheduleUpdate")
+      );
+
+      leaveRequests = JSON.parse(JSON.stringify(data)).filter(
+        person =>
+          person.role === enums.roles.TRAINEE &&
+          person.roleData.leaveRequests.length > 0
+      );
+      leaveRequests.forEach(
+        leaveRequest => (leaveRequest.type = "leaveRequest")
       );
     }
 
@@ -48,8 +61,10 @@ export class Requests extends Component {
         accessor: d => d.roleData.group.name
       },
       {
+        id: "request",
         Header: "Request",
-        Cell: props => "Schedule Update"
+        accessor: d =>
+          d.type === "scheduleUpdate" ? "Schedule Update" : "Leave Request"
       }
     ];
 
@@ -61,7 +76,7 @@ export class Requests extends Component {
           {data && (
             <StyledTable>
               <ReactTable
-                data={scheduleUpdate}
+                data={scheduleUpdates.concat(leaveRequests)}
                 showPageSizeOptions={false}
                 resizable={false}
                 defaultPageSize={14}
@@ -71,9 +86,11 @@ export class Requests extends Component {
                   return {
                     onClick: () => {
                       history.push(
-                        `${match.url}/person/${
-                          rowInfo.original._id
-                        }/schedule`
+                        `${match.url}/person/${rowInfo.original._id}/${
+                          rowInfo.original.type === "scheduleUpdate"
+                            ? "schedule"
+                            : "leaves"
+                        }`
                       );
                     }
                   };

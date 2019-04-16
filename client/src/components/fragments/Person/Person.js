@@ -6,6 +6,7 @@ import TraineeSchedule from "./components/TraineeSchedule/TraineeSchedule";
 import DailyTimeRecord from "./components/DailyTimeRecord/DailyTimeRecord";
 import Tasks from "./components/Tasks/Tasks";
 import Calendar from "./components/Calendar/Calendar";
+import Leaves from "./components/Leaves/Leaves";
 
 import enums from "src/services/enums";
 
@@ -41,6 +42,12 @@ export class Person extends Component {
           <Route
             path={`${match.url}/attendance`}
             render={() => <Calendar person={person} />}
+          />
+        )}
+        {person.data.role === enums.roles.TRAINEE && (
+          <Route
+            path={`${match.url}/leaves`}
+            render={() => <Leaves person={person} />}
           />
         )}
 

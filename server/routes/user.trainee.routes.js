@@ -184,4 +184,13 @@ router
     UserTraineeController.rejectLeaveRequest
   );
 
+// PUT --->>> /api/trainee/cancel-leave - cancelLeave
+router
+  .route("/cancel-leave")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.TRAINEE),
+    UserTraineeController.cancelLeave
+  );
+
 module.exports = router;
