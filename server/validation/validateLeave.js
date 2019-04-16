@@ -1,6 +1,7 @@
 const { body } = require("express-validator/check");
 const isBefore = require("date-fns/is_before");
 const isSameDay = require("date-fns/is_same_day");
+const getDay = require("date-fns/get_day");
 const User = require("../models/user/user");
 
 const validateLeaveRequest = [
@@ -37,6 +38,30 @@ const validateLeaveRequest = [
           }
 
           return value;
+        });
+    })
+    .custom((value, { req }) => {
+      // >>> Check if the chosen date is already a day off
+      return User.findById(req.user._id)
+        .lean()
+        .then(userTrainee => {
+          const daysOfTheWeek = {
+            0: "sunday",
+            1: "monday",
+            2: "tuesday",
+            3: "wednesday",
+            4: "thursday",
+            5: "friday",
+            6: "saturday"
+          };
+
+          const day = daysOfTheWeek[getDay(value)];
+
+          const scheduleToday = userTrainee.roleData.schedule[day];
+
+          if (scheduleToday.isTrainingDay === false) {
+            return Promise.reject("Chosen date is already a day off.");
+          }
         });
     }),
 

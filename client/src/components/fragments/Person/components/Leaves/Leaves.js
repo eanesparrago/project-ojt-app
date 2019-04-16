@@ -74,8 +74,8 @@ export class Leaves extends Component {
           </Item>
         )}
 
-        {!state.isFormOpen && (
-          <Fragment>
+        {/* {!state.isFormOpen && (
+          <Fragment> */}
             {leaveRequests.length > 0 && (
               <Item margin="stack-l">
                 <LeaveRequests person={person} />
@@ -107,8 +107,8 @@ export class Leaves extends Component {
                 </DataGroup>
               </Item>
             ))}
-          </Fragment>
-        )}
+          {/* </Fragment>
+        )} */}
       </Fragment>
     );
   }
