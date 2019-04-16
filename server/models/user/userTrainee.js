@@ -217,7 +217,11 @@ const UserTrainee = User.discriminator(
           type: Boolean,
           default: false
         },
-        schedule: schedule
+        schedule: schedule,
+        dateCreated: {
+          type: Date,
+          default: Date.now
+        }
       },
       tasks: {
         type: [
@@ -241,7 +245,6 @@ const UserTrainee = User.discriminator(
             }
           }
         ]
-        // select: false
       },
       leaves: {
         type: [
@@ -252,6 +255,27 @@ const UserTrainee = User.discriminator(
             },
             reason: {
               type: String
+            },
+            dateCreated: {
+              type: Date,
+              default: Date.now
+            }
+          }
+        ]
+      },
+      leaveRequests: {
+        type: [
+          {
+            date: {
+              type: Date,
+              required: true
+            },
+            reason: {
+              type: String
+            },
+            dateCreated: {
+              type: Date,
+              default: Date.now
             }
           }
         ]

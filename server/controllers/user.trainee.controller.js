@@ -16,7 +16,7 @@ const UserUtils = require("./utils/user");
 
 /**
  * Test route
- * GET api/users/trainee/test
+ * GET api/trainee/test
  * @param  req
  * @param  res
  * @private
@@ -80,7 +80,7 @@ function initializeUser(req, res) {
 
 /**
  * Clock in/out
- * POST api/users/trainee/clock
+ * POST api/trainee/clock
  */
 function userClock(req, res) {
   let lastClockId;
@@ -235,7 +235,7 @@ function userClock(req, res) {
 
 /**
  * Submit clock correction request
- * POST api/users/trainee/clock-correction
+ * POST api/trainee/clock-correction
  * @param req.body.in
  * @param req.body.out
  * @param req.body.clockId
@@ -264,7 +264,7 @@ function requestClockCorrection(req, res) {
 
 /**
  * Cancel clock correction request
- * POST api/users/trainee/cancel-clock-correction
+ * POST api/trainee/cancel-clock-correction
  */
 function cancelClockCorrection(req, res) {
   User.findById(req.user._id).then(user => {
@@ -285,7 +285,7 @@ function cancelClockCorrection(req, res) {
 
 /**
  * Approve clock correction request (Administrator)
- * POST api/users/trainee/approve-clock-correction
+ * POST api/trainee/approve-clock-correction
  * @param req.body.userId
  */
 function approveClockCorrection(req, res) {
@@ -338,7 +338,7 @@ function approveClockCorrection(req, res) {
 
 /**
  * Reject clock correction request (Administrator)
- * POST api/users/trainee/reject-clock-correction
+ * POST api/trainee/reject-clock-correction
  * @param req.body.userId
  */
 function rejectClockCorrection(req, res) {
@@ -479,7 +479,7 @@ function downloadTasks(req, res) {
 
 /**
  * Submit schedule update request
- * PUT api/users/trainee/schedule-update-request
+ * PUT api/trainee/schedule-update-request
  * @param req.body
  */
 function requestScheduleUpdate(req, res) {
@@ -504,7 +504,7 @@ function requestScheduleUpdate(req, res) {
 
 /**
  * Cancel schedule update request
- * PUT api/users/trainee/cancel-schedule-update-request
+ * PUT api/trainee/cancel-schedule-update-request
  */
 function cancelScheduleUpdateRequest(req, res) {
   User.findById(req.user._id)
@@ -527,7 +527,7 @@ function cancelScheduleUpdateRequest(req, res) {
 
 /**
  * Approve schedule correction request
- * PUT api/users/trainee/approve-schedule-update-request
+ * PUT api/trainee/approve-schedule-update-request
  * @param req.body.userId
  */
 function approveScheduleUpdateRequest(req, res) {
@@ -557,14 +557,14 @@ function approveScheduleUpdateRequest(req, res) {
 
 /**
  * Reject schedule correction request
- * PUT api/users/trainee/reject-schedule-update-request
+ * PUT api/trainee/reject-schedule-update-request
  * @param req.body.userId
  */
 function rejectClockCorrectionRequest(req, res) {
   User.findById(req.body.userId)
     .then(userTrainee => {
       if (!userTrainee) {
-        return res.status(400).json({ message: "User not found." });
+        return res.status(404).json({ message: "User not found." });
       }
 
       userTrainee.roleData.scheduleUpdateRequest.isActive = false;
@@ -583,6 +583,134 @@ function rejectClockCorrectionRequest(req, res) {
     });
 }
 
+/**
+ * Request leave (Trainee)
+ * PUT api/trainee/request-leave
+ * @param req.body.date
+ * @param req.body.reason
+ */
+function requestLeave(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json(errors.mapped());
+  }
+
+  User.findById(req.user._id)
+    .then(userTrainee => {
+      userTrainee.roleData.leaveRequests.push({
+        date: req.body.date,
+        reason: req.body.reason
+      });
+
+      return userTrainee.save();
+    })
+    .then(userTrainee => {
+      return res.status(200).json({
+        message: "Leave request submitted successfully.",
+        user: userTrainee
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      return res.status(500).json({ message: "An error occurred." });
+    });
+}
+
+/**
+ * Cancel leave request
+ * PUT api/trainee/cancel-leave-request
+ * @param req.body.leaveRequestId
+ */
+function cancelLeaveRequest(req, res) {
+  User.findById(req.user._id)
+    .then(userTrainee => {
+      userTrainee.roleData.leaveRequests.remove(req.body.leaveRequestId);
+
+      return userTrainee.save();
+    })
+    .then(userTrainee => {
+      return res.status(200).json({
+        message: "Leave request cancelled successfully.",
+        user: userTrainee
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      return res.status(500).json({ message: "An error occurred." });
+    });
+}
+
+/**
+ * Approve leave request
+ * PUT api/trainee/approve-leave-request
+ * @param req.body.userId
+ * @param req.body.leaveRequestId
+ */
+function approveLeaveRequest(req, res) {
+  User.findById(req.body.userId)
+    .then(userTrainee => {
+      const leave = userTrainee.roleData.leaveRequests.find(leaveRequest =>
+        leaveRequest._id.equals(req.body.leaveRequestId)
+      );
+
+      if (!leave) {
+        throw new Error("Leave request not found.");
+      }
+
+      userTrainee.roleData.leaves.push(leave);
+      userTrainee.roleData.leaveRequests.remove(leave._id);
+
+      return userTrainee.save();
+    })
+    .then(userTrainee => {
+      return res.status(200).json({
+        message: "Leave request approved successfully.",
+        user: userTrainee
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      return res
+        .status(500)
+        .json({ message: "An error occurred.", error: err.message });
+    });
+}
+
+/**
+ * Reject leave request
+ * PUT api/trainee/reject-leave-request
+ * @param req.body.userId
+ * @param req.body.leaveRequestId
+ */
+function rejectLeaveRequest(req, res) {
+  User.findById(req.body.userId)
+    .then(userTrainee => {
+      const leave = userTrainee.roleData.leaveRequests.find(leaveRequest =>
+        leaveRequest._id.equals(req.body.leaveRequestId)
+      );
+
+      if (!leave) {
+        throw new Error("Leave request not found.");
+      }
+
+      userTrainee.roleData.leaveRequests.remove(leave._id);
+
+      return userTrainee.save();
+    })
+    .then(userTrainee => {
+      return res.status(200).json({
+        message: "Leave request rejected successfully.",
+        user: userTrainee
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      return res
+        .status(500)
+        .json({ message: "An error occurred", err: err.message });
+    });
+}
+
 module.exports = {
   testRoute,
   initializeUser,
@@ -596,5 +724,9 @@ module.exports = {
   requestScheduleUpdate,
   cancelScheduleUpdateRequest,
   approveScheduleUpdateRequest,
-  rejectClockCorrectionRequest
+  rejectClockCorrectionRequest,
+  requestLeave,
+  cancelLeaveRequest,
+  approveLeaveRequest,
+  rejectLeaveRequest
 };

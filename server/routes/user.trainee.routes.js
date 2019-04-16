@@ -12,6 +12,7 @@ const {
   validateRequestClockCorrection
 } = require("../validation/validateClock");
 const validateUpdateSchedule = require("../validation/validateUpdateSchedule");
+const { validateLeaveRequest } = require("../validation/validateLeave");
 const enums = require("../enums");
 
 // >>> /api/trainee
@@ -144,6 +145,43 @@ router
     passport.authenticate("jwt", { session: false }),
     permittedRoles(enums.roles.SUPERVISOR),
     UserTraineeController.rejectClockCorrectionRequest
+  );
+
+// PUT --->>> /api/trainee/request-leave - requestLeave
+router
+  .route("/request-leave")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.TRAINEE),
+    validateLeaveRequest,
+    UserTraineeController.requestLeave
+  );
+
+// PUT --->>> /api/trainee/cancel-leave-request - cancelLeaveRequest
+router
+  .route("/cancel-leave-request")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.TRAINEE),
+    UserTraineeController.cancelLeaveRequest
+  );
+
+// PUT --->>> /api/trainee/approve-leave-request - approveLeaveRequest
+router
+  .route("/approve-leave-request")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.SUPERVISOR),
+    UserTraineeController.approveLeaveRequest
+  );
+
+// PUT --->>> /api/trainee/reject-leave-request - rejectLeaveRequest
+router
+  .route("/reject-leave-request")
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    permittedRoles(enums.roles.SUPERVISOR),
+    UserTraineeController.rejectLeaveRequest
   );
 
 module.exports = router;

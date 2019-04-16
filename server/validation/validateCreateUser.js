@@ -1,4 +1,4 @@
-const { body, check } = require("express-validator/check");
+const { body } = require("express-validator/check");
 const upperFirst = require("lodash/upperFirst");
 
 const enums = require("../enums");
@@ -40,7 +40,7 @@ const validateCreateUser = [
     .not()
     .isEmpty()
     .withMessage("Confirm Password is required")
-    .custom((value, { req, loc, path }) => {
+    .custom((value, { req }) => {
       if (value !== req.body.password) {
         throw new Error("Passwords must match");
       } else {
@@ -52,7 +52,7 @@ const validateCreateUser = [
   // >>> firstName
   body("firstName")
     .trim()
-    .customSanitizer((value, { req }) => upperFirst(value)),
+    .customSanitizer(value => upperFirst(value)),
   body("firstName")
     .optional({ checkFalsy: true })
     .isLength({ max: 30 })
@@ -61,7 +61,7 @@ const validateCreateUser = [
   // >>> middleName
   body("middleName")
     .trim()
-    .customSanitizer((value, { req }) => upperFirst(value)),
+    .customSanitizer(value => upperFirst(value)),
   body("middleName")
     .optional({ checkFalsy: true })
     .isLength({ max: 30 })
@@ -70,7 +70,7 @@ const validateCreateUser = [
   // >>> lastName
   body("lastName")
     .trim()
-    .customSanitizer((value, { req }) => upperFirst(value)),
+    .customSanitizer(value => upperFirst(value)),
   body("lastName")
     .optional({ checkFalsy: true })
     .isLength({ max: 30 })
@@ -79,7 +79,7 @@ const validateCreateUser = [
   // >>> nickname
   body("nickname")
     .trim()
-    .customSanitizer((value, { req }) => upperFirst(value)),
+    .customSanitizer(value => upperFirst(value)),
   body("nickname")
     .optional({ checkFalsy: true })
     .isLength({ max: 30 })
@@ -133,7 +133,7 @@ const validateCreateUserTrainee = [
 
   body("address")
     .trim()
-    .customSanitizer((value, { req }) => upperFirst(value)),
+    .customSanitizer(value => upperFirst(value)),
   body("address")
     .optional({ checkFalsy: true })
     .isLength({ max: 100 })
