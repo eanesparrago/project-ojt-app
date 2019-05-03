@@ -12,6 +12,7 @@ import { clockTrainee } from "src/services/session/actions/userActionCreators";
 import returnScheduleToday from "src/services/utils/returnScheduleToday";
 import returnLastClockInTime from "src/services/utils/returnLastClockInTime";
 import checkIfOvertime from "src/services/utils/checkIfOvertime";
+import checkIfLeave from "src/services/utils/checkIfLeave";
 
 const daysOfTheWeek = [
   "sunday",
@@ -70,6 +71,11 @@ export class TraineeWidget extends Component {
 
     const dayToday = new Date().getDay();
 
+    let isLeaveToday;
+    if (data) {
+      isLeaveToday = checkIfLeave(data.roleData.leaves);
+    }
+
     return (
       <StyledTraineeWidget>
         <Item center margin="inline-base">
@@ -83,6 +89,7 @@ export class TraineeWidget extends Component {
         ) : (
           <Box>
             {/* >>> Clock button */}
+
             <Item margin="inline-base">
               {data.roleData.isClockedIn ? (
                 <Button
@@ -98,9 +105,9 @@ export class TraineeWidget extends Component {
                   variant="primary"
                   full
                   onClick={this.handleClockClick}
-                  disabled={isLoading}
+                  disabled={isLoading || isLeaveToday}
                 >
-                  Clock In
+                  {isLeaveToday ? "On Leave" : "Clock In"}
                 </Button>
               )}
             </Item>
