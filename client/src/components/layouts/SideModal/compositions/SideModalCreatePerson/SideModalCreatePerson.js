@@ -88,7 +88,7 @@ export class SideModalCreatePerson extends Component {
       <SideModal>
         <SideModal.Header title="Create Person" />
 
-        <SideModal.Body isLoading={isLoading || groupsIsLoading}>
+        <SideModal.Body isLoading={isLoading || groupsIsLoading} as="form" autoComplete="off">
           <Item margin="stack-base">
             <FormGroup>
               <FormGroup.Label title="Role" />

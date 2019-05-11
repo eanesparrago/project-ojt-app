@@ -132,7 +132,7 @@ class PersonEdit extends Component {
     const { ...state } = this.state;
 
     return (
-      <Container as="form">
+      <Container as="form" autoComplete="off">
         <Item margin="stack-l">
           <Typography variant="display-3">Edit Person</Typography>
         </Item>
