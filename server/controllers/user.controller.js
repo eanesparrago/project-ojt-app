@@ -14,6 +14,8 @@ const enums = require("../enums");
 const ActivityUtils = require("./utils/activity");
 const UserUtils = require("./utils/user");
 
+const dummyData = require("./dummyData");
+
 /**
  * Test route
  * GET api/users/test
@@ -266,6 +268,8 @@ function getCurrentUser(req, res) {
  * @access  private
  */
 function updateUser(req, res) {
+  console.log(req.body);
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json(errors.mapped());
@@ -277,7 +281,7 @@ function updateUser(req, res) {
     .then(user => {
       let oldGroupId;
 
-      if (user.role !== enums.roles.ADMINISTRATOR) {
+      if (user.role !== enums.roles.ADMINISTRATOR && user.roleData.group) {
         oldGroupId = user.roleData.group._id;
       }
 
@@ -379,7 +383,10 @@ function updateUser(req, res) {
         }
       });
     })
-    .catch(err => res.status(500).json({ message: "An error occurred." }));
+    .catch(err => {
+      console.log(err.message);
+      res.status(500).json({ message: "An error occurred." });
+    });
 }
 
 /**
@@ -488,6 +495,14 @@ function deleteUser(req, res) {
       res.status(500).json({ message: "An error occurred." });
     });
 }
+
+// User.insertMany(dummyData, (err, docs) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(docs.length);
+//   }
+// });
 
 module.exports = {
   getUsers,

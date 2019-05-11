@@ -52,10 +52,6 @@ const calendarer = () => {
             console.log(err);
           });
         }
-
-        // trainees.forEach(trainee => {
-
-        // });
       })
       .catch(err => {
         console.log(err);

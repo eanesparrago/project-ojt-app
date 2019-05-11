@@ -3,8 +3,9 @@ const Group = require("../../models/group");
 const usersPopulate = {
   path: "users",
   select:
-    "username firstName lastName profilePictureUrl roleData.isClockedIn roleData.schedule roleData.lastClockInTime roleData.clocks",
+    "isActive username firstName lastName profilePictureUrl roleData.isClockedIn roleData.schedule roleData.lastClockInTime roleData.clocks",
   populate: { path: "roleData.clocks", options: { limit: 1 } },
+  match: { isActive: true },
   modal: "Users"
 };
 

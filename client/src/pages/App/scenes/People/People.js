@@ -73,7 +73,7 @@ export class People extends Component {
       {
         id: "groupName",
         Header: "Group",
-        accessor: d => d.roleData.group.name,
+        accessor: d => (d.roleData.group ? d.roleData.group.name : "N/A"),
         filterable: true
       },
       {

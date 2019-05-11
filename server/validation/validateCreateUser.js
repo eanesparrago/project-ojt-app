@@ -33,7 +33,9 @@ const validateCreateUser = [
   body("password")
     .not()
     .isEmpty()
-    .withMessage("Password is required"),
+    .withMessage("Password is required")
+    .isLength({ min: 6 })
+    .withMessage("Password must have a minimum of 6 characters"),
 
   // >>> confirmPassword
   body("confirmPassword")

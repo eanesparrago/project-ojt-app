@@ -56,8 +56,11 @@ const validateInitialize = [
     .trim()
     .not()
     .isEmpty()
-    .withMessage("Password is required"),
+    .withMessage("Password is required")
+    .isLength({ min: 6 })
+    .withMessage("Password must have a minimum of 6 characters"),
 
+  ,
   body("confirmPassword")
     .not()
     .isEmpty()
