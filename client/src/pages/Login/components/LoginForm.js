@@ -32,7 +32,7 @@ export class LoginForm extends Component {
 
   render() {
     const { username, password } = this.state;
-    const { auth } = this.props;
+    const { auth, loginUser } = this.props;
 
     return (
       <StyledLoginForm>
@@ -67,7 +67,7 @@ export class LoginForm extends Component {
           </Item>
         )}
 
-        <Item NAME="button">
+        <Item NAME="button" margin="stack-m">
           <Button
             type="submit"
             full
@@ -78,6 +78,39 @@ export class LoginForm extends Component {
             Log In
           </Button>
         </Item>
+
+        <Button
+          variant="text"
+          full
+          onClick={e => {
+            e.preventDefault();
+            loginUser({ username: "administrator", password: "administrator" });
+          }}
+        >
+          Administrator Login
+        </Button>
+
+        <Button
+          variant="text"
+          full
+          onClick={e => {
+            e.preventDefault();
+            loginUser({ username: "supervisor", password: "supervisor" });
+          }}
+        >
+          Supervisor Login
+        </Button>
+
+        <Button
+          variant="text"
+          full
+          onClick={e => {
+            e.preventDefault();
+            loginUser({ username: "trainee", password: "trainee" });
+          }}
+        >
+          Trainee Login
+        </Button>
       </StyledLoginForm>
     );
   }

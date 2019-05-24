@@ -14,8 +14,6 @@ const enums = require("../enums");
 const ActivityUtils = require("./utils/activity");
 const UserUtils = require("./utils/user");
 
-const dummyData = require("./dummyData");
-
 /**
  * Test route
  * GET api/users/test
@@ -495,14 +493,6 @@ function deleteUser(req, res) {
       res.status(500).json({ message: "An error occurred." });
     });
 }
-
-// User.insertMany(dummyData, (err, docs) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log(docs.length);
-//   }
-// });
 
 module.exports = {
   getUsers,
