@@ -48,7 +48,7 @@ Run install in the root folder and in the client folder.
 ```
   npm install
 ```
-You will need to add a database configuration "keys_dev.js" file in server/config.
+You will need to add a MongoDB database configuration "keys_dev.js" file in server/config directory.
 
 
 ## Author
