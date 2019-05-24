@@ -35,7 +35,7 @@ export class LoginForm extends Component {
     const { auth, loginUser } = this.props;
 
     return (
-      <StyledLoginForm>
+      <StyledLoginForm autoComplete="off">
         <Item margin="stack-m">
           <TextInputSpecial
             value={username}
