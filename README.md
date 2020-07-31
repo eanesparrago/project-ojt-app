@@ -9,7 +9,7 @@ OJT attendance web application — 𝗥𝗲𝗮𝗰𝘁, 𝗡𝗼𝗱𝗲.𝗷�
 Parousia is an OJT attendance web application meant for company use. This is a project I built with the MERN stack for educational purposes. Much of the basic setup and techniques used in this app are based from Brad Traversy's devconnector project which I learned from one of his courses. This project isn't perfect — lots of mistakes here and there but it was a good learning experience.
 
 ## Demo Link
-https://ljesp-project-ojt-app.herokuapp.com/
+https://parousia-app.herokuapp.com/
 
 ## Built With
 * React, Redux, React Router, styled-components
