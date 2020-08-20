@@ -87,7 +87,7 @@ export class Avatar extends Component {
           onMouseOut={this.handleHoverToggle}
         >
           {userData.profilePictureUrl ? (
-            <img src={userData.profilePictureUrl} alt="" />
+            <img src={profilePhotoPlaceholder} alt="" />
           ) : (
             <img src={profilePhotoPlaceholder} alt="" />
           )}
